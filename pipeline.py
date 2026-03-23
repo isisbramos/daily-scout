@@ -14,7 +14,7 @@ def curate_and_write(raw_items):
     print("--- INICIANDO CURADORIA GEMINI ---")
     try:
         # Usando o modelo confirmado na sua lista de disponíveis
-        target_model = "gemini-2.0-flash"
+        target_model = "gemini-2.5-flash"
         print(f"DEBUG: Usando modelo: {target_model}")
         
         model = genai.GenerativeModel(target_model)
