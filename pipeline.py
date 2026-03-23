@@ -1,6 +1,6 @@
 """
 Daily Scout — Pipeline automatizado de newsletter Tech & AI
-Correspondente: Isis IA (AI-powered field correspondent)
+Correspondente: AYA (AI-powered field correspondent)
 Stack: Reddit RSS + HackerNews API → Gemini Flash → Jinja2 → Pipedream webhook
 """
 
@@ -130,14 +130,19 @@ def fetch_all_sources() -> list[dict]:
 
 # ── Curate & Write: Gemini ───────────────────────────────────────────
 
-CURATION_PROMPT = """Você é a Isis IA — correspondente de campo do Daily Scout, uma newsletter diária de Tech & AI.
+CURATION_PROMPT = """Você é a AYA — correspondente de campo do Daily Scout, uma newsletter diária de Tech & AI.
 
-Você está "em campo" na internet. Os posts abaixo são os fatos brutos que você coletou. Sua missão:
+Você está "em campo" na internet. Os posts abaixo são os fatos brutos que você coletou nas últimas 24h. Sua missão:
 1. FILTRAR usando o critério editorial: cada item precisa ter pelo menos 2 de 3 — Traction (engajamento alto), Impact (afeta muita gente ou muda algo relevante), Novelty (é novo ou surpreendente).
 2. ESCOLHER 1 achado principal (main_find) e 3-5 achados rápidos (quick_finds).
 3. ESCREVER com a voz do Daily Scout: direto, sem enrolação, PT-BR com termos técnicos em inglês quando natural. Tom de quem está em campo reportando o que viu, não de quem está opinando de longe.
+4. ESCREVER uma "correspondent_intro" — 1-2 frases curtas como se fosse uma correspondente de guerra abrindo a transmissão. Fale em primeira pessoa, mencione de onde veio, o que observou, dê o tom do dia. Exemplos de estilo:
+   - "AYA em campo. Vasculhei 150 fontes hoje e o sinal mais forte veio do open source — parece que a corrida mudou de direção."
+   - "AYA aqui. Dia agitado no front — duas big techs lançaram coisas que vão bater no mesmo mercado. A coincidência não é coincidência."
+   - "AYA transmitindo. Dia quieto no campo, mas achei um projeto underground que vale a atenção."
 
 REGRAS:
+- correspondent_intro: 1-2 frases, primeira pessoa, tom de campo, mencione algo específico sobre o que encontrou hoje.
 - main_find.body: 1-2 parágrafos curtos explicando POR QUE isso importa. Concreto, sem clichês.
 - main_find.bullets: 2-3 pontos-chave práticos (o que mudou, o que significa, o que observar).
 - quick_finds[].signal: uma frase curta explicando por que esse item é relevante.
@@ -146,6 +151,7 @@ REGRAS:
 
 Retorne APENAS um JSON válido (sem markdown, sem ```), nesta estrutura exata:
 {
+  "correspondent_intro": "AYA em campo. Frase curta sobre o que encontrou hoje.",
   "main_find": {
     "title": "Título do achado principal",
     "source": "r/subreddit ou HackerNews",
@@ -321,6 +327,7 @@ def render_email(content: dict, sources_count: int, runtime: str) -> str:
     meta = content.get("meta", {})
 
     html = template.render(
+        correspondent_intro=content.get("correspondent_intro", ""),
         main_find=content["main_find"],
         quick_finds=quick_finds,
         edition_number=EDITION_NUMBER,
@@ -387,7 +394,7 @@ def send_fallback(reason: str) -> bool:
             Amanhã voltamos com cobertura completa.
         </div>
         <hr style="border-color: #334155; margin: 16px 0;">
-        <div style="color: #94A3B8; font-size: 10px;">made_by: isis-ia v0.1 | status: fallback</div>
+        <div style="color: #94A3B8; font-size: 10px;">made_by: aya v0.1 | status: fallback</div>
     </div>
     """
 
@@ -402,7 +409,7 @@ def run_pipeline():
 
     logger.info("╔══════════════════════════════════════════╗")
     logger.info("║     DAILY SCOUT — PIPELINE v2.0         ║")
-    logger.info("║     Correspondente: Isis IA              ║")
+    logger.info("║     Correspondente: AYA                  ║")
     logger.info("╚══════════════════════════════════════════╝")
 
     try:
