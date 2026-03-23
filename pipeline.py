@@ -245,7 +245,7 @@ def curate_and_write(raw_items: list[dict]) -> dict:
     for attempt in range(3):
         try:
             response = client.models.generate_content(
-                model="gemini-2.0-flash",
+                model="gemini-1.5-flash",
                 contents=full_prompt,
                 config={
                     "response_mime_type": "application/json",
