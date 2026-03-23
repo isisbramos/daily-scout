@@ -13,7 +13,7 @@ genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 def curate_and_write(raw_items):
     print("--- INICIANDO CURADORIA GEMINI ---")
     try:
-        # Usando o modelo confirmado na sua lista de disponíveis
+        # Modelo verificado na sua lista
         target_model = "gemini-2.5-flash"
         print(f"DEBUG: Usando modelo: {target_model}")
         
@@ -24,7 +24,7 @@ def curate_and_write(raw_items):
         POSTS: {str(raw_items[:30])}"""
         
         response = model.generate_content(prompt)
-        # Limpeza robusta
+        # Limpeza do JSON
         text = response.text.replace("```json", "").replace("```", "").replace("\n", "").strip()
         return json.loads(text)
         
@@ -32,28 +32,23 @@ def curate_and_write(raw_items):
         print(f"DEBUG: ERRO NO GEMINI: {str(e)}")
         raise e
 
-def send_via_beehiiv(subject, html_content):
-    print("--- TENTANDO ENVIO PARA BEEHIIV ---")
-    pub_id = os.environ.get("BEEHIIV_PUBLICATION_ID")
-    api_key = os.environ.get("BEEHIIV_API_KEY")
+def send_to_pipedream(subject, html_content):
+    print("--- ENVIANDO PARA O WEBHOOK DO PIPEDREAM ---")
+    webhook_url = "https://eoijdv78et94xfs.m.pipedream.net"
     
-    url = f"https://api.beehiiv.com/v2/publications/{pub_id}/posts"
-    headers = {
-        "Authorization": f"Bearer {api_key}", 
-        "Content-Type": "application/json"
+    payload = {
+        "subject": subject,
+        "html_content": html_content
     }
-    payload = {"title": subject, "status": "draft", "content_html": html_content}
     
-    print(f"DEBUG: URL de envio: {url}")
-    resp = requests.post(url, headers=headers, json=payload, timeout=30)
-    
-    print(f"DEBUG: Beehiiv Status Code: {resp.status_code}")
-    print(f"DEBUG: Beehiiv Resposta: {resp.text}")
-    
-    if resp.status_code == 201:
-        print("Sucesso! Post criado no Beehiiv.")
-    else:
-        print(f"ERRO BEEHIIV: {resp.status_code} - Verifique a API Key e o Publication ID!")
+    try:
+        resp = requests.post(webhook_url, json=payload, timeout=30)
+        if resp.status_code == 200:
+            print("Sucesso! Conteúdo enviado para o Pipedream.")
+        else:
+            print(f"Erro ao enviar para Pipedream: {resp.status_code} - {resp.text}")
+    except Exception as e:
+        print(f"ERRO AO CONECTAR COM PIPEDREAM: {e}")
 
 def run_pipeline():
     print("DEBUG: Pipeline Iniciou")
@@ -80,7 +75,8 @@ def run_pipeline():
         )
         print("DEBUG: HTML renderizado.")
         
-        send_via_beehiiv("Daily Scout Teste", html)
+        # Agora chama a função que envia para o Pipedream em vez do Beehiiv
+        send_to_pipedream("Daily Scout Teste", html)
         
     except Exception as e:
         print(f"ERRO FATAL: {e}")
