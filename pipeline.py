@@ -245,7 +245,7 @@ def curate_and_write(raw_items: list[dict]) -> dict:
     for attempt in range(3):
         try:
             response = client.models.generate_content(
-                model="gemini-1.5-flash-latest",
+                model="gemini-1.5-flash",
                 contents=full_prompt,
                 config={
                     "response_mime_type": "application/json",
@@ -327,7 +327,7 @@ def send_via_beehiiv(subject: str, html_content: str) -> bool:
     payload = {
         "title": subject,
         "subtitle": "Todo dia, os melhores achados de Tech & AI",
-        "status": "confirmed",
+        "status": "draft",
         "send_to": "all",
         "content_html": html_content,
     }
