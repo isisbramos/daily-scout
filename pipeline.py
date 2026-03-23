@@ -19,7 +19,7 @@ def curate_and_write(raw_items):
             print(f"DEBUG: Modelo disponível: {m.name}")
         
         # Escolhe um modelo baseado no que foi listado (priorizando o flash)
-        target_model = "gemini-1.5-flash"
+        target_model = "gemini-2.0-flash"
         
         print(f"DEBUG: Tentando instanciar: {target_model}")
         model = genai.GenerativeModel(target_model)
