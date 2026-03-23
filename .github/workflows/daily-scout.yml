@@ -2,12 +2,22 @@ name: Daily Scout Pipeline
 
 on:
   schedule:
+    # 7:55 AM BRT = 10:55 UTC (BRT is UTC-3)
     - cron: '55 10 * * *'
+
+  # Allow manual trigger for testing
   workflow_dispatch:
+    inputs:
+      edition_number:
+        description: 'Edition number (e.g., 001)'
+        required: false
+        default: '001'
 
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,13 +28,31 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Calculate edition number
+        id: edition
         run: |
-          python -m pip install --upgrade pip
-          pip install -U google-generativeai requests feedparser jinja2
+          # Calculate days since first run (or use input)
+          if [ -n "${{ github.event.inputs.edition_number }}" ]; then
+            echo "number=${{ github.event.inputs.edition_number }}" >> $GITHUB_OUTPUT
+          else
+            # Days since 2026-01-01 as edition number
+            DAYS=$(( ($(date +%s) - $(date -d "2026-01-01" +%s)) / 86400 ))
+            printf "number=%03d\n" $DAYS >> $GITHUB_OUTPUT
+          fi
 
       - name: Run Daily Scout pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          BEEHIIV_API_KEY: ${{ secrets.BEEHIIV_API_KEY }}
-          BEEHIIV_PUBLICATION_ID: ${{ secrets.BEEHIIV_PUBLICATION_ID }}
+          PIPEDREAM_WEBHOOK_URL: ${{ secrets.PIPEDREAM_WEBHOOK_URL }}
+          EDITION_NUMBER: ${{ steps.edition.outputs.number }}
         run: python pipeline.py
+
+      - name: Upload output artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: edition-${{ steps.edition.outputs.number }}
+          path: output/
+          retention-days: 30
