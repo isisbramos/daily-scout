@@ -19,7 +19,7 @@ def curate_and_write(raw_items):
     POSTS: {str(raw_items[:30])}"""
     
     response = model.generate_content(prompt)
-    print(f"DEBUG: Resposta do Gemini recebida: {response.text[:100]}...") # Mostra o começo da resposta
+    print(f"DEBUG: Resposta do Gemini recebida (primeiros 100 caracteres): {response.text[:100]}...")
     
     text = response.text.replace("```json", "").replace("```", "").strip()
     return json.loads(text)
