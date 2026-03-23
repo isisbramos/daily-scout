@@ -37,37 +37,34 @@ REDDIT_SUBS = [
 HN_TOP_URL = "https://hacker-news.firebaseio.com/v0"
 
 
-# ── Fetch: Reddit JSON ───────────────────────────────────────────────
+# ── Fetch: Reddit RSS ────────────────────────────────────────────────
 def fetch_reddit() -> list[dict]:
-    """Busca top posts de cada subreddit via JSON API (sem auth)."""
+    """Busca top posts de cada subreddit via RSS (não precisa de auth)."""
     items = []
     for sub in REDDIT_SUBS:
-        url = f"https://www.reddit.com/r/{sub}/hot.json?limit=10"
-        headers = {"User-Agent": "DailyScout/1.0 (newsletter bot)"}
+        url = f"https://www.reddit.com/r/{sub}/hot.rss?limit=10"
         try:
-            resp = requests.get(url, headers=headers, timeout=15)
-            if resp.status_code == 200:
-                data = resp.json()
-                posts = data.get("data", {}).get("children", [])
-                for post in posts:
-                    d = post["data"]
-                    items.append({
-                        "title": d.get("title", ""),
-                        "url": d.get("url", ""),
-                        "score": d.get("score", 0),
-                        "num_comments": d.get("num_comments", 0),
-                        "subreddit": d.get("subreddit", sub),
-                        "source": f"r/{sub}",
-                        "created_utc": d.get("created_utc", 0),
-                    })
-                logger.info(f"  r/{sub}: {len(posts)} posts")
-            elif resp.status_code == 429:
-                logger.warning(f"  r/{sub}: rate limited, pulando")
-            else:
-                logger.warning(f"  r/{sub}: HTTP {resp.status_code}")
+            feed = feedparser.parse(url)
+            if feed.bozo and not feed.entries:
+                logger.warning(f"  r/{sub}: RSS parse error")
+                continue
+            for entry in feed.entries:
+                # Extrai score do título se disponível, senão usa 0
+                title = entry.get("title", "")
+                items.append({
+                    "title": title,
+                    "url": entry.get("link", ""),
+                    "score": 0,  # RSS não retorna score
+                    "num_comments": 0,
+                    "subreddit": sub,
+                    "source": f"r/{sub}",
+                    "created_utc": time.mktime(entry.get("published_parsed", time.gmtime()))
+                        if entry.get("published_parsed") else 0,
+                })
+            logger.info(f"  r/{sub}: {len(feed.entries)} posts")
         except Exception as e:
             logger.warning(f"  r/{sub}: erro — {e}")
-        time.sleep(1)  # rate limit courtesy
+        time.sleep(0.5)  # rate limit courtesy
     logger.info(f"Reddit total: {len(items)} posts coletados")
     return items
 
@@ -175,9 +172,54 @@ POSTS COLETADOS:
 """
 
 
+def try_fix_json(text: str) -> dict | None:
+    """Tenta recuperar JSON truncado ou malformado."""
+    # Remove markdown fences
+    if text.startswith("```"):
+        text = text.split("\n", 1)[-1]
+    if text.endswith("```"):
+        text = text.rsplit("```", 1)[0]
+    text = text.strip()
+
+    # Tentativa 1: parse direto
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    # Tentativa 2: fechar strings/arrays/objects truncados
+    # Conta brackets abertos
+    fixes = text
+    open_braces = fixes.count("{") - fixes.count("}")
+    open_brackets = fixes.count("[") - fixes.count("]")
+
+    # Se termina no meio de uma string, fecha ela
+    if fixes.count('"') % 2 != 0:
+        fixes += '"'
+
+    # Fecha brackets/braces pendentes
+    fixes += "]" * max(0, open_brackets)
+    fixes += "}" * max(0, open_braces)
+
+    try:
+        return json.loads(fixes)
+    except json.JSONDecodeError:
+        pass
+
+    # Tentativa 3: acha o último JSON completo
+    for i in range(len(text) - 1, 0, -1):
+        if text[i] == "}":
+            try:
+                return json.loads(text[: i + 1])
+            except json.JSONDecodeError:
+                continue
+
+    return None
+
+
 def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
     """Envia posts para o Gemini e recebe curadoria estruturada."""
-    import google.generativeai as genai
+    from google import genai
 
     logger.info("=" * 50)
     logger.info("FASE 2: CURATE — Gemini processando")
@@ -186,8 +228,7 @@ def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
     if not GEMINI_API_KEY:
         raise ValueError("GEMINI_API_KEY não configurada")
 
-    genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel("gemini-2.5-flash")
+    client = genai.Client(api_key=GEMINI_API_KEY)
 
     # Prepara input (limita pra não estourar context window)
     items_for_prompt = []
@@ -205,24 +246,22 @@ def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
     for attempt in range(max_retries):
         try:
             logger.info(f"Gemini attempt {attempt + 1}/{max_retries}...")
-            response = model.generate_content(
-                full_prompt,
-                generation_config={
+            response = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=full_prompt,
+                config={
                     "response_mime_type": "application/json",
                     "temperature": 0.7,
-                    "max_output_tokens": 4096,
+                    "max_output_tokens": 8192,
                 },
             )
 
             text = response.text.strip()
-            # Limpeza defensiva caso venha com markdown
-            if text.startswith("```"):
-                text = text.split("\n", 1)[-1]
-            if text.endswith("```"):
-                text = text.rsplit("```", 1)[0]
-            text = text.strip()
+            logger.info(f"Gemini retornou {len(text)} chars")
 
-            content = json.loads(text)
+            content = try_fix_json(text)
+            if content is None:
+                raise json.JSONDecodeError("Não conseguiu recuperar JSON", text, 0)
 
             # Validação mínima
             if "main_find" not in content:
@@ -230,12 +269,26 @@ def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
             if "title" not in content["main_find"]:
                 raise ValueError("main_find sem 'title'")
 
+            # Garante que campos obrigatórios existem com defaults
+            mf = content["main_find"]
+            mf.setdefault("body", "")
+            mf.setdefault("bullets", [])
+            mf.setdefault("url", "")
+            mf.setdefault("display_url", "")
+            mf.setdefault("source", "")
+
+            for qf in content.get("quick_finds", []):
+                qf.setdefault("signal", "")
+                qf.setdefault("url", "")
+                qf.setdefault("display_url", "")
+
             logger.info(f"Curadoria OK: '{content['main_find']['title']}'")
             logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")
             return content
 
         except json.JSONDecodeError as e:
             logger.warning(f"Attempt {attempt + 1}: JSON inválido — {e}")
+            logger.warning(f"Primeiros 500 chars: {text[:500]}")
             if attempt < max_retries - 1:
                 time.sleep(2 ** attempt)
         except Exception as e:
