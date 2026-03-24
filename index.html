@@ -157,11 +157,6 @@
       animation: blink 2s ease-in-out infinite;
     }
 
-    .proof-value {
-      color: #94A3B8;
-      font-weight: 600;
-    }
-
     /* ═══ HERO CTA (above the fold) ═══ */
     .hero-cta {
       margin-top: 20px;
@@ -590,11 +585,11 @@
         <div class="proof-bar fade-in fade-in-2">
           <div class="proof-item">
             <div class="proof-dot"></div>
-            <span class="proof-value" id="edition-count">–</span> edições enviadas
+            Diariamente
           </div>
           <div class="proof-item">
             <div class="proof-dot" style="background: #818CF8;"></div>
-            diária desde jun/2025
+            100% automated
           </div>
         </div>
 
@@ -639,7 +634,7 @@
           </div>
           <div class="feature">
             <span class="feature-arrow">-></span>
-            <span class="feature-text"><strong>8h BRT, toda manhã</strong> — PT-BR com termos tech em EN, leitura de 3 min</span>
+            <span class="feature-text"><strong>8h BRT, toda manhã</strong> — apenas PT-BR, leitura de 3 min</span>
           </div>
           <div class="feature">
             <span class="feature-arrow">-></span>
@@ -742,31 +737,8 @@
     </div>
   </div>
 
-  <!-- Vanilla JS: Edition counter + micro-interactions -->
+  <!-- Vanilla JS: micro-interactions -->
   <script>
-    // Calculate editions since launch (jun 16, 2025 = first edition)
-    (function() {
-      var launchDate = new Date('2025-06-16');
-      var today = new Date();
-      var diffTime = today - launchDate;
-      var diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      var editions = Math.max(1, diffDays);
-      var el = document.getElementById('edition-count');
-      if (el && editions > 0) {
-        // Animate counter
-        var current = 0;
-        var step = Math.max(1, Math.floor(editions / 30));
-        var interval = setInterval(function() {
-          current += step;
-          if (current >= editions) {
-            current = editions;
-            clearInterval(interval);
-          }
-          el.textContent = current;
-        }, 30);
-      }
-    })();
-
     // Remove cursor blink after 3s for cleaner look
     setTimeout(function() {
       var el = document.querySelector('.cursor-blink');
