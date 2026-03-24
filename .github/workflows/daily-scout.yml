@@ -45,7 +45,7 @@ jobs:
       - name: Run Daily Scout pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          PIPEDREAM_WEBHOOK_URL: ${{ secrets.PIPEDREAM_WEBHOOK_URL }}
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
           EDITION_NUMBER: ${{ steps.edition.outputs.number }}
         run: python pipeline.py
 
