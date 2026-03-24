@@ -37,8 +37,8 @@ jobs:
           if [ -n "${{ github.event.inputs.edition_number }}" ]; then
             echo "number=${{ github.event.inputs.edition_number }}" >> $GITHUB_OUTPUT
           else
-            # Days since 2026-01-01 as edition number
-            DAYS=$(( ($(date +%s) - $(date -d "2026-01-01" +%s)) / 86400 ))
+            # Days since launch (2026-03-23 = edition #001)
+            DAYS=$(( ($(date +%s) - $(date -d "2026-03-22" +%s)) / 86400 ))
             printf "number=%03d\n" $DAYS >> $GITHUB_OUTPUT
           fi
 
