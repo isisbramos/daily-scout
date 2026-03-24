@@ -1,7 +1,7 @@
 """
 Daily Scout — Pipeline automatizado de newsletter Tech & AI
 Correspondente: AYA (AI-powered field correspondent)
-Stack: Reddit RSS + HackerNews API → Gemini Flash → Jinja2 → Pipedream webhook
+Stack: Reddit RSS + HackerNews API → Gemini Flash → Jinja2 → Buttondown API
 """
 
 import os
@@ -24,8 +24,10 @@ logger = logging.getLogger("daily-scout")
 
 # ── Config ───────────────────────────────────────────────────────────
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-PIPEDREAM_WEBHOOK_URL = os.environ.get("PIPEDREAM_WEBHOOK_URL")
+BUTTONDOWN_API_KEY = os.environ.get("BUTTONDOWN_API_KEY")
 EDITION_NUMBER = os.environ.get("EDITION_NUMBER", "001")
+
+BUTTONDOWN_API_URL = "https://api.buttondown.com/v1/emails"
 
 REDDIT_SUBS = [
     "artificial", "MachineLearning", "ChatGPT", "LocalLLaMA",
@@ -344,32 +346,52 @@ def render_email(content: dict, sources_count: int, runtime: str) -> str:
     return html
 
 
-# ── Send: Pipedream Webhook ──────────────────────────────────────────
-def send_to_pipedream(subject: str, html_content: str) -> bool:
-    """Envia email via Pipedream webhook."""
+# ── Send: Buttondown API ─────────────────────────────────────────────
+def send_via_buttondown(subject: str, html_content: str) -> bool:
+    """Envia newsletter via Buttondown API (free tier, até 100 subs)."""
     logger.info("=" * 50)
-    logger.info("FASE 4: SEND — enviando para Pipedream")
+    logger.info("FASE 4: SEND — enviando via Buttondown")
     logger.info("=" * 50)
 
-    if not PIPEDREAM_WEBHOOK_URL:
-        logger.error("PIPEDREAM_WEBHOOK_URL não configurada")
+    if not BUTTONDOWN_API_KEY:
+        logger.error("BUTTONDOWN_API_KEY não configurada")
         return False
+
+    # Prefixo pra forçar modo HTML no Buttondown
+    html_body = "<!-- buttondown-editor-mode: raw -->\n" + html_content
 
     payload = {
         "subject": subject,
-        "html_content": html_content,
+        "body": html_body,
+        "status": "about_to_send",
+    }
+
+    headers = {
+        "Authorization": f"Token {BUTTONDOWN_API_KEY}",
+        "Content-Type": "application/json",
     }
 
     try:
-        resp = requests.post(PIPEDREAM_WEBHOOK_URL, json=payload, timeout=30)
-        if resp.status_code == 200:
-            logger.info("Pipedream: enviado com sucesso!")
+        resp = requests.post(BUTTONDOWN_API_URL, json=payload, headers=headers, timeout=30)
+
+        if resp.status_code in (200, 201):
+            data = resp.json()
+            logger.info(f"Buttondown: enviado! ID={data.get('id', 'unknown')}")
             return True
+        elif resp.status_code == 400:
+            error_data = resp.json() if resp.text else {}
+            # First-time send requer confirmação
+            if "sending_requires_confirmation" in str(error_data):
+                logger.error("Buttondown: primeiro envio via API precisa de confirmação manual. "
+                             "Acesse o painel do Buttondown e confirme o envio.")
+            else:
+                logger.error(f"Buttondown: HTTP 400 — {resp.text}")
+            return False
         else:
-            logger.error(f"Pipedream: HTTP {resp.status_code} — {resp.text}")
+            logger.error(f"Buttondown: HTTP {resp.status_code} — {resp.text}")
             return False
     except Exception as e:
-        logger.error(f"Pipedream: erro de conexão — {e}")
+        logger.error(f"Buttondown: erro de conexão — {e}")
         return False
 
 
@@ -399,7 +421,7 @@ def send_fallback(reason: str) -> bool:
     """
 
     subject = f"Daily Scout #{EDITION_NUMBER} — [transmissão parcial]"
-    return send_to_pipedream(subject, fallback_html)
+    return send_via_buttondown(subject, fallback_html)
 
 
 # ── Pipeline principal ───────────────────────────────────────────────
@@ -438,7 +460,7 @@ def run_pipeline():
 
         # ── Step 5: Send ──
         subject = f"Daily Scout #{EDITION_NUMBER} — {content['main_find']['title']}"
-        success = send_to_pipedream(subject, html)
+        success = send_via_buttondown(subject, html)
 
         # ── Report ──
         total_time = f"{time.time() - start_time:.1f}s"
