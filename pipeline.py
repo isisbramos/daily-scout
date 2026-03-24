@@ -369,6 +369,7 @@ def send_via_buttondown(subject: str, html_content: str) -> bool:
     headers = {
         "Authorization": f"Token {BUTTONDOWN_API_KEY}",
         "Content-Type": "application/json",
+        "X-Buttondown-Live-Dangerously": "true",
     }
 
     try:
