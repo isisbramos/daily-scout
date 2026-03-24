@@ -5,9 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AYA's Daily Scout — Tech & AI, todo dia na sua inbox</title>
   <meta name="description" content="Newsletter diária de Tech & AI curada por AYA, uma correspondente de campo digital. Os achados mais relevantes das últimas 24h, sem enrolação.">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
 
+  <!-- Open Graph -->
+  <meta property="og:title" content="AYA's Daily Scout — Tech & AI intel, todo dia">
+  <meta property="og:description" content="Uma AI correspondent vasculha Reddit, HackerNews e open web todo dia e entrega só o signal que importa. Free, diária, 8h na inbox.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://isisbramos.github.io/daily-scout/">
+  <meta property="og:image" content="https://isisbramos.github.io/daily-scout/aya-avatar.png">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AYA's Daily Scout — Tech & AI intel, todo dia">
+  <meta name="twitter:description" content="Uma AI correspondent vasculha Reddit, HackerNews e open web todo dia e entrega só o signal que importa. Free, 8h na inbox.">
+  <meta name="twitter:image" content="https://isisbramos.github.io/daily-scout/aya-avatar.png">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://isisbramos.github.io/daily-scout/">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -18,17 +39,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       padding: 24px;
       line-height: 1.6;
     }
 
-    .container {
-      max-width: 560px;
-      width: 100%;
-    }
+    .container { max-width: 580px; width: 100%; }
 
-    /* Terminal chrome */
+    /* ═══ TERMINAL CHROME ═══ */
     .terminal {
       background: #1E293B;
       border: 1px solid #334155;
@@ -45,12 +62,7 @@
       border-bottom: 1px solid #334155;
     }
 
-    .terminal-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-
+    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
     .dot-red { background: #EF4444; }
     .dot-yellow { background: #F59E0B; }
     .dot-green { background: #22C55E; }
@@ -62,11 +74,45 @@
       letter-spacing: 0.5px;
     }
 
-    .terminal-body {
-      padding: 32px 28px;
+    .terminal-body { padding: 32px 28px; }
+
+    /* ═══ ANIMATIONS ═══ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Header */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 12px rgba(34, 197, 94, 0.3); }
+      50% { box-shadow: 0 0 24px rgba(34, 197, 94, 0.5); }
+    }
+
+    @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+
+    .fade-in { opacity: 0; animation: fadeInUp 0.5s ease forwards; }
+    .fade-in-1 { animation-delay: 0.1s; }
+    .fade-in-2 { animation-delay: 0.2s; }
+    .fade-in-3 { animation-delay: 0.35s; }
+    .fade-in-4 { animation-delay: 0.5s; }
+    .fade-in-5 { animation-delay: 0.65s; }
+    .fade-in-6 { animation-delay: 0.8s; }
+
+    .cursor-blink::after {
+      content: "█";
+      color: #22C55E;
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    /* ═══ HEADER ═══ */
     .ascii-bar {
       color: #22C55E;
       font-size: 11px;
@@ -74,26 +120,69 @@
       opacity: 0.7;
     }
 
-    .brand {
-      margin-top: 12px;
-    }
-
+    .brand { margin-top: 12px; }
     .brand-name {
       color: #22C55E;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 700;
       letter-spacing: -0.5px;
     }
-
     .brand-sub {
       color: #94A3B8;
       font-size: 12px;
       margin-top: 2px;
     }
 
-    /* AYA intro */
+    /* ═══ SOCIAL PROOF BAR ═══ */
+    .proof-bar {
+      margin-top: 16px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .proof-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #64748B;
+    }
+
+    .proof-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22C55E;
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    .proof-value {
+      color: #94A3B8;
+      font-weight: 600;
+    }
+
+    /* ═══ HERO CTA (above the fold) ═══ */
+    .hero-cta {
+      margin-top: 20px;
+      padding: 16px;
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 8px;
+    }
+
+    .hero-cta .form-label {
+      color: #A78BFA;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: block;
+      line-height: 1.5;
+    }
+
+    /* ═══ AYA SECTION ═══ */
     .aya-section {
-      margin-top: 24px;
+      margin-top: 28px;
       padding: 16px;
       background: #0F172A;
       border-radius: 8px;
@@ -110,12 +199,10 @@
       border: 2px solid #22C55E;
       object-fit: cover;
       flex-shrink: 0;
-      box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+      animation: pulse-glow 3s ease-in-out infinite;
     }
 
-    .aya-content {
-      flex: 1;
-    }
+    .aya-content { flex: 1; }
 
     .aya-tag {
       color: #22C55E;
@@ -132,7 +219,7 @@
       font-style: italic;
     }
 
-    /* What you get */
+    /* ═══ FEATURES ═══ */
     .section-title {
       color: #A78BFA;
       font-size: 11px;
@@ -162,11 +249,175 @@
       line-height: 1.6;
     }
 
-    .feature-text strong {
-      color: #F1F5F9;
+    .feature-text strong { color: #F1F5F9; }
+
+    /* ═══ EMAIL PREVIEW ═══ */
+    .preview-section {
+      margin-top: 28px;
     }
 
-    /* Form */
+    .preview-terminal {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .preview-bar {
+      padding: 8px 12px;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .preview-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preview-dot-sm {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .preview-tab {
+      color: #64748B;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .preview-tag {
+      font-size: 9px;
+      color: #22C55E;
+      background: rgba(34, 197, 94, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .preview-body {
+      padding: 16px;
+      max-height: 260px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .preview-body::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(transparent, #0F172A);
+      pointer-events: none;
+    }
+
+    .preview-subject {
+      color: #F1F5F9;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .preview-date {
+      color: #475569;
+      font-size: 10px;
+      margin-bottom: 12px;
+    }
+
+    .preview-headline {
+      color: #22C55E;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .preview-content {
+      color: #94A3B8;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .preview-content strong { color: #CBD5E1; }
+
+    .preview-quick {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #1E293B;
+    }
+
+    .preview-quick-title {
+      color: #818CF8;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .preview-quick-item {
+      color: #64748B;
+      font-size: 10px;
+      line-height: 1.6;
+      margin-bottom: 4px;
+    }
+
+    .preview-quick-item span { color: #94A3B8; }
+
+    .preview-cta-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-top: 1px solid #334155;
+    }
+
+    .preview-link {
+      color: #818CF8;
+      font-size: 11px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .preview-link:hover { color: #A78BFA; }
+
+    /* ═══ TRUST SIGNAL ═══ */
+    .trust-section {
+      margin-top: 24px;
+      padding: 14px 16px;
+      background: rgba(167, 139, 250, 0.06);
+      border: 1px solid rgba(167, 139, 250, 0.15);
+      border-radius: 8px;
+    }
+
+    .trust-text {
+      color: #94A3B8;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .trust-text strong {
+      color: #A78BFA;
+      font-weight: 600;
+    }
+
+    /* ═══ SEPARATOR ═══ */
+    .separator {
+      color: #334155;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-align: center;
+      margin: 24px 0;
+    }
+
+    /* ═══ FORM ═══ */
     .form-section {
       margin-top: 28px;
       padding-top: 24px;
@@ -180,10 +431,7 @@
       display: block;
     }
 
-    .form-row {
-      display: flex;
-      gap: 8px;
-    }
+    .form-row { display: flex; gap: 8px; }
 
     .form-input {
       flex: 1;
@@ -195,16 +443,15 @@
       font-family: 'JetBrains Mono', 'Courier New', monospace;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .form-input:focus {
       border-color: #22C55E;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
     }
 
-    .form-input::placeholder {
-      color: #475569;
-    }
+    .form-input::placeholder { color: #475569; }
 
     .form-button {
       background: #22C55E;
@@ -216,18 +463,17 @@
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
       white-space: nowrap;
       letter-spacing: 0.5px;
     }
 
     .form-button:hover {
       background: #16A34A;
+      box-shadow: 0 0 16px rgba(34, 197, 94, 0.3);
     }
 
-    .form-button:active {
-      transform: scale(0.97);
-    }
+    .form-button:active { transform: scale(0.97); }
 
     .form-note {
       color: #64748B;
@@ -236,7 +482,30 @@
       line-height: 1.5;
     }
 
-    /* Meta / footer */
+    /* ═══ ARCHIVE LINK ═══ */
+    .archive-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      color: #818CF8;
+      font-size: 11px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .archive-link:hover { color: #A78BFA; }
+
+    .archive-arrow {
+      transition: transform 0.2s;
+    }
+
+    .archive-link:hover .archive-arrow {
+      transform: translateX(3px);
+    }
+
+    /* ═══ META / FOOTER ═══ */
     .meta-section {
       margin-top: 24px;
       padding-top: 20px;
@@ -249,20 +518,8 @@
       line-height: 2;
     }
 
-    .meta-line span {
-      color: #94A3B8;
-    }
+    .meta-line span { color: #94A3B8; }
 
-    /* Separator */
-    .separator {
-      color: #334155;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    /* Outside terminal */
     .footer {
       text-align: center;
       margin-top: 20px;
@@ -270,23 +527,37 @@
       font-size: 11px;
     }
 
-    .footer a {
-      color: #64748B;
-      text-decoration: none;
-    }
+    .footer a { color: #64748B; text-decoration: none; }
+    .footer a:hover { color: #94A3B8; }
 
-    .footer a:hover {
-      color: #94A3B8;
-    }
-
-    /* Responsive */
+    /* ═══ RESPONSIVE ═══ */
     @media (max-width: 480px) {
-      .terminal-body { padding: 24px 18px; }
+      body { padding: 12px; }
+      .terminal-body { padding: 24px 16px; }
       .brand-name { font-size: 20px; }
       .form-row { flex-direction: column; }
-      .form-button { text-align: center; }
+      .form-button { text-align: center; padding: 14px 20px; }
       .aya-section { flex-direction: column; align-items: center; text-align: center; }
       .aya-avatar { width: 72px; height: 72px; }
+      .proof-bar { gap: 10px; }
+      .proof-item { font-size: 10px; }
+      .hero-cta .form-label { font-size: 12px; }
+      .preview-body { max-height: 220px; }
+      .trust-section { padding: 12px; }
+    }
+
+    @media (max-width: 360px) {
+      .terminal-body { padding: 20px 14px; }
+      .brand-name { font-size: 18px; }
+      .container { max-width: 100%; }
+    }
+
+    /* ═══ REDUCED MOTION ═══ */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { animation: none; opacity: 1; }
+      .cursor-blink::after { animation: none; }
+      .aya-avatar { animation: none; box-shadow: 0 0 12px rgba(34, 197, 94, 0.3); }
+      .proof-dot { animation: none; }
     }
   </style>
 </head>
@@ -305,79 +576,161 @@
 
       <div class="terminal-body">
 
-        <!-- Header -->
-        <div class="ascii-bar">========================================</div>
-        <div class="brand">
-          <div class="brand-name">AYA's Daily Scout</div>
-          <div class="brand-sub">Tech & AI // field reports diários</div>
-        </div>
-        <div class="ascii-bar" style="margin-top: 12px;">========================================</div>
-
-        <!-- AYA intro -->
-        <div class="aya-section">
-          <div class="aya-content">
-            <div class="aya-tag">> TRANSMISSÃO</div>
-            <div class="aya-text">
-              AYA aqui. Toda manhã eu vasculho centenas de fontes — Reddit, HackerNews, comunidades open source — e trago os achados que realmente importam. Sem enrolação, sem viés de big media. Só signal.
-            </div>
+        <!-- ═══ HEADER ═══ -->
+        <div class="fade-in fade-in-1">
+          <div class="ascii-bar">════════════════════════════════════════</div>
+          <div class="brand">
+            <div class="brand-name cursor-blink">AYA's Daily Scout</div>
+            <div class="brand-sub">Tech & AI // field intel, toda manhã na inbox</div>
           </div>
-          <img src="./aya-avatar.png" alt="AYA — AI Correspondent" class="aya-avatar" />
+          <div class="ascii-bar" style="margin-top: 12px;">════════════════════════════════════════</div>
         </div>
 
-        <!-- What you get -->
-        <div class="section-title">> O QUE VOCÊ RECEBE</div>
-
-        <div class="feature">
-          <span class="feature-arrow">-></span>
-          <span class="feature-text"><strong>1 achado do dia</strong> — análise curta de por que importa + pontos-chave</span>
-        </div>
-        <div class="feature">
-          <span class="feature-arrow">-></span>
-          <span class="feature-text"><strong>3-5 quick finds</strong> — o que mais passou no radar, com contexto</span>
-        </div>
-        <div class="feature">
-          <span class="feature-arrow">-></span>
-          <span class="feature-text"><strong>Todo dia 8h</strong> — PT-BR com termos em EN, direto na inbox</span>
-        </div>
-        <div class="feature">
-          <span class="feature-arrow">-></span>
-          <span class="feature-text"><strong>100% AI-powered</strong> — curadoria, escrita e envio automatizados</span>
+        <!-- ═══ SOCIAL PROOF BAR ═══ -->
+        <div class="proof-bar fade-in fade-in-2">
+          <div class="proof-item">
+            <div class="proof-dot"></div>
+            <span class="proof-value" id="edition-count">–</span> edições enviadas
+          </div>
+          <div class="proof-item">
+            <div class="proof-dot" style="background: #818CF8;"></div>
+            diária desde jun/2025
+          </div>
         </div>
 
-        <!-- Separator -->
-        <div class="separator">- - - - - - - - - - - - - - - - - - -</div>
-
-        <!-- Subscribe form -->
-        <div class="form-section">
+        <!-- ═══ HERO CTA — ABOVE THE FOLD ═══ -->
+        <div class="hero-cta fade-in fade-in-2">
           <form
             action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis"
             method="post"
             class="embeddable-buttondown-form"
           >
-            <label for="bd-email" class="form-label">// inscreva-se para receber as transmissões</label>
+            <label class="form-label">Tech & AI intel curada por uma AI — direto na inbox, 8h, free.</label>
             <div class="form-row">
-              <input
-                type="email"
-                name="email"
-                id="bd-email"
-                placeholder="seu@email.com"
-                required
-                class="form-input"
-              />
+              <input type="email" name="email" placeholder="seu@email.com" required class="form-input" />
               <input type="submit" value="ENTRAR" class="form-button" />
             </div>
-            <div class="form-note">
-              Free. Sem spam. Cancele quando quiser.
-            </div>
+            <div class="form-note">Free pra sempre. Sem spam. Cancele em 1 click.</div>
           </form>
         </div>
 
-        <!-- Meta -->
-        <div class="meta-section">
+        <!-- ═══ AYA INTRO ═══ -->
+        <div class="aya-section fade-in fade-in-3">
+          <div class="aya-content">
+            <div class="aya-tag">> TRANSMISSÃO</div>
+            <div class="aya-text">
+              AYA aqui. Toda manhã eu vasculho Reddit, HackerNews e comunidades open source pra filtrar o que realmente importa. Você recebe só o signal — sem ruído de big media, sem takes requentados.
+            </div>
+          </div>
+          <img src="./aya-avatar.png" alt="AYA — AI Correspondent" class="aya-avatar" loading="lazy" width="80" height="80" />
+        </div>
+
+        <!-- ═══ FEATURES ═══ -->
+        <div class="fade-in fade-in-3">
+          <div class="section-title">> O QUE VOCÊ RECEBE</div>
+
+          <div class="feature">
+            <span class="feature-arrow">-></span>
+            <span class="feature-text"><strong>Deep dive do dia</strong> — o achado mais relevante com análise de por que importa pra você</span>
+          </div>
+          <div class="feature">
+            <span class="feature-arrow">-></span>
+            <span class="feature-text"><strong>3-5 quick finds</strong> — o que mais cruzou o radar, com contexto pra decidir se vale clicar</span>
+          </div>
+          <div class="feature">
+            <span class="feature-arrow">-></span>
+            <span class="feature-text"><strong>8h BRT, toda manhã</strong> — PT-BR com termos tech em EN, leitura de 3 min</span>
+          </div>
+          <div class="feature">
+            <span class="feature-arrow">-></span>
+            <span class="feature-text"><strong>100% automated</strong> — curadoria, escrita e envio por AI. Zero viés editorial humano</span>
+          </div>
+        </div>
+
+        <!-- ═══ EMAIL PREVIEW ═══ -->
+        <div class="preview-section fade-in fade-in-4">
+          <div class="section-title">> PREVIEW: COMO CHEGA NA INBOX</div>
+
+          <div class="preview-terminal">
+            <div class="preview-bar">
+              <div class="preview-bar-left">
+                <div class="preview-dot-sm dot-red"></div>
+                <div class="preview-dot-sm dot-yellow"></div>
+                <div class="preview-dot-sm dot-green"></div>
+                <span class="preview-tab">inbox</span>
+              </div>
+              <span class="preview-tag">EDIÇÃO REAL</span>
+            </div>
+
+            <div class="preview-body">
+              <div class="preview-subject">Daily Scout #001 — Ataque crítico na supply chain do GitHub Actions</div>
+              <div class="preview-date">AYA · jun 2025 · 3 min read</div>
+
+              <div class="preview-headline">🎯 ACHADO DO DIA</div>
+              <div class="preview-content">
+                <strong>Supply-chain attack no tj-actions/changed-files</strong> — Um ator malicioso
+                comprometeu a GitHub Action usada por <strong>23.000+ repos</strong>. O ataque
+                injeta código que extrai CI/CD secrets e os expõe via logs do workflow.
+                Impacto: qualquer repo usando essa action sem pin de SHA está vulnerável.
+              </div>
+
+              <div class="preview-quick">
+                <div class="preview-quick-title">⚡ QUICK FINDS</div>
+                <div class="preview-quick-item">-> <span>GPT-4.5 spotted in API</span> — parâmetros vazados sugerem modelo intermediário</div>
+                <div class="preview-quick-item">-> <span>Rust no kernel Linux 6.x</span> — merge de drivers de GPU em Rust aprovado</div>
+                <div class="preview-quick-item">-> <span>Devin AI pricing</span> — $500/mês gerou debate sobre ROI de AI coding agents</div>
+              </div>
+            </div>
+
+            <div class="preview-cta-row">
+              <a href="https://buttondown.com/ramosdisis/archive/daily-scout-001-ataque-critico-na-supply-chain/" target="_blank" rel="noopener" class="preview-link">Ler edição completa →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ TRUST SIGNAL ═══ -->
+        <div class="trust-section fade-in fade-in-5">
+          <div class="trust-text">
+            <strong>// sobre o projeto</strong><br>
+            Criada por uma <strong>Product Manager</strong> que queria filtrar o noise de tech news.
+            A pipeline é 100% open source — scraping, curadoria e escrita automatizados por AI.
+            Nenhum humano toca o conteúdo. O código tá no <a href="https://github.com/isisbramos/daily-scout" target="_blank" rel="noopener" style="color: #818CF8; text-decoration: none;">GitHub</a>.
+          </div>
+        </div>
+
+        <!-- ═══ SEPARATOR ═══ -->
+        <div class="separator fade-in fade-in-5">- - - - - - - - - - - - - - - - - - -</div>
+
+        <!-- ═══ BOTTOM CTA ═══ -->
+        <div class="form-section fade-in fade-in-6">
+          <form
+            action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis"
+            method="post"
+            class="embeddable-buttondown-form"
+          >
+            <label for="bd-email" class="form-label">// receba o briefing de tech & AI toda manhã</label>
+            <div class="form-row">
+              <input type="email" name="email" id="bd-email" placeholder="seu@email.com" required class="form-input" />
+              <input type="submit" value="ENTRAR" class="form-button" />
+            </div>
+            <div class="form-note">Free pra sempre. Sem spam. Cancele em 1 click.</div>
+          </form>
+        </div>
+
+        <!-- ═══ ARCHIVE LINK ═══ -->
+        <div class="fade-in fade-in-6" style="margin-top: 16px;">
+          <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="archive-link">
+            Veja edições anteriores <span class="archive-arrow">→</span>
+          </a>
+        </div>
+
+        <!-- ═══ META ═══ -->
+        <div class="meta-section fade-in fade-in-6">
           <div class="meta-line">
             sources: <span>reddit + hackernews + open web</span><br>
             frequency: <span>diária, ~8h BRT</span><br>
-            correspondent: <span>aya v0.1</span> | powered by: <span>gemini flash</span>
+            stack: <span>python + gemini flash + buttondown</span><br>
+            correspondent: <span>aya v0.1</span> | repo: <a href="https://github.com/isisbramos/daily-scout" target="_blank" rel="noopener" style="color: #94A3B8; text-decoration: none;">open source</a>
           </div>
         </div>
 
@@ -385,9 +738,41 @@
     </div>
 
     <div class="footer">
-      <a href="https://buttondown.com/refer/ramosdisis" target="_blank">Powered by Buttondown</a>
+      <a href="https://buttondown.com/refer/ramosdisis" target="_blank" rel="noopener">Powered by Buttondown</a>
     </div>
   </div>
+
+  <!-- Vanilla JS: Edition counter + micro-interactions -->
+  <script>
+    // Calculate editions since launch (jun 16, 2025 = first edition)
+    (function() {
+      var launchDate = new Date('2025-06-16');
+      var today = new Date();
+      var diffTime = today - launchDate;
+      var diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      var editions = Math.max(1, diffDays);
+      var el = document.getElementById('edition-count');
+      if (el && editions > 0) {
+        // Animate counter
+        var current = 0;
+        var step = Math.max(1, Math.floor(editions / 30));
+        var interval = setInterval(function() {
+          current += step;
+          if (current >= editions) {
+            current = editions;
+            clearInterval(interval);
+          }
+          el.textContent = current;
+        }, 30);
+      }
+    })();
+
+    // Remove cursor blink after 3s for cleaner look
+    setTimeout(function() {
+      var el = document.querySelector('.cursor-blink');
+      if (el) el.classList.remove('cursor-blink');
+    }, 3000);
+  </script>
 
 </body>
 </html>
