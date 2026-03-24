@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AYA's Daily Scout — Tech & AI, todo dia na sua inbox</title>
+  <meta name="description" content="Newsletter diária de Tech & AI curada por AYA, uma correspondente de campo digital. Os achados mais relevantes das últimas 24h, sem enrolação.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0F172A;
+      color: #CBD5E1;
+      font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 560px;
+      width: 100%;
+    }
+
+    /* Terminal chrome */
+    .terminal {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      background: #0F172A;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #EF4444; }
+    .dot-yellow { background: #F59E0B; }
+    .dot-green { background: #22C55E; }
+
+    .terminal-title {
+      color: #94A3B8;
+      font-size: 12px;
+      margin-left: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .terminal-body {
+      padding: 32px 28px;
+    }
+
+    /* Header */
+    .ascii-bar {
+      color: #22C55E;
+      font-size: 11px;
+      letter-spacing: 1px;
+      opacity: 0.7;
+    }
+
+    .brand {
+      margin-top: 12px;
+    }
+
+    .brand-name {
+      color: #22C55E;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-sub {
+      color: #94A3B8;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* AYA intro */
+    .aya-section {
+      margin-top: 24px;
+      padding: 16px;
+      background: #0F172A;
+      border-radius: 8px;
+      border-left: 3px solid #22C55E;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .aya-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #22C55E;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+    }
+
+    .aya-content {
+      flex: 1;
+    }
+
+    .aya-tag {
+      color: #22C55E;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .aya-text {
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    /* What you get */
+    .section-title {
+      color: #A78BFA;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-top: 28px;
+      margin-bottom: 14px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .feature-arrow {
+      color: #22C55E;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .feature-text {
+      color: #CBD5E1;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .feature-text strong {
+      color: #F1F5F9;
+    }
+
+    /* Form */
+    .form-section {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid #334155;
+    }
+
+    .form-label {
+      color: #94A3B8;
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .form-input {
+      flex: 1;
+      background: #0F172A;
+      border: 2px solid #334155;
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #F1F5F9;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: #22C55E;
+    }
+
+    .form-input::placeholder {
+      color: #475569;
+    }
+
+    .form-button {
+      background: #22C55E;
+      color: #0F172A;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+
+    .form-button:hover {
+      background: #16A34A;
+    }
+
+    .form-button:active {
+      transform: scale(0.97);
+    }
+
+    .form-note {
+      color: #64748B;
+      font-size: 11px;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    /* Meta / footer */
+    .meta-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #334155;
+    }
+
+    .meta-line {
+      color: #64748B;
+      font-size: 11px;
+      line-height: 2;
+    }
+
+    .meta-line span {
+      color: #94A3B8;
+    }
+
+    /* Separator */
+    .separator {
+      color: #334155;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    /* Outside terminal */
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #475569;
+      font-size: 11px;
+    }
+
+    .footer a {
+      color: #64748B;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: #94A3B8;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .terminal-body { padding: 24px 18px; }
+      .brand-name { font-size: 20px; }
+      .form-row { flex-direction: column; }
+      .form-button { text-align: center; }
+      .aya-section { flex-direction: column; align-items: center; text-align: center; }
+      .aya-avatar { width: 72px; height: 72px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="terminal">
+
+      <!-- Terminal chrome bar -->
+      <div class="terminal-bar">
+        <div class="terminal-dot dot-red"></div>
+        <div class="terminal-dot dot-yellow"></div>
+        <div class="terminal-dot dot-green"></div>
+        <span class="terminal-title">aya@daily-scout ~ /subscribe</span>
+      </div>
+
+      <div class="terminal-body">
+
+        <!-- Header -->
+        <div class="ascii-bar">========================================</div>
+        <div class="brand">
+          <div class="brand-name">AYA's Daily Scout</div>
+          <div class="brand-sub">Tech & AI // field reports diários</div>
+        </div>
+        <div class="ascii-bar" style="margin-top: 12px;">========================================</div>
+
+        <!-- AYA intro -->
+        <div class="aya-section">
+          <div class="aya-content">
+            <div class="aya-tag">> TRANSMISSÃO</div>
+            <div class="aya-text">
+              AYA aqui. Toda manhã eu vasculho centenas de fontes — Reddit, HackerNews, comunidades open source — e trago os achados que realmente importam. Sem enrolação, sem viés de big media. Só signal.
+            </div>
+          </div>
+          <img src="./aya-avatar.png" alt="AYA — AI Correspondent" class="aya-avatar" />
+        </div>
+
+        <!-- What you get -->
+        <div class="section-title">> O QUE VOCÊ RECEBE</div>
+
+        <div class="feature">
+          <span class="feature-arrow">-></span>
+          <span class="feature-text"><strong>1 achado do dia</strong> — análise curta de por que importa + pontos-chave</span>
+        </div>
+        <div class="feature">
+          <span class="feature-arrow">-></span>
+          <span class="feature-text"><strong>3-5 quick finds</strong> — o que mais passou no radar, com contexto</span>
+        </div>
+        <div class="feature">
+          <span class="feature-arrow">-></span>
+          <span class="feature-text"><strong>Todo dia 8h</strong> — PT-BR com termos em EN, direto na inbox</span>
+        </div>
+        <div class="feature">
+          <span class="feature-arrow">-></span>
+          <span class="feature-text"><strong>100% AI-powered</strong> — curadoria, escrita e envio automatizados</span>
+        </div>
+
+        <!-- Separator -->
+        <div class="separator">- - - - - - - - - - - - - - - - - - -</div>
+
+        <!-- Subscribe form -->
+        <div class="form-section">
+          <form
+            action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis"
+            method="post"
+            class="embeddable-buttondown-form"
+          >
+            <label for="bd-email" class="form-label">// inscreva-se para receber as transmissões</label>
+            <div class="form-row">
+              <input
+                type="email"
+                name="email"
+                id="bd-email"
+                placeholder="seu@email.com"
+                required
+                class="form-input"
+              />
+              <input type="submit" value="ENTRAR" class="form-button" />
+            </div>
+            <div class="form-note">
+              Free. Sem spam. Cancele quando quiser.
+            </div>
+          </form>
+        </div>
+
+        <!-- Meta -->
+        <div class="meta-section">
+          <div class="meta-line">
+            sources: <span>reddit + hackernews + open web</span><br>
+            frequency: <span>diária, ~8h BRT</span><br>
+            correspondent: <span>aya v0.1</span> | powered by: <span>gemini flash</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://buttondown.com/refer/ramosdisis" target="_blank">Powered by Buttondown</a>
+    </div>
+  </div>
+
+</body>
+</html>
