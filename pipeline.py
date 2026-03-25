@@ -10,6 +10,7 @@ Arquitetura:
 
 import html as html_lib
 import os
+import re
 import sys
 import json
 import time
@@ -17,6 +18,7 @@ import logging
 import requests
 from datetime import datetime, timezone, timedelta
 from jinja2 import Environment, FileSystemLoader
+from pydantic import BaseModel, Field
 
 from sources.base import SourceRegistry, SourceItem
 # Importar sources registra elas automaticamente no registry
@@ -45,6 +47,7 @@ FEEDBACK_BASE_URL = os.environ.get(
     "https://SEU_USER.github.io/daily-scout/feedback.html",
 )
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
+SOCIAL_ENABLED = os.environ.get("SOCIAL_ENABLED", "false").lower() == "true"
 
 
 def load_config() -> dict:
@@ -106,134 +109,150 @@ def filter_items(items: list[SourceItem], config: dict) -> list[SourceItem]:
     return run_pre_filter(items, config)
 
 
-# ── Curate & Write: Gemini ──────────────────────────────────────────
+# ── Curate & Write: Gemini (v3 — structured output + anti-hallucination) ──
 
-CURATION_PROMPT = """Você é a AYA — correspondente de campo do Daily Scout, uma newsletter diária sobre tecnologia e inteligência artificial para um público amplo.
+# ── Pydantic schemas para structured output ──────────────────────────
+class MainFind(BaseModel):
+    title: str = Field(description="Título factual e descritivo, max 15 palavras")
+    source: str = Field(description="Fonte real: HackerNews, r/MachineLearning, TechCrunch, Lobsters")
+    body: str = Field(description="3-5 frases. Comece com atribuição à fonte. Explique o que é e por que importa pro leitor.")
+    bullets: list[str] = Field(description="2-3 pontos-chave: o que aconteceu, o que significa, o que observar")
+    url: str = Field(description="URL original do post")
+    display_url: str = Field(description="Versão curta legível da URL")
 
-Você está "em campo" na internet. Os posts abaixo foram coletados de MÚLTIPLAS FONTES (Reddit, HackerNews, TechCrunch, Lobsters) nas últimas 24h. Cada item inclui a fonte de origem.
+class QuickFind(BaseModel):
+    title: str = Field(description="Título curto e descritivo, max 10 palavras")
+    source: str = Field(description="Fonte real")
+    signal: str = Field(description="1-2 frases curtas: [o que aconteceu] + [por que importa pro leitor]")
+    url: str = Field(description="URL original")
+    display_url: str = Field(description="Versão curta da URL")
 
-SEU PÚBLICO: pessoas curiosas sobre tecnologia, não necessariamente técnicas. Pense em alguém que quer entender o que está acontecendo no mundo tech sem precisar ser programador ou engenheiro. Explique como se estivesse contando pra um amigo inteligente que não trabalha com tecnologia.
+class Meta(BaseModel):
+    total_analyzed: int = Field(description="Número total de posts analisados")
+    sources_used: list[str] = Field(description="Lista de fontes usadas")
+    editorial_note: str = Field(default="", description="Observação opcional sobre o dia")
 
-Sua missão:
-1. FILTRAR usando o critério editorial: cada item precisa ter pelo menos 2 de 3 — Tração (muita gente falando), Impacto (afeta o dia a dia das pessoas ou muda algo importante), Novidade (é algo novo ou surpreendente).
-2. DIVERSIDADE DE FONTES: priorize ter representação de diferentes fontes. Se dois itens são igualmente bons, prefira o que vem de uma fonte diferente dos já selecionados.
-3. ESCOLHER 1 achado principal (main_find) e 3-5 achados rápidos (quick_finds).
-4. ESCREVER com a voz do Daily Scout: direto, sem enrolação, em português do Brasil. Quando usar um termo técnico, explique brevemente entre parênteses ou com uma analogia simples. Tom de quem está em campo reportando o que viu, como uma jornalista contando as novidades.
-5. ESCREVER uma "correspondent_intro" — 1-2 frases curtas como se fosse uma correspondente abrindo a transmissão do dia. Fale em primeira pessoa, mencione o que observou, dê o tom do dia. Exemplos de estilo:
-   - "AYA em campo. Passei por 4 fontes hoje e o sinal mais forte veio do TechCrunch — uma rodada de investimento que pode mudar o jogo."
-   - "AYA aqui. Dia agitado — o mesmo assunto apareceu em vários cantos da internet ao mesmo tempo. Quando isso acontece, presto atenção."
-   - "AYA transmitindo. Dia mais calmo nas manchetes, mas encontrei uma discussão técnica que vale a atenção de quem quer entender pra onde a tecnologia está indo."
+class CurationOutput(BaseModel):
+    correspondent_intro: str = Field(description="1-2 frases em primeira pessoa. Cite dados concretos.")
+    main_find: MainFind
+    quick_finds: list[QuickFind] = Field(description="3-5 achados rápidos")
+    meta: Meta
 
-REGRAS DE ESCRITA:
-- Use linguagem acessível. Evite jargão técnico sem explicação.
-- Quando um termo técnico for essencial, explique de forma curta: "LLM (os modelos de IA que geram texto)", "open source (código aberto, que qualquer pessoa pode usar e modificar)", "funding (rodada de investimento)".
-- Prefira analogias do cotidiano pra explicar conceitos complexos.
-- Não subestime o leitor — seja claro, não simplista.
-- correspondent_intro: 1-2 frases, primeira pessoa, tom de campo, mencione algo específico sobre o que encontrou hoje.
-- main_find.body: 1-2 parágrafos curtos explicando POR QUE isso importa pra vida das pessoas. Concreto, sem clichês.
-- main_find.bullets: 2-3 pontos-chave práticos (o que mudou, o que significa, o que observar a seguir).
-- quick_finds[].signal: uma frase curta e acessível explicando por que esse item é relevante.
-- SEMPRE retorne pelo menos 3 quick_finds. Se os itens não são excelentes, escolha os melhores disponíveis. O array quick_finds NUNCA deve estar vazio.
-- URLs: use a URL original do post. display_url é a versão curta legível (ex: github.com/repo).
-- source: indique a fonte real (ex: "r/MachineLearning", "HackerNews", "TechCrunch", "Lobsters").
 
-Retorne APENAS um JSON válido (sem markdown, sem ```), nesta estrutura exata:
-{
-  "correspondent_intro": "AYA em campo. Frase curta sobre o que encontrou hoje.",
-  "main_find": {
-    "title": "Título do achado principal",
-    "source": "Fonte real (ex: HackerNews, r/MachineLearning, TechCrunch)",
-    "body": "1-2 parágrafos explicando por que importa",
-    "bullets": ["ponto 1", "ponto 2", "ponto 3"],
-    "url": "https://url-original.com",
-    "display_url": "dominio.com/path"
-  },
-  "quick_finds": [
-    {
-      "title": "Título curto",
-      "source": "Fonte real",
-      "signal": "Por que isso é relevante em uma frase",
-      "url": "https://url.com",
-      "display_url": "dominio.com"
-    }
-  ],
-  "meta": {
-    "total_analyzed": 50,
-    "sources_used": ["reddit", "hackernews", "techcrunch", "lobsters"],
-    "editorial_note": "Observação opcional sobre o dia"
-  }
-}
+# ── System instruction (pesa mais no attention do Flash) ─────────────
+SYSTEM_INSTRUCTION = """Você é a AYA — analista de campo do Daily Scout, newsletter diária de tech & AI.
 
-POSTS COLETADOS (de múltiplas fontes):
+RESTRIÇÃO FUNDAMENTAL: seu único input são títulos e metadados de posts. Você NÃO leu os artigos. Você NÃO tem acesso ao corpo dos artigos.
+
+REGRA DE ACURÁCIA — O QUE PODE E O QUE NÃO PODE:
+
+PODE (e deve):
+- Explicar brevemente o que algo é: "Sora é a ferramenta de geração de vídeo da OpenAI", "Wine é uma camada de compatibilidade que roda apps Windows no Linux".
+- Explicar por que algo é relevante pro leitor: "Isso afeta quem usa criptografia de ponta a ponta em apps como WhatsApp e Signal."
+- Usar seu conhecimento para dar contexto factual curto sobre o que uma empresa/produto/tecnologia É.
+
+NÃO PODE (nunca):
+- Inventar reações, motivações, consequências ou análises que não estão no título. Nada de "gerou polêmica", "pegou de surpresa", "pode revolucionar".
+- Inventar números, datas, valores ou detalhes que não estão nos metadados.
+- Converter incerteza em fato. "may" → "estaria", "reportedly" → "segundo relatos", pergunta → "Post questiona se..."
+- Qualificar intensidade com adjetivos vazios: nada de "massivo", "bombástico", "enorme", "pesado", "impressionante".
+
+VOZ EDITORIAL — como escrever:
+- Frases curtas e declarativas. Sujeito, verbo, complemento.
+- Verbos factuais: "anunciou", "lançou", "reportou", "publicou", "atualizou", "levantou", "descontinuou".
+- SEMPRE comece parágrafos com atribuição: "Segundo o TechCrunch", "De acordo com post no HackerNews".
+- Cite valores, versões, nomes, números quando disponíveis. Quando não disponíveis, descreva sem qualificar a intensidade.
+- Tom: competente e direto, como colunista que acompanha o mercado todo dia. Explique para leitores inteligentes que não são da área — dê contexto útil sem dramatizar."""
+
+# ── User prompt (missão + few-shots + dados) ─────────────────────────
+CURATION_PROMPT = """Selecione e escreva os achados do dia a partir dos posts abaixo.
+
+PÚBLICO: pessoas curiosas sobre tecnologia, não necessariamente técnicas. Explique termos técnicos brevemente entre parênteses.
+
+CRITÉRIOS DE SELEÇÃO:
+- Cada item precisa ter pelo menos 2 de 3: Tração (score alto ou múltiplas fontes), Impacto (afeta o dia a dia), Novidade (algo novo no setor).
+- Diversidade de fontes: prefira representação variada.
+- Escolha 1 main_find e 3-5 quick_finds.
+
+EXEMPLOS DE CALIBRAÇÃO:
+
+Exemplo 1 — RUMOR/ESPECULAÇÃO:
+Input: { "title": "Report: OpenAI may shut down Sora after backlash", "source": "HackerNews", "score": 847 }
+Output ERRADO (NÃO faça isso): "A OpenAI encerra o Sora, sua ferramenta de vídeo por IA. O Sora havia sido anunciado com grande alarde, prometendo revolucionar a criação de conteúdo visual, mas também gerou preocupações sobre deepfakes e o impacto na indústria cinematográfica. O encerramento repentino é um choque."
+→ Por que está errado: converteu "may" em fato, inventou "grande alarde", "revolucionar", "deepfakes", "indústria cinematográfica", "choque" — NADA disso está no título.
+Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a OpenAI estaria considerando descontinuar o Sora — sua ferramenta de geração de vídeo por IA — após reações negativas. O Sora permite criar vídeos a partir de descrições em texto. Não há confirmação oficial nos dados disponíveis, mas o volume de discussão (847 pontos) indica que o assunto está no radar da comunidade."
+
+Exemplo 2 — ATUALIZAÇÃO TÉCNICA:
+Input: { "title": "Wine 10.0 released with improved DirectX 12 support", "source": "Lobsters", "score": 45 }
+Output ERRADO (NÃO faça isso): "Uma atualização importante para o Wine promete tornar o Linux uma plataforma muito mais atraente para gamers, com ganhos massivos de velocidade."
+→ Por que está errado: "muito mais atraente", "ganhos massivos de velocidade" são invenções. O título só menciona "improved DirectX 12 support".
+Output CORRETO: "O Wine — camada de compatibilidade que permite rodar aplicativos Windows no Linux — lançou a versão 10.0 com melhorias no suporte a DirectX 12, segundo o Lobsters. DirectX 12 é a tecnologia gráfica usada pela maioria dos jogos recentes de Windows, então a atualização é relevante pra quem usa Linux pra jogar."
+
+Exemplo 3 — BUSINESS/FUNDING:
+Input: { "title": "Stripe acquires AI payments startup PayAI for $1.2B", "source": "TechCrunch", "score": 0 }
+Output ERRADO (NÃO faça isso): "A Stripe fez uma aquisição bombástica que pode revolucionar o mercado de pagamentos com IA. É um movimento ousado que mostra a aposta pesada da empresa."
+→ Por que está errado: "bombástica", "revolucionar", "ousado", "aposta pesada" são qualificadores inventados.
+Output CORRETO: "De acordo com o TechCrunch, a Stripe adquiriu a PayAI, startup de pagamentos com IA, por US$ 1,2 bilhão. A Stripe é uma das maiores plataformas de pagamento online, usada por empresas como Amazon e Shopify. A aquisição sinaliza investimento no uso de inteligência artificial aplicada a pagamentos."
+
+REGRAS DE FORMATO:
+- correspondent_intro: 1-2 frases curtas em primeira pessoa. Cite dado concreto (quantas fontes, qual tema se destacou, score).
+- main_find.title: factual, max 15 palavras. Reformule se o original for sensacionalista.
+- main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, explique o que é e por que importa pro leitor.
+- main_find.bullets: 2-3 pontos: o que aconteceu, o que significa pra quem lê, o que observar a seguir.
+- quick_finds[].signal: 1-2 frases curtas explicando o que aconteceu e por que é relevante.
+- Termos técnicos: explique brevemente — "LLM (modelos de IA que geram texto)", "open source (código aberto)".
+
+LEMBRETE FINAL: Você PODE explicar o que algo é (contexto factual) e por que importa pro leitor. Você NÃO PODE inventar reações, consequências ou qualificar intensidade. Na dúvida: descreva, não qualifique.
+
+POSTS COLETADOS:
 """
 
 
-def try_fix_json(text: str) -> dict | None:
-    """Tenta recuperar JSON truncado ou malformado."""
-    import re
+# ── Heurísticas anti-hallucination (pós-processamento) ───────────────
+HYPE_PATTERNS = re.compile(
+    r"(revolucion|bombástic|game.?changer|disruptiv|choque|chocou|impressionant[e]|"
+    r"massiv[oa]|enorme[s]?|pesad[oa]|ousad[oa]|incrível|surpreendent[e]|"
+    r"grande alarde|aposta pesada|mudou o jogo|pegou .+ de surpresa|"
+    r"reviravolta|prometendo revolucionar|muito mais atraente|"
+    r"pode mudar o cenário|entrand[oa] pesado)",
+    re.IGNORECASE,
+)
 
-    # Remove markdown fences
-    if text.startswith("```"):
-        text = text.split("\n", 1)[-1]
-    if text.endswith("```"):
-        text = text.rsplit("```", 1)[0]
-    text = text.strip()
 
-    # Tentativa 1: parse direto
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
+def validate_tone(content: dict) -> list[str]:
+    """Checa heurísticas de sensacionalismo no output. Retorna lista de warnings."""
+    warnings = []
 
-    # Tentativa 2: fechar strings/arrays/objects truncados
-    fixes = text
-    open_braces = fixes.count("{") - fixes.count("}")
-    open_brackets = fixes.count("[") - fixes.count("]")
+    def _check_text(text: str, field_name: str):
+        matches = HYPE_PATTERNS.findall(text)
+        for match in matches:
+            warnings.append(f"[HYPE] '{match}' encontrado em {field_name}")
 
-    if fixes.count('"') % 2 != 0:
-        fixes += '"'
+    # Checa main_find
+    mf = content.get("main_find", {})
+    _check_text(mf.get("title", ""), "main_find.title")
+    _check_text(mf.get("body", ""), "main_find.body")
+    for i, bullet in enumerate(mf.get("bullets", [])):
+        _check_text(bullet, f"main_find.bullets[{i}]")
 
-    fixes += "]" * max(0, open_brackets)
-    fixes += "}" * max(0, open_braces)
+    # Checa quick_finds
+    for i, qf in enumerate(content.get("quick_finds", [])):
+        _check_text(qf.get("title", ""), f"quick_finds[{i}].title")
+        _check_text(qf.get("signal", ""), f"quick_finds[{i}].signal")
 
-    try:
-        return json.loads(fixes)
-    except json.JSONDecodeError:
-        pass
+    # Checa correspondent_intro
+    _check_text(content.get("correspondent_intro", ""), "correspondent_intro")
 
-    # Tentativa 3: acha o último JSON completo
-    for i in range(len(text) - 1, 0, -1):
-        if text[i] == "}":
-            try:
-                return json.loads(text[: i + 1])
-            except json.JSONDecodeError:
-                continue
-
-    # Tentativa 4: limpa control chars e tenta de novo
-    cleaned = re.sub(r'[\x00-\x1f\x7f]', ' ', text)
-    cleaned = cleaned.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
-    try:
-        return json.loads(cleaned)
-    except json.JSONDecodeError:
-        pass
-
-    # Tentativa 5: extrai o primeiro { ... } completo via regex
-    match = re.search(r'\{.*\}', cleaned, re.DOTALL)
-    if match:
-        try:
-            return json.loads(match.group())
-        except json.JSONDecodeError:
-            pass
-
-    return None
+    return warnings
 
 
 def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 5) -> dict:
-    """Envia items pré-filtrados para o Gemini e recebe curadoria estruturada."""
+    """Envia items pré-filtrados para o Gemini e recebe curadoria estruturada (v3)."""
     from google import genai
+    from google.genai import types
 
     logger.info("=" * 50)
-    logger.info("PHASE 3: CURATE — Gemini processing")
+    logger.info("PHASE 3: CURATE — Gemini processing (v3)")
     logger.info("=" * 50)
 
     if not GEMINI_API_KEY:
@@ -254,7 +273,7 @@ def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 5) -> 
             "url": item.url,
         })
 
-    full_prompt = CURATION_PROMPT + json.dumps(
+    user_prompt = CURATION_PROMPT + json.dumps(
         items_for_prompt, ensure_ascii=False, indent=2
     )
 
@@ -263,22 +282,23 @@ def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 5) -> 
             logger.info(f"Gemini attempt {attempt + 1}/{max_retries}...")
             response = client.models.generate_content(
                 model="gemini-2.5-flash",
-                contents=full_prompt,
-                config={
-                    "response_mime_type": "application/json",
-                    "temperature": 0.3,
-                    "max_output_tokens": 8192,
-                },
+                contents=user_prompt,
+                config=types.GenerateContentConfig(
+                    system_instruction=SYSTEM_INSTRUCTION,
+                    response_mime_type="application/json",
+                    response_schema=CurationOutput,
+                    temperature=0.0,
+                    max_output_tokens=8192,
+                ),
             )
 
             text = response.text.strip()
             logger.info(f"Gemini returned {len(text)} chars")
 
-            content = try_fix_json(text)
-            if content is None:
-                raise json.JSONDecodeError("Não conseguiu recuperar JSON", text, 0)
+            # Com response_schema, o Gemini retorna JSON válido por design
+            content = json.loads(text)
 
-            # Validação mínima
+            # Validação mínima de estrutura
             if "main_find" not in content:
                 raise ValueError("JSON sem 'main_find'")
             if "title" not in content["main_find"]:
@@ -306,13 +326,29 @@ def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 5) -> 
                     logger.warning("Last attempt: accepting response without quick_finds")
                     content["quick_finds"] = []
 
+            # ── v3: Tone validation (post-processing) ──
+            tone_warnings = validate_tone(content)
+            if tone_warnings:
+                for w in tone_warnings:
+                    logger.warning(w)
+                if attempt < max_retries - 1:
+                    logger.warning(
+                        f"Tone check failed with {len(tone_warnings)} issues — retrying "
+                        f"(attempt {attempt + 1})"
+                    )
+                    time.sleep(2**attempt)
+                    continue
+                else:
+                    logger.warning(
+                        f"Last attempt: accepting with {len(tone_warnings)} tone warnings"
+                    )
+
             logger.info(f"Curation OK: '{content['main_find']['title']}'")
             logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")
             return content
 
         except json.JSONDecodeError as e:
             logger.warning(f"Attempt {attempt + 1}: invalid JSON — {e}")
-            logger.warning(f"First 500 chars: {text[:500]}")
             if attempt < max_retries - 1:
                 time.sleep(2**attempt)
         except Exception as e:
@@ -525,13 +561,37 @@ def run_pipeline():
             f.write(html)
         logger.info(f"HTML saved: {output_path}")
 
-        # ── Step 6: Send ──
+        # ── Step 6: Send newsletter ──
         subject = f"Daily Scout #{EDITION_NUMBER} — {content['main_find']['title']}"
         if DRY_RUN:
             logger.info("DRY_RUN=true — skipping Buttondown send")
             success = True
         else:
             success = send_via_buttondown(subject, html)
+
+        # ── Step 7: Generate social content (isolated — failures don't affect newsletter) ──
+        social_success = False
+        if SOCIAL_ENABLED:
+            try:
+                from social.content_adapter import adapt_for_linkedin, save_social_artifacts
+
+                logger.info("=" * 50)
+                logger.info("PHASE 7: SOCIAL — generating adapted content")
+                logger.info("=" * 50)
+
+                linkedin_data = adapt_for_linkedin(content)
+                artifact_path = save_social_artifacts(linkedin_data, EDITION_NUMBER)
+                social_success = artifact_path is not None
+
+                if social_success:
+                    logger.info(f"Social content ready for delayed posting: {artifact_path}")
+                else:
+                    logger.warning("Social adaptation failed — newsletter unaffected")
+
+            except Exception as social_err:
+                logger.warning(f"Social generation failed (non-blocking): {social_err}")
+        else:
+            logger.info("SOCIAL_ENABLED=false — skipping social content generation")
 
         # ── Report ──
         total_time = f"{time.time() - start_time:.1f}s"
@@ -541,12 +601,13 @@ def run_pipeline():
         logger.info(f"  Raw items: {len(raw_items)} → Filtered: {len(filtered_items)}")
         logger.info(f"  Main find: {content['main_find']['title']}")
         logger.info(f"  Quick finds: {len(content.get('quick_finds', []))}")
-        logger.info(f"  Delivery: {'OK' if success else 'FAILED'}")
+        logger.info(f"  Newsletter: {'OK' if success else 'FAILED'}")
+        logger.info(f"  Social: {'OK' if social_success else 'SKIPPED' if not SOCIAL_ENABLED else 'FAILED'}")
         logger.info(f"  Runtime: {total_time}")
         logger.info("=" * 50)
 
         if not success:
-            logger.warning("Delivery failed but HTML was saved as artifact")
+            logger.warning("Newsletter delivery failed but HTML was saved as artifact")
 
     except Exception as e:
         logger.error(f"PIPELINE FAILED: {e}", exc_info=True)
