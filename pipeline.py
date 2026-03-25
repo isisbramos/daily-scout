@@ -164,6 +164,8 @@ POSTS COLETADOS (de múltiplas fontes):
 
 def try_fix_json(text: str) -> dict | None:
     """Tenta recuperar JSON truncado ou malformado."""
+    import re
+
     # Remove markdown fences
     if text.startswith("```"):
         text = text.split("\n", 1)[-1]
@@ -201,10 +203,26 @@ def try_fix_json(text: str) -> dict | None:
             except json.JSONDecodeError:
                 continue
 
+    # Tentativa 4: limpa control chars e tenta de novo
+    cleaned = re.sub(r'[\x00-\x1f\x7f]', ' ', text)
+    cleaned = cleaned.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
+    try:
+        return json.loads(cleaned)
+    except json.JSONDecodeError:
+        pass
+
+    # Tentativa 5: extrai o primeiro { ... } completo via regex
+    match = re.search(r'\{.*\}', cleaned, re.DOTALL)
+    if match:
+        try:
+            return json.loads(match.group())
+        except json.JSONDecodeError:
+            pass
+
     return None
 
 
-def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 3) -> dict:
+def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 5) -> dict:
     """Envia items pré-filtrados para o Gemini e recebe curadoria estruturada."""
     from google import genai
 
@@ -242,7 +260,7 @@ def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 3) -> 
                 contents=full_prompt,
                 config={
                     "response_mime_type": "application/json",
-                    "temperature": 0.7,
+                    "temperature": 0.3,
                     "max_output_tokens": 8192,
                 },
             )
