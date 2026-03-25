@@ -47,6 +47,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
           EDITION_NUMBER: ${{ steps.edition.outputs.number }}
+          FEEDBACK_BASE_URL: ${{ secrets.FEEDBACK_BASE_URL }}
         run: python pipeline.py
 
       - name: Upload output artifacts
@@ -56,3 +57,11 @@ jobs:
           name: edition-${{ steps.edition.outputs.number }}
           path: output/
           retention-days: 30
+
+      - name: Upload pipeline logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-logs-${{ steps.edition.outputs.number }}
+          path: "*.log"
+          retention-days: 7

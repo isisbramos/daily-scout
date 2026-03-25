@@ -44,7 +44,7 @@
 
               <!-- Meta line -->
               <div style="color: #818CF8; font-size: 13px; margin-top: 10px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
-                [{{ sources_count }} fontes &gt; {{ finds_count }} achados]
+                [{{ num_sources | default(2) }} fontes | {{ sources_count }} posts &gt; {{ finds_count }} achados]
               </div>
 
               <!-- Bottom bar -->
@@ -133,6 +133,11 @@
                     <div style="color: #F1F5F9; font-size: 14px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
                       {{ find.title }}
                     </div>
+                    {% if find.source %}
+                    <div style="color: #94A3B8; font-size: 10px; margin-top: 2px; font-family: 'Courier New', Courier, monospace;">
+                      src: {{ find.source }}
+                    </div>
+                    {% endif %}
                     <div style="color: #CBD5E1; font-size: 12px; margin-top: 4px; line-height: 1.5; font-family: 'Courier New', Courier, monospace;">
                       <span style="color: #22C55E; font-weight: bold;">signal:</span> {{ find.signal }}
                     </div>
@@ -149,9 +154,59 @@
           </tr>
           {% endif %}
 
+          <!-- ====== FEEDBACK RATING ====== -->
+          <tr>
+            <td style="padding: 20px 24px; background-color: #0B1120; border-top: 1px solid #334155;">
+
+              <div style="color: #22C55E; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 12px; font-weight: bold; text-align: center; font-family: 'Courier New', Courier, monospace;">
+                &gt; COMO FOI ESSA EDIÇÃO?
+              </div>
+
+              <!-- Rating buttons (table-based for email client compat) -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center" style="padding: 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                      <tr>
+                        <!-- 🔥 Loved it -->
+                        <td align="center" style="padding: 0 6px;">
+                          <a href="{{ feedback_base_url }}?edition={{ edition_number }}&rating=fire"
+                             target="_blank"
+                             style="display: inline-block; padding: 8px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
+                            🔥 Loved it
+                          </a>
+                        </td>
+                        <!-- 👍 Solid -->
+                        <td align="center" style="padding: 0 6px;">
+                          <a href="{{ feedback_base_url }}?edition={{ edition_number }}&rating=solid"
+                             target="_blank"
+                             style="display: inline-block; padding: 8px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
+                            👍 Solid
+                          </a>
+                        </td>
+                        <!-- 😐 Meh -->
+                        <td align="center" style="padding: 0 6px;">
+                          <a href="{{ feedback_base_url }}?edition={{ edition_number }}&rating=meh"
+                             target="_blank"
+                             style="display: inline-block; padding: 8px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
+                            😐 Meh
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <div style="color: #475569; font-size: 10px; text-align: center; margin-top: 8px; font-family: 'Courier New', Courier, monospace;">
+                1 clique = signal pra AYA calibrar a curadoria
+              </div>
+            </td>
+          </tr>
+
           <!-- ====== FOOTER / TRANSMISSION LOG ====== -->
           <tr>
-            <td style="padding: 18px 24px; background-color: #0B1120; border-top: 1px solid #334155;">
+            <td style="padding: 18px 24px; background-color: #0B1120; border-top: 1px solid #1E293B;">
 
               <div style="color: #94A3B8; font-size: 10px; letter-spacing: 1.5px; margin-bottom: 8px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
                 -- TRANSMISSION LOG --
@@ -160,7 +215,7 @@
               <div style="color: #94A3B8; font-size: 11px; line-height: 2; font-family: 'Courier New', Courier, monospace;">
                 sources: {{ sources_detail }}<br>
                 analyzed: {{ posts_analyzed }} posts | signal: {{ signal_ratio }} | runtime: {{ runtime }}<br>
-                made_by: aya v0.1 | model: gemini-flash
+                made_by: aya v3.0 | model: gemini-flash | arch: multi-source
               </div>
 
               <div style="color: #94A3B8; font-size: 11px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #1E293B; font-family: 'Courier New', Courier, monospace;">

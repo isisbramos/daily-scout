@@ -1,18 +1,30 @@
 """
-Daily Scout — Pipeline automatizado de newsletter Tech & AI
+Daily Scout — Pipeline v3.0 (Multi-Source Architecture)
 Correspondente: AYA (AI-powered field correspondent)
-Stack: Reddit RSS + HackerNews API → Gemini Flash → Jinja2 → Buttondown API
+Stack: Multi-Source (Reddit, HN, TechCrunch, Lobsters) → Pre-Filter → Gemini Flash → Jinja2 → Buttondown API
+
+Arquitetura:
+  sources/ (pluggable modules) → pre_filter.py → Gemini curadoria → Jinja2 render → Buttondown delivery
+  Config-driven: sources_config.json controla tudo sem mudar código.
 """
 
+import html as html_lib
 import os
 import sys
 import json
 import time
 import logging
 import requests
-import feedparser
 from datetime import datetime, timezone, timedelta
 from jinja2 import Environment, FileSystemLoader
+
+from sources.base import SourceRegistry, SourceItem
+# Importar sources registra elas automaticamente no registry
+import sources.reddit
+import sources.hackernews
+import sources.techcrunch
+import sources.lobsters
+from pre_filter import run_pre_filter
 
 # ── Logging ──────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -26,137 +38,104 @@ logger = logging.getLogger("daily-scout")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 BUTTONDOWN_API_KEY = os.environ.get("BUTTONDOWN_API_KEY")
 EDITION_NUMBER = os.environ.get("EDITION_NUMBER", "001")
-
 BUTTONDOWN_API_URL = "https://api.buttondown.com/v1/emails"
 
-REDDIT_SUBS = [
-    "artificial", "MachineLearning", "ChatGPT", "LocalLLaMA",
-    "technology", "programming", "opensource", "singularity",
-    "techNews", "ArtificialIntelligence", "compsci",
-    "startups", "SideProject",
-]
-
-HN_TOP_URL = "https://hacker-news.firebaseio.com/v0"
+FEEDBACK_BASE_URL = os.environ.get(
+    "FEEDBACK_BASE_URL",
+    "https://SEU_USER.github.io/daily-scout/feedback.html",
+)
 
 
-# ── Fetch: Reddit RSS ────────────────────────────────────────────────
-def fetch_reddit() -> list[dict]:
-    """Busca top posts de cada subreddit via RSS (não precisa de auth)."""
-    items = []
-    for sub in REDDIT_SUBS:
-        url = f"https://www.reddit.com/r/{sub}/hot.rss?limit=10"
-        try:
-            feed = feedparser.parse(url)
-            if feed.bozo and not feed.entries:
-                logger.warning(f"  r/{sub}: RSS parse error")
-                continue
-            for entry in feed.entries:
-                # Extrai score do título se disponível, senão usa 0
-                title = entry.get("title", "")
-                items.append({
-                    "title": title,
-                    "url": entry.get("link", ""),
-                    "score": 0,  # RSS não retorna score
-                    "num_comments": 0,
-                    "subreddit": sub,
-                    "source": f"r/{sub}",
-                    "created_utc": time.mktime(entry.get("published_parsed", time.gmtime()))
-                        if entry.get("published_parsed") else 0,
-                })
-            logger.info(f"  r/{sub}: {len(feed.entries)} posts")
-        except Exception as e:
-            logger.warning(f"  r/{sub}: erro — {e}")
-        time.sleep(0.5)  # rate limit courtesy
-    logger.info(f"Reddit total: {len(items)} posts coletados")
-    return items
+def load_config() -> dict:
+    """Carrega sources_config.json. Fallback pra defaults se não existir."""
+    config_paths = [
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "sources_config.json"),
+        "sources_config.json",
+    ]
+    for path in config_paths:
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                config = json.load(f)
+            logger.info(f"Config loaded: {path}")
+            return config
+
+    logger.warning("sources_config.json not found — using defaults")
+    return {
+        "sources": {
+            "reddit": {"enabled": True, "weight": 1.0},
+            "hackernews": {"enabled": True, "weight": 1.2},
+        },
+        "pre_filter": {"max_items_to_llm": 60},
+        "scoring": {},
+    }
 
 
-# ── Fetch: HackerNews API ────────────────────────────────────────────
-def fetch_hackernews(limit: int = 30) -> list[dict]:
-    """Busca top stories do HackerNews via Firebase API."""
-    items = []
-    try:
-        resp = requests.get(f"{HN_TOP_URL}/topstories.json", timeout=15)
-        if resp.status_code != 200:
-            logger.warning(f"HN topstories: HTTP {resp.status_code}")
-            return items
-        story_ids = resp.json()[:limit]
-        for sid in story_ids:
-            try:
-                sr = requests.get(f"{HN_TOP_URL}/item/{sid}.json", timeout=10)
-                if sr.status_code == 200:
-                    story = sr.json()
-                    if story and story.get("title"):
-                        items.append({
-                            "title": story.get("title", ""),
-                            "url": story.get("url", f"https://news.ycombinator.com/item?id={sid}"),
-                            "score": story.get("score", 0),
-                            "num_comments": story.get("descendants", 0),
-                            "source": "HackerNews",
-                            "created_utc": story.get("time", 0),
-                        })
-            except Exception:
-                continue
-        logger.info(f"HackerNews: {len(items)} stories coletadas")
-    except Exception as e:
-        logger.warning(f"HackerNews fetch falhou: {e}")
-    return items
-
-
-# ── Fetch: all sources ───────────────────────────────────────────────
-def fetch_all_sources() -> list[dict]:
-    """Agrega todas as fontes e filtra últimas 24h."""
+# ── Fetch: all sources (config-driven) ──────────────────────────────
+def fetch_all_sources(config: dict) -> list[SourceItem]:
+    """Instancia sources do config e faz fetch com graceful degradation."""
     logger.info("=" * 50)
-    logger.info("FASE 1: FETCH — coletando fontes")
+    logger.info("PHASE 1: FETCH — collecting from all sources")
     logger.info("=" * 50)
 
-    reddit = fetch_reddit()
-    hn = fetch_hackernews()
-    all_items = reddit + hn
+    sources = SourceRegistry.create_sources(config)
+    logger.info(f"Active sources: {[s.source_id for s in sources]}")
 
-    # Filtra últimas 24h
-    cutoff = time.time() - 86400
-    recent = [i for i in all_items if i.get("created_utc", 0) > cutoff]
+    all_items: list[SourceItem] = []
+    source_stats: dict[str, int] = {}
 
-    # Se filtro ficou muito restritivo, usa tudo
-    if len(recent) < 10:
-        logger.info(f"Filtro 24h retornou só {len(recent)}, usando todos os {len(all_items)}")
-        recent = all_items
+    for source in sources:
+        items = source.safe_fetch()
+        source_stats[source.source_id] = len(items)
+        all_items.extend(items)
 
-    # Ordena por score (proxy de relevância)
-    recent.sort(key=lambda x: x.get("score", 0), reverse=True)
+    logger.info(f"Total raw items: {len(all_items)}")
+    for sid, count in source_stats.items():
+        logger.info(f"  {sid}: {count}")
 
-    logger.info(f"Total após filtro: {len(recent)} itens")
-    return recent
+    return all_items
 
 
-# ── Curate & Write: Gemini ───────────────────────────────────────────
+# ── Pre-Filter ──────────────────────────────────────────────────────
+def filter_items(items: list[SourceItem], config: dict) -> list[SourceItem]:
+    """Aplica pre-filter layer: dedup, recency, scoring, token budget."""
+    logger.info("=" * 50)
+    logger.info("PHASE 2: PRE-FILTER — dedup, score, trim")
+    logger.info("=" * 50)
+
+    return run_pre_filter(items, config)
+
+
+# ── Curate & Write: Gemini ──────────────────────────────────────────
 
 CURATION_PROMPT = """Você é a AYA — correspondente de campo do Daily Scout, uma newsletter diária de Tech & AI.
 
-Você está "em campo" na internet. Os posts abaixo são os fatos brutos que você coletou nas últimas 24h. Sua missão:
+Você está "em campo" na internet. Os posts abaixo foram coletados de MÚLTIPLAS FONTES (Reddit, HackerNews, TechCrunch, Lobsters) nas últimas 24h. Cada item inclui a fonte de origem.
+
+Sua missão:
 1. FILTRAR usando o critério editorial: cada item precisa ter pelo menos 2 de 3 — Traction (engajamento alto), Impact (afeta muita gente ou muda algo relevante), Novelty (é novo ou surpreendente).
-2. ESCOLHER 1 achado principal (main_find) e 3-5 achados rápidos (quick_finds).
-3. ESCREVER com a voz do Daily Scout: direto, sem enrolação, PT-BR com termos técnicos em inglês quando natural. Tom de quem está em campo reportando o que viu, não de quem está opinando de longe.
-4. ESCREVER uma "correspondent_intro" — 1-2 frases curtas como se fosse uma correspondente de guerra abrindo a transmissão. Fale em primeira pessoa, mencione de onde veio, o que observou, dê o tom do dia. Exemplos de estilo:
-   - "AYA em campo. Vasculhei 150 fontes hoje e o sinal mais forte veio do open source — parece que a corrida mudou de direção."
-   - "AYA aqui. Dia agitado no front — duas big techs lançaram coisas que vão bater no mesmo mercado. A coincidência não é coincidência."
-   - "AYA transmitindo. Dia quieto no campo, mas achei um projeto underground que vale a atenção."
+2. DIVERSIDADE DE FONTES: priorize ter representação de diferentes fontes. Se dois itens são igualmente bons, prefira o que vem de uma fonte diferente dos já selecionados.
+3. ESCOLHER 1 achado principal (main_find) e 3-5 achados rápidos (quick_finds).
+4. ESCREVER com a voz do Daily Scout: direto, sem enrolação, PT-BR com termos técnicos em inglês quando natural. Tom de quem está em campo reportando o que viu, não de quem está opinando de longe.
+5. ESCREVER uma "correspondent_intro" — 1-2 frases curtas como se fosse uma correspondente de guerra abrindo a transmissão. Fale em primeira pessoa, mencione de onde veio, o que observou, dê o tom do dia. Exemplos de estilo:
+   - "AYA em campo. Vasculhei 4 fontes hoje e o sinal mais forte veio do TechCrunch — uma rodada de funding que muda o jogo."
+   - "AYA aqui. Dia agitado — o mesmo tema apareceu no HN, Reddit e Lobsters ao mesmo tempo. Quando isso acontece, presto atenção."
+   - "AYA transmitindo. Dia quieto no mainstream, mas achei uma thread no Lobsters que vale a atenção de quem builda."
 
 REGRAS:
-- correspondent_intro: 1-2 frases, primeira pessoa, tom de campo, mencione algo específico sobre o que encontrou hoje.
+- correspondent_intro: 1-2 frases, primeira pessoa, tom de campo, mencione algo específico sobre o que encontrou hoje. Pode citar as fontes.
 - main_find.body: 1-2 parágrafos curtos explicando POR QUE isso importa. Concreto, sem clichês.
 - main_find.bullets: 2-3 pontos-chave práticos (o que mudou, o que significa, o que observar).
 - quick_finds[].signal: uma frase curta explicando por que esse item é relevante.
 - Se não houver nada realmente bom, diga — não force conteúdo fraco.
 - URLs: use a URL original do post. display_url é a versão curta legível (ex: github.com/repo).
+- source: indique a fonte real (ex: "r/MachineLearning", "HackerNews", "TechCrunch", "Lobsters").
 
 Retorne APENAS um JSON válido (sem markdown, sem ```), nesta estrutura exata:
 {
   "correspondent_intro": "AYA em campo. Frase curta sobre o que encontrou hoje.",
   "main_find": {
     "title": "Título do achado principal",
-    "source": "r/subreddit ou HackerNews",
+    "source": "Fonte real (ex: HackerNews, r/MachineLearning, TechCrunch)",
     "body": "1-2 parágrafos explicando por que importa",
     "bullets": ["ponto 1", "ponto 2", "ponto 3"],
     "url": "https://url-original.com",
@@ -165,6 +144,7 @@ Retorne APENAS um JSON válido (sem markdown, sem ```), nesta estrutura exata:
   "quick_finds": [
     {
       "title": "Título curto",
+      "source": "Fonte real",
       "signal": "Por que isso é relevante em uma frase",
       "url": "https://url.com",
       "display_url": "dominio.com"
@@ -172,11 +152,12 @@ Retorne APENAS um JSON válido (sem markdown, sem ```), nesta estrutura exata:
   ],
   "meta": {
     "total_analyzed": 50,
+    "sources_used": ["reddit", "hackernews", "techcrunch", "lobsters"],
     "editorial_note": "Observação opcional sobre o dia"
   }
 }
 
-POSTS COLETADOS:
+POSTS COLETADOS (de múltiplas fontes):
 """
 
 
@@ -196,16 +177,13 @@ def try_fix_json(text: str) -> dict | None:
         pass
 
     # Tentativa 2: fechar strings/arrays/objects truncados
-    # Conta brackets abertos
     fixes = text
     open_braces = fixes.count("{") - fixes.count("}")
     open_brackets = fixes.count("[") - fixes.count("]")
 
-    # Se termina no meio de uma string, fecha ela
     if fixes.count('"') % 2 != 0:
         fixes += '"'
 
-    # Fecha brackets/braces pendentes
     fixes += "]" * max(0, open_brackets)
     fixes += "}" * max(0, open_braces)
 
@@ -225,12 +203,12 @@ def try_fix_json(text: str) -> dict | None:
     return None
 
 
-def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
-    """Envia posts para o Gemini e recebe curadoria estruturada."""
+def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 3) -> dict:
+    """Envia items pré-filtrados para o Gemini e recebe curadoria estruturada."""
     from google import genai
 
     logger.info("=" * 50)
-    logger.info("FASE 2: CURATE — Gemini processando")
+    logger.info("PHASE 3: CURATE — Gemini processing")
     logger.info("=" * 50)
 
     if not GEMINI_API_KEY:
@@ -238,18 +216,22 @@ def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
 
     client = genai.Client(api_key=GEMINI_API_KEY)
 
-    # Prepara input (limita pra não estourar context window)
+    # Prepara input normalizado (com source info)
     items_for_prompt = []
-    for item in raw_items[:50]:
+    for item in filtered_items:
         items_for_prompt.append({
-            "title": item.get("title", "")[:200],
-            "source": item.get("source", ""),
-            "score": item.get("score", 0),
-            "comments": item.get("num_comments", 0),
-            "url": item.get("url", ""),
+            "title": item.title[:200],
+            "source": item.source_label,
+            "source_id": item.source_id,
+            "score": item.raw_score,
+            "comments": item.num_comments,
+            "category": item.category,
+            "url": item.url,
         })
 
-    full_prompt = CURATION_PROMPT + json.dumps(items_for_prompt, ensure_ascii=False, indent=2)
+    full_prompt = CURATION_PROMPT + json.dumps(
+        items_for_prompt, ensure_ascii=False, indent=2
+    )
 
     for attempt in range(max_retries):
         try:
@@ -265,7 +247,7 @@ def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
             )
 
             text = response.text.strip()
-            logger.info(f"Gemini retornou {len(text)} chars")
+            logger.info(f"Gemini returned {len(text)} chars")
 
             content = try_fix_json(text)
             if content is None:
@@ -277,7 +259,7 @@ def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
             if "title" not in content["main_find"]:
                 raise ValueError("main_find sem 'title'")
 
-            # Garante que campos obrigatórios existem com defaults
+            # Garante campos obrigatórios com defaults
             mf = content["main_find"]
             mf.setdefault("body", "")
             mf.setdefault("bullets", [])
@@ -289,37 +271,48 @@ def curate_and_write(raw_items: list[dict], max_retries: int = 3) -> dict:
                 qf.setdefault("signal", "")
                 qf.setdefault("url", "")
                 qf.setdefault("display_url", "")
+                qf.setdefault("source", "")
 
-            logger.info(f"Curadoria OK: '{content['main_find']['title']}'")
+            logger.info(f"Curation OK: '{content['main_find']['title']}'")
             logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")
             return content
 
         except json.JSONDecodeError as e:
-            logger.warning(f"Attempt {attempt + 1}: JSON inválido — {e}")
-            logger.warning(f"Primeiros 500 chars: {text[:500]}")
+            logger.warning(f"Attempt {attempt + 1}: invalid JSON — {e}")
+            logger.warning(f"First 500 chars: {text[:500]}")
             if attempt < max_retries - 1:
-                time.sleep(2 ** attempt)
+                time.sleep(2**attempt)
         except Exception as e:
-            logger.warning(f"Attempt {attempt + 1}: erro — {e}")
+            logger.warning(f"Attempt {attempt + 1}: error — {e}")
             if attempt < max_retries - 1:
-                time.sleep(2 ** attempt)
+                time.sleep(2**attempt)
 
-    raise RuntimeError(f"Gemini falhou após {max_retries} tentativas")
+    raise RuntimeError(f"Gemini failed after {max_retries} attempts")
 
 
 # ── Render: Jinja2 HTML ──────────────────────────────────────────────
-def render_email(content: dict, sources_count: int, runtime: str) -> str:
+def render_email(
+    content: dict,
+    raw_count: int,
+    filtered_count: int,
+    active_sources: list[str],
+    runtime: str,
+) -> str:
     """Renderiza o template HTML com o conteúdo curado."""
     logger.info("=" * 50)
-    logger.info("FASE 3: RENDER — montando email HTML")
+    logger.info("PHASE 4: RENDER — building email HTML")
     logger.info("=" * 50)
 
-    # Detecta path do template (funciona local e no GitHub Actions)
-    template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+    template_dir = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "templates"
+    )
     if not os.path.exists(template_dir):
         template_dir = "templates"
 
-    env = Environment(loader=FileSystemLoader(template_dir))
+    env = Environment(
+        loader=FileSystemLoader(template_dir),
+        autoescape=True,
+    )
     template = env.get_template("email.html")
 
     brt = timezone(timedelta(hours=-3))
@@ -328,21 +321,29 @@ def render_email(content: dict, sources_count: int, runtime: str) -> str:
     quick_finds = content.get("quick_finds", [])
     meta = content.get("meta", {})
 
+    # Sources detail string
+    sources_detail = " + ".join(
+        s.replace("_", " ").title() for s in active_sources
+    )
+
     html = template.render(
         correspondent_intro=content.get("correspondent_intro", ""),
         main_find=content["main_find"],
         quick_finds=quick_finds,
         edition_number=EDITION_NUMBER,
         date=now_brt.strftime("%d/%m/%Y"),
-        sources_count=sources_count,
+        sources_count=raw_count,
         finds_count=len(quick_finds) + 1,
-        sources_detail=f"Reddit ({len(REDDIT_SUBS)} subs) + HackerNews",
-        posts_analyzed=meta.get("total_analyzed", sources_count),
-        signal_ratio=f"{len(quick_finds) + 1}/{meta.get('total_analyzed', sources_count)}",
+        sources_detail=sources_detail,
+        active_sources=active_sources,
+        num_sources=len(active_sources),
+        posts_analyzed=meta.get("total_analyzed", filtered_count),
+        signal_ratio=f"{len(quick_finds) + 1}/{meta.get('total_analyzed', filtered_count)}",
         runtime=runtime,
+        feedback_base_url=FEEDBACK_BASE_URL,
     )
 
-    logger.info(f"HTML renderizado: {len(html)} chars")
+    logger.info(f"HTML rendered: {len(html)} chars")
     return html
 
 
@@ -350,14 +351,13 @@ def render_email(content: dict, sources_count: int, runtime: str) -> str:
 def send_via_buttondown(subject: str, html_content: str) -> bool:
     """Envia newsletter via Buttondown API (free tier, até 100 subs)."""
     logger.info("=" * 50)
-    logger.info("FASE 4: SEND — enviando via Buttondown")
+    logger.info("PHASE 5: SEND — delivering via Buttondown")
     logger.info("=" * 50)
 
     if not BUTTONDOWN_API_KEY:
         logger.error("BUTTONDOWN_API_KEY não configurada")
         return False
 
-    # Prefixo pra forçar modo HTML no Buttondown
     html_body = "<!-- buttondown-editor-mode: raw -->\n" + html_content
 
     payload = {
@@ -373,18 +373,20 @@ def send_via_buttondown(subject: str, html_content: str) -> bool:
     }
 
     try:
-        resp = requests.post(BUTTONDOWN_API_URL, json=payload, headers=headers, timeout=30)
+        resp = requests.post(
+            BUTTONDOWN_API_URL, json=payload, headers=headers, timeout=30
+        )
 
         if resp.status_code in (200, 201):
             data = resp.json()
-            logger.info(f"Buttondown: enviado! ID={data.get('id', 'unknown')}")
+            logger.info(f"Buttondown: sent! ID={data.get('id', 'unknown')}")
             return True
         elif resp.status_code == 400:
             error_data = resp.json() if resp.text else {}
-            # First-time send requer confirmação
             if "sending_requires_confirmation" in str(error_data):
-                logger.error("Buttondown: primeiro envio via API precisa de confirmação manual. "
-                             "Acesse o painel do Buttondown e confirme o envio.")
+                logger.error(
+                    "Buttondown: first API send needs manual confirmation in dashboard."
+                )
             else:
                 logger.error(f"Buttondown: HTTP 400 — {resp.text}")
             return False
@@ -392,18 +394,19 @@ def send_via_buttondown(subject: str, html_content: str) -> bool:
             logger.error(f"Buttondown: HTTP {resp.status_code} — {resp.text}")
             return False
     except Exception as e:
-        logger.error(f"Buttondown: erro de conexão — {e}")
+        logger.error(f"Buttondown: connection error — {e}")
         return False
 
 
-# ── Send: Fallback (email simplificado) ──────────────────────────────
+# ── Send: Fallback ──────────────────────────────────────────────────
 def send_fallback(reason: str) -> bool:
     """Envia versão simplificada caso o pipeline falhe parcialmente."""
-    logger.info(f"Enviando fallback: {reason}")
+    logger.info(f"Sending fallback: {reason}")
 
     brt = timezone(timedelta(hours=-3))
     now_brt = datetime.now(brt)
     date_str = now_brt.strftime("%d/%m/%Y")
+    safe_reason = html_lib.escape(reason)
 
     fallback_html = f"""
     <div style="font-family: 'Courier New', monospace; background: #0F172A; color: #CBD5E1; padding: 32px; max-width: 600px; margin: 0 auto;">
@@ -413,11 +416,11 @@ def send_fallback(reason: str) -> bool:
         <div style="color: #F59E0B; font-size: 14px; margin-bottom: 12px;">[TRANSMISSÃO PARCIAL]</div>
         <div style="color: #CBD5E1; font-size: 13px; line-height: 1.7;">
             A correspondente encontrou instabilidade no campo hoje. A edição completa não pôde ser montada.<br><br>
-            <strong style="color: #F1F5F9;">Motivo:</strong> {reason}<br><br>
+            <strong style="color: #F1F5F9;">Motivo:</strong> {safe_reason}<br><br>
             Amanhã voltamos com cobertura completa.
         </div>
         <hr style="border-color: #334155; margin: 16px 0;">
-        <div style="color: #94A3B8; font-size: 10px;">made_by: aya v0.1 | status: fallback</div>
+        <div style="color: #94A3B8; font-size: 10px;">made_by: aya v3.0 | status: fallback</div>
     </div>
     """
 
@@ -427,62 +430,90 @@ def send_fallback(reason: str) -> bool:
 
 # ── Pipeline principal ───────────────────────────────────────────────
 def run_pipeline():
-    """Executa o pipeline completo: Fetch → Curate → Render → Send."""
+    """Executa o pipeline completo: Config → Fetch → Pre-Filter → Curate → Render → Send."""
     start_time = time.time()
 
-    logger.info("╔══════════════════════════════════════════╗")
-    logger.info("║     DAILY SCOUT — PIPELINE v2.0         ║")
-    logger.info("║     Correspondente: AYA                  ║")
-    logger.info("╚══════════════════════════════════════════╝")
+    logger.info("╔══════════════════════════════════════════════════╗")
+    logger.info("║     DAILY SCOUT — PIPELINE v3.0 (Multi-Source)  ║")
+    logger.info("║     Correspondente: AYA                          ║")
+    logger.info("╚══════════════════════════════════════════════════╝")
 
     try:
+        # ── Step 0: Load config ──
+        config = load_config()
+        active_sources = [
+            sid
+            for sid, conf in config.get("sources", {}).items()
+            if conf.get("enabled", True)
+        ]
+        logger.info(f"Config: {len(active_sources)} sources enabled: {active_sources}")
+
         # ── Step 1: Fetch ──
-        raw_items = fetch_all_sources()
+        raw_items = fetch_all_sources(config)
 
         if not raw_items:
-            logger.warning("Nenhum item coletado — enviando fallback")
-            send_fallback("Nenhuma fonte respondeu. Possível rate limit ou instabilidade.")
+            logger.warning("No items collected — sending fallback")
+            send_fallback(
+                "Nenhuma fonte respondeu. Possível rate limit ou instabilidade."
+            )
             return
 
-        # ── Step 2: Curate ──
-        content = curate_and_write(raw_items)
+        # ── Step 2: Pre-Filter ──
+        filtered_items = filter_items(raw_items, config)
 
-        # ── Step 3: Render ──
+        if not filtered_items:
+            logger.warning("Pre-filter returned 0 items — sending fallback")
+            send_fallback("Pré-filtro descartou todos os items. Revisando thresholds.")
+            return
+
+        # ── Step 3: Curate ──
+        content = curate_and_write(filtered_items)
+
+        # ── Step 4: Render ──
         elapsed = f"{time.time() - start_time:.1f}s"
-        html = render_email(content, len(raw_items), elapsed)
+        html = render_email(
+            content,
+            raw_count=len(raw_items),
+            filtered_count=len(filtered_items),
+            active_sources=active_sources,
+            runtime=elapsed,
+        )
 
-        # ── Step 4: Save local (artifact) ──
-        output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output")
+        # ── Step 5: Save local (artifact) ──
+        output_dir = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "output"
+        )
         os.makedirs(output_dir, exist_ok=True)
         output_path = os.path.join(output_dir, f"edition_{EDITION_NUMBER}.html")
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(html)
-        logger.info(f"HTML salvo: {output_path}")
+        logger.info(f"HTML saved: {output_path}")
 
-        # ── Step 5: Send ──
+        # ── Step 6: Send ──
         subject = f"Daily Scout #{EDITION_NUMBER} — {content['main_find']['title']}"
         success = send_via_buttondown(subject, html)
 
         # ── Report ──
         total_time = f"{time.time() - start_time:.1f}s"
         logger.info("=" * 50)
-        logger.info("PIPELINE COMPLETO")
-        logger.info(f"  Sources: {len(raw_items)} posts coletados")
+        logger.info("PIPELINE COMPLETE")
+        logger.info(f"  Sources: {len(active_sources)} active ({', '.join(active_sources)})")
+        logger.info(f"  Raw items: {len(raw_items)} → Filtered: {len(filtered_items)}")
         logger.info(f"  Main find: {content['main_find']['title']}")
         logger.info(f"  Quick finds: {len(content.get('quick_finds', []))}")
-        logger.info(f"  Delivery: {'OK' if success else 'FALHOU'}")
+        logger.info(f"  Delivery: {'OK' if success else 'FAILED'}")
         logger.info(f"  Runtime: {total_time}")
         logger.info("=" * 50)
 
         if not success:
-            logger.warning("Delivery falhou mas HTML foi salvo como artifact")
+            logger.warning("Delivery failed but HTML was saved as artifact")
 
     except Exception as e:
-        logger.error(f"PIPELINE FALHOU: {e}", exc_info=True)
+        logger.error(f"PIPELINE FAILED: {e}", exc_info=True)
         try:
             send_fallback(str(e))
         except Exception as fallback_err:
-            logger.error(f"Fallback também falhou: {fallback_err}")
+            logger.error(f"Fallback also failed: {fallback_err}")
         sys.exit(1)
 
 
