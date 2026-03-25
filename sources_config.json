@@ -39,7 +39,7 @@
   "pre_filter": {
     "recency_hours": 24,
     "recency_fallback_min_items": 10,
-    "max_items_to_llm": 60,
+    "max_items_to_llm": 30,
     "dedup_similarity_threshold": 0.7,
     "max_per_source_pct": 0.4,
     "_todo_max_tokens_estimate": "Future: implementar token counting real antes do LLM call",
