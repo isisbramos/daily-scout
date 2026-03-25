@@ -1,0 +1,56 @@
+{
+  "_comment": "Daily Scout — Sources Configuration. Liga/desliga fontes sem mudar código.",
+
+  "sources": {
+    "reddit": {
+      "enabled": true,
+      "weight": 1.0,
+      "subreddits": [
+        "artificial", "MachineLearning", "ChatGPT", "LocalLLaMA",
+        "technology", "programming", "opensource", "singularity",
+        "techNews", "ArtificialIntelligence", "compsci",
+        "startups", "SideProject"
+      ],
+      "limit_per_sub": 10,
+      "rate_limit_delay": 0.5
+    },
+    "hackernews": {
+      "enabled": true,
+      "weight": 1.2,
+      "limit": 30,
+      "timeout": 15
+    },
+    "techcrunch": {
+      "enabled": true,
+      "weight": 1.1,
+      "limit": 20,
+      "feeds": {
+        "main": "https://techcrunch.com/feed/"
+      }
+    },
+    "lobsters": {
+      "enabled": true,
+      "weight": 0.9,
+      "limit": 25,
+      "rss_url": "https://lobste.rs/rss"
+    }
+  },
+
+  "pre_filter": {
+    "recency_hours": 24,
+    "recency_fallback_min_items": 10,
+    "max_items_to_llm": 30,
+    "dedup_similarity_threshold": 0.7,
+    "max_per_source_pct": 0.4,
+    "_todo_max_tokens_estimate": "Future: implementar token counting real antes do LLM call",
+    "_todo_category_diversity": "Future: cap por categoria pra evitar AI-only editions"
+  },
+
+  "scoring": {
+    "recency_decay_hours": 12,
+    "engagement_weight": 0.4,
+    "recency_weight": 0.3,
+    "source_diversity_weight": 0.2,
+    "category_weight": 0.1
+  }
+}
