@@ -274,12 +274,16 @@ def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 3) -> 
                 qf.setdefault("display_url", "")
                 qf.setdefault("source", "")
 
-            # Validação: quick_finds não pode estar vazio
+            # Validação: quick_finds não pode estar vazio (mas aceita na última tentativa)
             if not content.get("quick_finds"):
-                raise ValueError("Gemini returned empty quick_finds — retrying")
+                if attempt < max_retries - 1:
+                    raise ValueError("Gemini returned empty quick_finds — retrying")
+                else:
+                    logger.warning("Last attempt: accepting response without quick_finds")
+                    content["quick_finds"] = []
 
             logger.info(f"Curation OK: '{content['main_find']['title']}'")
-            logger.info(f"Quick finds: {len(content['quick_finds'])}")
+            logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")
             return content
 
         except json.JSONDecodeError as e:
