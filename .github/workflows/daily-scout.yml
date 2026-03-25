@@ -12,6 +12,11 @@ on:
         description: 'Edition number (e.g., 001)'
         required: false
         default: '001'
+      dry_run:
+        description: 'Dry run — roda tudo mas NÃO envia email (true/false)'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   run-pipeline:
@@ -48,6 +53,7 @@ jobs:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
           EDITION_NUMBER: ${{ steps.edition.outputs.number }}
           FEEDBACK_BASE_URL: ${{ secrets.FEEDBACK_BASE_URL }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
         run: python pipeline.py
 
       - name: Upload output artifacts

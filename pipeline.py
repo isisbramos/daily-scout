@@ -44,6 +44,7 @@ FEEDBACK_BASE_URL = os.environ.get(
     "FEEDBACK_BASE_URL",
     "https://SEU_USER.github.io/daily-scout/feedback.html",
 )
+DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
 
 
 def load_config() -> dict:
@@ -126,7 +127,7 @@ REGRAS:
 - main_find.body: 1-2 parágrafos curtos explicando POR QUE isso importa. Concreto, sem clichês.
 - main_find.bullets: 2-3 pontos-chave práticos (o que mudou, o que significa, o que observar).
 - quick_finds[].signal: uma frase curta explicando por que esse item é relevante.
-- Se não houver nada realmente bom, diga — não force conteúdo fraco.
+- SEMPRE retorne pelo menos 3 quick_finds. Se os itens não são excelentes, escolha os melhores disponíveis. O array quick_finds NUNCA deve estar vazio.
 - URLs: use a URL original do post. display_url é a versão curta legível (ex: github.com/repo).
 - source: indique a fonte real (ex: "r/MachineLearning", "HackerNews", "TechCrunch", "Lobsters").
 
@@ -273,8 +274,12 @@ def curate_and_write(filtered_items: list[SourceItem], max_retries: int = 3) -> 
                 qf.setdefault("display_url", "")
                 qf.setdefault("source", "")
 
+            # Validação: quick_finds não pode estar vazio
+            if not content.get("quick_finds"):
+                raise ValueError("Gemini returned empty quick_finds — retrying")
+
             logger.info(f"Curation OK: '{content['main_find']['title']}'")
-            logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")
+            logger.info(f"Quick finds: {len(content['quick_finds'])}")
             return content
 
         except json.JSONDecodeError as e:
@@ -401,6 +406,9 @@ def send_via_buttondown(subject: str, html_content: str) -> bool:
 # ── Send: Fallback ──────────────────────────────────────────────────
 def send_fallback(reason: str) -> bool:
     """Envia versão simplificada caso o pipeline falhe parcialmente."""
+    if DRY_RUN:
+        logger.info(f"DRY_RUN=true — skipping fallback send (reason: {reason})")
+        return True
     logger.info(f"Sending fallback: {reason}")
 
     brt = timezone(timedelta(hours=-3))
@@ -491,7 +499,11 @@ def run_pipeline():
 
         # ── Step 6: Send ──
         subject = f"Daily Scout #{EDITION_NUMBER} — {content['main_find']['title']}"
-        success = send_via_buttondown(subject, html)
+        if DRY_RUN:
+            logger.info("DRY_RUN=true — skipping Buttondown send")
+            success = True
+        else:
+            success = send_via_buttondown(subject, html)
 
         # ── Report ──
         total_time = f"{time.time() - start_time:.1f}s"
