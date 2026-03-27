@@ -1,0 +1,21 @@
+{
+  "edition": "999",
+  "generated_at": "2026-03-24T23:54:21.252647-03:00",
+  "platforms": {
+    "linkedin": {
+      "status": "posted",
+      "content": {
+        "linkedin_post": "Test LinkedIn post from AYA",
+        "hook_line": "Test LinkedIn post from AYA",
+        "char_count": 27,
+        "hashtags": [
+          "#AI",
+          "#DailyScout"
+        ],
+        "cta_type": "newsletter_link"
+      },
+      "post_id": "test-123",
+      "posted_at": "2026-03-24T23:54:21.255628-03:00"
+    }
+  }
+}

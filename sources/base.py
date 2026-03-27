@@ -27,6 +27,9 @@ class SourceItem:
     num_comments: int = 0
     category: str = ""  # e.g., "ai", "startup", "opensource"
     extra: dict = field(default_factory=dict)  # Source-specific metadata
+    # v5: cross-source signal — quantas sources mencionaram o mesmo tema
+    cross_source_count: int = 1
+    cross_source_ids: list = field(default_factory=list)  # ["hackernews", "reddit"]
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -86,6 +89,8 @@ class SourceRegistry:
         sources_config = config.get("sources", {})
 
         for source_id, source_conf in sources_config.items():
+            if not isinstance(source_conf, dict):
+                continue  # skip _comment keys
             if not source_conf.get("enabled", True):
                 logger.info(f"  [{source_id}] disabled in config")
                 continue

@@ -1,5 +1,5 @@
 {
-  "_comment": "Daily Scout — Sources Configuration. Liga/desliga fontes sem mudar código.",
+  "_comment": "Daily Scout v5 — Sources Configuration. Liga/desliga fontes sem mudar código.",
 
   "sources": {
     "reddit": {
@@ -33,24 +33,68 @@
       "weight": 0.9,
       "limit": 25,
       "rss_url": "https://lobste.rs/rss"
+    },
+
+    "_comment_ai_labs": "AI Lab Blogs — weight 0.8 (abaixo de community sources; blogs oficiais são marketing-heavy)",
+    "anthropic_blog": {
+      "enabled": true,
+      "weight": 0.8,
+      "limit": 15,
+      "rss_url": "https://www.anthropic.com/feed"
+    },
+    "openai_blog": {
+      "enabled": true,
+      "weight": 0.8,
+      "limit": 15,
+      "rss_url": "https://openai.com/blog/rss.xml"
+    },
+    "deepmind_blog": {
+      "enabled": true,
+      "weight": 0.7,
+      "limit": 15,
+      "rss_url": "https://deepmind.google/blog/rss.xml"
+    },
+
+    "_comment_geographic": "Geographic Diversity — fontes não-ocidentais para quebrar echo chamber. Weights reduzidos v5.2 para evitar over-representation",
+    "scmp_tech": {
+      "enabled": true,
+      "weight": 0.9,
+      "limit": 15,
+      "region": "asia",
+      "rss_url": "https://www.scmp.com/rss/36/feed"
+    },
+    "rest_of_world": {
+      "enabled": true,
+      "weight": 0.9,
+      "limit": 15,
+      "region": "global_south",
+      "rss_url": "https://restofworld.org/feed/"
+    },
+    "technode": {
+      "enabled": true,
+      "weight": 0.8,
+      "limit": 15,
+      "region": "asia",
+      "rss_url": "https://technode.com/feed/"
     }
   },
 
   "pre_filter": {
     "recency_hours": 24,
     "recency_fallback_min_items": 10,
-    "max_items_to_llm": 30,
+    "max_items_to_llm": 40,
     "dedup_similarity_threshold": 0.7,
-    "max_per_source_pct": 0.4,
-    "_todo_max_tokens_estimate": "Future: implementar token counting real antes do LLM call",
-    "_todo_category_diversity": "Future: cap por categoria pra evitar AI-only editions"
+    "max_per_source_pct": 0.25,
+    "wild_card_slots": 5,
+    "_comment_changes_v5": "max_items 30→40, max_per_source 0.4→0.25, wild_card_slots novo"
   },
 
   "scoring": {
-    "recency_decay_hours": 12,
+    "recency_decay_constant": 8,
     "engagement_weight": 0.4,
     "recency_weight": 0.3,
     "source_diversity_weight": 0.2,
-    "category_weight": 0.1
+    "category_weight": 0.1,
+    "_comment_changes_v5": "recency_decay_hours substituído por recency_decay_constant (exponential)"
   }
 }

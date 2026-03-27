@@ -204,6 +204,52 @@
           </tr>
           {% endif %}
 
+          {% if radar %}
+          <!-- ====== SEPARATOR ====== -->
+          <tr>
+            <td class="section-pad" style="padding: 8px 24px;">
+              <div class="deco-line" style="color: #334155; font-size: 11px; letter-spacing: 2px; text-align: center; font-family: 'Courier New', Courier, monospace; overflow: hidden; white-space: nowrap;">
+                - - - - - - - - - - - - - - - - - - -
+              </div>
+            </td>
+          </tr>
+
+          <!-- ====== RADAR ====== -->
+          <tr>
+            <td class="section-pad" style="padding: 0 24px 24px;">
+
+              <div style="color: #FBBF24; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 16px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
+                &gt; RADAR
+              </div>
+
+              {% for item in radar %}
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: {{ '16px' if not loop.last else '0' }}; {{ 'padding-bottom: 16px; border-bottom: 1px solid #1E293B;' if not loop.last else '' }}">
+                <tr>
+                  <td>
+                    <div style="color: #F1F5F9; font-size: 14px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
+                      {{ item.title }}
+                    </div>
+                    {% if item.source %}
+                    <div style="color: #94A3B8; font-size: 10px; margin-top: 2px; font-family: 'Courier New', Courier, monospace;">
+                      src: {{ item.source }}
+                    </div>
+                    {% endif %}
+                    <div style="color: #CBD5E1; font-size: 12px; margin-top: 4px; line-height: 1.5; font-family: 'Courier New', Courier, monospace;">
+                      <span style="color: #FBBF24; font-weight: bold;">keep an eye:</span> {{ item.why_watch }}
+                    </div>
+                    <div style="margin-top: 4px; word-break: break-all;">
+                      <a href="{{ item.url }}" style="color: #94A3B8; font-size: 11px; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
+                        :: {{ item.display_url }}
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              {% endfor %}
+            </td>
+          </tr>
+          {% endif %}
+
           <!-- ====== FEEDBACK RATING ====== -->
           <tr>
             <td class="section-pad" style="padding: 20px 24px; background-color: #0B1120; border-top: 1px solid #334155;">
