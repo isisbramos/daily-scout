@@ -129,8 +129,8 @@ def filter_items(items: list[SourceItem], config: dict) -> list[SourceItem]:
 class Reasoning(BaseModel):
     """Observability: registra o raciocínio editorial da AYA para debugging."""
     ai_gate_passed: list[str] = Field(
-        # [PE-05] sem cap — com 40 items e fontes AI-first, >15 passam no AI Gate
-        description="Títulos que passaram no AI Gate"
+        # [PE-05] cap de 10 pra evitar token overflow — lista os mais relevantes
+        description="Até 10 títulos que passaram no AI Gate (priorize os que avançaram pra seleção final)"
     )
     ai_gate_rejected_sample: list[str] = Field(
         description="3-5 exemplos de títulos rejeitados no AI Gate com motivo curto entre parênteses"
@@ -506,14 +506,24 @@ def curate_and_write(
                     response_mime_type="application/json",
                     response_schema=CurationOutput,
                     temperature=0.0,
-                    max_output_tokens=8192,
+                    max_output_tokens=16384,
                 ),
             )
 
-            text = response.text.strip()
-            logger.info(f"Gemini returned {len(text)} chars")
+            # ── v5.2: Detecta truncação antes de tentar parse ──
+            finish_reason = None
+            if response.candidates and response.candidates[0].finish_reason:
+                finish_reason = response.candidates[0].finish_reason
 
-            # Com response_schema, o Gemini retorna JSON válido por design
+            text = response.text.strip()
+            logger.info(f"Gemini returned {len(text)} chars (finish_reason={finish_reason})")
+
+            if finish_reason and str(finish_reason) not in ("STOP", "FinishReason.STOP", "1"):
+                raise ValueError(
+                    f"Gemini output truncated (finish_reason={finish_reason}, "
+                    f"{len(text)} chars) — likely hit max_output_tokens"
+                )
+
             content = json.loads(text)
 
             # Validação mínima de estrutura
