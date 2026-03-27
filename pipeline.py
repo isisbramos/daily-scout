@@ -1,21 +1,11 @@
 """
-Daily Scout — Pipeline v5.0 (Multi-Source Architecture + Observability)
+Daily Scout — Pipeline v5.3 (Multi-Source Architecture + Observability)
 Correspondente: AYA (AI-powered field correspondent)
-Stack: Multi-Source (Reddit, HN, TechCrunch, Lobsters) → Pre-Filter → Gemini Flash → Jinja2 → Buttondown API
+Stack: 10 Sources (Reddit, HN, TechCrunch, Lobsters, RSS/blogs) → Pre-Filter → Gemini 2.5 Flash → Jinja2 → Buttondown API
 
 Arquitetura:
   sources/ (pluggable modules) → pre_filter.py → Gemini curadoria → Jinja2 render → Buttondown delivery
   Config-driven: sources_config.json controla tudo sem mudar código.
-
-v5 changes:
-  - Reasoning schema: observability do julgamento editorial da AYA
-  - Shuffle anti-bias: remove position bias na lista enviada ao LLM
-  - Context injection: AYA sabe quantos items existiam antes do pre-filter
-  - Few-shots expandidos: cobertura de infra, regulação, open source
-  - STEP 5 expandido: 4 templates em vez de 2
-  - Anti-signal generativo: princípio + exemplos em vez de lista fechada
-  - Diversidade de perspectiva no STEP 4
-  - primary_audience no schema (instrumentação para futuro)
 """
 
 import html as html_lib
@@ -82,7 +72,7 @@ def load_config() -> dict:
             "reddit": {"enabled": True, "weight": 1.0},
             "hackernews": {"enabled": True, "weight": 1.2},
         },
-        "pre_filter": {"max_items_to_llm": 60},
+        "pre_filter": {"max_items_to_llm": 40},
         "scoring": {},
     }
 
@@ -122,9 +112,9 @@ def filter_items(items: list[SourceItem], config: dict) -> list[SourceItem]:
     return run_pre_filter(items, config)
 
 
-# ── Curate & Write: Gemini (v3 — structured output + anti-hallucination) ──
+# ── Curate & Write: Gemini (structured output + anti-hallucination) ──
 
-# ── Pydantic schemas para structured output (v5.1 — com observability + enforcement) ──
+# ── Pydantic schemas para structured output (com observability + enforcement) ──
 
 class Reasoning(BaseModel):
     """Observability: registra o raciocínio editorial da AYA para debugging."""
@@ -193,7 +183,7 @@ class Meta(BaseModel):
 
 class CurationOutput(BaseModel):
     reasoning: Reasoning = Field(description="Raciocínio editorial — explique suas decisões de seleção")
-    correspondent_intro: str = Field(description="1-2 frases em primeira pessoa. Cite dados concretos.")
+    correspondent_intro: str = Field(description="1-2 frases em primeira pessoa. A primeira frase referencia o achado do dia pelo tema; a segunda pode citar volume (X posts de Y fontes).")
     main_find: MainFind
     quick_finds: list[QuickFind] = Field(description="3-5 achados rápidos")
     radar: list[RadarItem] = Field(default_factory=list, description="1-2 itens de early signal — temas emergentes que ainda não são achados mas valem acompanhar")
@@ -230,7 +220,7 @@ REGRA DE CERTEZA — ao traduzir/reformular, preserve o nível de certeza do tí
 - Tom: competente e direto, como colunista que acompanha o mercado todo dia. Dê contexto útil sem dramatizar.
 - Explique para leitores inteligentes que não são da área — termos técnicos ganham explicação breve entre parênteses."""
 
-# ── User prompt (v5.1 — missão + pipeline + few-shots + formato) ──────
+# ── User prompt (missão + pipeline + few-shots + formato) ──────
 # Nota: {context_block} é injetado em runtime por curate_and_write()
 CURATION_PROMPT_TEMPLATE = """Selecione e escreva os achados do dia a partir dos posts abaixo.
 
@@ -256,7 +246,7 @@ STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
 3. Afeta workflows — muda como pessoas trabalham com tech/AI no dia a dia
 
 STEP 3 — ANTI-SIGNAL:
-Descarte posts que NÃO passaram no AI Gate E não são magnitude excepcional. Exemplos frequentes de anti-signal:
+Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos frequentes de anti-signal:
 → Preço/assinatura de serviço consumer (Netflix, Spotify, Disney+)
 → Funding round (mesmo de empresa de AI): descarte a menos que o título revele informação acionável — nova feature, novo produto, shift de estratégia. "Empresa X levanta $Y" sozinho é noise. Exceção: magnitude excepcional (>$5B) ou player de referência (OpenAI, Anthropic, Google DeepMind).
 → Mercado financeiro/crypto/apostas sem aplicação de AI
@@ -306,10 +296,10 @@ Input: {{ "title": "We haven't satisfactorily dealt with the worst of what predi
 → DESCARTADO — 539 pontos de tração não salva post sem ângulo AI
 
 Exemplo 3 — TOM: RUMOR/ESPECULAÇÃO:
-Input: {{ "title": "Report: OpenAI may shut down Sora after backlash", "source": "HackerNews", "score": 847 }}
-Output ERRADO (NÃO faça isso): "A OpenAI encerra o Sora, sua ferramenta de vídeo por IA. O Sora havia sido anunciado com grande alarde, prometendo revolucionar a criação de conteúdo visual."
-→ Por que está errado: converteu "may" em fato, inventou "grande alarde", "revolucionar" — NADA disso está no título.
-Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a OpenAI estaria considerando descontinuar o Sora — sua ferramenta de geração de vídeo por IA — após reações negativas. O Sora permite criar vídeos a partir de descrições em texto."
+Input: {{ "title": "Report: Apple may license Google Gemini for iOS 20 AI features", "source": "HackerNews", "score": 847 }}
+Output ERRADO (NÃO faça isso): "A Apple fecha acordo bombástico com Google para trazer IA ao iPhone. A parceria promete revolucionar a experiência mobile."
+→ Por que está errado: converteu "may" em fato, inventou "bombástico", "revolucionar" — NADA disso está no título.
+Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a Apple estaria negociando licenciar o Gemini do Google para recursos de IA no iOS 20. Se confirmado, o acordo sinalizaria que a Apple está priorizando velocidade de entrega de AI em vez de desenvolver tudo in-house."
 
 Exemplo 4 — TOM: BUSINESS com ângulo AI:
 Input: {{ "title": "Stripe acquires AI payments startup PayAI for $1.2B", "source": "TechCrunch", "score": 0 }}
@@ -475,10 +465,8 @@ def curate_and_write(
         entry = {
             "title": item.title[:200],
             "source": item.source_label,
-            "source_id": item.source_id,
             "score": item.raw_score,
             "comments": item.num_comments,
-            "category": item.category,
             "url": item.url,
         }
         # v5: inclui cross-source signal quando item apareceu em múltiplas fontes
@@ -570,7 +558,7 @@ def curate_and_write(
                     logger.warning("Last attempt: accepting response without quick_finds")
                     content["quick_finds"] = []
 
-            # ── v3: Tone validation (post-processing) ──
+            # ── Tone validation (post-processing) ──
             tone_warnings = validate_tone(content)
             if tone_warnings:
                 for w in tone_warnings:
