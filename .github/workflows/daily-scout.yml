@@ -3,7 +3,7 @@ name: Daily Scout Pipeline
 on:
   schedule:
     # 7:55 AM BRT = 10:55 UTC (BRT is UTC-3)
-    - cron: '55 10 * * *'
+    - cron: '0 10 * * *'
 
   # Allow manual trigger for testing
   workflow_dispatch:
