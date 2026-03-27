@@ -3,7 +3,7 @@ name: Daily Scout Pipeline
 on:
   schedule:
     # 7:55 AM BRT = 10:55 UTC (BRT is UTC-3)
-    - cron: '55 10 * * *'
+    - cron: '0 10 * * *'
 
   # Allow manual trigger for testing
   workflow_dispatch:
@@ -54,9 +54,10 @@ jobs:
           EDITION_NUMBER: ${{ steps.edition.outputs.number }}
           FEEDBACK_BASE_URL: ${{ secrets.FEEDBACK_BASE_URL }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          SOCIAL_ENABLED: 'true'
         run: python pipeline.py
 
-      - name: Upload output artifacts
+      - name: Upload output artifacts (newsletter + social)
         if: always()
         uses: actions/upload-artifact@v4
         with:

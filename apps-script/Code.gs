@@ -1,0 +1,7 @@
+const SHEET_ID = "1ToD2eW-owhGsdE0cswVHNGiX8yHJH87Mdtviz-l6kuM";
+const SHEET_NAME = "feedback";
+const VALID_RATINGS = ["fire", "solid", "meh"];
+function doPost(e) { try { return handleFeedback(JSON.parse(e.postData.contents)); } catch (err) { return jsonResponse({ ok: false, error: err.message }); } }
+function doGet(e) { handleFeedback({ edition: e.parameter.edition||"", rating: e.parameter.rating||"", referrer: e.parameter.referrer||"direct" }); return HtmlService.createHtmlOutput('<html><body style="background:#0F172A;color:#22C55E;font-family:monospace;display:flex;justify-content:center;align-items:center;height:100vh;margin:0"><div style="text-align:center"><div style="font-size:32px">✓</div><div style="margin-top:12px">Feedback recebido!</div></div></body></html>'); }
+function handleFeedback(data) { const edition=String(data.edition||"").replace(/[^0-9]/g,""),rating=String(data.rating||"").toLowerCase(),referrer=String(data.referrer||"unknown").substring(0,200); if(!edition)return jsonResponse({ok:false,error:"missing edition"}); if(!VALID_RATINGS.includes(rating))return jsonResponse({ok:false,error:"invalid rating"}); const sheet=SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME); if(!sheet)return jsonResponse({ok:false,error:"sheet not found"}); sheet.appendRow([new Date().toISOString(),parseInt(edition),rating,referrer]); return jsonResponse({ok:true,edition,rating}); }
+function jsonResponse(data) { return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON); }

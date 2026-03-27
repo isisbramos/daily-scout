@@ -44,7 +44,7 @@ BUTTONDOWN_API_URL = "https://api.buttondown.com/v1/emails"
 
 FEEDBACK_BASE_URL = os.environ.get(
     "FEEDBACK_BASE_URL",
-    "https://SEU_USER.github.io/daily-scout/feedback.html",
+    "https://isisbramos.github.io/daily-scout/feedback.html",
 )
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
 SOCIAL_ENABLED = os.environ.get("SOCIAL_ENABLED", "false").lower() == "true"
