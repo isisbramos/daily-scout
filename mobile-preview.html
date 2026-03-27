@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Scout — Mobile Layout Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; font-family: -apple-system, sans-serif; color: #e0e0e0; padding: 24px; }
+  h1 { text-align: center; color: #22C55E; font-size: 20px; margin-bottom: 8px; font-family: 'Courier New', monospace; }
+  .subtitle { text-align: center; color: #94A3B8; font-size: 13px; margin-bottom: 32px; }
+  .compare { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+  .phone-wrapper { text-align: center; }
+  .phone-wrapper h2 { color: #CBD5E1; font-size: 14px; margin-bottom: 12px; font-family: 'Courier New', monospace; }
+  .phone-frame {
+    width: 375px; height: 812px;
+    border: 3px solid #334155; border-radius: 40px;
+    overflow: hidden; background: #0F172A;
+    box-shadow: 0 0 40px rgba(34, 197, 94, 0.1);
+  }
+  .phone-frame iframe {
+    width: 100%; height: 100%; border: none;
+  }
+  .changes { max-width: 750px; margin: 40px auto 0; padding: 24px; background: #0F172A; border: 1px solid #334155; border-radius: 8px; }
+  .changes h3 { color: #22C55E; font-size: 14px; margin-bottom: 16px; font-family: 'Courier New', monospace; }
+  .change-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+  .change-item .label { color: #A78BFA; font-size: 11px; font-family: 'Courier New', monospace; min-width: 90px; padding-top: 2px; }
+  .change-item .desc { color: #CBD5E1; font-size: 13px; line-height: 1.5; }
+  .tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-family: 'Courier New', monospace; margin-right: 4px; }
+  .tag-fix { background: #7C3AED22; color: #A78BFA; border: 1px solid #7C3AED44; }
+  .tag-new { background: #22C55E22; color: #22C55E; border: 1px solid #22C55E44; }
+</style>
+</head>
+<body>
+
+<h1>> MOBILE LAYOUT PREVIEW</h1>
+<p class="subtitle">iPhone 14 viewport (375 x 812) — side by side comparison</p>
+
+<div class="compare">
+
+  <!-- BEFORE -->
+  <div class="phone-wrapper">
+    <h2>BEFORE (no responsive)</h2>
+    <div class="phone-frame">
+      <iframe srcdoc='
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background-color:#0F172A;font-family:Courier New,monospace;color:#CBD5E1;-webkit-text-size-adjust:100%;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0F172A;"><tr><td align="center" style="padding:16px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#0F172A;">
+<tr><td style="padding:24px 24px 20px;border-bottom:1px solid #334155;">
+<div style="color:#22C55E;font-size:11px;letter-spacing:1px;">========================================</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr>
+<td><span style="color:#22C55E;font-size:18px;font-weight:bold;">DAILY SCOUT</span><span style="color:#94A3B8;font-size:12px;"> // field report #004</span></td>
+<td align="right"><span style="color:#94A3B8;font-size:12px;">27.mar.2026</span></td>
+</tr></table>
+<div style="color:#818CF8;font-size:13px;margin-top:10px;font-weight:bold;">[2 fontes | 847 posts &gt; 5 achados]</div>
+<div style="color:#22C55E;font-size:11px;letter-spacing:1px;margin-top:10px;">========================================</div>
+</td></tr>
+<tr><td style="padding:20px 24px;border-bottom:1px solid #334155;">
+<div style="color:#22C55E;font-size:11px;letter-spacing:1.5px;margin-bottom:8px;font-weight:bold;">&gt; TRANSMISSÃO</div>
+<div style="color:#CBD5E1;font-size:13px;line-height:1.7;font-style:italic;">Fala! Tive que mergulhar fundo hoje porque o feed tava cheio de noise — mas achei uns sinais bem claros de pra onde as coisas estão indo.</div>
+</td></tr>
+<tr><td style="padding:24px;border-bottom:1px solid #334155;">
+<div style="color:#A78BFA;font-size:11px;letter-spacing:1.5px;margin-bottom:12px;font-weight:bold;">&gt; ACHADO DO DIA</div>
+<div style="color:#F1F5F9;font-size:16px;font-weight:bold;line-height:1.4;margin-bottom:8px;">Google DeepMind anuncia Gemini 3.0 com reasoning nativo</div>
+<div style="color:#94A3B8;font-size:12px;margin-bottom:14px;">src: TechCrunch via HackerNews</div>
+<div style="color:#CBD5E1;font-size:14px;line-height:1.7;margin-bottom:16px;">O novo modelo da Google integra chain-of-thought diretamente na arquitetura. Diferente dos modelos anteriores que precisavam de prompting especial, o Gemini 3.0 raciocina por padrão — e os benchmarks mostram ganhos significativos em tarefas complexas de código e math.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-left:2px solid #334155;margin-left:4px;">
+<tr><td style="padding:4px 0 4px 14px;color:#CBD5E1;font-size:13px;line-height:1.6;"><span style="color:#22C55E;font-weight:bold;">-&gt;</span> Performance em coding tasks subiu 34% vs Gemini 2.5</td></tr>
+<tr><td style="padding:4px 0 4px 14px;color:#CBD5E1;font-size:13px;line-height:1.6;"><span style="color:#22C55E;font-weight:bold;">-&gt;</span> Disponível via API a partir de abril 2026</td></tr>
+<tr><td style="padding:4px 0 4px 14px;color:#CBD5E1;font-size:13px;line-height:1.6;"><span style="color:#22C55E;font-weight:bold;">-&gt;</span> Sinal claro: reasoning como feature nativa, não como hack</td></tr>
+</table>
+<div style="margin-top:14px;"><a href="#" style="color:#818CF8;font-size:13px;font-weight:bold;text-decoration:none;">::  techcrunch.com/2026/03/27/gemini-3</a></div>
+</td></tr>
+<tr><td style="padding:20px 24px;background-color:#0B1120;border-top:1px solid #334155;">
+<div style="color:#22C55E;font-size:11px;letter-spacing:1.5px;margin-bottom:12px;font-weight:bold;text-align:center;">&gt; COMO FOI ESSA EDIÇÃO?</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:0;">
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr>
+<td align="center" style="padding:0 6px;"><a href="#" style="display:inline-block;padding:8px 14px;border:1px solid #334155;border-radius:4px;text-decoration:none;font-family:Courier New,monospace;font-size:13px;color:#CBD5E1;background-color:#1E293B;">🔥 Loved it</a></td>
+<td align="center" style="padding:0 6px;"><a href="#" style="display:inline-block;padding:8px 14px;border:1px solid #334155;border-radius:4px;text-decoration:none;font-family:Courier New,monospace;font-size:13px;color:#CBD5E1;background-color:#1E293B;">👍 Solid</a></td>
+<td align="center" style="padding:0 6px;"><a href="#" style="display:inline-block;padding:8px 14px;border:1px solid #334155;border-radius:4px;text-decoration:none;font-family:Courier New,monospace;font-size:13px;color:#CBD5E1;background-color:#1E293B;">😐 Meh</a></td>
+</tr></table></td></tr></table>
+<div style="color:#475569;font-size:10px;text-align:center;margin-top:8px;">1 clique = signal pra AYA calibrar a curadoria</div>
+</td></tr>
+</table></td></tr></table></body></html>
+      '></iframe>
+    </div>
+  </div>
+
+  <!-- AFTER -->
+  <div class="phone-wrapper">
+    <h2>AFTER (responsive)</h2>
+    <div class="phone-frame">
+      <iframe srcdoc='
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@media only screen and (max-width:480px){
+.section-pad{padding-left:12px!important;padding-right:12px!important}
+.header-title-cell,.header-date-cell{display:block!important;width:100%!important;text-align:left!important}
+.header-date-cell{padding-top:6px!important}
+.body-text{font-size:13px!important;line-height:1.8!important}
+.main-title{font-size:15px!important;line-height:1.5!important}
+.bullet-text{font-size:12px!important;line-height:1.7!important}
+.intro-text{font-size:13px!important;line-height:1.8!important}
+.feedback-btn-cell{display:block!important;width:100%!important;padding:4px 0!important}
+.feedback-btn{display:block!important;width:100%!important;text-align:center!important;box-sizing:border-box!important}
+.deco-line{font-size:9px!important;letter-spacing:0px!important;overflow:hidden!important}
+.log-text{font-size:10px!important;word-break:break-word!important}
+.meta-line{font-size:11px!important}
+.brand-title{font-size:16px!important}
+.brand-sub{font-size:11px!important}
+}
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#0F172A;font-family:Courier New,monospace;color:#CBD5E1;-webkit-text-size-adjust:100%;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0F172A;"><tr><td align="center" style="padding:16px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#0F172A;">
+<tr><td class="section-pad" style="padding:24px 24px 20px;border-bottom:1px solid #334155;">
+<div class="deco-line" style="color:#22C55E;font-size:11px;letter-spacing:1px;overflow:hidden;white-space:nowrap;">========================================</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr>
+<td class="header-title-cell"><span class="brand-title" style="color:#22C55E;font-size:18px;font-weight:bold;">DAILY SCOUT</span><span class="brand-sub" style="color:#94A3B8;font-size:12px;"> // field report #004</span></td>
+<td class="header-date-cell" align="right"><span style="color:#94A3B8;font-size:12px;">27.mar.2026</span></td>
+</tr></table>
+<div class="meta-line" style="color:#818CF8;font-size:13px;margin-top:10px;font-weight:bold;">[2 fontes | 847 posts &gt; 5 achados]</div>
+<div class="deco-line" style="color:#22C55E;font-size:11px;letter-spacing:1px;margin-top:10px;overflow:hidden;white-space:nowrap;">========================================</div>
+</td></tr>
+<tr><td class="section-pad" style="padding:20px 24px;border-bottom:1px solid #334155;">
+<div style="color:#22C55E;font-size:11px;letter-spacing:1.5px;margin-bottom:8px;font-weight:bold;">&gt; TRANSMISSÃO</div>
+<div class="intro-text" style="color:#CBD5E1;font-size:13px;line-height:1.7;font-style:italic;">Fala! Tive que mergulhar fundo hoje porque o feed tava cheio de noise — mas achei uns sinais bem claros de pra onde as coisas estão indo.</div>
+</td></tr>
+<tr><td class="section-pad" style="padding:24px;border-bottom:1px solid #334155;">
+<div style="color:#A78BFA;font-size:11px;letter-spacing:1.5px;margin-bottom:12px;font-weight:bold;">&gt; ACHADO DO DIA</div>
+<div class="main-title" style="color:#F1F5F9;font-size:16px;font-weight:bold;line-height:1.4;margin-bottom:8px;">Google DeepMind anuncia Gemini 3.0 com reasoning nativo</div>
+<div style="color:#94A3B8;font-size:12px;margin-bottom:14px;">src: TechCrunch via HackerNews</div>
+<div class="body-text" style="color:#CBD5E1;font-size:14px;line-height:1.7;margin-bottom:16px;">O novo modelo da Google integra chain-of-thought diretamente na arquitetura. Diferente dos modelos anteriores que precisavam de prompting especial, o Gemini 3.0 raciocina por padrão — e os benchmarks mostram ganhos significativos em tarefas complexas de código e math.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-left:2px solid #334155;margin-left:4px;">
+<tr><td class="bullet-text" style="padding:4px 0 4px 14px;color:#CBD5E1;font-size:13px;line-height:1.6;"><span style="color:#22C55E;font-weight:bold;">-&gt;</span> Performance em coding tasks subiu 34% vs Gemini 2.5</td></tr>
+<tr><td class="bullet-text" style="padding:4px 0 4px 14px;color:#CBD5E1;font-size:13px;line-height:1.6;"><span style="color:#22C55E;font-weight:bold;">-&gt;</span> Disponível via API a partir de abril 2026</td></tr>
+<tr><td class="bullet-text" style="padding:4px 0 4px 14px;color:#CBD5E1;font-size:13px;line-height:1.6;"><span style="color:#22C55E;font-weight:bold;">-&gt;</span> Sinal claro: reasoning como feature nativa, não como hack</td></tr>
+</table>
+<div style="margin-top:14px;word-break:break-all;"><a href="#" style="color:#818CF8;font-size:13px;font-weight:bold;text-decoration:none;">::  techcrunch.com/2026/03/27/gemini-3</a></div>
+</td></tr>
+<tr><td class="section-pad" style="padding:20px 24px;background-color:#0B1120;border-top:1px solid #334155;">
+<div style="color:#22C55E;font-size:11px;letter-spacing:1.5px;margin-bottom:12px;font-weight:bold;text-align:center;">&gt; COMO FOI ESSA EDIÇÃO?</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:0;">
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto;width:100%;"><tr>
+<td class="feedback-btn-cell" align="center" style="padding:0 6px;"><a href="#" class="feedback-btn" style="display:inline-block;padding:10px 14px;border:1px solid #334155;border-radius:4px;text-decoration:none;font-family:Courier New,monospace;font-size:13px;color:#CBD5E1;background-color:#1E293B;">🔥 Loved it</a></td>
+<td class="feedback-btn-cell" align="center" style="padding:0 6px;"><a href="#" class="feedback-btn" style="display:inline-block;padding:10px 14px;border:1px solid #334155;border-radius:4px;text-decoration:none;font-family:Courier New,monospace;font-size:13px;color:#CBD5E1;background-color:#1E293B;">👍 Solid</a></td>
+<td class="feedback-btn-cell" align="center" style="padding:0 6px;"><a href="#" class="feedback-btn" style="display:inline-block;padding:10px 14px;border:1px solid #334155;border-radius:4px;text-decoration:none;font-family:Courier New,monospace;font-size:13px;color:#CBD5E1;background-color:#1E293B;">😐 Meh</a></td>
+</tr></table></td></tr></table>
+<div style="color:#475569;font-size:10px;text-align:center;margin-top:8px;">1 clique = signal pra AYA calibrar a curadoria</div>
+</td></tr>
+</table></td></tr></table></body></html>
+      '></iframe>
+    </div>
+  </div>
+
+</div>
+
+<!-- Changes summary -->
+<div class="changes">
+  <h3>> CHANGELOG</h3>
+  <div class="change-item"><span class="label"><span class="tag tag-new">NEW</span></span><span class="desc">@media queries para 480px e 360px breakpoints</span></div>
+  <div class="change-item"><span class="label"><span class="tag tag-fix">FIX</span></span><span class="desc">Padding lateral: 24px → 12px (mobile) / 8px (small mobile)</span></div>
+  <div class="change-item"><span class="label"><span class="tag tag-fix">FIX</span></span><span class="desc">Header stacka verticalmente (título + data em linhas separadas)</span></div>
+  <div class="change-item"><span class="label"><span class="tag tag-fix">FIX</span></span><span class="desc">Feedback buttons: inline → stacked vertical (full-width tap targets)</span></div>
+  <div class="change-item"><span class="label"><span class="tag tag-fix">FIX</span></span><span class="desc">Decorative lines (====) com overflow:hidden pra não quebrar layout</span></div>
+  <div class="change-item"><span class="label"><span class="tag tag-fix">FIX</span></span><span class="desc">Links longos com word-break:break-all pra não estourar horizontal</span></div>
+  <div class="change-item"><span class="label"><span class="tag tag-fix">FIX</span></span><span class="desc">Transmission log com word-break pra wrap em telas pequenas</span></div>
+</div>
+
+</body>
+</html>
