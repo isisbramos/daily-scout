@@ -258,15 +258,17 @@ STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
 STEP 3 — ANTI-SIGNAL:
 Descarte posts que NÃO passaram no AI Gate E não são magnitude excepcional. Exemplos frequentes de anti-signal:
 → Preço/assinatura de serviço consumer (Netflix, Spotify, Disney+)
-→ Funding round sem ângulo AI/tech específico
+→ Funding round (mesmo de empresa de AI): descarte a menos que o título revele informação acionável — nova feature, novo produto, shift de estratégia. "Empresa X levanta $Y" sozinho é noise. Exceção: magnitude excepcional (>$5B) ou player de referência (OpenAI, Anthropic, Google DeepMind).
 → Mercado financeiro/crypto/apostas sem aplicação de AI
 → Atualização de produto sem impacto em workflows (ex: UI redesign cosmético)
 → Confirmação do óbvio ("X vai continuar fazendo Y")
 → Hardware reviews, gaming news, celebrity tech takes sem ângulo AI
+→ Rehashed news: se o título reporta evento que você sabe que já aconteceu dias ou semanas atrás (lançamento já anunciado, descontinuação já reportada, aquisição já fechada), DESCARTE — mesmo que o post seja de hoje. Exceção: se o título traz INFORMAÇÃO NOVA sobre o evento (dados, reação, consequência concreta), trate como story nova.
 Se um post não se enquadra nesses exemplos mas claramente foge do escopo AI/tech relevante, DESCARTE também. Use o princípio, não apenas a lista.
 
 STEP 4 — RANKING:
 → main_find = item mais acionável OU com maior sinal de mercado. Tração (score) é tiebreaker, NUNCA critério principal.
+→ main_find DEVE ser sobre UM evento específico. Se um post é roundup/compilação (título com múltiplas notícias separadas por ';' ou temas não-relacionados), NÃO use como main_find — prefira outro item com foco singular.
 → quick_finds = 3-5 itens restantes que passaram nos steps anteriores.
 → Diversidade de fontes: prefira representação variada de sources.
 → Diversidade de PERSPECTIVA: se todos os quick_finds são product launches, priorize pelo menos 1 item que traga perspectiva diferente (regulação, open source, research, mercado emergente, crítica fundamentada).
@@ -364,9 +366,23 @@ Input: {{ "title": "Brazil's Serpro deploys AI to automate 40% of federal tax au
 → SELECIONADO como quick_find — perspectiva LatAm relevante pro público brasileiro
 Output CORRETO: "Segundo o Rest of World, o Serpro — empresa de tecnologia do governo federal brasileiro — implementou inteligência artificial para automatizar 40% das auditorias fiscais. É um sinal concreto de que AI está entrando na operação pública no Brasil."
 
+Exemplo 11 — DESCARTE CORRETO (rehashed news):
+Input: {{ "title": "OpenAI shuts down Sora video generation tool", "source": "TechCrunch", "score": 0 }}
+→ AI gate: SIM (ferramenta de AI)
+→ Freshness check: a descontinuação do Sora já foi amplamente reportada dias atrás. Este post não traz informação nova — apenas repete o fato.
+→ DESCARTADO — rehashed news, evento já coberto anteriormente
+
+Exemplo 11b — SELEÇÃO CORRETA (follow-up com info nova sobre evento velho):
+Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown — no refund policy", "source": "HackerNews", "score": 423 }}
+→ AI gate: SIM (produto de AI)
+→ Freshness check: embora o shutdown do Sora seja evento velho, este post traz informação NOVA (perda de créditos, ausência de política de reembolso)
+→ Critérios: Acionável (afeta quem pagou pelo Sora) + Afeta workflows (usuários precisam buscar alternativas)
+→ step5_phrase: "Agora é possível que usuários do Sora percam créditos pagos sem reembolso"
+→ SELECIONADO como quick_find — info nova sobre evento conhecido
+
 ═══ REGRAS DE FORMATO ═══
 - reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
-- correspondent_intro: 1-2 frases curtas em primeira pessoa. Cite dado concreto do contexto do dia (total de fontes, quantos posts analisados, qual tema dominou).
+- correspondent_intro: 1-2 frases em primeira pessoa. A PRIMEIRA frase deve referenciar o achado do dia pelo tema (não pelo nome do campo). A segunda pode citar volume (X posts de Y fontes). BOM: "Hoje o destaque vai pro lançamento do Llama 4 pela Meta. Analisei 267 posts de 10 fontes." RUIM: "O dia trouxe novidades sobre a estratégia de grandes players de AI." (genérico — serve pra qualquer dia)
 - main_find.title: factual, max 15 palavras. Reformule se o original for sensacionalista.
 - main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, explique o que é e por que importa pro leitor.
 - main_find.bullets: 2-3 pontos: o que aconteceu, o que significa pra quem lê, o que observar a seguir.
