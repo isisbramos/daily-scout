@@ -177,6 +177,15 @@ class QuickFind(BaseModel):
         description="Frase completada do STEP 5 que justifica a seleção deste item"
     )
 
+class RadarItem(BaseModel):
+    title: str = Field(description="Título curto e descritivo, max 10 palavras")
+    source: str = Field(
+        description="Fonte real do item — use exatamente o valor do campo 'source' no input"
+    )
+    why_watch: str = Field(description="1 frase: por que vale acompanhar nos próximos dias (tom de 'cedo demais pra conclusão, mas...')")
+    url: str = Field(description="URL original")
+    display_url: str = Field(description="Versão curta da URL")
+
 class Meta(BaseModel):
     total_analyzed: int = Field(description="Número total de posts analisados (use o valor informado no contexto do dia)")
     sources_used: list[str] = Field(description="Lista de fontes usadas")
@@ -187,6 +196,7 @@ class CurationOutput(BaseModel):
     correspondent_intro: str = Field(description="1-2 frases em primeira pessoa. Cite dados concretos.")
     main_find: MainFind
     quick_finds: list[QuickFind] = Field(description="3-5 achados rápidos")
+    radar: list[RadarItem] = Field(default_factory=list, description="1-2 itens de early signal — temas emergentes que ainda não são achados mas valem acompanhar")
     meta: Meta
 
 
@@ -261,7 +271,14 @@ STEP 4 — RANKING:
 → Diversidade de fontes: prefira representação variada de sources.
 → Diversidade de PERSPECTIVA: se todos os quick_finds são product launches, priorize pelo menos 1 item que traga perspectiva diferente (regulação, open source, research, mercado emergente, crítica fundamentada).
 → Diversidade de AUDIÊNCIA: se todos os quick_finds têm primary_audience='developers', priorize pelo menos 1 item para audiência diferente.
+→ Diversidade GEOGRÁFICA: no máximo 2 itens (entre main_find + quick_finds) podem ser da mesma região geográfica (ex: China/Asia). Se houver 3+ itens asiáticos fortes, escolha os 2 melhores e descarte o resto em favor de diversidade.
 → Items com campo "also_trending_on" indicam que o tema apareceu em múltiplas fontes independentes. Trate isso como sinal de relevância editorial e, ao escrever, mencione: "notícia reportada tanto no [source] quanto no [other_source]".
+
+STEP 4.5 — RADAR (early signals):
+→ Após selecionar main_find e quick_finds, olhe para os itens restantes que passaram no AI Gate mas ficaram de fora.
+→ Selecione 1-2 itens que são "cedo demais pra ser achado" mas vale acompanhar: temas emergentes, discussões ganhando tração, sinais fracos de mercado.
+→ Esses itens entram no campo "radar" com tom diferente: "vale acompanhar", "ainda cedo, mas...", "pode virar notícia nos próximos dias".
+→ Se nenhum item justifica radar, deixe a lista vazia. NÃO force itens fracos aqui.
 
 STEP 5 — TESTE FINAL:
 Para cada item selecionado, complete UMA das frases abaixo no campo step5_phrase. Se não conseguir completar com informação do título, DESCARTE o item:
@@ -357,6 +374,7 @@ Output CORRETO: "Segundo o Rest of World, o Serpro — empresa de tecnologia do 
 - quick_finds[].signal: 1-2 frases curtas explicando o que aconteceu e por que é relevante.
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
 - primary_audience: indique para quem cada achado é mais relevante ('developers', 'PMs e founders', 'business/executivos', ou 'todos').
+- radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.
 - Termos técnicos: explique brevemente — "LLM (modelos de IA que geram texto)", "open source (código aberto)".
 
 LEMBRETE FINAL: Você PODE explicar o que algo é (contexto factual) e por que importa pro leitor. Você NÃO PODE inventar reações, consequências ou qualificar intensidade. Na dúvida: descreva, não qualifique.
@@ -556,8 +574,15 @@ def curate_and_write(
                 logger.info(f"  [RATIONALE] {rationale}")
                 logger.info(f"  [PERSPECTIVE] {perspective}")
 
+            # ── v5.2: Ensure radar field exists ──
+            if "radar" not in content:
+                content["radar"] = []
+
             logger.info(f"Curation OK: '{content['main_find']['title']}'")
             logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")
+            logger.info(f"Radar items: {len(content.get('radar', []))}")
+            for ri in content.get("radar", []):
+                logger.info(f"  [RADAR] {ri.get('title', 'N/A')}: {ri.get('why_watch', '')}")
             return content
 
         except json.JSONDecodeError as e:
@@ -601,6 +626,7 @@ def render_email(
     now_brt = datetime.now(brt)
 
     quick_finds = content.get("quick_finds", [])
+    radar = content.get("radar", [])
     meta = content.get("meta", {})
 
     # Sources detail string
@@ -608,19 +634,23 @@ def render_email(
         s.replace("_", " ").title() for s in active_sources
     )
 
+    # Total finds includes radar
+    total_finds = len(quick_finds) + 1 + len(radar)
+
     html = template.render(
         correspondent_intro=content.get("correspondent_intro", ""),
         main_find=content["main_find"],
         quick_finds=quick_finds,
+        radar=radar,
         edition_number=EDITION_NUMBER,
         date=now_brt.strftime("%d/%m/%Y"),
         sources_count=raw_count,
-        finds_count=len(quick_finds) + 1,
+        finds_count=total_finds,
         sources_detail=sources_detail,
         active_sources=active_sources,
         num_sources=len(active_sources),
         posts_analyzed=meta.get("total_analyzed", filtered_count),
-        signal_ratio=f"{len(quick_finds) + 1}/{meta.get('total_analyzed', filtered_count)}",
+        signal_ratio=f"{total_finds}/{meta.get('total_analyzed', filtered_count)}",
         runtime=runtime,
         feedback_base_url=FEEDBACK_BASE_URL,
     )

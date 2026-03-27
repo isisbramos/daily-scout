@@ -55,23 +55,26 @@
       "rss_url": "https://deepmind.google/blog/rss.xml"
     },
 
-    "_comment_geographic": "Geographic Diversity — fontes não-ocidentais para quebrar echo chamber US-centric",
+    "_comment_geographic": "Geographic Diversity — fontes não-ocidentais para quebrar echo chamber. Weights reduzidos v5.2 para evitar over-representation",
     "scmp_tech": {
       "enabled": true,
-      "weight": 1.1,
+      "weight": 0.9,
       "limit": 15,
+      "region": "asia",
       "rss_url": "https://www.scmp.com/rss/36/feed"
     },
     "rest_of_world": {
       "enabled": true,
-      "weight": 1.0,
+      "weight": 0.9,
       "limit": 15,
+      "region": "global_south",
       "rss_url": "https://restofworld.org/feed/"
     },
     "technode": {
       "enabled": true,
-      "weight": 0.9,
+      "weight": 0.8,
       "limit": 15,
+      "region": "asia",
       "rss_url": "https://technode.com/feed/"
     }
   },
