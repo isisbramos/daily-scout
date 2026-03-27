@@ -8,19 +8,26 @@
 
 Uma newsletter diária automatizada sobre tecnologia e IA. A "correspondente" é a **Aya**, uma persona de IA que:
 
-- Coleta posts de 4 fontes (Reddit, HackerNews, TechCrunch, Lobsters)
-- Filtra ruído (de ~200 posts para ~30)
-- Escreve a curadoria do dia com tom editorial próprio
+- Coleta posts de 10 fontes (4 community + 3 AI labs + 3 geographic)
+- Filtra ruído com pre-filter estatístico (z-score, decay, wild card zone)
+- Escreve a curadoria do dia com tom editorial próprio (AI Gate + 5-step pipeline)
 - Entrega via email automaticamente
 
 O pipeline inteiro roda sozinho via GitHub Actions, sem intervenção manual.
 
 ```
-Reddit ─┐
-HN ─────┤
-TC ─────┼──→ Pré-Filtro ──→ Gemini Flash ──→ HTML ──→ Buttondown ──→ Email
-Lobsters┘    (dedup,          (curadoria      (template)  (API)
-              scoring)         + escrita)
+Community ──────┐  Reddit, HN, TechCrunch, Lobsters
+AI Labs ────────┤  Anthropic, OpenAI, DeepMind blogs
+Geographic ─────┘  SCMP, Rest of World, TechNode
+        │
+        ▼
+   Pré-Filtro (z-score, exponential decay, wild card zone)
+        │
+        ▼
+   Gemini Flash (AI Gate → 5-step editorial pipeline → Radar)
+        │
+        ▼
+   HTML (template Jinja2) → Buttondown API → Email
 ```
 
 ---
@@ -262,7 +269,43 @@ Nenhuma camada sozinha resolve. É a combinação que funciona.
 
 ---
 
-## 8. Timeline do projeto
+## 8. Da curadoria técnica à curadoria editorial (v4 → v5.2)
+
+Com o tom de voz estabilizado, o próximo desafio foi a qualidade editorial da seleção. O registro completo dessa evolução está em `EDITORIAL_RETROSPECTIVE.md`. Aqui vai o resumo:
+
+### v4 — Framework editorial (26/03)
+
+A edição #001 mostrou que o prompt selecionava por tração, não por relevância. Prediction markets (539pts HN, zero ângulo AI) virou main find enquanto "Gemini importa chats de outros chatbots" ficou relegado.
+
+**Solução:** Discovery por entrevista → framework de 5 steps:
+
+1. **AI Gate** — tem conexão com AI? Se não, só entra se excepcional.
+2. **Critérios** — 2 de 3: acionável / sinal de mercado / afeta workflows.
+3. **Anti-signal** — descarte imediato: preço consumer, funding genérico, crypto sem AI.
+4. **Ranking** — main_find = mais acionável. Tração = tiebreaker (não critério).
+5. **Teste final** — completion task: "agora é possível [X]" ou "[player] está [movendo pra] [Y]".
+
+Score do prompt: 5.6 → 8.8/10 após audit técnico.
+
+### v5.0 — Scaling sources (27/03)
+
+4 fontes = echo chamber ocidental. Expansão pra 10:
+
+- **AI Labs (3):** Anthropic, OpenAI, DeepMind blogs — cobertura first-party
+- **Geographic (3):** SCMP Tech, Rest of World, TechNode — perspectivas fora do eixo US/EU
+
+Reescrita completa do pre-filter: z-score normalization (engagement comparável entre sources), exponential recency decay (`e^(-age/8)`), cross-source signal (dedup marca em vez de deletar), wild card zone (5 slots aleatórios = exploration).
+
+### v5.2 — Balance + Radar (27/03)
+
+Dois feedbacks do dry run #38:
+
+1. **"Muito conteúdo sobre China"** → weight rebalance (SCMP 1.1→0.9) + geographic diversity cap (max 2 items da mesma região)
+2. **"Reddit com conteúdo morno"** → seção RADAR: 1-2 early signals que passaram no AI Gate mas ficaram fora da seleção principal
+
+---
+
+## 9. Timeline do projeto
 
 | Data | Marco |
 |------|-------|
@@ -270,35 +313,51 @@ Nenhuma camada sozinha resolve. É a combinação que funciona.
 | 24/mar/2026 | v2 — Multi-source + primeiro fix de tom |
 | 25/mar/2026 | Edição #003 expõe falha: hallucination + sensacionalismo |
 | 25/mar/2026 | v3 — System instruction + schema + validate_tone |
-| 25/mar/2026 | v3 overcorrige: body fica seco |
 | 25/mar/2026 | v3.1 — PODE/NÃO PODE + few-shots contextuais |
-| 25/mar/2026 | Dry run aprovado, merge pra produção |
+| 26/mar/2026 | v4 — Editorial framework (AI Gate + 5-step pipeline) |
+| 27/mar/2026 | v5.0 — 10 sources + pre-filter rewrite |
+| 27/mar/2026 | v5.2 — Radar section + geographic diversity cap |
 
 ---
 
-## 9. Arquitetura de arquivos
+## 10. Arquitetura de arquivos
 
 ```
 daily-scout-v3/
-├── pipeline.py              ← Pipeline principal (CURATION_PROMPT v3.1 + curate_and_write)
-├── pre_filter.py            ← Dedup, scoring, token budget
-├── requirements.txt         ← Dependências (inclui pydantic)
-├── sources_config.json      ← Config das fontes (on/off, pesos)
+├── pipeline.py              ← Pipeline principal (v5.3 — AI Gate + 5-step + Radar)
+├── pre_filter.py            ← Pre-filter estatístico (z-score, decay, wild card)
+├── requirements.txt         ← Dependências (pydantic, google-genai, jinja2)
+├── sources_config.json      ← Config das 10 fontes (on/off, pesos, regions)
 ├── sources/                 ← Módulos plugáveis de coleta
 │   ├── base.py              ← SourceRegistry + SourceItem
 │   ├── reddit.py
 │   ├── hackernews.py
 │   ├── techcrunch.py
-│   └── lobsters.py
+│   ├── lobsters.py
+│   └── rss_generic.py       ← Módulo genérico RSS (AI labs + geographic)
 ├── templates/
-│   └── email.html           ← Template Jinja2 da newsletter
+│   └── email.html           ← Template Jinja2 (inclui seção Radar)
 ├── social/
 │   ├── content_adapter.py   ← Adaptação pra LinkedIn (LINKEDIN_PROMPT)
 │   └── linkedin.py          ← API do LinkedIn
+├── apps-script/
+│   └── Code.gs              ← Google Apps Script do feedback loop
 ├── .github/workflows/
 │   ├── daily-scout.yml      ← Workflow principal (cron diário)
 │   └── social-post.yml      ← Workflow de post social (delayed)
-├── test_dry_run.py           ← Teste sem LLM
-├── BEFORE_AFTER_TOM_AYA.md  ← Doc evolução v1 → v2
-└── INSIGHT_TOM_AYA_V3.md    ← Insight da sessão v3
+├── test_dry_run.py          ← Teste sem LLM (fetch→filter→render)
+├── feedback.html            ← 1-click feedback collector (🔥/👍/😐)
+├── index.html               ← Newsletter archive UI
+├── mobile-preview.html      ← Preview mobile do template
+├── aya-avatar.png           ← Avatar da Aya
+│
+├── DOC_PROCESSO_DAILY_SCOUT.md   ← Este documento (v1 → v5.2)
+├── EDITORIAL_RETROSPECTIVE.md    ← Journey editorial v4 → v5.2
+├── FEEDBACK_SETUP.md             ← Quick reference do feedback loop
+│
+└── archive/                 ← Documentos históricos e visualizações
+    ├── INSIGHT_*.md          ← Insights de sessões anteriores
+    ├── BEFORE_AFTER_*.md     ← Evolução v1 → v2
+    ├── PROMPT_FIX_*.md       ← Templates de fix
+    └── *.jsx                 ← Visualizações React de audits e análises
 ```
