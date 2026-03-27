@@ -9,6 +9,56 @@
     table, td { font-family: 'Courier New', Courier, monospace !important; }
   </style>
   <![endif]-->
+  <style>
+    /* Mobile-first responsive overrides */
+    @media only screen and (max-width: 480px) {
+      /* Reduce side padding */
+      .section-pad { padding-left: 12px !important; padding-right: 12px !important; }
+      /* Stack header: title + date */
+      .header-title-cell, .header-date-cell {
+        display: block !important;
+        width: 100% !important;
+        text-align: left !important;
+      }
+      .header-date-cell { padding-top: 6px !important; }
+      /* Improve readability */
+      .body-text { font-size: 13px !important; line-height: 1.8 !important; }
+      .main-title { font-size: 15px !important; line-height: 1.5 !important; }
+      .bullet-text { font-size: 12px !important; line-height: 1.7 !important; }
+      .intro-text { font-size: 13px !important; line-height: 1.8 !important; }
+      /* Stack feedback buttons vertically */
+      .feedback-btn-cell {
+        display: block !important;
+        width: 100% !important;
+        padding: 4px 0 !important;
+      }
+      .feedback-btn {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+      }
+      /* Shrink decorative lines */
+      .deco-line { font-size: 9px !important; letter-spacing: 0px !important; overflow: hidden !important; }
+      /* Transmission log wrap */
+      .log-text { font-size: 10px !important; word-break: break-word !important; }
+      /* Meta line */
+      .meta-line { font-size: 11px !important; }
+      /* Quick find titles */
+      .qf-title { font-size: 13px !important; }
+      .qf-signal { font-size: 11px !important; line-height: 1.6 !important; }
+      /* Brand title */
+      .brand-title { font-size: 16px !important; }
+      .brand-sub { font-size: 11px !important; }
+    }
+
+    @media only screen and (max-width: 360px) {
+      .section-pad { padding-left: 8px !important; padding-right: 8px !important; }
+      .main-title { font-size: 14px !important; }
+      .body-text { font-size: 12px !important; }
+      .brand-title { font-size: 14px !important; }
+    }
+  </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #0F172A; font-family: 'Courier New', Courier, monospace; color: #CBD5E1; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
 
@@ -22,33 +72,33 @@
 
           <!-- ====== HEADER ====== -->
           <tr>
-            <td style="padding: 24px 24px 20px; border-bottom: 1px solid #334155;">
+            <td class="section-pad" style="padding: 24px 24px 20px; border-bottom: 1px solid #334155;">
 
               <!-- Top bar -->
-              <div style="color: #22C55E; font-size: 11px; letter-spacing: 1px; font-family: 'Courier New', Courier, monospace;">
+              <div class="deco-line" style="color: #22C55E; font-size: 11px; letter-spacing: 1px; font-family: 'Courier New', Courier, monospace; overflow: hidden; white-space: nowrap;">
                 ========================================
               </div>
 
               <!-- Title row -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 10px;">
                 <tr>
-                  <td>
-                    <span style="color: #22C55E; font-size: 18px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">DAILY SCOUT</span>
-                    <span style="color: #94A3B8; font-size: 12px; font-family: 'Courier New', Courier, monospace;"> // field report #{{ edition_number }}</span>
+                  <td class="header-title-cell">
+                    <span class="brand-title" style="color: #22C55E; font-size: 18px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">DAILY SCOUT</span>
+                    <span class="brand-sub" style="color: #94A3B8; font-size: 12px; font-family: 'Courier New', Courier, monospace;"> // field report #{{ edition_number }}</span>
                   </td>
-                  <td align="right">
+                  <td class="header-date-cell" align="right">
                     <span style="color: #94A3B8; font-size: 12px; font-family: 'Courier New', Courier, monospace;">{{ date }}</span>
                   </td>
                 </tr>
               </table>
 
               <!-- Meta line -->
-              <div style="color: #818CF8; font-size: 13px; margin-top: 10px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
+              <div class="meta-line" style="color: #818CF8; font-size: 13px; margin-top: 10px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
                 [{{ num_sources | default(2) }} fontes | {{ sources_count }} posts &gt; {{ finds_count }} achados]
               </div>
 
               <!-- Bottom bar -->
-              <div style="color: #22C55E; font-size: 11px; letter-spacing: 1px; margin-top: 10px; font-family: 'Courier New', Courier, monospace;">
+              <div class="deco-line" style="color: #22C55E; font-size: 11px; letter-spacing: 1px; margin-top: 10px; font-family: 'Courier New', Courier, monospace; overflow: hidden; white-space: nowrap;">
                 ========================================
               </div>
             </td>
@@ -57,11 +107,11 @@
           {% if correspondent_intro %}
           <!-- ====== CORRESPONDENT INTRO ====== -->
           <tr>
-            <td style="padding: 20px 24px; border-bottom: 1px solid #334155;">
+            <td class="section-pad" style="padding: 20px 24px; border-bottom: 1px solid #334155;">
               <div style="color: #22C55E; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 8px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
                 &gt; TRANSMISSÃO
               </div>
-              <div style="color: #CBD5E1; font-size: 13px; line-height: 1.7; font-style: italic; font-family: 'Courier New', Courier, monospace;">
+              <div class="intro-text" style="color: #CBD5E1; font-size: 13px; line-height: 1.7; font-style: italic; font-family: 'Courier New', Courier, monospace;">
                 {{ correspondent_intro }}
               </div>
             </td>
@@ -70,13 +120,13 @@
 
           <!-- ====== MAIN FIND ====== -->
           <tr>
-            <td style="padding: 24px; border-bottom: 1px solid #334155;">
+            <td class="section-pad" style="padding: 24px; border-bottom: 1px solid #334155;">
 
               <div style="color: #A78BFA; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 12px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
                 &gt; ACHADO DO DIA
               </div>
 
-              <div style="color: #F1F5F9; font-size: 16px; font-weight: bold; line-height: 1.4; margin-bottom: 8px; font-family: 'Courier New', Courier, monospace;">
+              <div class="main-title" style="color: #F1F5F9; font-size: 16px; font-weight: bold; line-height: 1.4; margin-bottom: 8px; font-family: 'Courier New', Courier, monospace;">
                 {{ main_find.title }}
               </div>
 
@@ -84,7 +134,7 @@
                 src: {{ main_find.source }}
               </div>
 
-              <div style="color: #CBD5E1; font-size: 14px; line-height: 1.7; margin-bottom: 16px; font-family: 'Courier New', Courier, monospace;">
+              <div class="body-text" style="color: #CBD5E1; font-size: 14px; line-height: 1.7; margin-bottom: 16px; font-family: 'Courier New', Courier, monospace;">
                 {{ main_find.body }}
               </div>
 
@@ -92,7 +142,7 @@
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-left: 2px solid #334155; margin-left: 4px;">
                 {% for bullet in main_find.bullets %}
                 <tr>
-                  <td style="padding: 4px 0 4px 14px; color: #CBD5E1; font-size: 13px; line-height: 1.6; font-family: 'Courier New', Courier, monospace;">
+                  <td class="bullet-text" style="padding: 4px 0 4px 14px; color: #CBD5E1; font-size: 13px; line-height: 1.6; font-family: 'Courier New', Courier, monospace;">
                     <span style="color: #22C55E; font-weight: bold;">-&gt;</span> {{ bullet }}
                   </td>
                 </tr>
@@ -100,7 +150,7 @@
               </table>
 
               <!-- Link -->
-              <div style="margin-top: 14px;">
+              <div style="margin-top: 14px; word-break: break-all;">
                 <a href="{{ main_find.url }}" style="color: #818CF8; font-size: 13px; font-weight: bold; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
                   :: {{ main_find.display_url }}
                 </a>
@@ -111,8 +161,8 @@
           {% if quick_finds %}
           <!-- ====== SEPARATOR ====== -->
           <tr>
-            <td style="padding: 8px 24px;">
-              <div style="color: #334155; font-size: 11px; letter-spacing: 2px; text-align: center; font-family: 'Courier New', Courier, monospace;">
+            <td class="section-pad" style="padding: 8px 24px;">
+              <div class="deco-line" style="color: #334155; font-size: 11px; letter-spacing: 2px; text-align: center; font-family: 'Courier New', Courier, monospace; overflow: hidden; white-space: nowrap;">
                 - - - - - - - - - - - - - - - - - - -
               </div>
             </td>
@@ -120,7 +170,7 @@
 
           <!-- ====== QUICK FINDS ====== -->
           <tr>
-            <td style="padding: 0 24px 24px;">
+            <td class="section-pad" style="padding: 0 24px 24px;">
 
               <div style="color: #A78BFA; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 16px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
                 &gt; QUICK FINDS
@@ -130,7 +180,7 @@
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: {{ '16px' if not loop.last else '0' }}; {{ 'padding-bottom: 16px; border-bottom: 1px solid #1E293B;' if not loop.last else '' }}">
                 <tr>
                   <td>
-                    <div style="color: #F1F5F9; font-size: 14px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
+                    <div class="qf-title" style="color: #F1F5F9; font-size: 14px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
                       {{ find.title }}
                     </div>
                     {% if find.source %}
@@ -138,10 +188,10 @@
                       src: {{ find.source }}
                     </div>
                     {% endif %}
-                    <div style="color: #CBD5E1; font-size: 12px; margin-top: 4px; line-height: 1.5; font-family: 'Courier New', Courier, monospace;">
+                    <div class="qf-signal" style="color: #CBD5E1; font-size: 12px; margin-top: 4px; line-height: 1.5; font-family: 'Courier New', Courier, monospace;">
                       <span style="color: #22C55E; font-weight: bold;">signal:</span> {{ find.signal }}
                     </div>
-                    <div style="margin-top: 4px;">
+                    <div style="margin-top: 4px; word-break: break-all;">
                       <a href="{{ find.url }}" style="color: #94A3B8; font-size: 11px; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
                         :: {{ find.display_url }}
                       </a>
@@ -156,7 +206,7 @@
 
           <!-- ====== FEEDBACK RATING ====== -->
           <tr>
-            <td style="padding: 20px 24px; background-color: #0B1120; border-top: 1px solid #334155;">
+            <td class="section-pad" style="padding: 20px 24px; background-color: #0B1120; border-top: 1px solid #334155;">
 
               <div style="color: #22C55E; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 12px; font-weight: bold; text-align: center; font-family: 'Courier New', Courier, monospace;">
                 &gt; COMO FOI ESSA EDIÇÃO?
@@ -166,29 +216,32 @@
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="padding: 0;">
-                    <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto; width: 100%;">
                       <tr>
                         <!-- 🔥 Loved it -->
-                        <td align="center" style="padding: 0 6px;">
+                        <td class="feedback-btn-cell" align="center" style="padding: 0 6px;">
                           <a href="{{ feedback_base_url }}?edition={{ edition_number }}&rating=fire"
                              target="_blank"
-                             style="display: inline-block; padding: 8px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
+                             class="feedback-btn"
+                             style="display: inline-block; padding: 10px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
                             🔥 Loved it
                           </a>
                         </td>
                         <!-- 👍 Solid -->
-                        <td align="center" style="padding: 0 6px;">
+                        <td class="feedback-btn-cell" align="center" style="padding: 0 6px;">
                           <a href="{{ feedback_base_url }}?edition={{ edition_number }}&rating=solid"
                              target="_blank"
-                             style="display: inline-block; padding: 8px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
+                             class="feedback-btn"
+                             style="display: inline-block; padding: 10px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
                             👍 Solid
                           </a>
                         </td>
                         <!-- 😐 Meh -->
-                        <td align="center" style="padding: 0 6px;">
+                        <td class="feedback-btn-cell" align="center" style="padding: 0 6px;">
                           <a href="{{ feedback_base_url }}?edition={{ edition_number }}&rating=meh"
                              target="_blank"
-                             style="display: inline-block; padding: 8px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
+                             class="feedback-btn"
+                             style="display: inline-block; padding: 10px 14px; border: 1px solid #334155; border-radius: 4px; text-decoration: none; font-family: 'Courier New', Courier, monospace; font-size: 13px; color: #CBD5E1; background-color: #1E293B;">
                             😐 Meh
                           </a>
                         </td>
@@ -206,13 +259,13 @@
 
           <!-- ====== FOOTER / TRANSMISSION LOG ====== -->
           <tr>
-            <td style="padding: 18px 24px; background-color: #0B1120; border-top: 1px solid #1E293B;">
+            <td class="section-pad" style="padding: 18px 24px; background-color: #0B1120; border-top: 1px solid #1E293B;">
 
               <div style="color: #94A3B8; font-size: 10px; letter-spacing: 1.5px; margin-bottom: 8px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">
                 -- TRANSMISSION LOG --
               </div>
 
-              <div style="color: #94A3B8; font-size: 11px; line-height: 2; font-family: 'Courier New', Courier, monospace;">
+              <div class="log-text" style="color: #94A3B8; font-size: 11px; line-height: 2; font-family: 'Courier New', Courier, monospace; word-break: break-word;">
                 sources: {{ sources_detail }}<br>
                 analyzed: {{ posts_analyzed }} posts | signal: {{ signal_ratio }} | runtime: {{ runtime }}<br>
                 made_by: aya v3.0 | model: gemini-flash | arch: multi-source
