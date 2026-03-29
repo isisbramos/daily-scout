@@ -49,6 +49,10 @@ FEEDBACK_BASE_URL = os.environ.get(
     "FEEDBACK_BASE_URL",
     "https://isisbramos.github.io/daily-scout/feedback.html",
 )
+AYA_AVATAR_URL = os.environ.get(
+    "AYA_AVATAR_URL",
+    "https://raw.githubusercontent.com/isisbramos/daily-scout/main/aya-avatar.png",
+)
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
 SOCIAL_ENABLED = os.environ.get("SOCIAL_ENABLED", "false").lower() == "true"
 
@@ -667,6 +671,7 @@ def render_email(
         signal_ratio=f"{total_finds}/{meta.get('total_analyzed', filtered_count)}",
         runtime=runtime,
         feedback_base_url=FEEDBACK_BASE_URL,
+        aya_avatar_url=AYA_AVATAR_URL,
     )
 
     logger.info(f"HTML rendered: {len(html)} chars")
@@ -739,8 +744,8 @@ def send_fallback(reason: str) -> bool:
 
     fallback_html = f"""
     <div style="font-family: 'Courier New', monospace; background: #0F172A; color: #CBD5E1; padding: 32px; max-width: 600px; margin: 0 auto;">
-        <div style="color: #22C55E; font-size: 18px; font-weight: bold;">DAILY SCOUT</div>
-        <div style="color: #94A3B8; font-size: 12px; margin-top: 4px;">field report #{EDITION_NUMBER} — {date_str}</div>
+        <div style="color: #22C55E; font-size: 18px; font-weight: bold;">AYA</div>
+        <div style="color: #94A3B8; font-size: 12px; margin-top: 4px;">curadoria diária sobre inteligência artificial — #{EDITION_NUMBER} — {date_str}</div>
         <hr style="border-color: #334155; margin: 16px 0;">
         <div style="color: #F59E0B; font-size: 14px; margin-bottom: 12px;">[TRANSMISSÃO PARCIAL]</div>
         <div style="color: #CBD5E1; font-size: 13px; line-height: 1.7;">
@@ -753,7 +758,7 @@ def send_fallback(reason: str) -> bool:
     </div>
     """
 
-    subject = f"Daily Scout #{EDITION_NUMBER} — [transmissão parcial]"
+    subject = f"AYA #{EDITION_NUMBER} — [transmissão parcial]"
     return send_via_buttondown(subject, fallback_html)
 
 
@@ -827,7 +832,7 @@ def run_pipeline():
         logger.info(f"HTML saved: {output_path}")
 
         # ── Step 6: Send newsletter ──
-        subject = f"Daily Scout #{EDITION_NUMBER} — {content['main_find']['title']}"
+        subject = f"AYA #{EDITION_NUMBER} — {content['main_find']['title']}"
         if DRY_RUN:
             logger.info("DRY_RUN=true — skipping Buttondown send")
             success = True

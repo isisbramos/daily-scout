@@ -152,6 +152,7 @@ def test_render():
         signal_ratio="4/142",
         runtime="12.3s",
         feedback_base_url="https://example.github.io/daily-scout/feedback.html",
+        aya_avatar_url="https://raw.githubusercontent.com/isisbramos/daily-scout/main/aya-avatar.png",
     )
 
     os.makedirs("output", exist_ok=True)

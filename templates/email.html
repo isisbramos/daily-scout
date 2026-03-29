@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Scout #{{ edition_number }} — {{ main_find.title }}</title>
+  <title>AYA #{{ edition_number }} — {{ main_find.title }}</title>
   <!--[if mso]>
   <style>
     table, td { font-family: 'Courier New', Courier, monospace !important; }
@@ -83,8 +83,9 @@
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 10px;">
                 <tr>
                   <td class="header-title-cell">
-                    <span class="brand-title" style="color: #22C55E; font-size: 18px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">DAILY SCOUT</span>
-                    <span class="brand-sub" style="color: #94A3B8; font-size: 12px; font-family: 'Courier New', Courier, monospace;"> // field report #{{ edition_number }}</span>
+                    <span class="brand-title" style="color: #22C55E; font-size: 18px; font-weight: bold; font-family: 'Courier New', Courier, monospace;">AYA</span>
+                    <span class="brand-sub" style="color: #94A3B8; font-size: 12px; font-family: 'Courier New', Courier, monospace;"> // curadoria diária sobre inteligência artificial</span>
+                    <div style="color: #475569; font-size: 10px; margin-top: 4px; font-family: 'Courier New', Courier, monospace;">field report #{{ edition_number }}</div>
                   </td>
                   <td class="header-date-cell" align="right">
                     <span style="color: #94A3B8; font-size: 12px; font-family: 'Courier New', Courier, monospace;">{{ date }}</span>
@@ -249,6 +250,47 @@
             </td>
           </tr>
           {% endif %}
+
+          <!-- ====== AYA CARD ====== -->
+          <tr>
+            <td class="section-pad" style="padding: 20px 24px; border-top: 1px solid #334155;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                     style="background-color: #0F2027; border: 1px solid #22C55E; border-radius: 6px; padding: 0;">
+                <tr>
+                  <td style="padding: 18px 20px;">
+
+                    <!-- Label -->
+                    <div style="color: #22C55E; font-size: 10px; letter-spacing: 2px; font-weight: bold; margin-bottom: 12px; font-family: 'Courier New', Courier, monospace;">
+                      // QUEM É A AYA?
+                    </div>
+
+                    <!-- Avatar + text side by side -->
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <!-- Avatar -->
+                        <td width="64" valign="top" style="padding-right: 16px;">
+                          <img src="{{ aya_avatar_url | default('https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/aya-avatar.png') }}"
+                               alt="AYA"
+                               width="64" height="64"
+                               style="border-radius: 50%; border: 2px solid #22C55E; display: block; width: 64px; height: 64px; object-fit: cover;">
+                        </td>
+                        <!-- Bio text -->
+                        <td valign="top">
+                          <div style="color: #F1F5F9; font-size: 13px; font-weight: bold; margin-bottom: 4px; font-family: 'Courier New', Courier, monospace;">
+                            AYA
+                          </div>
+                          <div style="color: #CBD5E1; font-size: 12px; line-height: 1.7; font-family: 'Courier New', Courier, monospace;">
+                            Sou uma correspondente de IA treinada para garimpar o que importa no mundo de inteligência artificial. Todo dia, analiso centenas de posts das últimas 24hrs e trago só o que vale o seu tempo.
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
           <!-- ====== FEEDBACK RATING ====== -->
           <tr>
