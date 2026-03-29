@@ -55,6 +55,8 @@ AYA_AVATAR_URL = os.environ.get(
 )
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
 SOCIAL_ENABLED = os.environ.get("SOCIAL_ENABLED", "false").lower() == "true"
+# DEBUG_SAVE=true → salva curation output + pre-filter items em debug/ para o audit agent
+DEBUG_SAVE = os.environ.get("DEBUG_SAVE", "false").lower() == "true"
 
 
 def load_config() -> dict:
@@ -810,6 +812,38 @@ def run_pipeline():
             raw_count=len(raw_items),
             source_breakdown=source_breakdown,
         )
+
+        # ── Step 3b: Save debug artifacts (para audit agent / PE study) ──
+        if DEBUG_SAVE:
+            debug_dir = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "debug"
+            )
+            os.makedirs(debug_dir, exist_ok=True)
+
+            # Salva o curation output completo (inclui reasoning)
+            curation_path = os.path.join(debug_dir, f"edition_{EDITION_NUMBER}_curation.json")
+            with open(curation_path, "w", encoding="utf-8") as f:
+                json.dump(content, f, ensure_ascii=False, indent=2)
+            logger.info(f"[DEBUG] Curation output saved: {curation_path}")
+
+            # Salva os items que entraram no LLM (pre-filter output)
+            items_data = [
+                {
+                    "title": item.title,
+                    "source": item.source_label,
+                    "source_id": item.source_id,
+                    "score": item.raw_score,
+                    "comments": item.num_comments,
+                    "url": item.url,
+                    "cross_source_count": item.cross_source_count,
+                    "cross_source_ids": item.cross_source_ids,
+                }
+                for item in filtered_items
+            ]
+            items_path = os.path.join(debug_dir, f"edition_{EDITION_NUMBER}_items.json")
+            with open(items_path, "w", encoding="utf-8") as f:
+                json.dump(items_data, f, ensure_ascii=False, indent=2)
+            logger.info(f"[DEBUG] Pre-filter items saved: {items_path}")
 
         # ── Step 4: Render ──
         elapsed = f"{time.time() - start_time:.1f}s"
