@@ -2,6 +2,7 @@
 Lobsters RSS Source — deep tech discussions com curadoria humana (zero auth).
 Valor: alt-HN com invite-only community, menos noise, mais dev-centric.
 """
+from __future__ import annotations
 
 import calendar
 import time

@@ -1,6 +1,7 @@
 """
 HackerNews API Source — busca top stories via Firebase API (zero auth).
 """
+from __future__ import annotations
 
 import logging
 import requests

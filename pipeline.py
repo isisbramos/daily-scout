@@ -8,7 +8,6 @@ Arquitetura:
   Config-driven: sources_config.json controla tudo sem mudar código.
 """
 
-import html as html_lib
 import os
 import random
 import re
@@ -16,11 +15,9 @@ import sys
 import json
 import time
 import logging
-import requests
 from collections import Counter
 from datetime import datetime, timezone, timedelta
 from jinja2 import Environment, FileSystemLoader
-from pydantic import BaseModel, Field
 
 from sources.base import SourceRegistry, SourceItem
 # Importar sources registra elas automaticamente no registry
@@ -30,6 +27,9 @@ import sources.techcrunch
 import sources.lobsters
 import sources.rss_generic  # v5: AI lab blogs + geographic diversity sources
 from pre_filter import run_pre_filter
+from schemas import Reasoning, MainFind, QuickFind, RadarItem, Meta, CurationOutput
+from delivery import send_via_buttondown, send_fallback
+from exceptions import FetchError, CurationError, DeliveryError
 
 # ── Logging ──────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -43,8 +43,6 @@ logger = logging.getLogger("daily-scout")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 BUTTONDOWN_API_KEY = os.environ.get("BUTTONDOWN_API_KEY")
 EDITION_NUMBER = os.environ.get("EDITION_NUMBER", "001")
-BUTTONDOWN_API_URL = "https://api.buttondown.com/v1/emails"
-
 FEEDBACK_BASE_URL = os.environ.get(
     "FEEDBACK_BASE_URL",
     "https://isisbramos.github.io/daily-scout/feedback.html",
@@ -119,280 +117,41 @@ def filter_items(items: list[SourceItem], config: dict) -> list[SourceItem]:
 
 
 # ── Curate & Write: Gemini (structured output + anti-hallucination) ──
+# Schemas importados de schemas.py
 
-# ── Pydantic schemas para structured output (com observability + enforcement) ──
+# ── Prompts: carregados de arquivos em prompts/ ──────────────────────
+def _load_prompts() -> tuple[str, str]:
+    """Carrega system instruction e curation template de arquivos de texto.
+    Facilita iteração no prompt sem risco de quebrar sintaxe Python."""
+    base = os.path.dirname(os.path.abspath(__file__))
+    prompts_dir = os.path.join(base, "prompts")
 
-class Reasoning(BaseModel):
-    """Observability: registra o raciocínio editorial da AYA para debugging."""
-    ai_gate_passed: list[str] = Field(
-        # [PE-05] cap de 10 pra evitar token overflow — lista os mais relevantes
-        description="Até 10 títulos que passaram no AI Gate (priorize os que avançaram pra seleção final)"
-    )
-    ai_gate_rejected_sample: list[str] = Field(
-        description="3-5 exemplos de títulos rejeitados no AI Gate com motivo curto entre parênteses"
-    )
-    main_find_rationale: str = Field(
-        description="1-2 frases: por que este item foi escolhido como main_find e não os outros"
-    )
-    perspective_check: str = Field(
-        description="1 frase: observação sobre diversidade de fontes/perspectivas nos itens selecionados"
-    )
+    with open(os.path.join(prompts_dir, "system_instruction.txt"), encoding="utf-8") as f:
+        system = f.read().rstrip("\n")
 
-class MainFind(BaseModel):
-    title: str = Field(description="Título factual e descritivo, max 15 palavras")
-    source: str = Field(
-        # [SYNC-01] sem lista hardcoded — pipeline tem 10 fontes
-        description="Fonte real do item — use exatamente o valor do campo 'source' no input"
-    )
-    body: str = Field(description="3-5 frases. Comece com atribuição à fonte. Explique o que é e por que importa pro leitor.")
-    bullets: list[str] = Field(description="2-3 pontos-chave: o que aconteceu, o que significa, o que observar")
-    url: str = Field(description="URL original do post")
-    display_url: str = Field(description="Versão curta legível da URL")
-    primary_audience: str = Field(
-        description="Para quem este achado é mais relevante: 'developers', 'PMs e founders', 'business/executivos', ou 'todos'"
-    )
-    step5_phrase: str = Field(
-        # [PE-03] enforcement estrutural do STEP 5 + audit trail
-        description="Frase completada do STEP 5 que justifica a seleção deste item (ex: 'Agora é possível [ação]' ou '[Player] está [movendo pra] [categoria]')"
-    )
+    with open(os.path.join(prompts_dir, "curation_template.txt"), encoding="utf-8") as f:
+        template = f.read()
 
-class QuickFind(BaseModel):
-    title: str = Field(description="Título curto e descritivo, max 10 palavras")
-    source: str = Field(
-        # [SYNC-01] sem lista hardcoded
-        description="Fonte real do item — use exatamente o valor do campo 'source' no input"
-    )
-    signal: str = Field(description="1-2 frases curtas: [o que aconteceu] + [por que importa pro leitor]")
-    url: str = Field(description="URL original")
-    display_url: str = Field(description="Versão curta da URL")
-    primary_audience: str = Field(
-        description="Para quem este achado é mais relevante: 'developers', 'PMs e founders', 'business/executivos', ou 'todos'"
-    )
-    step5_phrase: str = Field(
-        # [PE-03] enforcement estrutural do STEP 5
-        description="Frase completada do STEP 5 que justifica a seleção deste item"
-    )
-
-class RadarItem(BaseModel):
-    title: str = Field(description="Título curto e descritivo, max 10 palavras")
-    source: str = Field(
-        description="Fonte real do item — use exatamente o valor do campo 'source' no input"
-    )
-    why_watch: str = Field(description="1 frase: por que vale acompanhar nos próximos dias (tom de 'cedo demais pra conclusão, mas...')")
-    url: str = Field(description="URL original")
-    display_url: str = Field(description="Versão curta da URL")
-
-class Meta(BaseModel):
-    total_analyzed: int = Field(description="Número total de posts analisados (use o valor informado no contexto do dia)")
-    sources_used: list[str] = Field(description="Lista de fontes usadas")
-    editorial_note: str = Field(default="", description="Observação opcional sobre o dia")
-
-class CurationOutput(BaseModel):
-    reasoning: Reasoning = Field(description="Raciocínio editorial — explique suas decisões de seleção")
-    correspondent_intro: str = Field(description="1-2 frases em primeira pessoa. A primeira frase referencia o achado do dia pelo tema; a segunda pode citar volume (X posts de Y fontes).")
-    main_find: MainFind
-    quick_finds: list[QuickFind] = Field(description="3-5 achados rápidos")
-    radar: list[RadarItem] = Field(default_factory=list, description="1-2 itens de early signal — temas emergentes que ainda não são achados mas valem acompanhar")
-    meta: Meta
+    return system, template
 
 
-# ── System instruction (v5 — persona + acurácia + tom; SEM overlap com user prompt) ──
-SYSTEM_INSTRUCTION = """Você é a AYA — analista de campo do Daily Scout, newsletter diária que cobre o mundo tech através da lente de AI. Seu público são profissionais curiosos que querem entender como AI está mudando tecnologia, negócios e trabalho.
-
-═══ RESTRIÇÃO FUNDAMENTAL ═══
-Seu único input são títulos e metadados de posts. Você NÃO leu os artigos. Você NÃO tem acesso ao corpo dos artigos.
-
-═══ REGRAS DE ACURÁCIA ═══
-
-PODE (e deve):
-- Explicar brevemente o que algo é: "Sora é a ferramenta de geração de vídeo da OpenAI".
-- Explicar por que algo é relevante pro leitor: "Isso afeta quem usa criptografia de ponta a ponta."
-- Usar seu conhecimento para dar contexto factual curto sobre o que uma empresa/produto/tecnologia É.
-
-NÃO PODE (nunca):
-- Inventar reações, motivações, consequências ou análises que não estão no título.
-- Inventar números, datas, valores ou detalhes que não estão nos metadados.
-- Qualificar intensidade com adjetivos vazios: nada de "massivo", "bombástico", "enorme", "pesado", "impressionante".
-
-REGRA DE CERTEZA — ao traduzir/reformular, preserve o nível de certeza do título original:
-- "may/might/could" → condicional: "estaria", "poderia"
-- "reportedly/sources say" → atribuição: "segundo relatos"
-- Pergunta no título → "Post questiona se..."
-- NUNCA aumente nem diminua a certeza do original.
-
-═══ VOZ EDITORIAL ═══
-- Frases curtas e declarativas. Sujeito, verbo, complemento.
-- Verbos factuais: "anunciou", "lançou", "reportou", "publicou", "atualizou", "levantou", "descontinuou".
-- Tom: competente e direto, como colunista que acompanha o mercado todo dia. Dê contexto útil sem dramatizar.
-- Explique para leitores inteligentes que não são da área — termos técnicos ganham explicação breve entre parênteses."""
-
-# ── User prompt (missão + pipeline + few-shots + formato) ──────
 # Nota: {context_block} é injetado em runtime por curate_and_write()
-CURATION_PROMPT_TEMPLATE = """Selecione e escreva os achados do dia a partir dos posts abaixo.
+# O template termina com "POSTS COLETADOS:\n" — o JSON é anexado em curate_and_write()
+SYSTEM_INSTRUCTION, CURATION_PROMPT_TEMPLATE = _load_prompts()
 
-{context_block}
 
-═══ PIPELINE DE SELEÇÃO (execute na ordem) ═══
-
-STEP 1 — AI GATE (obrigatório):
-O post tem conexão com AI/ML, modelos de linguagem, automação inteligente, ou decisões de empresas de AI?
-→ SIM: continua pro Step 2.
-→ NÃO: só entra se for evento de magnitude excepcional (aquisição >$1B, regulação governamental, shutdown de plataforma major). Caso contrário, DESCARTE.
-
-STEP 1.5 — SOURCE BIAS CHECK (para blogs oficiais de QUALQUER empresa):
-Se a fonte original é um blog corporativo oficial (ex: blog.anthropic.com, openai.com/blog, deepmind.google, blog.google, developer.apple.com, aws.amazon.com/blogs):
-→ O post anuncia algo que USUÁRIOS podem usar/testar agora? → Tratar normalmente.
-→ O post é marketing/thought-leadership/branding sem novidade concreta? → DESCARTE.
-→ A informação já foi coberta por outra fonte na lista? → Preferir a cobertura independente.
-Aplica a mesma lógica quando uma fonte jornalística (SCMP, TechCrunch, Rest of World) está reportando um anúncio de blog corporativo — avalie o conteúdo original, não a cobertura.
-
-STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
-1. Acionável — o leitor pode fazer algo concreto: testar ferramenta, mudar processo, tomar decisão
-2. Sinal de mercado — revela movimento estratégico: player entrando/saindo de categoria, shift de política de dados, nova aliança/aquisição
-3. Afeta workflows — muda como pessoas trabalham com tech/AI no dia a dia
-
-STEP 3 — ANTI-SIGNAL:
-Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos frequentes de anti-signal:
-→ Preço/assinatura de serviço consumer (Netflix, Spotify, Disney+)
-→ Funding round (mesmo de empresa de AI): descarte a menos que o título revele informação acionável — nova feature, novo produto, shift de estratégia. "Empresa X levanta $Y" sozinho é noise. Exceção: magnitude excepcional (>$5B) ou player de referência (OpenAI, Anthropic, Google DeepMind).
-→ Mercado financeiro/crypto/apostas sem aplicação de AI
-→ Atualização de produto sem impacto em workflows (ex: UI redesign cosmético)
-→ Confirmação do óbvio ("X vai continuar fazendo Y")
-→ Hardware reviews, gaming news, celebrity tech takes sem ângulo AI
-→ Rehashed news: se o título reporta evento que você sabe que já aconteceu dias ou semanas atrás (lançamento já anunciado, descontinuação já reportada, aquisição já fechada), DESCARTE — mesmo que o post seja de hoje. Exceção: se o título traz INFORMAÇÃO NOVA sobre o evento (dados, reação, consequência concreta), trate como story nova.
-Se um post não se enquadra nesses exemplos mas claramente foge do escopo AI/tech relevante, DESCARTE também. Use o princípio, não apenas a lista.
-
-STEP 4 — RANKING:
-→ main_find = item mais acionável OU com maior sinal de mercado. Tração (score) é tiebreaker, NUNCA critério principal.
-→ main_find DEVE ser sobre UM evento específico. Se um post é roundup/compilação (título com múltiplas notícias separadas por ';' ou temas não-relacionados), NÃO use como main_find — prefira outro item com foco singular.
-→ quick_finds = 3-5 itens restantes que passaram nos steps anteriores.
-→ Diversidade de fontes: prefira representação variada de sources.
-→ Diversidade de PERSPECTIVA: se todos os quick_finds são product launches, priorize pelo menos 1 item que traga perspectiva diferente (regulação, open source, research, mercado emergente, crítica fundamentada).
-→ Diversidade de AUDIÊNCIA: se todos os quick_finds têm primary_audience='developers', priorize pelo menos 1 item para audiência diferente.
-→ Diversidade GEOGRÁFICA: no máximo 2 itens (entre main_find + quick_finds) podem ser da mesma região geográfica (ex: China/Asia). Se houver 3+ itens asiáticos fortes, escolha os 2 melhores e descarte o resto em favor de diversidade.
-→ Items com campo "also_trending_on" indicam que o tema apareceu em múltiplas fontes independentes. Trate isso como sinal de relevância editorial e, ao escrever, mencione: "notícia reportada tanto no [source] quanto no [other_source]".
-
-STEP 4.5 — RADAR (early signals):
-→ Após selecionar main_find e quick_finds, olhe para os itens restantes que passaram no AI Gate mas ficaram de fora.
-→ Selecione 1-2 itens que são "cedo demais pra ser achado" mas vale acompanhar: temas emergentes, discussões ganhando tração, sinais fracos de mercado.
-→ Esses itens entram no campo "radar" com tom diferente: "vale acompanhar", "ainda cedo, mas...", "pode virar notícia nos próximos dias".
-→ Se nenhum item justifica radar, deixe a lista vazia. NÃO force itens fracos aqui.
-
-STEP 5 — TESTE FINAL:
-Para cada item selecionado, complete UMA das frases abaixo no campo step5_phrase. Se não conseguir completar com informação do título, DESCARTE o item:
-→ "Agora é possível [ação concreta]" — para features e ferramentas
-→ "[Player] está [movendo pra / investindo em / saindo de] [categoria]" — para M&A e estratégia
-→ "[Resultado/dado] muda o que sabíamos sobre [área]" — para research e benchmarks
-→ "[Autoridade] decidiu [ação] sobre [tema de AI/tech]" — para regulação e policy
-
-═══ EXEMPLOS DE CALIBRAÇÃO ═══
-
-Exemplo 1 — SELEÇÃO CORRETA (acionável + AI):
-Input: {{ "title": "Gemini now lets you import chat history from ChatGPT and other chatbots", "source": "TechCrunch", "score": 89 }}
-→ AI gate: SIM (chatbots de AI)
-→ Critérios: Acionável (posso migrar agora) + Sinal de mercado (Google competindo por lock-in)
-→ step5_phrase: "Agora é possível importar conversas de outros chatbots pro Gemini"
-→ SELECIONADO como main_find
-Output CORRETO: "Segundo o TechCrunch, o Gemini — chatbot de IA do Google — agora permite transferir conversas e informações pessoais de outros chatbots diretamente para ele. Isso facilita a migração de usuários entre plataformas de IA e centraliza o histórico de interações."
-
-Exemplo 2 — DESCARTE CORRETO (alta tração, sem ângulo AI):
-Input: {{ "title": "We haven't satisfactorily dealt with the worst of what prediction markets will do", "source": "HackerNews", "score": 539 }}
-→ AI gate: NÃO (mercados de previsão/apostas, sem conexão com AI)
-→ Magnitude excepcional? NÃO (post de opinião, não evento)
-→ DESCARTADO — 539 pontos de tração não salva post sem ângulo AI
-
-Exemplo 3 — TOM: RUMOR/ESPECULAÇÃO:
-Input: {{ "title": "Report: Apple may license Google Gemini for iOS 20 AI features", "source": "HackerNews", "score": 847 }}
-Output ERRADO (NÃO faça isso): "A Apple fecha acordo bombástico com Google para trazer IA ao iPhone. A parceria promete revolucionar a experiência mobile."
-→ Por que está errado: converteu "may" em fato, inventou "bombástico", "revolucionar" — NADA disso está no título.
-Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a Apple estaria negociando licenciar o Gemini do Google para recursos de IA no iOS 20. Se confirmado, o acordo sinalizaria que a Apple está priorizando velocidade de entrega de AI em vez de desenvolver tudo in-house."
-
-Exemplo 4 — TOM: BUSINESS com ângulo AI:
-Input: {{ "title": "Stripe acquires AI payments startup PayAI for $1.2B", "source": "TechCrunch", "score": 0 }}
-→ AI gate: SIM (startup de AI payments)
-→ Critérios: Sinal de mercado (Stripe apostando em AI pra pagamentos)
-→ step5_phrase: "Stripe está investindo em AI aplicada a pagamentos com aquisição de $1.2B"
-→ SELECIONADO como quick_find
-Output CORRETO: "De acordo com o TechCrunch, a Stripe adquiriu a PayAI — startup de pagamentos com inteligência artificial — por US$ 1,2 bilhão. A aquisição sinaliza que AI está chegando ao core da infraestrutura de pagamentos online."
-
-Exemplo 5 — SELEÇÃO CORRETA (regulação + AI):
-Input: {{ "title": "EU begins enforcing AI Act transparency requirements for high-risk systems", "source": "TechCrunch", "score": 45 }}
-→ AI gate: SIM (regulação de AI)
-→ Critérios: Sinal de mercado (Europa impondo regras) + Afeta workflows (empresas precisam se adequar)
-→ step5_phrase: "UE decidiu começar a aplicar requisitos de transparência do AI Act"
-→ SELECIONADO como quick_find — score baixo (45) mas relevância editorial alta
-Output CORRETO: "De acordo com o TechCrunch, a União Europeia começou a aplicar os requisitos de transparência do AI Act para sistemas classificados como alto risco. Empresas que operam na Europa precisam documentar como seus modelos de AI tomam decisões."
-
-Exemplo 6 — SELEÇÃO CORRETA (open source release):
-Input: {{ "title": "Meta releases Llama 4 Scout and Maverick with Apache 2.0 license", "source": "r/MachineLearning", "score": 1200 }}
-→ AI gate: SIM (release de modelo de AI open source)
-→ Critérios: Acionável (desenvolvedores podem baixar e usar agora) + Sinal de mercado (Meta mantendo estratégia open source)
-→ step5_phrase: "Agora é possível usar Llama 4 com licença Apache 2.0"
-→ SELECIONADO como main_find
-Output CORRETO: "Segundo post no r/MachineLearning, a Meta lançou o Llama 4 em duas versões — Scout e Maverick — com licença Apache 2.0 (código aberto). A licença permite uso comercial sem restrições, o que amplia o acesso a modelos de grande porte fora das APIs pagas."
-
-Exemplo 7 — SELEÇÃO CORRETA (perspectiva geográfica + AI):
-Input: {{ "title": "Baidu open-sources ERNIE 4.5 to compete with Llama in Chinese market", "source": "SCMP Tech", "score": 0 }}
-→ AI gate: SIM (open source AI model)
-→ Critérios: Sinal de mercado (competição China vs Meta em open source) + Acionável (devs podem testar)
-→ step5_phrase: "Agora é possível usar ERNIE 4.5 open source como alternativa ao Llama"
-→ SELECIONADO como quick_find — perspectiva geográfica diferenciada
-Output CORRETO: "Segundo o SCMP Tech, a Baidu — maior empresa de buscas da China — liberou o ERNIE 4.5 como open source para competir com o Llama da Meta no mercado chinês. A China é o segundo maior ecossistema de AI do mundo e a competição de modelos abertos pode acelerar o acesso fora do eixo americano."
-
-Exemplo 8 — DESCARTE CORRETO (blog oficial, thought-leadership sem novidade):
-Input: {{ "title": "Our approach to building safe and beneficial AI systems", "source": "Anthropic Blog", "score": 0 }}
-→ AI gate: SIM (empresa de AI falando sobre AI)
-→ STEP 1.5: blog oficial da Anthropic. Anuncia feature testável? NÃO. É thought-leadership/branding. Coberto por outra fonte? N/A.
-→ DESCARTADO — blog oficial sem novidade concreta para o leitor
-
-Exemplo 9 — SELEÇÃO CORRETA (cross-source signal):
-Input: {{ "title": "Google DeepMind releases Gemma 3 with open weights", "source": "TechCrunch", "score": 67, "also_trending_on": ["hackernews", "reddit"] }}
-→ AI gate: SIM (release de modelo AI)
-→ Cross-source signal: apareceu em 3 fontes independentes — alta relevância
-→ Critérios: Acionável (devs podem usar) + Sinal de mercado (Google apostando em open weights)
-→ step5_phrase: "Agora é possível usar Gemma 3 com pesos abertos do DeepMind"
-→ SELECIONADO como main_find — cross-source signal reforça relevância
-Output CORRETO: "De acordo com o TechCrunch — notícia também em destaque no HackerNews e Reddit — o Google DeepMind lançou o Gemma 3 com pesos abertos (open weights). Isso permite que desenvolvedores rodem o modelo localmente sem depender de APIs pagas."
-
-Exemplo 10 — SELEÇÃO CORRETA (Global South + AI impact):
-Input: {{ "title": "Brazil's Serpro deploys AI to automate 40% of federal tax audits", "source": "Rest of World", "score": 0 }}
-→ AI gate: SIM (AI em governo)
-→ Critérios: Afeta workflows (automação de auditoria fiscal) + Sinal de mercado (governo brasileiro apostando em AI)
-→ step5_phrase: "Serpro está investindo em AI para automatizar auditorias fiscais federais"
-→ SELECIONADO como quick_find — perspectiva LatAm relevante pro público brasileiro
-Output CORRETO: "Segundo o Rest of World, o Serpro — empresa de tecnologia do governo federal brasileiro — implementou inteligência artificial para automatizar 40% das auditorias fiscais. É um sinal concreto de que AI está entrando na operação pública no Brasil."
-
-Exemplo 11 — DESCARTE CORRETO (rehashed news):
-Input: {{ "title": "OpenAI shuts down Sora video generation tool", "source": "TechCrunch", "score": 0 }}
-→ AI gate: SIM (ferramenta de AI)
-→ Freshness check: a descontinuação do Sora já foi amplamente reportada dias atrás. Este post não traz informação nova — apenas repete o fato.
-→ DESCARTADO — rehashed news, evento já coberto anteriormente
-
-Exemplo 11b — SELEÇÃO CORRETA (follow-up com info nova sobre evento velho):
-Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown — no refund policy", "source": "HackerNews", "score": 423 }}
-→ AI gate: SIM (produto de AI)
-→ Freshness check: embora o shutdown do Sora seja evento velho, este post traz informação NOVA (perda de créditos, ausência de política de reembolso)
-→ Critérios: Acionável (afeta quem pagou pelo Sora) + Afeta workflows (usuários precisam buscar alternativas)
-→ step5_phrase: "Agora é possível que usuários do Sora percam créditos pagos sem reembolso"
-→ SELECIONADO como quick_find — info nova sobre evento conhecido
-
-═══ REGRAS DE FORMATO ═══
-- reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
-- correspondent_intro: 1-2 frases em primeira pessoa. A PRIMEIRA frase deve referenciar o achado do dia pelo tema (não pelo nome do campo). A segunda pode citar volume (X posts de Y fontes). BOM: "Hoje o destaque vai pro lançamento do Llama 4 pela Meta. Analisei 267 posts de 10 fontes." RUIM: "O dia trouxe novidades sobre a estratégia de grandes players de AI." (genérico — serve pra qualquer dia)
-- main_find.title: factual, max 15 palavras. Reformule se o original for sensacionalista.
-- main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, explique o que é e por que importa pro leitor.
-- main_find.bullets: 2-3 pontos: o que aconteceu, o que significa pra quem lê, o que observar a seguir.
-- main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
-- quick_finds[].signal: 1-2 frases curtas explicando o que aconteceu e por que é relevante.
-- quick_finds[].step5_phrase: a frase do STEP 5 completada.
-- primary_audience: indique para quem cada achado é mais relevante ('developers', 'PMs e founders', 'business/executivos', ou 'todos').
-- radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.
-- Termos técnicos: explique brevemente — "LLM (modelos de IA que geram texto)", "open source (código aberto)".
-
-LEMBRETE FINAL: Você PODE explicar o que algo é (contexto factual) e por que importa pro leitor. Você NÃO PODE inventar reações, consequências ou qualificar intensidade. Na dúvida: descreva, não qualifique.
-
-POSTS COLETADOS:
-"""
+# ── Startup: validação de env vars ───────────────────────────────────
+def _validate_env() -> None:
+    """Valida env vars obrigatórias antes de iniciar qualquer fase. Fail fast."""
+    missing = []
+    if not GEMINI_API_KEY:
+        missing.append("GEMINI_API_KEY")
+    if not DRY_RUN and not BUTTONDOWN_API_KEY:
+        missing.append("BUTTONDOWN_API_KEY")
+    if missing:
+        logger.error(f"ABORT: env vars obrigatórias ausentes: {', '.join(missing)}")
+        sys.exit(1)
+    logger.info(f"Env vars OK (DRY_RUN={DRY_RUN})")
 
 
 # ── Heurísticas anti-hallucination (pós-processamento) ───────────────
@@ -608,13 +367,24 @@ def curate_and_write(
         except json.JSONDecodeError as e:
             logger.warning(f"Attempt {attempt + 1}: invalid JSON — {e}")
             if attempt < max_retries - 1:
-                time.sleep(2**attempt)
+                time.sleep(2**attempt + random.uniform(0, 1))
         except Exception as e:
-            logger.warning(f"Attempt {attempt + 1}: error — {e}")
+            err_str = str(e).lower()
+            is_rate_limit = any(
+                k in err_str for k in ("429", "resource exhausted", "quota", "rate limit")
+            )
+            if is_rate_limit:
+                sleep_secs = 60 + random.uniform(0, 15)
+                logger.warning(
+                    f"Attempt {attempt + 1}: rate limit — sleeping {sleep_secs:.0f}s before retry"
+                )
+            else:
+                sleep_secs = 2**attempt + random.uniform(0, 1)
+                logger.warning(f"Attempt {attempt + 1}: error — {e}")
             if attempt < max_retries - 1:
-                time.sleep(2**attempt)
+                time.sleep(sleep_secs)
 
-    raise RuntimeError(f"Gemini failed after {max_retries} attempts")
+    raise CurationError(f"Gemini failed after {max_retries} attempts")
 
 
 # ── Render: Jinja2 HTML ──────────────────────────────────────────────
@@ -680,89 +450,7 @@ def render_email(
     return html
 
 
-# ── Send: Buttondown API ─────────────────────────────────────────────
-def send_via_buttondown(subject: str, html_content: str) -> bool:
-    """Envia newsletter via Buttondown API (free tier, até 100 subs)."""
-    logger.info("=" * 50)
-    logger.info("PHASE 5: SEND — delivering via Buttondown")
-    logger.info("=" * 50)
-
-    if not BUTTONDOWN_API_KEY:
-        logger.error("BUTTONDOWN_API_KEY não configurada")
-        return False
-
-    html_body = "<!-- buttondown-editor-mode: raw -->\n" + html_content
-
-    payload = {
-        "subject": subject,
-        "body": html_body,
-        "status": "about_to_send",
-    }
-
-    headers = {
-        "Authorization": f"Token {BUTTONDOWN_API_KEY}",
-        "Content-Type": "application/json",
-        "X-Buttondown-Live-Dangerously": "true",
-    }
-
-    try:
-        resp = requests.post(
-            BUTTONDOWN_API_URL, json=payload, headers=headers, timeout=30
-        )
-
-        if resp.status_code in (200, 201):
-            data = resp.json()
-            logger.info(f"Buttondown: sent! ID={data.get('id', 'unknown')}")
-            return True
-        elif resp.status_code == 400:
-            error_data = resp.json() if resp.text else {}
-            if "sending_requires_confirmation" in str(error_data):
-                logger.error(
-                    "Buttondown: first API send needs manual confirmation in dashboard."
-                )
-            else:
-                logger.error(f"Buttondown: HTTP 400 — {resp.text}")
-            return False
-        else:
-            logger.error(f"Buttondown: HTTP {resp.status_code} — {resp.text}")
-            return False
-    except Exception as e:
-        logger.error(f"Buttondown: connection error — {e}")
-        return False
-
-
-# ── Send: Fallback ──────────────────────────────────────────────────
-def send_fallback(reason: str) -> bool:
-    """Envia versão simplificada caso o pipeline falhe parcialmente."""
-    if DRY_RUN:
-        logger.info(f"DRY_RUN=true — skipping fallback send (reason: {reason})")
-        return True
-    logger.info(f"Sending fallback: {reason}")
-
-    brt = timezone(timedelta(hours=-3))
-    now_brt = datetime.now(brt)
-    date_str = now_brt.strftime("%d/%m/%Y")
-    safe_reason = html_lib.escape(reason)
-
-    fallback_html = f"""
-    <div style="font-family: 'Courier New', monospace; background: #0F172A; color: #CBD5E1; padding: 32px; max-width: 600px; margin: 0 auto;">
-        <div style="color: #22C55E; font-size: 18px; font-weight: bold;">AYA</div>
-        <div style="color: #94A3B8; font-size: 12px; margin-top: 4px;">curadoria diária sobre inteligência artificial — #{EDITION_NUMBER} — {date_str}</div>
-        <hr style="border-color: #334155; margin: 16px 0;">
-        <div style="color: #F59E0B; font-size: 14px; margin-bottom: 12px;">[TRANSMISSÃO PARCIAL]</div>
-        <div style="color: #CBD5E1; font-size: 13px; line-height: 1.7;">
-            A correspondente encontrou instabilidade no campo hoje. A edição completa não pôde ser montada.<br><br>
-            <strong style="color: #F1F5F9;">Motivo:</strong> {safe_reason}<br><br>
-            Amanhã voltamos com cobertura completa.
-        </div>
-        <hr style="border-color: #334155; margin: 16px 0;">
-        <div style="color: #94A3B8; font-size: 10px;">made_by: aya v3.0 | status: fallback</div>
-    </div>
-    """
-
-    subject = f"AYA #{EDITION_NUMBER} — [transmissão parcial]"
-    return send_via_buttondown(subject, fallback_html)
-
+# send_via_buttondown e send_fallback importados de delivery.py
 
 # ── Pipeline principal ───────────────────────────────────────────────
 def run_pipeline():
@@ -773,6 +461,9 @@ def run_pipeline():
     logger.info("║     DAILY SCOUT — PIPELINE v3.0 (Multi-Source)  ║")
     logger.info("║     Correspondente: AYA                          ║")
     logger.info("╚══════════════════════════════════════════════════╝")
+
+    # ── Fail fast: valida env vars antes de qualquer I/O ──
+    _validate_env()
 
     try:
         # ── Step 0: Load config ──
@@ -786,21 +477,13 @@ def run_pipeline():
 
         # ── Step 1: Fetch ──
         raw_items = fetch_all_sources(config)
-
         if not raw_items:
-            logger.warning("No items collected — sending fallback")
-            send_fallback(
-                "Nenhuma fonte respondeu. Possível rate limit ou instabilidade."
-            )
-            return
+            raise FetchError("Nenhuma fonte respondeu. Possível rate limit ou instabilidade.")
 
         # ── Step 2: Pre-Filter ──
         filtered_items = filter_items(raw_items, config)
-
         if not filtered_items:
-            logger.warning("Pre-filter returned 0 items — sending fallback")
-            send_fallback("Pré-filtro descartou todos os items. Revisando thresholds.")
-            return
+            raise FetchError("Pré-filtro descartou todos os items. Revisando thresholds.")
 
         # ── Step 3: Curate (v5: com context injection) ──
         source_breakdown = {}
@@ -820,13 +503,11 @@ def run_pipeline():
             )
             os.makedirs(debug_dir, exist_ok=True)
 
-            # Salva o curation output completo (inclui reasoning)
             curation_path = os.path.join(debug_dir, f"edition_{EDITION_NUMBER}_curation.json")
             with open(curation_path, "w", encoding="utf-8") as f:
                 json.dump(content, f, ensure_ascii=False, indent=2)
             logger.info(f"[DEBUG] Curation output saved: {curation_path}")
 
-            # Salva os items que entraram no LLM (pre-filter output)
             items_data = [
                 {
                     "title": item.title,
@@ -872,6 +553,8 @@ def run_pipeline():
             success = True
         else:
             success = send_via_buttondown(subject, html)
+            if not success:
+                raise DeliveryError("Buttondown delivery failed — HTML saved as artifact")
 
         # ── Step 7: Generate social content (isolated — failures don't affect newsletter) ──
         social_success = False
@@ -905,16 +588,26 @@ def run_pipeline():
         logger.info(f"  Raw items: {len(raw_items)} → Filtered: {len(filtered_items)}")
         logger.info(f"  Main find: {content['main_find']['title']}")
         logger.info(f"  Quick finds: {len(content.get('quick_finds', []))}")
-        logger.info(f"  Newsletter: {'OK' if success else 'FAILED'}")
         logger.info(f"  Social: {'OK' if social_success else 'SKIPPED' if not SOCIAL_ENABLED else 'FAILED'}")
         logger.info(f"  Runtime: {total_time}")
         logger.info("=" * 50)
 
-        if not success:
-            logger.warning("Newsletter delivery failed but HTML was saved as artifact")
+    except (FetchError, CurationError) as e:
+        # Falha na coleta ou curadoria — envia fallback e falha o job
+        logger.error(f"{type(e).__name__}: {e}")
+        try:
+            send_fallback(str(e))
+        except Exception as fallback_err:
+            logger.error(f"Fallback also failed: {fallback_err}")
+        sys.exit(1)
+
+    except DeliveryError as e:
+        # Falha só na entrega — HTML foi salvo, não envia fallback, não mata o job
+        logger.warning(f"DeliveryError: {e}")
 
     except Exception as e:
-        logger.error(f"PIPELINE FAILED: {e}", exc_info=True)
+        # Erro inesperado — trata igual a FetchError/CurationError
+        logger.error(f"PIPELINE FAILED (unexpected): {e}", exc_info=True)
         try:
             send_fallback(str(e))
         except Exception as fallback_err:

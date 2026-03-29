@@ -3,6 +3,7 @@ Generic RSS Source — reusável para qualquer feed RSS.
 Usado para AI lab blogs (Anthropic, OpenAI, DeepMind) e fontes geográficas (SCMP, Rest of World).
 Config-driven: cada instância é definida no sources_config.json.
 """
+from __future__ import annotations
 
 import calendar
 import logging

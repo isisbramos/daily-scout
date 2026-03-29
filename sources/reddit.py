@@ -1,6 +1,7 @@
 """
 Reddit RSS Source — busca top posts de subreddits via RSS (zero auth).
 """
+from __future__ import annotations
 
 import calendar
 import time

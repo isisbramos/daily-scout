@@ -2,6 +2,7 @@
 TechCrunch RSS Source — busca posts via RSS feed público (zero auth).
 Valor: funding rounds, launches, industry moves — signal que HN/Reddit não cobrem bem.
 """
+from __future__ import annotations
 
 import calendar
 import time
