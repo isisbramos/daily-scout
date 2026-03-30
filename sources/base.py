@@ -30,6 +30,7 @@ class SourceItem:
     # v5: cross-source signal — quantas sources mencionaram o mesmo tema
     cross_source_count: int = 1
     cross_source_ids: list = field(default_factory=list)  # ["hackernews", "reddit"]
+    content_type: str = field(default="outro")  # "produto" | "pesquisa" | "regulacao" | "outro"
 
     def to_dict(self) -> dict:
         return asdict(self)

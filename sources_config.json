@@ -35,6 +35,27 @@
       "rss_url": "https://lobste.rs/rss"
     },
 
+    "_comment_primary": "T1 Primary Sources — pesquisa acadêmica original. Peso 1.3 (maior do sistema). Papers são candidatos naturais ao RADAR. Não são blogs corporativos — STEP 1.5 não se aplica.",
+    "arxiv_ai": {
+      "enabled": true,
+      "weight": 1.3,
+      "tier": "T1",
+      "limit": 15,
+      "feeds": {
+        "cs_ai": "https://rss.arxiv.org/rss/cs.AI",
+        "cs_lg": "https://rss.arxiv.org/rss/cs.LG",
+        "cs_cl": "https://rss.arxiv.org/rss/cs.CL"
+      }
+    },
+    "huggingface_papers": {
+      "enabled": false,
+      "_comment": "Papers em trending na comunidade HuggingFace — já pré-filtrados por tração. Desabilitado até confirmar URL do feed.",
+      "weight": 1.3,
+      "tier": "T1",
+      "limit": 20,
+      "rss_url": "https://huggingface.co/papers.rss"
+    },
+
     "_comment_ai_labs": "AI Lab Blogs — weight 0.8 (abaixo de community sources; blogs oficiais são marketing-heavy)",
     "anthropic_blog": {
       "enabled": true,

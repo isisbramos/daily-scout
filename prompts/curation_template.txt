@@ -5,15 +5,17 @@ Selecione e escreva os achados do dia a partir dos posts abaixo.
 ═══ PIPELINE DE SELEÇÃO (execute na ordem) ═══
 
 STEP 1 — AI GATE (obrigatório):
-O post tem conexão com AI/ML, modelos de linguagem, automação inteligente, ou decisões de empresas de AI?
-→ SIM: continua pro Step 2.
-→ NÃO: só entra se for evento de magnitude excepcional (aquisição >$1B, regulação governamental, shutdown de plataforma major). Caso contrário, DESCARTE.
+Classifique a relação deste post com AI/ML:
+→ DIRETA: o post é sobre AI/ML, LLMs, automação inteligente, ou decisão estratégica de empresa de AI → continue pro Step 2.
+→ TANGENCIAL: AI é mencionado mas não é o assunto central → DESCARTE, salvo magnitude excepcional (aquisição >$1B, regulação governamental, shutdown de plataforma major).
+→ NENHUMA: sem conexão com AI/ML → DESCARTE.
 
 STEP 1.5 — SOURCE BIAS CHECK (para blogs oficiais de QUALQUER empresa):
 Se a fonte original é um blog corporativo oficial (ex: blog.anthropic.com, openai.com/blog, deepmind.google, blog.google, developer.apple.com, aws.amazon.com/blogs):
 → O post anuncia algo que USUÁRIOS podem usar/testar agora? → Tratar normalmente.
 → O post é marketing/thought-leadership/branding sem novidade concreta? → DESCARTE.
 → A informação já foi coberta por outra fonte na lista? → Preferir a cobertura independente.
+→ EXCEÇÃO: fontes com label "arXiv" ou "HuggingFace Papers" são pesquisa acadêmica original — NÃO são blogs corporativos. STEP 1.5 não se aplica. Trate como fonte primária.
 Aplica a mesma lógica quando uma fonte jornalística (SCMP, TechCrunch, Rest of World) está reportando um anúncio de blog corporativo — avalie o conteúdo original, não a cobertura.
 
 STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
@@ -37,7 +39,11 @@ STEP 4 — RANKING:
 → main_find DEVE ser sobre UM evento específico. Se um post é roundup/compilação (título com múltiplas notícias separadas por ';' ou temas não-relacionados), NÃO use como main_find — prefira outro item com foco singular.
 → quick_finds = 3-5 itens restantes que passaram nos steps anteriores.
 → Diversidade de fontes: prefira representação variada de sources.
-→ Diversidade de PERSPECTIVA: se todos os quick_finds são product launches, priorize pelo menos 1 item que traga perspectiva diferente (regulação, open source, research, mercado emergente, crítica fundamentada).
+→ Diversidade de PERSPECTIVA (constraint, não preferência): a curadoria completa (main_find + quick_finds) DEVE ter ao menos 1 item de cada categoria epistêmica — ou documentar em meta.epistemic_distribution por que foi impossível:
+   • produto/lançamento — feature, tool, release, deploy
+   • pesquisa/dado — paper, benchmark, estudo, análise com números
+   • regulação/crítica — policy, lei, consequência negativa, análise de impacto
+   Se não houver candidato numa categoria, use o RADAR para sinalizar o gap.
 → Diversidade de AUDIÊNCIA: se todos os quick_finds têm primary_audience='developers', priorize pelo menos 1 item para audiência diferente.
 → Diversidade GEOGRÁFICA: no máximo 2 itens (entre main_find + quick_finds) podem ser da mesma região geográfica (ex: China/Asia). Se houver 3+ itens asiáticos fortes, escolha os 2 melhores e descarte o resto em favor de diversidade.
 → Items com campo "also_trending_on" indicam que o tema apareceu em múltiplas fontes independentes. Trate isso como sinal de relevância editorial e, ao escrever, mencione: "notícia reportada tanto no [source] quanto no [other_source]".
@@ -46,10 +52,23 @@ STEP 4.5 — RADAR (early signals):
 → Após selecionar main_find e quick_finds, olhe para os itens restantes que passaram no AI Gate mas ficaram de fora.
 → Selecione 1-2 itens que são "cedo demais pra ser achado" mas vale acompanhar: temas emergentes, discussões ganhando tração, sinais fracos de mercado.
 → Esses itens entram no campo "radar" com tom diferente: "vale acompanhar", "ainda cedo, mas...", "pode virar notícia nos próximos dias".
+→ Papers de "arXiv" são candidatos naturais ao RADAR — pesquisa acadêmica raramente é imediatamente acionável, mas pode antecipar tendências. Inclua no radar se o título indicar resultado que pode mudar práticas nos próximos meses.
 → Se nenhum item justifica radar, deixe a lista vazia. NÃO force itens fracos aqui.
 
+STEP 4.75 — CHECAGEM ANTI-SYCOPHANCY (obrigatório antes de finalizar):
+Antes de passar pro STEP 5, responda internamente:
+→ A curadoria de hoje tem ao menos 1 item de cada tipo: produto/lançamento, pesquisa/dado, regulação/crítica? Se não, há itens que passaram o AI Gate mas foram preteridos que cobrem o tipo ausente?
+→ Algum item selecionado depende de fonte única sem corroboração? Se sim, marque como "especulativo" no tom ao escrever.
+→ Sua seleção atual reflete o que é editorialmente relevante, ou o que é mais fácil de justificar? Sua função é proteger a integridade editorial — não agradar.
+Se identificar desequilíbrio corrigível, ajuste a seleção antes de continuar.
+
 STEP 5 — TESTE FINAL:
-Para cada item selecionado, complete UMA das frases abaixo no campo step5_phrase. Se não conseguir completar com informação do título, DESCARTE o item:
+Para cada item selecionado, complete UMA das frases abaixo no campo step5_phrase. Se não conseguir completar com informação do título, DESCARTE o item.
+Classifique também o claim_status de cada item:
+→ "confirmado" — anúncio oficial, comunicado, release note, fonte primária
+→ "especulativo" — título contém "report:", "may", "could", "rumor", "allegedly", "sources say"
+→ "em_andamento" — negociação, investigação, processo regulatório em curso
+Tom especulativo OBRIGATÓRIO quando claim_status = "especulativo": use "estaria", "segundo relatos", "se confirmado".
 → "Agora é possível [ação concreta]" — para features e ferramentas
 → "[Player] está [movendo pra / investindo em / saindo de] [categoria]" — para M&A e estratégia
 → "[Resultado/dado] muda o que sabíamos sobre [área]" — para research e benchmarks

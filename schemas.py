@@ -40,6 +40,9 @@ class MainFind(BaseModel):
         # [PE-03] enforcement estrutural do STEP 5 + audit trail
         description="Frase completada do STEP 5 que justifica a seleção deste item (ex: 'Agora é possível [ação]' ou '[Player] está [movendo pra] [categoria]')"
     )
+    claim_status: str = Field(
+        description="Status factual do item: 'confirmado' (anúncio oficial, fonte primária), 'especulativo' (report, rumor, 'may', 'could'), ou 'em_andamento' (negociação, investigação, processo regulatório em curso)"
+    )
 
 
 class QuickFind(BaseModel):
@@ -58,6 +61,9 @@ class QuickFind(BaseModel):
         # [PE-03] enforcement estrutural do STEP 5
         description="Frase completada do STEP 5 que justifica a seleção deste item"
     )
+    claim_status: str = Field(
+        description="Status factual do item: 'confirmado' (anúncio oficial, fonte primária), 'especulativo' (report, rumor, 'may', 'could'), ou 'em_andamento' (negociação, investigação, processo regulatório em curso)"
+    )
 
 
 class RadarItem(BaseModel):
@@ -70,10 +76,20 @@ class RadarItem(BaseModel):
     display_url: str = Field(description="Versão curta da URL")
 
 
+class EpistemicDistribution(BaseModel):
+    produto: str = Field(default="", description="Título do item que cobre produto/lançamento, ou 'ausente — [motivo]'")
+    pesquisa: str = Field(default="", description="Título do item que cobre pesquisa/dado/benchmark, ou 'ausente — [motivo]'")
+    regulacao: str = Field(default="", description="Título do item que cobre regulação/crítica/análise de impacto, ou 'ausente — [motivo]'")
+
+
 class Meta(BaseModel):
     total_analyzed: int = Field(description="Número total de posts analisados (use o valor informado no contexto do dia)")
     sources_used: list[str] = Field(description="Lista de fontes usadas")
     editorial_note: str = Field(default="", description="Observação opcional sobre o dia")
+    epistemic_distribution: EpistemicDistribution = Field(
+        default_factory=EpistemicDistribution,
+        description="Categorias epistêmicas cobertas na curadoria. Para cada campo: título do item selecionado, ou 'ausente — [motivo]' se nenhum item cobriu aquela categoria."
+    )
 
 
 class CurationOutput(BaseModel):

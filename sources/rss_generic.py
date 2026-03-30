@@ -84,6 +84,62 @@ class DeepMindBlogSource(BaseSource):
         )
 
 
+# ── T1 Primary Sources ───────────────────────────────────────────────
+
+@SourceRegistry.register
+class ArxivAISource(BaseSource):
+    source_id = "arxiv_ai"
+    source_name = "arXiv (cs.AI / cs.LG / cs.CL)"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feeds = self.config.get("feeds", {
+            "cs_ai": "https://rss.arxiv.org/rss/cs.AI",
+            "cs_lg": "https://rss.arxiv.org/rss/cs.LG",
+            "cs_cl": "https://rss.arxiv.org/rss/cs.CL",
+        })
+
+    def fetch(self) -> list[SourceItem]:
+        all_items = []
+        for feed_key, feed_url in self.feeds.items():
+            items = _fetch_rss(
+                feed_url=feed_url,
+                source_id=self.source_id,
+                source_label=f"arXiv ({feed_key.replace('_', '.').upper()})",
+                limit=self.limit,
+                default_category="ai",
+            )
+            all_items.extend(items)
+        seen: set[str] = set()
+        unique: list[SourceItem] = []
+        for item in all_items:
+            if item.url not in seen:
+                seen.add(item.url)
+                unique.append(item)
+        return unique[:self.limit]
+
+
+@SourceRegistry.register
+class HuggingFacePapersSource(BaseSource):
+    source_id = "huggingface_papers"
+    source_name = "HuggingFace Papers"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 20)
+        self.feed_url = self.config.get("rss_url", "https://huggingface.co/papers.rss")
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="HuggingFace Papers",
+            limit=self.limit,
+            default_category="ai",
+        )
+
+
 # ── Geographic Diversity Sources ─────────────────────────────────────
 
 @SourceRegistry.register

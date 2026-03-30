@@ -64,8 +64,12 @@ def run_pre_filter(
     items = _enforce_source_diversity(items, max_source_pct)
     logger.info(f"  After diversity enforcement: {len(items)}")
 
-    # Step 6: Token budget trim + wild card zone
+    # Step 5.5: Epistemic diversity enforcement
     max_items = pf_config.get("max_items_to_llm", 40)
+    items = _ensure_epistemic_diversity(items, top_n=max_items, min_per_type=3)
+    logger.info(f"  After epistemic diversity enforcement: {len(items)}")
+
+    # Step 6: Token budget trim + wild card zone
     wild_card_slots = pf_config.get("wild_card_slots", 5)
     items = _trim_with_wild_cards(items, max_items, wild_card_slots)
     logger.info(f"  After token budget trim (with wild cards): {len(items)}")
@@ -361,6 +365,69 @@ def _trim_with_wild_cards(
         logger.info("  Wild card zone: no discarded items available")
 
     return top_items
+
+
+def _infer_content_type(title: str) -> str:
+    """Classifica o tipo epistêmico do item por palavras-chave no título."""
+    text = title.lower()
+    if any(w in text for w in [
+        "paper", "research", "study", "benchmark", "dataset",
+        "technical report", "findings", "survey", "experiment",
+        "evaluation", "new study", "arxiv", "model weights",
+    ]):
+        return "pesquisa"
+    if any(w in text for w in [
+        "regulation", "law", "ban", "policy", "gdpr", "ai act",
+        "antitrust", "compliance", "fine", "lawsuit", "investigation",
+        "government", "congress", "senate", "court", "ruling",
+        "ftc", "doj", "watchdog", "regulator", "regulação", "lei",
+    ]):
+        return "regulacao"
+    return "produto"
+
+
+def _ensure_epistemic_diversity(
+    items: list[SourceItem],
+    top_n: int = 40,
+    min_per_type: int = 3,
+) -> list[SourceItem]:
+    """
+    Garante representação mínima por tipo epistêmico antes do token budget trim.
+    Infere content_type de todos os items e, se 'pesquisa' ou 'regulacao' estiverem
+    sub-representadas no topo da lista, troca com items de menor score do mesmo tipo
+    que estejam na cauda.
+    """
+    for item in items:
+        if item.content_type == "outro":
+            item.content_type = _infer_content_type(item.title)
+
+    top = items[:top_n]
+    rest = items[top_n:]
+
+    type_counts: dict[str, int] = {}
+    for item in top:
+        type_counts[item.content_type] = type_counts.get(item.content_type, 0) + 1
+
+    for ep_type in ("pesquisa", "regulacao"):
+        deficit = min_per_type - type_counts.get(ep_type, 0)
+        if deficit <= 0:
+            continue
+        candidates = [i for i in rest if i.content_type == ep_type][:deficit]
+        if candidates:
+            top.extend(candidates)
+            for c in candidates:
+                rest.remove(c)
+            logger.info(
+                f"  [EPISTEMIC] Pulled {len(candidates)} '{ep_type}' item(s) "
+                f"to meet min {min_per_type} — deficit was {deficit}"
+            )
+
+    final_dist: dict[str, int] = {}
+    for item in top:
+        final_dist[item.content_type] = final_dist.get(item.content_type, 0) + 1
+    logger.info(f"  Epistemic distribution (pre-LLM): {final_dist}")
+
+    return top + rest
 
 
 def _log_source_distribution(items: list[SourceItem]) -> None:

@@ -8,6 +8,8 @@ Arquitetura:
   Config-driven: sources_config.json controla tudo sem mudar código.
 """
 
+from __future__ import annotations
+
 import os
 import random
 import re
