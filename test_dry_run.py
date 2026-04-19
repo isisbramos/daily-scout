@@ -24,7 +24,7 @@ def test_config():
 
     config = load_config()
     sources = config.get("sources", {})
-    enabled = [sid for sid, conf in sources.items() if conf.get("enabled", True)]
+    enabled = [sid for sid, conf in sources.items() if isinstance(conf, dict) and conf.get("enabled", True)]
     print(f"  Config loaded: {len(sources)} sources defined, {len(enabled)} enabled")
     print(f"  Enabled: {enabled}")
     print(f"  Available in registry: {SourceRegistry.available_sources()}")
@@ -87,11 +87,11 @@ def test_render():
     print("=" * 50)
 
     mock_content = {
-        "correspondent_intro": "AYA em campo. Vasculhei 4 fontes hoje e o sinal mais forte veio do TechCrunch — uma aquisição que ninguém esperava.",
+        "correspondent_intro": "Hoje o destaque vai pra aquisição da PayAI pela Stripe por $200M — consolidação no mercado de AI-powered fintech. Analisei 142 posts de 4 fontes.",
         "main_find": {
             "title": "Stripe adquire startup de AI payments por $200M",
             "source": "TechCrunch",
-            "body": "A Stripe fechou a aquisição da PayAI, startup que usava LLMs pra detectar fraude em real-time. O deal confirma que payments + AI é o novo battleground — e que as big fintechs estão comprando em vez de buildar.",
+            "body": "Segundo o TechCrunch, a Stripe fechou a aquisição da PayAI, startup que usava LLMs pra detectar fraude em real-time. O deal confirma que payments + AI é o novo battleground — e que as big fintechs estão comprando em vez de buildar. Valor sinaliza que detecção de fraude com LLM já é diferencial competitivo mensurável. → Quem constrói fintech em cima de stacks open-source tem agora um benchmark de aquisição pra calibrar valuation e exit path.",
             "bullets": [
                 "Por que importa: Sinaliza consolidação no mercado de AI-powered fintech",
                 "Impacto: Startups no espaço vão ter exit path mais claro, mas competition fica mais dura",
@@ -104,21 +104,21 @@ def test_render():
             {
                 "title": "Llama 4 leaked benchmarks mostram salto em coding",
                 "source": "r/LocalLLaMA",
-                "signal": "Se confirmado, open source fecha gap com frontier models em code generation",
+                "signal": "Benchmarks vazados apontam que o Llama 4 superou o GPT-4 Turbo em HumanEval e MBPP. Se confirmado, open source fecha o gap com frontier models em code generation. → Devs que pagam por API de coding podem rodar POCs com Llama 4 local antes de renovar contratos anuais.",
                 "url": "https://reddit.com/r/LocalLLaMA/comments/123",
                 "display_url": "r/LocalLLaMA",
             },
             {
                 "title": "Show HN: Interpretador Python que roda 100% no browser via WASM",
                 "source": "HackerNews",
-                "signal": "Developer tooling cada vez mais zero-install — bom pra education e prototyping",
+                "signal": "Projeto open source compila CPython pra WebAssembly e roda sem backend. Developer tooling cada vez mais zero-install — bom pra education e prototyping. → Times que mantêm sandbox pra onboarding ou tutoriais podem eliminar infra de execução remota.",
                 "url": "https://news.ycombinator.com/item?id=456",
                 "display_url": "news.ycombinator.com",
             },
             {
                 "title": "Thread: Por que SQLite está substituindo Redis em 80% dos use cases",
                 "source": "Lobsters",
-                "signal": "Simplificação de stack é tendência forte — menos moving parts = menos ops burden",
+                "signal": "Análise mostra que SQLite com WAL mode sustenta throughput similar ao Redis pra caching e session store, sem cluster. Simplificação de stack é tendência forte — menos moving parts = menos ops burden. → Quem roda Redis só como cache compartilhado pode reavaliar se vale manter outra peça na infra.",
                 "url": "https://lobste.rs/s/abc123",
                 "display_url": "lobste.rs",
             },
