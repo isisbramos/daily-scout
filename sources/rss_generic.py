@@ -84,6 +84,100 @@ class DeepMindBlogSource(BaseSource):
         )
 
 
+@SourceRegistry.register
+class MetaAIBlogSource(BaseSource):
+    source_id = "meta_ai_blog"
+    source_name = "Meta AI Research"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feed_url = self.config.get(
+            "rss_url", "https://research.facebook.com/feed/"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="Meta AI Research",
+            limit=self.limit,
+            default_category="ai",
+        )
+
+
+# ── Developer Tooling / Releases ─────────────────────────────────────
+
+@SourceRegistry.register
+class HuggingFaceBlogSource(BaseSource):
+    source_id = "huggingface_blog"
+    source_name = "HuggingFace Blog"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feed_url = self.config.get(
+            "rss_url", "https://huggingface.co/blog/feed.xml"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="HuggingFace Blog",
+            limit=self.limit,
+            default_category="ai",
+        )
+
+
+# ── Editorial Voice ──────────────────────────────────────────────────
+
+@SourceRegistry.register
+class SimonWillisonSource(BaseSource):
+    source_id = "simon_willison"
+    source_name = "Simon Willison's Weblog"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feed_url = self.config.get(
+            "rss_url", "https://simonwillison.net/atom/everything/"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="Simon Willison",
+            limit=self.limit,
+            default_category="ai",
+        )
+
+
+# ── AI Journalism ────────────────────────────────────────────────────
+
+@SourceRegistry.register
+class MITTechReviewSource(BaseSource):
+    source_id = "mit_tech_review"
+    source_name = "MIT Technology Review"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feed_url = self.config.get(
+            "rss_url", "https://www.technologyreview.com/feed/"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="MIT Technology Review",
+            limit=self.limit,
+            default_category="tech",
+        )
+
+
 # ── T1 Primary Sources ───────────────────────────────────────────────
 
 @SourceRegistry.register

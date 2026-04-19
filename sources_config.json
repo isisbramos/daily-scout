@@ -75,6 +75,40 @@
       "limit": 15,
       "rss_url": "https://deepmind.google/blog/rss.xml"
     },
+    "meta_ai_blog": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 1 (2026-04-19). Feed é research.facebook.com — cobertura mais ampla que só AI; conta com AI Gate + STEP 1.5 para filtrar marketing e non-AI.",
+      "weight": 0.8,
+      "limit": 15,
+      "rss_url": "https://research.facebook.com/feed/"
+    },
+
+    "_comment_tooling": "Developer tooling / release feeds — lado de lançamento (complementa HF Papers que cobre research)",
+    "huggingface_blog": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 1 (2026-04-19). Releases de modelos, datasets, spaces — complementa huggingface_papers.",
+      "weight": 1.0,
+      "limit": 15,
+      "rss_url": "https://huggingface.co/blog/feed.xml"
+    },
+
+    "_comment_voice": "Editorial voice — analistas individuais com autoridade e densidade AI alta. Sinal pré-filtrado por editor humano que a Aya respeitaria.",
+    "simon_willison": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 1 (2026-04-19). Simon Willison — melhor curador individual de AI em inglês. Densidade AI ~95%, hands-on, cita primary sources.",
+      "weight": 1.1,
+      "limit": 15,
+      "rss_url": "https://simonwillison.net/atom/everything/"
+    },
+
+    "_comment_journalism": "AI journalism com profundidade — inclui regulação, política e implicação social (Gap 5 do SOURCES_STUDY).",
+    "mit_tech_review": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 1 (2026-04-19). MIT Technology Review — cobertura de AI + policy + ética com reporting profundo.",
+      "weight": 1.0,
+      "limit": 15,
+      "rss_url": "https://www.technologyreview.com/feed/"
+    },
 
     "_comment_geographic": "Geographic Diversity — fontes não-ocidentais para quebrar echo chamber. Weights reduzidos v5.2 para evitar over-representation",
     "scmp_tech": {
