@@ -29,7 +29,7 @@ class MainFind(BaseModel):
         # [SYNC-01] sem lista hardcoded — pipeline tem 10 fontes
         description="Fonte real do item — use exatamente o valor do campo 'source' no input"
     )
-    body: str = Field(description="3-5 frases. Comece com atribuição à fonte. Explique o que é e por que importa pro leitor.")
+    body: str = Field(description="3-5 frases. Comece com atribuição à fonte. Explique o que é e por que importa pro leitor. Termine com linha de implicação prática iniciada com '→'.")
     bullets: list[str] = Field(description="2-3 pontos-chave: o que aconteceu, o que significa, o que observar")
     url: str = Field(description="URL original do post")
     display_url: str = Field(description="Versão curta legível da URL")
@@ -51,7 +51,7 @@ class QuickFind(BaseModel):
         # [SYNC-01] sem lista hardcoded
         description="Fonte real do item — use exatamente o valor do campo 'source' no input"
     )
-    signal: str = Field(description="1-2 frases curtas: [o que aconteceu] + [por que importa pro leitor]")
+    signal: str = Field(description="2-3 frases: [o que aconteceu] + [por que importa pro leitor] + [linha de implicação prática iniciada com '→': o que o leitor pode fazer, revisar ou acompanhar com base nessa informação]")
     url: str = Field(description="URL original")
     display_url: str = Field(description="Versão curta da URL")
     primary_audience: str = Field(
