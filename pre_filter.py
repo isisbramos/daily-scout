@@ -64,6 +64,12 @@ def run_pre_filter(
     items = _enforce_source_diversity(items, max_source_pct)
     logger.info(f"  After diversity enforcement: {len(items)}")
 
+    # Step 5.2: Geographic cap — evita over-representation de qualquer região
+    geo_max_pct = pf_config.get("geographic_max_pct", 0.30)
+    source_region_map = _build_region_map(config)
+    items = _enforce_geographic_cap(items, source_region_map, geo_max_pct)
+    logger.info(f"  After geographic cap: {len(items)}")
+
     # Step 5.5: Epistemic diversity enforcement
     max_items = pf_config.get("max_items_to_llm", 40)
     items = _ensure_epistemic_diversity(items, top_n=max_items, min_per_type=3)
@@ -428,6 +434,72 @@ def _ensure_epistemic_diversity(
     logger.info(f"  Epistemic distribution (pre-LLM): {final_dist}")
 
     return top + rest
+
+
+def _build_region_map(config: dict) -> dict[str, str]:
+    """
+    Constrói mapa source_id → region a partir do sources_config.
+    Sources sem campo 'region' são mapeadas para 'default' (sem cap geográfico).
+    """
+    region_map: dict[str, str] = {}
+    sources = config.get("sources", {})
+    for source_id, source_cfg in sources.items():
+        if source_id.startswith("_comment"):
+            continue
+        if isinstance(source_cfg, dict) and "region" in source_cfg:
+            region_map[source_id] = source_cfg["region"]
+        else:
+            region_map[source_id] = "default"
+    return region_map
+
+
+def _enforce_geographic_cap(
+    items: list[SourceItem],
+    source_region_map: dict[str, str],
+    max_pct: float = 0.30,
+) -> list[SourceItem]:
+    """
+    Geographic cap: nenhuma região (exceto 'default') pode ter mais que max_pct
+    dos items no batch. Items excedentes vão pro overflow (final da lista).
+
+    Resolve o problema de China over-representation: mesmo que SCMP + TechNode
+    passem pelo source cap individualmente, o cap regional os agrupa e limita
+    a representação total da região 'asia'.
+
+    Nota: cobre apenas items vindos de fontes com region explícita no config.
+    Items de Reddit/HN sobre China não são afetados (source_id='reddit' → region='default').
+    """
+    if not items or max_pct >= 1.0:
+        return items
+
+    total = len(items)
+    max_per_region = max(1, int(total * max_pct))
+
+    region_counts: dict[str, int] = {}
+    result: list[SourceItem] = []
+    overflow: list[SourceItem] = []
+
+    for item in items:
+        region = source_region_map.get(item.source_id, "default")
+        if region == "default":
+            result.append(item)
+            continue
+
+        current = region_counts.get(region, 0)
+        if current < max_per_region:
+            result.append(item)
+            region_counts[region] = current + 1
+        else:
+            overflow.append(item)
+
+    capped = {r: c for r, c in region_counts.items() if c >= max_per_region}
+    if capped:
+        logger.info(
+            f"  Geographic cap applied: {capped} (max {max_per_region} per region, "
+            f"{len(overflow)} items moved to overflow)"
+        )
+
+    return result + overflow
 
 
 def _log_source_distribution(items: list[SourceItem]) -> None:
