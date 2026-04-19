@@ -106,8 +106,10 @@
     "max_items_to_llm": 40,
     "dedup_similarity_threshold": 0.7,
     "max_per_source_pct": 0.25,
+    "geographic_max_pct": 0.30,
     "wild_card_slots": 5,
-    "_comment_changes_v5": "max_items 30→40, max_per_source 0.4→0.25, wild_card_slots novo"
+    "_comment_changes_v5": "max_items 30→40, max_per_source 0.4→0.25, wild_card_slots novo",
+    "_comment_changes_v52b": "geographic_max_pct novo — cap por região (ex: asia) para evitar over-representation de qualquer geografia. Não afeta sources sem campo 'region' (reddit, hackernews, etc)."
   },
 
   "scoring": {
