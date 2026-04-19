@@ -34,11 +34,11 @@ class MainFind(BaseModel):
     url: str = Field(description="URL original do post")
     display_url: str = Field(description="Versão curta legível da URL")
     primary_audience: str = Field(
-        description="Para quem este achado é mais relevante: 'developers', 'PMs e founders', 'business/executivos', ou 'todos'"
+        description="Para quem este achado é mais relevante: 'desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos'"
     )
     step5_phrase: str = Field(
         # [PE-03] enforcement estrutural do STEP 5 + audit trail
-        description="Frase completada do STEP 5 que justifica a seleção deste item (ex: 'Agora é possível [ação]' ou '[Player] está [movendo pra] [categoria]')"
+        description="Frase completada do STEP 5 que justifica a seleção deste item (ex: 'Agora é possível [ação]' ou '[Empresa] está [movendo pra] [categoria]')"
     )
     claim_status: str = Field(
         description="Status factual do item: 'confirmado' (anúncio oficial, fonte primária), 'especulativo' (report, rumor, 'may', 'could'), ou 'em_andamento' (negociação, investigação, processo regulatório em curso)"
@@ -55,7 +55,7 @@ class QuickFind(BaseModel):
     url: str = Field(description="URL original")
     display_url: str = Field(description="Versão curta da URL")
     primary_audience: str = Field(
-        description="Para quem este achado é mais relevante: 'developers', 'PMs e founders', 'business/executivos', ou 'todos'"
+        description="Para quem este achado é mais relevante: 'desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos'"
     )
     step5_phrase: str = Field(
         # [PE-03] enforcement estrutural do STEP 5

@@ -87,38 +87,38 @@ def test_render():
     print("=" * 50)
 
     mock_content = {
-        "correspondent_intro": "Hoje o destaque vai pra aquisição da PayAI pela Stripe por $200M — consolidação no mercado de AI-powered fintech. Analisei 142 posts de 4 fontes.",
+        "correspondent_intro": "Hoje o destaque vai pra aquisição da PayAI pela Stripe por US$ 200 milhões — consolidação no mercado de fintech com IA. Analisei 142 posts de 4 fontes.",
         "main_find": {
-            "title": "Stripe adquire startup de AI payments por $200M",
+            "title": "Stripe adquire startup de pagamentos com IA por US$ 200 milhões",
             "source": "TechCrunch",
-            "body": "Segundo o TechCrunch, a Stripe fechou a aquisição da PayAI, startup que usava LLMs pra detectar fraude em real-time. O deal confirma que payments + AI é o novo battleground — e que as big fintechs estão comprando em vez de buildar. Valor sinaliza que detecção de fraude com LLM já é diferencial competitivo mensurável. → Quem constrói fintech em cima de stacks open-source tem agora um benchmark de aquisição pra calibrar valuation e exit path.",
+            "body": "Segundo o TechCrunch, a Stripe fechou a aquisição da PayAI, startup que usava LLMs pra detectar fraude em tempo real. A aquisição confirma que pagamentos + IA viraram a nova arena de disputa — e que as grandes fintechs estão comprando em vez de construir. Valor sinaliza que detecção de fraude com LLM já é diferencial competitivo mensurável. → Quem constrói fintech em cima de arquiteturas de código aberto tem agora uma referência de aquisição pra calibrar avaliação de mercado e rota de saída.",
             "bullets": [
-                "Por que importa: Sinaliza consolidação no mercado de AI-powered fintech",
-                "Impacto: Startups no espaço vão ter exit path mais claro, mas competition fica mais dura",
-                "O que observar: Se Stripe integra no Radar (fraud detection) ou cria produto novo",
+                "Por que importa: sinaliza consolidação no mercado de fintech com IA",
+                "Impacto: startups do setor vão ter rota de saída mais clara, mas a concorrência fica mais dura",
+                "O que observar: se a Stripe integra no Radar (detecção de fraude) ou cria produto novo",
             ],
             "url": "https://techcrunch.com/2026/03/24/stripe-acquires-payai",
             "display_url": "techcrunch.com/stripe-acquires-payai",
         },
         "quick_finds": [
             {
-                "title": "Llama 4 leaked benchmarks mostram salto em coding",
+                "title": "Benchmarks vazados do Llama 4 mostram salto em geração de código",
                 "source": "r/LocalLLaMA",
-                "signal": "Benchmarks vazados apontam que o Llama 4 superou o GPT-4 Turbo em HumanEval e MBPP. Se confirmado, open source fecha o gap com frontier models em code generation. → Devs que pagam por API de coding podem rodar POCs com Llama 4 local antes de renovar contratos anuais.",
+                "signal": "Benchmarks vazados apontam que o Llama 4 superou o GPT-4 Turbo em HumanEval e MBPP. Se confirmado, o código aberto fecha a distância para os modelos de ponta em geração de código. → Desenvolvedores que pagam por API de geração de código podem rodar provas de conceito com Llama 4 local antes de renovar contratos anuais.",
                 "url": "https://reddit.com/r/LocalLLaMA/comments/123",
                 "display_url": "r/LocalLLaMA",
             },
             {
-                "title": "Show HN: Interpretador Python que roda 100% no browser via WASM",
+                "title": "Show HN: interpretador Python que roda 100% no navegador via WASM",
                 "source": "HackerNews",
-                "signal": "Projeto open source compila CPython pra WebAssembly e roda sem backend. Developer tooling cada vez mais zero-install — bom pra education e prototyping. → Times que mantêm sandbox pra onboarding ou tutoriais podem eliminar infra de execução remota.",
+                "signal": "Projeto de código aberto compila o CPython pra WebAssembly e roda sem backend. Ferramentas de desenvolvimento cada vez mais sem instalação — bom pra educação e prototipagem. → Times que mantêm sandbox pra onboarding ou tutoriais podem eliminar a infraestrutura de execução remota.",
                 "url": "https://news.ycombinator.com/item?id=456",
                 "display_url": "news.ycombinator.com",
             },
             {
-                "title": "Thread: Por que SQLite está substituindo Redis em 80% dos use cases",
+                "title": "Thread: por que SQLite está substituindo Redis em 80% dos casos de uso",
                 "source": "Lobsters",
-                "signal": "Análise mostra que SQLite com WAL mode sustenta throughput similar ao Redis pra caching e session store, sem cluster. Simplificação de stack é tendência forte — menos moving parts = menos ops burden. → Quem roda Redis só como cache compartilhado pode reavaliar se vale manter outra peça na infra.",
+                "signal": "Análise mostra que o SQLite com WAL sustenta vazão similar ao Redis pra cache e armazenamento de sessão, sem cluster. Simplificação de arquitetura é tendência forte — menos componentes móveis significa menos custo operacional. → Quem roda Redis só como cache compartilhado pode reavaliar se vale manter outra peça na infraestrutura.",
                 "url": "https://lobste.rs/s/abc123",
                 "display_url": "lobste.rs",
             },
@@ -126,7 +126,7 @@ def test_render():
         "meta": {
             "total_analyzed": 142,
             "sources_used": ["reddit", "hackernews", "techcrunch", "lobsters"],
-            "editorial_note": "Dia movimentado — fintech e dev tooling dominaram o campo.",
+            "editorial_note": "Dia movimentado — fintech e ferramentas de desenvolvimento dominaram o campo.",
         },
     }
 
