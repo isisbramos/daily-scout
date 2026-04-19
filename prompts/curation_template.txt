@@ -7,55 +7,55 @@ Selecione e escreva os achados do dia a partir dos posts abaixo.
 STEP 1 — AI GATE (obrigatório):
 Classifique a relação deste post com AI/ML:
 → DIRETA: o post é sobre AI/ML, LLMs, automação inteligente, ou decisão estratégica de empresa de AI → continue pro Step 2.
-→ TANGENCIAL: AI é mencionado mas não é o assunto central → DESCARTE, salvo magnitude excepcional (aquisição >$1B, regulação governamental, shutdown de plataforma major).
+→ TANGENCIAL: AI é mencionado mas não é o assunto central → DESCARTE, salvo magnitude excepcional (aquisição >$1B, regulação governamental, encerramento de plataforma relevante).
 → NENHUMA: sem conexão com AI/ML → DESCARTE.
 
 STEP 1.5 — SOURCE BIAS CHECK (para blogs oficiais de QUALQUER empresa):
 Se a fonte original é um blog corporativo oficial (ex: blog.anthropic.com, openai.com/blog, deepmind.google, blog.google, developer.apple.com, aws.amazon.com/blogs):
 → O post anuncia algo que USUÁRIOS podem usar/testar agora? → Tratar normalmente.
-→ O post é marketing/thought-leadership/branding sem novidade concreta? → DESCARTE.
+→ O post é marketing / posicionamento de autoridade / construção de marca sem novidade concreta? → DESCARTE.
 → A informação já foi coberta por outra fonte na lista? → Preferir a cobertura independente.
 → EXCEÇÃO: fontes com label "arXiv" ou "HuggingFace Papers" são pesquisa acadêmica original — NÃO são blogs corporativos. STEP 1.5 não se aplica. Trate como fonte primária.
 Aplica a mesma lógica quando uma fonte jornalística (SCMP, TechCrunch, Rest of World) está reportando um anúncio de blog corporativo — avalie o conteúdo original, não a cobertura.
 
 STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
 1. Acionável — o leitor pode fazer algo concreto: testar ferramenta, mudar processo, tomar decisão
-2. Sinal de mercado — revela movimento estratégico: player entrando/saindo de categoria, shift de política de dados, nova aliança/aquisição
-3. Afeta workflows — muda como pessoas trabalham com tech/AI no dia a dia
+2. Sinal de mercado — revela movimento estratégico: empresa entrando/saindo de categoria, mudança de política de dados, nova aliança/aquisição
+3. Afeta fluxos de trabalho — muda como pessoas trabalham com tech/AI no dia a dia
 
 STEP 3 — ANTI-SIGNAL:
 Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos frequentes de anti-signal:
 → Preço/assinatura de serviço consumer (Netflix, Spotify, Disney+)
-→ Funding round (mesmo de empresa de AI): descarte a menos que o título revele informação acionável — nova feature, novo produto, shift de estratégia. "Empresa X levanta $Y" sozinho é noise. Exceção: magnitude excepcional (>$5B) ou player de referência (OpenAI, Anthropic, Google DeepMind).
-→ Mercado financeiro/crypto/apostas sem aplicação de AI
-→ Atualização de produto sem impacto em workflows (ex: UI redesign cosmético)
+→ Rodada de investimento (mesmo de empresa de AI): descarte a menos que o título revele informação acionável — nova funcionalidade, novo produto, virada de estratégia. "Empresa X levanta $Y" sozinho é ruído. Exceção: magnitude excepcional (>$5B) ou empresa de referência (OpenAI, Anthropic, Google DeepMind).
+→ Mercado financeiro/criptomoedas/apostas sem aplicação de AI
+→ Atualização de produto sem impacto em fluxos de trabalho (ex: reformulação cosmética de interface)
 → Confirmação do óbvio ("X vai continuar fazendo Y")
-→ Hardware reviews, gaming news, celebrity tech takes sem ângulo AI
-→ Rehashed news: se o título reporta evento que você sabe que já aconteceu dias ou semanas atrás (lançamento já anunciado, descontinuação já reportada, aquisição já fechada), DESCARTE — mesmo que o post seja de hoje. Exceção: se o título traz INFORMAÇÃO NOVA sobre o evento (dados, reação, consequência concreta), trate como story nova.
+→ Análises de hardware, notícias de games, opiniões de celebridades sobre tech sem ângulo AI
+→ Notícia requentada: se o título reporta evento que você sabe que já aconteceu dias ou semanas atrás (lançamento já anunciado, descontinuação já reportada, aquisição já fechada), DESCARTE — mesmo que o post seja de hoje. Exceção: se o título traz INFORMAÇÃO NOVA sobre o evento (dados, reação, consequência concreta), trate como matéria nova.
 Se um post não se enquadra nesses exemplos mas claramente foge do escopo AI/tech relevante, DESCARTE também. Use o princípio, não apenas a lista.
 
 STEP 4 — RANKING:
-→ main_find = item mais acionável OU com maior sinal de mercado. Tração (score) é tiebreaker, NUNCA critério principal.
-→ main_find DEVE ser sobre UM evento específico. Se um post é roundup/compilação (título com múltiplas notícias separadas por ';' ou temas não-relacionados), NÃO use como main_find — prefira outro item com foco singular.
+→ main_find = item mais acionável OU com maior sinal de mercado. Tração (score) é critério de desempate, NUNCA critério principal.
+→ main_find DEVE ser sobre UM evento específico. Se um post é compilação (título com múltiplas notícias separadas por ';' ou temas não-relacionados), NÃO use como main_find — prefira outro item com foco singular.
 → quick_finds = 3-5 itens restantes que passaram nos steps anteriores.
 → Diversidade de fontes: prefira representação variada de sources.
 → Diversidade de PERSPECTIVA (constraint, não preferência): a curadoria completa (main_find + quick_finds) DEVE ter ao menos 1 item de cada categoria epistêmica — ou documentar em meta.epistemic_distribution por que foi impossível:
-   • produto/lançamento — feature, tool, release, deploy
-   • pesquisa/dado — paper, benchmark, estudo, análise com números
-   • regulação/crítica — policy, lei, consequência negativa, análise de impacto
+   • produto/lançamento — funcionalidade, ferramenta, release, deploy
+   • pesquisa/dado — artigo acadêmico, benchmark, estudo, análise com números
+   • regulação/crítica — política, lei, consequência negativa, análise de impacto
    Se não houver candidato numa categoria, use o RADAR para sinalizar o gap.
-→ Diversidade de AUDIÊNCIA: se todos os quick_finds têm primary_audience='developers', priorize pelo menos 1 item para audiência diferente.
+→ Diversidade de AUDIÊNCIA: se todos os quick_finds têm primary_audience='desenvolvedores', priorize pelo menos 1 item para audiência diferente.
 → Diversidade GEOGRÁFICA: no máximo 2 itens (entre main_find + quick_finds) podem ser da mesma região geográfica (ex: China/Asia). Se houver 3+ itens asiáticos fortes, escolha os 2 melhores e descarte o resto em favor de diversidade.
-→ Items com campo "also_trending_on" indicam que o tema apareceu em múltiplas fontes independentes. Trate isso como sinal de relevância editorial e, ao escrever, mencione: "notícia reportada tanto no [source] quanto no [other_source]".
+→ Items com campo "also_trending_on" indicam que o tema apareceu em múltiplas fontes independentes. Trate isso como sinal de relevância editorial e, ao escrever, mencione: "notícia reportada tanto no [fonte] quanto no [outra_fonte]".
 
-STEP 4.5 — RADAR (early signals):
+STEP 4.5 — RADAR (sinais iniciais):
 → Após selecionar main_find e quick_finds, olhe para os itens restantes que passaram no AI Gate mas ficaram de fora.
 → Selecione 1-2 itens que são "cedo demais pra ser achado" mas vale acompanhar: temas emergentes, discussões ganhando tração, sinais fracos de mercado.
 → Esses itens entram no campo "radar" com tom diferente: "vale acompanhar", "ainda cedo, mas...", "pode virar notícia nos próximos dias".
 → Papers de "arXiv" são candidatos naturais ao RADAR — pesquisa acadêmica raramente é imediatamente acionável, mas pode antecipar tendências. Inclua no radar se o título indicar resultado que pode mudar práticas nos próximos meses.
 → Se nenhum item justifica radar, deixe a lista vazia. NÃO force itens fracos aqui.
 
-STEP 4.75 — CHECAGEM ANTI-SYCOPHANCY (obrigatório antes de finalizar):
+STEP 4.75 — CHECAGEM ANTIBAJULAÇÃO (obrigatório antes de finalizar):
 Antes de passar pro STEP 5, responda internamente:
 → A curadoria de hoje tem ao menos 1 item de cada tipo: produto/lançamento, pesquisa/dado, regulação/crítica? Se não, há itens que passaram o AI Gate mas foram preteridos que cobrem o tipo ausente?
 → Algum item selecionado depende de fonte única sem corroboração? Se sim, marque como "especulativo" no tom ao escrever.
@@ -71,8 +71,8 @@ Classifique também o claim_status de cada item:
 Tom especulativo OBRIGATÓRIO quando claim_status = "especulativo": use "estaria", "segundo relatos", "se confirmado".
 → "Agora é possível [ação concreta]" — para features e ferramentas
 → "[Player] está [movendo pra / investindo em / saindo de] [categoria]" — para M&A e estratégia
-→ "[Resultado/dado] muda o que sabíamos sobre [área]" — para research e benchmarks
-→ "[Autoridade] decidiu [ação] sobre [tema de AI/tech]" — para regulação e policy
+→ "[Resultado/dado] muda o que sabíamos sobre [área]" — para pesquisa e benchmarks
+→ "[Autoridade] decidiu [ação] sobre [tema de AI/tech]" — para regulação e políticas
 
 ═══ EXEMPLOS DE CALIBRAÇÃO ═══
 
@@ -94,7 +94,7 @@ Exemplo 3 — TOM: RUMOR/ESPECULAÇÃO:
 Input: {{ "title": "Report: Apple may license Google Gemini for iOS 20 AI features", "source": "HackerNews", "score": 847 }}
 Output ERRADO (NÃO faça isso): "A Apple fecha acordo bombástico com Google para trazer IA ao iPhone. A parceria promete revolucionar a experiência mobile."
 → Por que está errado: converteu "may" em fato, inventou "bombástico", "revolucionar" — NADA disso está no título.
-Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a Apple estaria negociando licenciar o Gemini do Google para recursos de IA no iOS 20. Se confirmado, o acordo sinalizaria que a Apple está priorizando velocidade de entrega de AI em vez de desenvolver tudo in-house."
+Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a Apple estaria negociando licenciar o Gemini do Google para recursos de IA no iOS 20. Se confirmado, o acordo sinalizaria que a Apple está priorizando velocidade de entrega de AI em vez de desenvolver tudo internamente."
 
 Exemplo 4 — TOM: BUSINESS com ângulo AI:
 Input: {{ "title": "Stripe acquires AI payments startup PayAI for $1.2B", "source": "TechCrunch", "score": 0 }}
@@ -118,7 +118,7 @@ Input: {{ "title": "Meta releases Llama 4 Scout and Maverick with Apache 2.0 lic
 → Critérios: Acionável (desenvolvedores podem baixar e usar agora) + Sinal de mercado (Meta mantendo estratégia open source)
 → step5_phrase: "Agora é possível usar Llama 4 com licença Apache 2.0"
 → SELECIONADO como main_find
-Output CORRETO: "Segundo post no r/MachineLearning, a Meta lançou o Llama 4 em duas versões — Scout e Maverick — com licença Apache 2.0 (código aberto). A licença permite uso comercial sem restrições, o que amplia o acesso a modelos de grande porte fora das APIs paidas."
+Output CORRETO: "Segundo post no r/MachineLearning, a Meta lançou o Llama 4 em duas versões — Scout e Maverick — com licença Apache 2.0 (código aberto). A licença permite uso comercial sem restrições, o que amplia o acesso a modelos de grande porte fora das APIs pagas."
 
 Exemplo 7 — SELEÇÃO CORRETA (perspectiva geográfica + AI):
 Input: {{ "title": "Baidu open-sources ERNIE 4.5 to compete with Llama in Chinese market", "source": "SCMP Tech", "score": 0 }}
@@ -137,10 +137,10 @@ Input: {{ "title": "Our approach to building safe and beneficial AI systems", "s
 Exemplo 9 — SELEÇÃO CORRETA (cross-source signal):
 Input: {{ "title": "Google DeepMind releases Gemma 3 with open weights", "source": "TechCrunch", "score": 67, "also_trending_on": ["hackernews", "reddit"] }}
 → AI gate: SIM (release de modelo AI)
-→ Cross-source signal: apareceu em 3 fontes independentes — alta relevância
-→ Critérios: Acionável (devs podem usar) + Sinal de mercado (Google apostando em open weights)
+→ Sinal entre fontes: apareceu em 3 fontes independentes — alta relevância
+→ Critérios: Acionável (desenvolvedores podem usar) + Sinal de mercado (Google apostando em pesos abertos)
 → step5_phrase: "Agora é possível usar Gemma 3 com pesos abertos do DeepMind"
-→ SELECIONADO como main_find — cross-source signal reforça relevância
+→ SELECIONADO como main_find — sinal entre fontes reforça relevância
 Output CORRETO: "De acordo com o TechCrunch — notícia também em destaque no HackerNews e Reddit — o Google DeepMind lançou o Gemma 3 com pesos abertos (open weights). Isso permite que desenvolvedores rodem o modelo localmente sem depender de APIs pagas."
 
 Exemplo 10 — SELEÇÃO CORRETA (Global South + AI impact):
@@ -154,13 +154,13 @@ Output CORRETO: "Segundo o Rest of World, o Serpro — empresa de tecnologia do 
 Exemplo 11 — DESCARTE CORRETO (rehashed news):
 Input: {{ "title": "OpenAI shuts down Sora video generation tool", "source": "TechCrunch", "score": 0 }}
 → AI gate: SIM (ferramenta de AI)
-→ Freshness check: a descontinuação do Sora já foi amplamente reportada dias atrás. Este post não traz informação nova — apenas repete o fato.
-→ DESCARTADO — rehashed news, evento já coberto anteriormente
+→ Checagem de ineditismo: a descontinuação do Sora já foi amplamente reportada dias atrás. Este post não traz informação nova — apenas repete o fato.
+→ DESCARTADO — notícia requentada, evento já coberto anteriormente
 
 Exemplo 11b — SELEÇÃO CORRETA (follow-up com info nova sobre evento velho):
 Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown — no refund policy", "source": "HackerNews", "score": 423 }}
 → AI gate: SIM (produto de AI)
-→ Freshness check: embora o shutdown do Sora seja evento velho, este post traz informação NOVA (perda de créditos, ausência de política de reembolso)
+→ Checagem de ineditismo: embora o encerramento do Sora seja evento velho, este post traz informação NOVA (perda de créditos, ausência de política de reembolso)
 → Critérios: Acionável (afeta quem pagou pelo Sora) + Afeta workflows (usuários precisam buscar alternativas)
 → step5_phrase: "Agora é possível que usuários do Sora percam créditos pagos sem reembolso"
 → SELECIONADO como quick_find — info nova sobre evento conhecido
@@ -174,7 +174,7 @@ Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown 
 - main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
 - quick_finds[].signal: 2-3 frases. Primeira(s): o que aconteceu e por que é relevante. Última: linha de implicação prática iniciada com "→" — o que o leitor pode fazer, revisar ou acompanhar com base nessa informação. Baseie-se apenas no título/metadados.
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
-- primary_audience: indique para quem cada achado é mais relevante ('developers', 'PMs e founders', 'business/executivos', ou 'todos').
+- primary_audience: indique para quem cada achado é mais relevante ('desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos').
 - radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.
 - Termos técnicos: explique brevemente — "LLM (modelos de IA que geram texto)", "open source (código aberto)".
 
