@@ -13,3 +13,18 @@ debug/
 # OS
 .DS_Store
 site-v2/
+
+# Previews & screenshots (nunca vão pro repo)
+*-preview.html
+*-preview.png
+preview_*.html
+preview_*.png
+
+# Sandbox/scratch dirs com timestamp
+ramosdisis-*/
+sandbox-*/
+scratch-*/
+
+# Docs exportados (binários)
+*.docx
+*.pdf
