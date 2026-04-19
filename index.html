@@ -3,747 +3,1673 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYA's Daily Scout — Tech & AI, todo dia na sua inbox</title>
-  <meta name="description" content="Newsletter diária de Tech & AI curada por AYA, uma correspondente de campo digital. Os achados mais relevantes das últimas 24h, sem enrolação.">
+  <title>AYA's Daily Scout — Sua correspondente de IA para tech & AI</title>
+  <meta name="description" content="A AYA lê ~300 histórias de tech toda manhã. Você lê só as que importam. Briefing diário factual, curado, com perspectiva além do eixo US-EU. 3 min de leitura, 8h BRT.">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="AYA's Daily Scout — Tech & AI intel, todo dia">
-  <meta property="og:description" content="Uma AI correspondent vasculha Reddit, HackerNews e open web todo dia e entrega só o signal que importa. Free, diária, 8h na inbox.">
+  <meta property="og:title" content="AYA's Daily Scout — Sua correspondente de IA para tech & AI">
+  <meta property="og:description" content="A AYA lê ~300 histórias de tech toda manhã. Você lê só as que importam. Briefing diário, factual, com perspectiva global.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://isisbramos.github.io/daily-scout/">
-  <meta property="og:image" content="https://isisbramos.github.io/daily-scout/aya-avatar.png">
+  <meta property="og:image" content="https://isisbramos.github.io/daily-scout/assets/aya-avatar.png">
   <meta property="og:locale" content="pt_BR">
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="AYA's Daily Scout — Tech & AI intel, todo dia">
-  <meta name="twitter:description" content="Uma AI correspondent vasculha Reddit, HackerNews e open web todo dia e entrega só o signal que importa. Free, 8h na inbox.">
-  <meta name="twitter:image" content="https://isisbramos.github.io/daily-scout/aya-avatar.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AYA's Daily Scout">
+  <meta name="twitter:description" content="A AYA lê ~300 histórias de tech toda manhã. Você lê só as que importam.">
+  <meta name="twitter:image" content="https://isisbramos.github.io/daily-scout/assets/aya-avatar.png">
 
-  <!-- Canonical -->
   <link rel="canonical" href="https://isisbramos.github.io/daily-scout/">
+  <link rel="icon" type="image/png" href="assets/aya-avatar.png">
 
-  <!-- Preconnect for performance -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    /* ═══════════════════════════════════════════════════════
+       DESIGN TOKENS
+       ═══════════════════════════════════════════════════════ */
+    :root {
+      --bg: #05060B;
+      --bg-soft: #0B0C14;
+      --bg-card: #11131E;
+      --bg-elevated: #171A28;
+      --border: #242838;
+      --border-soft: #1A1D2B;
+      --text: #F5F5F7;
+      --text-muted: #9CA0AD;
+      --text-dim: #5A5F6B;
+      --green: #22C55E;
+      --green-soft: rgba(34, 197, 94, 0.12);
+      --green-glow: rgba(34, 197, 94, 0.35);
+      --purple: #A78BFA;
+      --purple-soft: rgba(167, 139, 250, 0.12);
+      --red: #F87171;
+
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'JetBrains Mono', 'Courier New', monospace;
+
+      --shadow-lg: 0 20px 60px -20px rgba(0, 0, 0, 0.6), 0 12px 40px -16px rgba(34, 197, 94, 0.12);
+      --shadow-xl: 0 30px 90px -30px rgba(0, 0, 0, 0.8), 0 20px 60px -20px rgba(34, 197, 94, 0.15);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      background: #0F172A;
-      color: #CBD5E1;
-      font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
 
-    .container { max-width: 580px; width: 100%; }
+    ::selection { background: var(--green); color: var(--bg); }
 
-    /* ═══ TERMINAL CHROME ═══ */
-    .terminal {
-      background: #1E293B;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      overflow: hidden;
+    a { color: inherit; text-decoration: none; }
+
+    img { max-width: 100%; display: block; }
+
+    /* ═══════════════════════════════════════════════════════
+       LAYOUT UTILITIES
+       ═══════════════════════════════════════════════════════ */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 32px;
     }
 
-    .terminal-bar {
-      background: #0F172A;
-      padding: 12px 16px;
+    .container-narrow {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════════════════════ */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 6, 11, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .nav-inner {
       display: flex;
       align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid #334155;
+      justify-content: space-between;
+      padding: 16px 32px;
+      max-width: 1160px;
+      margin: 0 auto;
     }
 
-    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-red { background: #EF4444; }
-    .dot-yellow { background: #F59E0B; }
-    .dot-green { background: #22C55E; }
-
-    .terminal-title {
-      color: #94A3B8;
-      font-size: 12px;
-      margin-left: 8px;
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
       letter-spacing: 0.5px;
     }
 
-    .terminal-body { padding: 32px 28px; }
-
-    /* ═══ ANIMATIONS ═══ */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--green-glow);
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 12px var(--green-glow); }
+      50% { opacity: 0.6; box-shadow: 0 0 20px var(--green-glow); }
     }
 
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 12px rgba(34, 197, 94, 0.3); }
-      50% { box-shadow: 0 0 24px rgba(34, 197, 94, 0.5); }
-    }
-
-    @keyframes scanline {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100vh); }
-    }
-
-    .fade-in { opacity: 0; animation: fadeInUp 0.5s ease forwards; }
-    .fade-in-1 { animation-delay: 0.1s; }
-    .fade-in-2 { animation-delay: 0.2s; }
-    .fade-in-3 { animation-delay: 0.35s; }
-    .fade-in-4 { animation-delay: 0.5s; }
-    .fade-in-5 { animation-delay: 0.65s; }
-    .fade-in-6 { animation-delay: 0.8s; }
-
-    .cursor-blink::after {
-      content: "█";
-      color: #22C55E;
-      animation: blink 1s step-end infinite;
-      margin-left: 2px;
-    }
-
-    /* ═══ HEADER ═══ */
-    .ascii-bar {
-      color: #22C55E;
-      font-size: 11px;
-      letter-spacing: 1px;
-      opacity: 0.7;
-    }
-
-    .brand { margin-top: 12px; }
-    .brand-name {
-      color: #22C55E;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    .brand-sub {
-      color: #94A3B8;
-      font-size: 12px;
-      margin-top: 2px;
-    }
-
-    /* ═══ SOCIAL PROOF BAR ═══ */
-    .proof-bar {
-      margin-top: 16px;
+    .nav-links {
       display: flex;
-      gap: 16px;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.2s;
+      font-family: var(--mono);
+    }
+
+    .nav-link:hover { color: var(--text); }
+
+    .nav-cta {
+      padding: 8px 16px;
+      background: var(--green);
+      color: var(--bg);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--sans);
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: #16A34A;
+      box-shadow: 0 0 24px var(--green-glow);
+      transform: translateY(-1px);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      padding: 80px 0 120px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 30%, rgba(34, 197, 94, 0.15), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(167, 139, 250, 0.12), transparent 60%);
+      animation: mesh-drift 20s ease-in-out infinite alternate;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(36, 40, 56, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(36, 40, 56, 0.3) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+    }
+
+    @keyframes mesh-drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-5%, 3%) scale(1.1); }
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: var(--green-soft);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(44px, 5vw, 72px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--green);
+      position: relative;
+    }
+
+    .hero-title em::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 4px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+      opacity: 0.3;
+    }
+
+    .hero-sub {
+      font-size: 19px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .hero-form {
+      display: flex;
+      gap: 8px;
+      max-width: 440px;
+      margin-bottom: 16px;
+    }
+
+    .hero-input {
+      flex: 1;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .hero-input::placeholder { color: var(--text-dim); }
+
+    .hero-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-soft);
+    }
+
+    .hero-btn {
+      padding: 14px 24px;
+      background: var(--green);
+      color: var(--bg);
+      border: none;
+      border-radius: 10px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .hero-btn:hover {
+      background: #16A34A;
+      box-shadow: 0 0 24px var(--green-glow);
+      transform: translateY(-1px);
+    }
+
+    .hero-note {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* Hero visual — AYA portrait */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .aya-frame {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 1;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .aya-frame::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, var(--green), var(--purple), var(--green));
+      border-radius: 26px;
+      z-index: -1;
+      opacity: 0.5;
+      filter: blur(20px);
+      animation: aura 6s ease-in-out infinite;
+    }
+
+    @keyframes aura {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.7; }
+    }
+
+    .aya-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 8s ease;
+    }
+
+    .aya-frame:hover img { transform: scale(1.05); }
+
+    .aya-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      background: rgba(5, 6, 11, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .aya-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--green-glow);
+      animation: pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .aya-badge-text {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .aya-badge-text strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       PROOF STRIP
+       ═══════════════════════════════════════════════════════ */
+    .proof-strip {
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 20px 0;
+      background: var(--bg-soft);
+    }
+
+    .proof-items {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
       flex-wrap: wrap;
     }
 
     .proof-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: #64748B;
-    }
-
-    .proof-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #22C55E;
-      animation: blink 2s ease-in-out infinite;
-    }
-
-    /* ═══ HERO CTA (above the fold) ═══ */
-    .hero-cta {
-      margin-top: 20px;
-      padding: 16px;
-      background: #0F172A;
-      border: 1px solid #334155;
-      border-radius: 8px;
-    }
-
-    .hero-cta .form-label {
-      color: #A78BFA;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: block;
-      line-height: 1.5;
-    }
-
-    /* ═══ AYA SECTION ═══ */
-    .aya-section {
-      margin-top: 28px;
-      padding: 16px;
-      background: #0F172A;
-      border-radius: 8px;
-      border-left: 3px solid #22C55E;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
-
-    .aya-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 2px solid #22C55E;
-      object-fit: cover;
-      flex-shrink: 0;
-      animation: pulse-glow 3s ease-in-out infinite;
-    }
-
-    .aya-content { flex: 1; }
-
-    .aya-tag {
-      color: #22C55E;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      margin-bottom: 8px;
-    }
-
-    .aya-text {
-      color: #CBD5E1;
-      font-size: 13px;
-      line-height: 1.8;
-      font-style: italic;
-    }
-
-    /* ═══ FEATURES ═══ */
-    .section-title {
-      color: #A78BFA;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      margin-top: 28px;
-      margin-bottom: 14px;
-    }
-
-    .feature {
-      display: flex;
-      align-items: flex-start;
       gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .feature-arrow {
-      color: #22C55E;
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .feature-text {
-      color: #CBD5E1;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .feature-text strong { color: #F1F5F9; }
-
-    /* ═══ EMAIL PREVIEW ═══ */
-    .preview-section {
-      margin-top: 28px;
-    }
-
-    .preview-terminal {
-      background: #0F172A;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-top: 12px;
-    }
-
-    .preview-bar {
-      padding: 8px 12px;
-      border-bottom: 1px solid #334155;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .preview-bar-left {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .preview-dot-sm {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    .preview-tab {
-      color: #64748B;
-      font-size: 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
       letter-spacing: 0.5px;
     }
 
-    .preview-tag {
-      font-size: 9px;
-      color: #22C55E;
-      background: rgba(34, 197, 94, 0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-weight: 600;
+    .proof-icon {
+      color: var(--green);
+      font-weight: 700;
     }
 
-    .preview-body {
-      padding: 16px;
-      max-height: 260px;
-      overflow: hidden;
+    /* ═══════════════════════════════════════════════════════
+       SECTIONS — GENERIC
+       ═══════════════════════════════════════════════════════ */
+    section {
+      padding: 120px 0;
       position: relative;
     }
 
-    .preview-body::after {
-      content: "";
+    .section-eyebrow {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--green);
+    }
+
+    .section-sub {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 640px;
+      font-weight: 300;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MEET AYA SECTION
+       ═══════════════════════════════════════════════════════ */
+    .meet-aya {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .meet-aya-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .meet-aya-visual {
+      position: relative;
+    }
+
+    .meet-aya-portrait {
+      width: 100%;
+      max-width: 460px;
+      aspect-ratio: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .meet-aya-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .portrait-overlay {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: linear-gradient(transparent, #0F172A);
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(5, 6, 11, 0.9));
       pointer-events: none;
     }
 
-    .preview-subject {
-      color: #F1F5F9;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .preview-date {
-      color: #475569;
-      font-size: 10px;
-      margin-bottom: 12px;
-    }
-
-    .preview-headline {
-      color: #22C55E;
+    .portrait-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      font-family: var(--mono);
       font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-
-    .preview-content {
-      color: #94A3B8;
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .preview-content strong { color: #CBD5E1; }
-
-    .preview-quick {
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px solid #1E293B;
-    }
-
-    .preview-quick-title {
-      color: #818CF8;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-
-    .preview-quick-item {
-      color: #64748B;
-      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
       line-height: 1.6;
-      margin-bottom: 4px;
     }
 
-    .preview-quick-item span { color: #94A3B8; }
+    .portrait-caption strong { color: var(--green); }
 
-    .preview-cta-row {
+    .portrait-transmission {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(5, 6, 11, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 1px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-top: 1px solid #334155;
+      gap: 6px;
     }
 
-    .preview-link {
-      color: #818CF8;
+    .transmission-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+
+    .meet-aya-quote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 28px;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 32px;
+      border-left: 2px solid var(--green);
+      padding-left: 24px;
+    }
+
+    .meet-aya-body {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+
+    .meet-aya-body strong { color: var(--text); font-weight: 500; }
+
+    .aya-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .stat {
+      text-align: left;
+    }
+
+    .stat-value {
+      font-family: var(--serif);
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
       font-size: 11px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
-    .preview-link:hover { color: #A78BFA; }
-
-    /* ═══ TRUST SIGNAL ═══ */
-    .trust-section {
-      margin-top: 24px;
-      padding: 14px 16px;
-      background: rgba(167, 139, 250, 0.06);
-      border: 1px solid rgba(167, 139, 250, 0.15);
-      border-radius: 8px;
+    /* ═══════════════════════════════════════════════════════
+       LIVE PREVIEW
+       ═══════════════════════════════════════════════════════ */
+    .preview-section {
+      position: relative;
     }
 
-    .trust-text {
-      color: #94A3B8;
-      font-size: 11px;
-      line-height: 1.8;
-    }
-
-    .trust-text strong {
-      color: #A78BFA;
-      font-weight: 600;
-    }
-
-    /* ═══ SEPARATOR ═══ */
-    .separator {
-      color: #334155;
-      font-size: 11px;
-      letter-spacing: 2px;
+    .preview-header {
       text-align: center;
-      margin: 24px 0;
+      margin-bottom: 56px;
     }
 
-    /* ═══ FORM ═══ */
-    .form-section {
-      margin-top: 28px;
-      padding-top: 24px;
-      border-top: 1px solid #334155;
+    .preview-header .section-sub {
+      margin: 0 auto;
     }
 
-    .form-label {
-      color: #94A3B8;
-      font-size: 12px;
-      margin-bottom: 10px;
-      display: block;
+    .preview-wrap {
+      position: relative;
+      max-width: 640px;
+      margin: 0 auto;
+      perspective: 1600px;
     }
 
-    .form-row { display: flex; gap: 8px; }
-
-    .form-input {
-      flex: 1;
-      background: #0F172A;
-      border: 2px solid #334155;
-      border-radius: 8px;
-      padding: 12px 14px;
-      color: #F1F5F9;
-      font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+    .preview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      transform: rotateX(4deg);
+      transform-origin: center top;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .form-input:focus {
-      border-color: #22C55E;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    .preview-card:hover { transform: rotateX(0deg); }
+
+    .preview-chrome {
+      background: var(--bg-elevated);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .form-input::placeholder { color: #475569; }
-
-    .form-button {
-      background: #22C55E;
-      color: #0F172A;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-      white-space: nowrap;
+    .chrome-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .chrome-red { background: #F87171; }
+    .chrome-yellow { background: #FBBF24; }
+    .chrome-green { background: var(--green); }
+    .chrome-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-left: 8px;
       letter-spacing: 0.5px;
     }
 
-    .form-button:hover {
-      background: #16A34A;
-      box-shadow: 0 0 16px rgba(34, 197, 94, 0.3);
+    .preview-email {
+      padding: 40px 36px 20px;
+      position: relative;
     }
 
-    .form-button:active { transform: scale(0.97); }
+    .preview-email::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 80px;
+      background: linear-gradient(transparent, var(--bg-card));
+      pointer-events: none;
+    }
 
-    .form-note {
-      color: #64748B;
+    .email-meta-line {
+      font-family: var(--mono);
       font-size: 11px;
-      margin-top: 10px;
-      line-height: 1.5;
+      color: var(--green);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
     }
 
-    /* ═══ ARCHIVE LINK ═══ */
-    .archive-link {
+    .email-subject {
+      font-family: var(--serif);
+      font-size: 28px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .email-byline {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+
+    .email-section-label {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--bg);
+      background: var(--green);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .email-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .email-body strong { color: var(--text); font-weight: 500; }
+
+    .email-quick-label {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--purple);
+      background: var(--purple-soft);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .email-quick-item {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding-left: 12px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .email-quick-item::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+    }
+
+    .email-quick-item strong { color: var(--text); font-weight: 500; }
+
+    .preview-actions {
+      position: relative;
+      z-index: 1;
+      padding: 20px 36px 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--bg-card);
+    }
+
+    .preview-edition {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+    }
+
+    .preview-read-link {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      margin-top: 16px;
-      color: #818CF8;
+      transition: gap 0.2s;
+    }
+
+    .preview-read-link:hover { gap: 10px; }
+
+    /* ═══════════════════════════════════════════════════════
+       EDITORIAL FRAMEWORK
+       ═══════════════════════════════════════════════════════ */
+    .framework {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .framework-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .framework-header .section-sub { margin: 0 auto; }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      position: relative;
+    }
+
+    .pipeline::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--purple));
+      opacity: 0.3;
+      z-index: 0;
+    }
+
+    .pipeline-step {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .pipeline-num {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green);
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .pipeline-step:hover .pipeline-num {
+      border-color: var(--green);
+      box-shadow: 0 0 30px var(--green-glow);
+      transform: translateY(-4px);
+    }
+
+    .pipeline-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .pipeline-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       DIFFERENTIATORS
+       ═══════════════════════════════════════════════════════ */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+
+    .diff-card {
+      padding: 36px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: all 0.3s;
+    }
+
+    .diff-card:hover {
+      border-color: var(--green);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .diff-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--green-soft);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 20px;
+    }
+
+    .diff-title {
+      font-family: var(--serif);
+      font-size: 24px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .diff-body {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .diff-body strong { color: var(--text); font-weight: 500; }
+
+    /* ═══════════════════════════════════════════════════════
+       ARCHIVE TEASER
+       ═══════════════════════════════════════════════════════ */
+    .archive-teaser {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 56px;
+      margin-bottom: 48px;
+    }
+
+    .archive-card {
+      padding: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 240px;
+    }
+
+    .archive-card:hover {
+      border-color: var(--green);
+      transform: translateY(-4px);
+    }
+
+    .archive-num {
+      font-family: var(--mono);
       font-size: 11px;
-      text-decoration: none;
-      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .archive-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      flex: 1;
+      letter-spacing: -0.01em;
+    }
+
+    .archive-excerpt {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+
+    .archive-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+    }
+
+    .archive-cta-wrap {
+      text-align: center;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green);
+      background: var(--green-soft);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CREATOR STRIP
+       ═══════════════════════════════════════════════════════ */
+    .creator {
+      padding: 80px 0;
+    }
+
+    .creator-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 48px 32px;
+    }
+
+    .creator-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .creator-text {
+      font-family: var(--serif);
+      font-size: 24px;
+      line-height: 1.5;
+      color: var(--text);
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+
+    .creator-text em {
+      color: var(--green);
+      font-style: italic;
+    }
+
+    .creator-sign {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .creator-sign a {
+      color: var(--green);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .creator-sign a:hover { border-color: var(--green); }
+
+    /* ═══════════════════════════════════════════════════════
+       FINAL CTA
+       ═══════════════════════════════════════════════════════ */
+    .final-cta {
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(34, 197, 94, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .final-cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 32px;
+    }
+
+    .final-cta-title {
+      font-family: var(--serif);
+      font-size: clamp(40px, 5.5vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .final-cta-title em {
+      font-style: italic;
+      color: var(--green);
+    }
+
+    .final-cta-sub {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .final-form {
+      display: flex;
+      gap: 8px;
+      max-width: 440px;
+      margin: 0 auto 12px;
+    }
+
+    .final-note {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════ */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .footer-col-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-link {
+      font-size: 13px;
+      color: var(--text-muted);
       transition: color 0.2s;
     }
 
-    .archive-link:hover { color: #A78BFA; }
+    .footer-link:hover { color: var(--green); }
 
-    .archive-arrow {
-      transition: transform 0.2s;
-    }
-
-    .archive-link:hover .archive-arrow {
-      transform: translateX(3px);
-    }
-
-    /* ═══ META / FOOTER ═══ */
-    .meta-section {
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid #334155;
-    }
-
-    .meta-line {
-      color: #64748B;
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-family: var(--mono);
       font-size: 11px;
-      line-height: 2;
+      color: var(--text-dim);
     }
 
-    .meta-line span { color: #94A3B8; }
-
-    .footer {
-      text-align: center;
-      margin-top: 20px;
-      color: #475569;
-      font-size: 11px;
+    /* ═══════════════════════════════════════════════════════
+       REVEAL ANIMATIONS
+       ═══════════════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .footer a { color: #64748B; text-decoration: none; }
-    .footer a:hover { color: #94A3B8; }
-
-    /* ═══ RESPONSIVE ═══ */
-    @media (max-width: 480px) {
-      body { padding: 12px; }
-      .terminal-body { padding: 24px 16px; }
-      .brand-name { font-size: 20px; }
-      .form-row { flex-direction: column; }
-      .form-button { text-align: center; padding: 14px 20px; }
-      .aya-section { flex-direction: column; align-items: center; text-align: center; }
-      .aya-avatar { width: 72px; height: 72px; }
-      .proof-bar { gap: 10px; }
-      .proof-item { font-size: 10px; }
-      .hero-cta .form-label { font-size: 12px; }
-      .preview-body { max-height: 220px; }
-      .trust-section { padding: 12px; }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    @media (max-width: 360px) {
-      .terminal-body { padding: 20px 14px; }
-      .brand-name { font-size: 18px; }
-      .container { max-width: 100%; }
+    /* ═══════════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { order: -1; max-width: 360px; margin: 0 auto; }
+      .meet-aya-grid { grid-template-columns: 1fr; gap: 48px; }
+      .meet-aya-visual { max-width: 420px; margin: 0 auto; }
+      .pipeline { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .pipeline::before { display: none; }
+      .diff-grid { grid-template-columns: 1fr; }
+      .archive-grid { grid-template-columns: 1fr; }
     }
 
-    /* ═══ REDUCED MOTION ═══ */
+    @media (max-width: 640px) {
+      .container, .container-narrow { padding: 0 20px; }
+      .nav-inner { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-link { display: none; }
+      .nav-cta { padding: 7px 14px; font-size: 12px; }
+      section { padding: 72px 0; }
+      .hero { padding: 48px 0 80px; }
+      .hero-title { font-size: 44px; }
+      .hero-form { flex-direction: column; max-width: 100%; }
+      .meet-aya-quote { font-size: 22px; padding-left: 20px; }
+      .aya-stats { grid-template-columns: 1fr; gap: 20px; }
+      .pipeline { grid-template-columns: 1fr; }
+      .preview-card { transform: rotateX(0); }
+      .preview-email { padding: 28px 24px 20px; }
+      .email-subject { font-size: 22px; }
+      .preview-actions { padding: 16px 24px 20px; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .final-form { flex-direction: column; }
+      .final-cta-title { font-size: 40px; }
+      .proof-items { gap: 16px; justify-content: flex-start; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .fade-in { animation: none; opacity: 1; }
-      .cursor-blink::after { animation: none; }
-      .aya-avatar { animation: none; box-shadow: 0 0 12px rgba(34, 197, 94, 0.3); }
-      .proof-dot { animation: none; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="terminal">
-
-      <!-- Terminal chrome bar -->
-      <div class="terminal-bar">
-        <div class="terminal-dot dot-red"></div>
-        <div class="terminal-dot dot-yellow"></div>
-        <div class="terminal-dot dot-green"></div>
-        <span class="terminal-title">aya@daily-scout ~ /subscribe</span>
+  <!-- ═══════════════════════ NAV ═══════════════════════ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="./" class="logo">
+        <span class="logo-dot"></span>
+        <span>AYA · Daily Scout</span>
+      </a>
+      <div class="nav-links">
+        <a href="./archive/" class="nav-link">Edições</a>
+        <a href="./about/" class="nav-link">Sobre</a>
+        <a href="#subscribe" class="nav-cta">Assinar</a>
       </div>
+    </div>
+  </nav>
 
-      <div class="terminal-body">
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="container">
+      <div class="hero-inner">
 
-        <!-- ═══ HEADER ═══ -->
-        <div class="fade-in fade-in-1">
-          <div class="ascii-bar">════════════════════════════════════════</div>
-          <div class="brand">
-            <div class="brand-name cursor-blink">AYA's Daily Scout</div>
-            <div class="brand-sub">Tech & AI // toda manhã no seu e-mail</div>
+        <div class="hero-content reveal">
+          <div class="hero-eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>TRANSMITINDO · 8H BRT</span>
           </div>
-          <div class="ascii-bar" style="margin-top: 12px;">════════════════════════════════════════</div>
-        </div>
 
-        <!-- ═══ SOCIAL PROOF BAR ═══ -->
-        <div class="proof-bar fade-in fade-in-2">
-          <div class="proof-item">
-            <div class="proof-dot"></div>
-            Diariamente
-          </div>
-          <div class="proof-item">
-            <div class="proof-dot" style="background: #818CF8;"></div>
-            100% automated
-          </div>
-        </div>
+          <h1 class="hero-title">
+            A AYA lê <em>~300 histórias</em> de tech toda manhã.<br>
+            Você lê só as que importam.
+          </h1>
 
-        <!-- ═══ AYA INTRO ═══ -->
-        <div class="aya-section fade-in fade-in-2">
-          <div class="aya-content">
-            <div class="aya-tag">> TRANSMISSÃO</div>
-            <div class="aya-text">
-              AYA aqui. Toda manhã eu vasculho centenas de fontes — Reddit, HackerNews, comunidades open source, papers, repos — e trago só os achados que importam nas últimas 24h. Direto ao ponto, sem enrolação.
-            </div>
-          </div>
-          <img src="./aya-avatar.png" alt="AYA — AI Correspondent" class="aya-avatar" loading="lazy" width="80" height="80" />
-        </div>
+          <p class="hero-sub">
+            10 fontes globais, 5 filtros editoriais, 1 email por dia às 8h BRT. Factual, curado, com perspectiva além do eixo US-EU.
+          </p>
 
-        <!-- ═══ HERO CTA — ABOVE THE FOLD ═══ -->
-        <div class="hero-cta fade-in fade-in-3">
           <form
             action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis"
             method="post"
-            class="embeddable-buttondown-form"
+            class="hero-form embeddable-buttondown-form"
+            id="subscribe"
           >
-            <div class="form-row">
-              <input type="email" name="email" placeholder="seu@email.com" required class="form-input" />
-              <input type="submit" value="ASSINAR" class="form-button" />
-            </div>
-            <div class="form-note">Sem spam. Cancele em 1 click.</div>
+            <input type="email" name="email" placeholder="voce@empresa.com" required class="hero-input" aria-label="Email">
+            <button type="submit" class="hero-btn">Assinar grátis</button>
           </form>
+          <p class="hero-note">// sem spam · unsubscribe em 1 clique · curadoria por IA, verificação por PM</p>
         </div>
 
-        <!-- ═══ FEATURES ═══ -->
-        <div class="fade-in fade-in-3">
-          <div class="section-title">> O QUE VOCÊ RECEBE</div>
-
-          <div class="feature">
-            <span class="feature-arrow">-></span>
-            <span class="feature-text"><strong>Deep dive do dia</strong> — o achado mais relevante com análise de por que importa pra você</span>
-          </div>
-          <div class="feature">
-            <span class="feature-arrow">-></span>
-            <span class="feature-text"><strong>3-5 quick finds</strong> — o que mais cruzou o radar, com contexto pra decidir se vale clicar</span>
-          </div>
-          <div class="feature">
-            <span class="feature-arrow">-></span>
-            <span class="feature-text"><strong>8h BRT, toda manhã</strong> — PT-BR, leitura de 3 min</span>
-          </div>
-          <div class="feature">
-            <span class="feature-arrow">-></span>
-            <span class="feature-text"><strong>100% automated</strong> — curadoria, escrita e envio por AI. Zero viés editorial humano</span>
-          </div>
-        </div>
-
-        <!-- ═══ EMAIL PREVIEW ═══ -->
-        <div class="preview-section fade-in fade-in-4">
-          <div class="section-title">> PREVIEW: COMO CHEGA NA INBOX</div>
-
-          <div class="preview-terminal">
-            <div class="preview-bar">
-              <div class="preview-bar-left">
-                <div class="preview-dot-sm dot-red"></div>
-                <div class="preview-dot-sm dot-yellow"></div>
-                <div class="preview-dot-sm dot-green"></div>
-                <span class="preview-tab">inbox</span>
-              </div>
-              <span class="preview-tag">EDIÇÃO REAL</span>
-            </div>
-
-            <div class="preview-body">
-              <div class="preview-subject">Daily Scout #001 — Ataque crítico na supply chain do GitHub Actions</div>
-              <div class="preview-date">AYA · jun 2025 · 3 min read</div>
-
-              <div class="preview-headline">🎯 ACHADO DO DIA</div>
-              <div class="preview-content">
-                <strong>Supply-chain attack no tj-actions/changed-files</strong> — Um ator malicioso
-                comprometeu a GitHub Action usada por <strong>23.000+ repos</strong>. O ataque
-                injeta código que extrai CI/CD secrets e os expõe via logs do workflow.
-                Impacto: qualquer repo usando essa action sem pin de SHA está vulnerável.
-              </div>
-
-              <div class="preview-quick">
-                <div class="preview-quick-title">⚡ QUICK FINDS</div>
-                <div class="preview-quick-item">-> <span>GPT-4.5 spotted in API</span> — parâmetros vazados sugerem modelo intermediário</div>
-                <div class="preview-quick-item">-> <span>Rust no kernel Linux 6.x</span> — merge de drivers de GPU em Rust aprovado</div>
-                <div class="preview-quick-item">-> <span>Devin AI pricing</span> — $500/mês gerou debate sobre ROI de AI coding agents</div>
+        <div class="hero-visual reveal">
+          <div class="aya-frame">
+            <img src="./assets/aya-avatar.png" alt="AYA — AI correspondent" loading="eager">
+            <div class="aya-badge">
+              <div class="aya-badge-dot"></div>
+              <div class="aya-badge-text">
+                <strong>AYA v0.1</strong><br>
+                correspondente de IA · online
               </div>
             </div>
-
-            <div class="preview-cta-row">
-              <a href="https://buttondown.com/ramosdisis/archive/daily-scout-001-ataque-critico-na-supply-chain/" target="_blank" rel="noopener" class="preview-link">Ler edição completa →</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- ═══ TRUST SIGNAL ═══ -->
-        <div class="trust-section fade-in fade-in-5">
-          <div class="trust-text">
-            <strong>// sobre o projeto</strong><br>
-            Criada por uma <a href="https://www.linkedin.com/in/isisramos/" target="_blank" rel="noopener" style="color: #818CF8; text-decoration: none;"><strong>Product Manager</strong></a> que queria filtrar as melhores notícias de tech.
-            A pipeline é 100% open source — scraping, curadoria e escrita automatizados por AI.
-            Nenhum humano toca o conteúdo. O código tá no <a href="https://github.com/isisbramos/daily-scout" target="_blank" rel="noopener" style="color: #818CF8; text-decoration: none;">GitHub</a>.
-          </div>
-        </div>
-
-        <!-- ═══ SEPARATOR ═══ -->
-        <div class="separator fade-in fade-in-5">- - - - - - - - - - - - - - - - - - -</div>
-
-        <!-- ═══ BOTTOM CTA ═══ -->
-        <div class="form-section fade-in fade-in-6">
-          <form
-            action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis"
-            method="post"
-            class="embeddable-buttondown-form"
-          >
-            <label for="bd-email" class="form-label">// tech & AI na inbox, toda manhã</label>
-            <div class="form-row">
-              <input type="email" name="email" id="bd-email" placeholder="seu@email.com" required class="form-input" />
-              <input type="submit" value="ASSINAR" class="form-button" />
-            </div>
-            <div class="form-note">Sem spam. Cancele em 1 click.</div>
-          </form>
-        </div>
-
-        <!-- ═══ ARCHIVE LINK ═══ -->
-        <div class="fade-in fade-in-6" style="margin-top: 16px;">
-          <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="archive-link">
-            Veja edições anteriores <span class="archive-arrow">→</span>
-          </a>
-        </div>
-
-        <!-- ═══ META ═══ -->
-        <div class="meta-section fade-in fade-in-6">
-          <div class="meta-line">
-            sources: <span>reddit + hackernews + open web</span><br>
-            frequency: <span>diária, ~8h BRT</span><br>
-            stack: <span>python + gemini flash + buttondown</span><br>
-            correspondent: <span>aya v0.1</span> | repo: <a href="https://github.com/isisbramos/daily-scout" target="_blank" rel="noopener" style="color: #94A3B8; text-decoration: none;">open source</a>
           </div>
         </div>
 
       </div>
     </div>
+  </header>
 
-    <div class="footer">
-      <a href="https://buttondown.com/refer/ramosdisis" target="_blank" rel="noopener">Powered by Buttondown</a>
+  <!-- ═══════════════════════ PROOF STRIP ═══════════════════════ -->
+  <div class="proof-strip">
+    <div class="container">
+      <div class="proof-items">
+        <div class="proof-item"><span class="proof-icon">+</span> 3 min de leitura</div>
+        <div class="proof-item"><span class="proof-icon">+</span> 8h BRT, toda manhã</div>
+        <div class="proof-item"><span class="proof-icon">+</span> 10 fontes globais · 3 fora da bolha US</div>
+        <div class="proof-item"><span class="proof-icon">+</span> 100% PT-BR</div>
+        <div class="proof-item"><span class="proof-icon">+</span> Deep dive + 3 quick finds</div>
+      </div>
     </div>
   </div>
 
-  <!-- Vanilla JS: micro-interactions -->
-  <script>
-    // Remove cursor blink after 3s for cleaner look
-    setTimeout(function() {
-      var el = document.querySelector('.cursor-blink');
-      if (el) el.classList.remove('cursor-blink');
-    }, 3000);
-  </script>
+  <!-- ═══════════════════════ MEET AYA ═══════════════════════ -->
+  <section class="meet-aya">
+    <div class="container">
+      <div class="meet-aya-grid">
 
+        <div class="meet-aya-visual reveal">
+          <div class="meet-aya-portrait">
+            <img src="./assets/aya-avatar.png" alt="AYA portrait">
+            <div class="portrait-transmission">
+              <span class="transmission-dot"></span>
+              <span>LIVE</span>
+            </div>
+            <div class="portrait-overlay"></div>
+            <div class="portrait-caption">
+              <strong>> FIELD REPORT #042</strong><br>
+              transmitindo das fontes: HN · Reddit · SCMP · Rest of World · TechNode · Lobsters · arXiv
+            </div>
+          </div>
+        </div>
+
+        <div class="meet-aya-text reveal">
+          <div class="section-eyebrow">// Conheça sua correspondente</div>
+          <h2 class="section-title">Ela não é humana.<br>Mas tem <em>critério</em>.</h2>
+
+          <blockquote class="meet-aya-quote">
+            "Eu não amplifico o que já está alto. Eu filtro pelo que você realmente vai querer saber amanhã."
+          </blockquote>
+
+          <p class="meet-aya-body">
+            A <strong>AYA</strong> é uma persona de IA rodando no Gemini 2.5 Flash. Toda manhã ela escaneia 10 fontes globais — Reddit, HackerNews, SCMP Tech, Rest of World, TechNode, Lobsters, arXiv, e mais — e aplica um editorial framework de 5 steps pra encontrar o que vale a pena ler.
+          </p>
+          <p class="meet-aya-body">
+            Ela usa IA como lente, não como tópico. Ela se importa com o "so what?" — a coisa que você não podia fazer ontem e agora pode. Ela filtra sem dó contra hype, notícia reciclada e anúncio genérico de funding.
+          </p>
+
+          <div class="aya-stats">
+            <div class="stat">
+              <div class="stat-value">10</div>
+              <div class="stat-label">Fontes globais / dia</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Veículos não-ocidentais</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">5</div>
+              <div class="stat-label">Filtros editoriais</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ LIVE PREVIEW ═══════════════════════ -->
+  <section class="preview-section">
+    <div class="container-narrow preview-header reveal">
+      <div class="section-eyebrow">// Por dentro do daily scout</div>
+      <h2 class="section-title">É assim que ela chega na sua <em>inbox</em>.</h2>
+      <p class="section-sub">Um deep dive. Três quick finds. Uma seção radar. Toda manhã às 8h BRT. Sem scroll-bait — só o que muda algo.</p>
+    </div>
+
+    <div class="container">
+      <div class="preview-wrap reveal">
+        <div class="preview-card">
+          <div class="preview-chrome">
+            <span class="chrome-dot chrome-red"></span>
+            <span class="chrome-dot chrome-yellow"></span>
+            <span class="chrome-dot chrome-green"></span>
+            <span class="chrome-title">inbox · aya@daily-scout</span>
+          </div>
+
+          <div class="preview-email">
+            <div class="email-meta-line">> FIELD REPORT #001 · 11 fontes · 282 posts → 8 achados</div>
+            <h3 class="email-subject">Copilot insere anúncios em pull requests de desenvolvedores</h3>
+            <div class="email-byline">AYA · 30/03/2026 · 3 min de leitura</div>
+
+            <span class="email-section-label">🎯 ACHADO DO DIA</span>
+            <p class="email-body">
+              <strong>Um PR bot patrocinado</strong> começou a postar sugestões pagas dentro de pull requests no GitHub — monetizando o fluxo do desenvolvedor sem consentimento explícito. Não é um experimento isolado: a monetização do <strong>espaço cognitivo do dev</strong> está saindo do IDE e entrando no próprio workflow de code review. Se você mantém repos open source, vale conferir policies antes do próximo PR.
+            </p>
+
+            <span class="email-quick-label">⚡ QUICK FINDS</span>
+            <div class="email-quick-item"><strong>Anthropic expande Claude pra enterprise coding.</strong> Pricing agressivo contra Copilot — sinal de que o segmento vai ter guerra de margem.</div>
+            <div class="email-quick-item"><strong>SCMP: Alibaba fecha parceria com state labs</strong> em modelo multimodal. Sinal pra quem monitora o eixo China-tech soberano.</div>
+            <div class="email-quick-item"><strong>Rust no kernel Linux 6.x</strong> — merge de drivers GPU em Rust aprovado. Validação estrutural, não hype.</div>
+          </div>
+
+          <div class="preview-actions">
+            <span class="preview-edition">Field report #001 · publicado em 30/03/2026</span>
+            <a href="https://buttondown.com/ramosdisis/archive/daily-scout-001-ataque-critico-na-supply-chain/" target="_blank" rel="noopener" class="preview-read-link">
+              Ler edição completa →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ EDITORIAL FRAMEWORK ═══════════════════════ -->
+  <section class="framework">
+    <div class="container-narrow framework-header reveal">
+      <div class="section-eyebrow">// O filtro de 5 steps</div>
+      <h2 class="section-title">Não é mais um digest de notícias de IA.<br>É um <em>editorial framework</em> de verdade.</h2>
+      <p class="section-sub">A maioria das newsletters de IA amplifica o que viralizou. A AYA roda cada candidata por um pipeline de 5 steps antes de qualquer coisa chegar na sua inbox. Se não passa, não sobe.</p>
+    </div>
+
+    <div class="container">
+      <div class="pipeline reveal">
+        <div class="pipeline-step">
+          <div class="pipeline-num">01</div>
+          <div class="pipeline-name">AI Gate</div>
+          <div class="pipeline-desc">A matéria tem ângulo de IA? Se não tem, está fora — sem exceção.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">02</div>
+          <div class="pipeline-name">Critérios</div>
+          <div class="pipeline-desc">Precisa passar em 2 de 3: acionável, market signal, ou afeta workflows.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">03</div>
+          <div class="pipeline-name">Anti-Signal</div>
+          <div class="pipeline-desc">Funding genérico, notícia requentada, crypto-sem-IA → corte duro.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">04</div>
+          <div class="pipeline-name">Ranking</div>
+          <div class="pipeline-desc">Z-score de tração + recency decay + peso editorial.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-num">05</div>
+          <div class="pipeline-name">Teste Final</div>
+          <div class="pipeline-desc">"Sabia que agora dá pra...?" Se o complemento não fecha, sai.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ DIFFERENTIATORS ═══════════════════════ -->
+  <section>
+    <div class="container">
+      <div class="container-narrow reveal" style="padding: 0;">
+        <div class="section-eyebrow">// Por que o Daily Scout é diferente</div>
+        <h2 class="section-title">Três coisas que a maioria das newsletters de IA <em>não</em> faz.</h2>
+      </div>
+
+      <div class="diff-grid reveal">
+        <div class="diff-card">
+          <div class="diff-icon">◆</div>
+          <h3 class="diff-title">IA como lente, não como tópico.</h3>
+          <p class="diff-body">A maioria cobre "notícia de IA". A AYA cobre <strong>tech inteiro através do AI angle</strong>. Security, hardware, infra, policy — se tem ângulo de IA relevante, você vê. Se não tem, não passa no corte.</p>
+        </div>
+
+        <div class="diff-card">
+          <div class="diff-icon">⟡</div>
+          <h3 class="diff-title">Perspectiva global.</h3>
+          <p class="diff-body">Das 10 fontes monitoradas, <strong>3 são geográficas</strong> — SCMP Tech, Rest of World, TechNode. Você enxerga a IA na Ásia e no Global South que os feeds US-centric ignoram.</p>
+        </div>
+
+        <div class="diff-card">
+          <div class="diff-icon">◈</div>
+          <h3 class="diff-title">A Aya tem voz.</h3>
+          <p class="diff-body">Não é um digest anônimo. A AYA escreve com persona editorial consistente — factual, sem hype, contexto primeiro. Ela explica o que algo <strong>é</strong> e por que <strong>importa</strong>. Ela não amplifica noise.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ ARCHIVE TEASER ═══════════════════════ -->
+  <section class="archive-teaser">
+    <div class="container">
+      <div class="container-narrow reveal" style="padding: 0;">
+        <div class="section-eyebrow">// Field reports</div>
+        <h2 class="section-title">Uma amostra do que <em>leitores anteriores</em> receberam.</h2>
+      </div>
+
+      <div class="archive-grid reveal">
+        <a href="https://buttondown.com/ramosdisis/archive/daily-scout-001-ataque-critico-na-supply-chain/" target="_blank" rel="noopener" class="archive-card">
+          <div class="archive-num">FIELD REPORT #001</div>
+          <div class="archive-title">Ataque de supply-chain atinge 23 mil+ repos no GitHub.</div>
+          <div class="archive-excerpt">Um commit malicioso em tj-actions/changed-files expôs secrets de CI/CD. Por que isso importa além do CVE.</div>
+          <div class="archive-meta">30/03/2026 · 3 min de leitura →</div>
+        </a>
+
+        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="archive-card">
+          <div class="archive-num">FIELD REPORT #003</div>
+          <div class="archive-title">Copilot coloca anúncios dentro de pull requests.</div>
+          <div class="archive-excerpt">Monetização sai do IDE e entra no code review. O que isso significa pra maintainers e pra policy de open source.</div>
+          <div class="archive-meta">02/04/2026 · 3 min de leitura →</div>
+        </a>
+
+        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="archive-card">
+          <div class="archive-num">FIELD REPORT #007</div>
+          <div class="archive-title">Modelo multimodal da Alibaba aparece.</div>
+          <div class="archive-excerpt">Cobertura via SCMP sobre a parceria com state labs que a maior parte dos feeds ocidentais deixou passar. Por que o eixo China-tech ainda importa.</div>
+          <div class="archive-meta">08/04/2026 · 3 min de leitura →</div>
+        </a>
+      </div>
+
+      <div class="archive-cta-wrap reveal">
+        <a href="./archive/" class="btn-secondary">Ver o arquivo completo →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CREATOR ═══════════════════════ -->
+  <section class="creator">
+    <div class="container">
+      <div class="creator-inner reveal">
+        <div class="creator-label">// sobre a operadora</div>
+        <p class="creator-text">
+          "Sou uma <em>Product Manager</em> que queria um tech briefing que eu realmente lesse. Então construí uma correspondente de IA pra escrever por mim. A AYA é o que acontece quando instinto de PM encontra LLM tooling."
+        </p>
+        <p class="creator-sign">
+          — <a href="https://www.linkedin.com/in/isisramos/" target="_blank" rel="noopener">Isis Ramos</a> · operadora · <a href="https://github.com/isisbramos/daily-scout" target="_blank" rel="noopener">stack open-source</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FINAL CTA ═══════════════════════ -->
+  <section class="final-cta">
+    <div class="final-cta-inner reveal">
+      <h2 class="final-cta-title">Fique à frente em IA <em>amanhã de manhã</em>.</h2>
+      <p class="final-cta-sub">Um email por dia. Zero scroll-bait. Construído por uma PM, escrito por IA.</p>
+
+      <form
+        action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis"
+        method="post"
+        class="final-form embeddable-buttondown-form"
+      >
+        <input type="email" name="email" placeholder="voce@empresa.com" required class="hero-input" aria-label="Email">
+        <button type="submit" class="hero-btn">Assinar grátis</button>
+      </form>
+      <p class="final-note">// sem spam · unsubscribe em 1 clique</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <div>
+          <div class="logo">
+            <span class="logo-dot"></span>
+            <span>AYA · Daily Scout</span>
+          </div>
+          <p style="font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-top: 12px; max-width: 240px;">Briefing de tech & IA com curadoria por IA, entregue toda manhã às 8h BRT.</p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Produto</div>
+          <div class="footer-links">
+            <a href="./archive/" class="footer-link">Edições</a>
+            <a href="./about/" class="footer-link">Sobre a AYA</a>
+            <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="footer-link">Arquivo Buttondown</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Operadora</div>
+          <div class="footer-links">
+            <a href="https://www.linkedin.com/in/isisramos/" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
+            <a href="https://github.com/isisbramos/daily-scout" target="_blank" rel="noopener" class="footer-link">GitHub (open source)</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Stack</div>
+          <div class="footer-links">
+            <span class="footer-link">Gemini 2.5 Flash</span>
+            <span class="footer-link">Buttondown</span>
+            <span class="footer-link">GitHub Actions</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 AYA · Daily Scout</div>
+        <div>correspondente: aya v0.1 · pipeline: editorial v5.3</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
+  <script>
+    // Scroll reveal with IntersectionObserver
+    (function() {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function(el) { el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(el) { io.observe(el); });
+    })();
+
+    // Subtle parallax on hero AYA (scroll-linked)
+    (function() {
+      var frame = document.querySelector('.aya-frame');
+      if (!frame || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var ticking = false;
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(function() {
+            var y = window.scrollY;
+            if (y < 800) {
+              frame.style.transform = 'translateY(' + (y * 0.06) + 'px)';
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    })();
+  </script>
 </body>
 </html>

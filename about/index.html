@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre — AYA's Daily Scout</title>
+  <meta name="description" content="Conheça a AYA — a correspondente de IA por trás do Daily Scout. Editorial framework, fontes globais e a PM que a construiu.">
+
+  <meta property="og:title" content="Sobre a AYA — Daily Scout">
+  <meta property="og:description" content="A correspondente de IA, o editorial framework e a PM que a construiu.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://isisbramos.github.io/daily-scout/about/">
+  <meta property="og:image" content="https://isisbramos.github.io/daily-scout/assets/aya-avatar.png">
+  <meta property="og:locale" content="pt_BR">
+
+  <link rel="canonical" href="https://isisbramos.github.io/daily-scout/about/">
+  <link rel="icon" type="image/png" href="../assets/aya-avatar.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #05060B;
+      --bg-soft: #0B0C14;
+      --bg-card: #11131E;
+      --bg-elevated: #171A28;
+      --border: #242838;
+      --border-soft: #1A1D2B;
+      --text: #F5F5F7;
+      --text-muted: #9CA0AD;
+      --text-dim: #5A5F6B;
+      --green: #22C55E;
+      --green-soft: rgba(34, 197, 94, 0.12);
+      --green-glow: rgba(34, 197, 94, 0.35);
+      --purple: #A78BFA;
+      --purple-soft: rgba(167, 139, 250, 0.12);
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --shadow-lg: 0 20px 60px -20px rgba(0, 0, 0, 0.6), 0 12px 40px -16px rgba(34, 197, 94, 0.12);
+      --shadow-xl: 0 30px 90px -30px rgba(0, 0, 0, 0.8), 0 20px 60px -20px rgba(34, 197, 94, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--green); color: var(--bg); }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .container-narrow {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 6, 11, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--green-glow);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 12px var(--green-glow); }
+      50% { opacity: 0.6; box-shadow: 0 0 20px var(--green-glow); }
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+
+    .nav-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.2s;
+      font-family: var(--mono);
+    }
+
+    .nav-link:hover { color: var(--text); }
+    .nav-link.active { color: var(--green); }
+
+    .nav-cta {
+      padding: 8px 16px;
+      background: var(--green);
+      color: var(--bg);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: #16A34A;
+      box-shadow: 0 0 24px var(--green-glow);
+      transform: translateY(-1px);
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 80px 0 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 40% 60% at 80% 40%, rgba(34, 197, 94, 0.1), transparent 70%),
+        radial-gradient(ellipse 30% 40% at 20% 60%, rgba(167, 139, 250, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-eyebrow {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-family: var(--serif);
+      font-size: clamp(48px, 6vw, 84px);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .page-title em { font-style: italic; color: var(--green); }
+
+    .page-sub {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 640px;
+      font-weight: 300;
+    }
+
+    /* TWO-COLUMN BIO */
+    .aya-bio {
+      padding: 80px 0 120px;
+      position: relative;
+    }
+
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .bio-portrait {
+      position: sticky;
+      top: 120px;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .bio-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bio-specs {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 20px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.9;
+      color: var(--text-muted);
+    }
+
+    .bio-specs strong { color: var(--green); font-weight: 600; }
+
+    .bio-content h2 {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      margin-top: 48px;
+    }
+
+    .bio-content h2:first-child { margin-top: 0; }
+
+    .bio-content h2 em { font-style: italic; color: var(--green); }
+
+    .bio-content p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+
+    .bio-content p strong { color: var(--text); font-weight: 500; }
+
+    .bio-content blockquote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 26px;
+      line-height: 1.4;
+      color: var(--text);
+      margin: 32px 0;
+      border-left: 2px solid var(--green);
+      padding-left: 24px;
+    }
+
+    /* PRINCIPLES TABLE */
+    .principles {
+      margin: 32px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .principle-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 24px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-soft);
+      transition: background 0.2s;
+    }
+
+    .principle-row:last-child { border-bottom: none; }
+
+    .principle-row:hover { background: var(--bg-soft); }
+
+    .principle-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .principle-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .principle-desc strong { color: var(--text); font-weight: 500; }
+
+    /* SOURCES SECTION */
+    .sources {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 120px 0;
+    }
+
+    .sources-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .section-title em { font-style: italic; color: var(--green); }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .source {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .source:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    .source-badge {
+      width: 40px;
+      height: 40px;
+      background: var(--green-soft);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .source-badge.geo { background: var(--purple-soft); border-color: rgba(167, 139, 250, 0.25); color: var(--purple); }
+
+    .source-info { flex: 1; min-width: 0; }
+
+    .source-name {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .source-type {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .source-type.geo-tag { color: var(--purple); }
+
+    .source-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    /* CREATOR SECTION */
+    .creator-section {
+      padding: 120px 0;
+    }
+
+    .creator-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 64px;
+      align-items: center;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .creator-visual {
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .creator-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 0%, var(--green-soft), transparent 70%);
+      pointer-events: none;
+    }
+
+    .creator-handle {
+      position: relative;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    .creator-name {
+      position: relative;
+      font-family: var(--serif);
+      font-size: 44px;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .creator-role {
+      position: relative;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+    }
+
+    .creator-meta {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .creator-meta-row {
+      display: flex;
+      gap: 16px;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .creator-meta-label {
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .creator-meta-value {
+      color: var(--text-muted);
+    }
+
+    .creator-meta-value a {
+      color: var(--green);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .creator-meta-value a:hover { border-color: var(--green); }
+
+    .creator-text h2 {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .creator-text h2 em { font-style: italic; color: var(--green); }
+
+    .creator-text p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      font-weight: 300;
+    }
+
+    .creator-text p strong { color: var(--text); font-weight: 500; }
+
+    /* STACK */
+    .stack {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border-soft);
+      padding: 120px 0;
+    }
+
+    .stack-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .stack-diagram {
+      max-width: 840px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 140px;
+      gap: 24px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-soft);
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .stack-row:last-child { border-bottom: none; }
+    .stack-row:hover { background: var(--bg-soft); }
+
+    .stack-stage {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .stack-name {
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .stack-name small {
+      display: block;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .stack-tech {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+      letter-spacing: 0.5px;
+    }
+
+    /* FINAL CTA */
+    .final-cta {
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(34, 197, 94, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .final-cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 32px;
+    }
+
+    .final-cta-title {
+      font-family: var(--serif);
+      font-size: clamp(40px, 5.5vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .final-cta-title em { font-style: italic; color: var(--green); }
+
+    .final-cta-sub {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .final-form {
+      display: flex;
+      gap: 8px;
+      max-width: 440px;
+      margin: 0 auto 12px;
+    }
+
+    .final-input {
+      flex: 1;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .final-input::placeholder { color: var(--text-dim); }
+
+    .final-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-soft);
+    }
+
+    .final-btn {
+      padding: 14px 24px;
+      background: var(--green);
+      color: var(--bg);
+      border: none;
+      border-radius: 10px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .final-btn:hover {
+      background: #16A34A;
+      box-shadow: 0 0 24px var(--green-glow);
+      transform: translateY(-1px);
+    }
+
+    .final-note {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links-row a {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .footer-links-row a:hover { color: var(--green); }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .bio-grid { grid-template-columns: 1fr; gap: 48px; }
+      .bio-portrait { position: relative; top: auto; max-width: 420px; margin: 0 auto; }
+      .sources-grid { grid-template-columns: 1fr; }
+      .creator-grid { grid-template-columns: 1fr; gap: 48px; }
+      .principle-row { grid-template-columns: 1fr; gap: 8px; }
+      .stack-row { grid-template-columns: 100px 1fr; gap: 16px; }
+      .stack-tech { grid-column: 1 / -1; text-align: left; font-size: 11px; padding-left: 116px; }
+    }
+
+    @media (max-width: 640px) {
+      .container, .container-narrow, .nav-inner { padding-left: 20px; padding-right: 20px; }
+      .nav-link { display: none; }
+      .nav-link.active { display: inline; }
+      .page-header { padding: 48px 0 24px; }
+      .page-title { font-size: 44px; }
+      .aya-bio, .sources, .creator-section, .stack, .final-cta { padding: 72px 0; }
+      .bio-content blockquote { font-size: 20px; padding-left: 18px; }
+      .final-form { flex-direction: column; }
+      .stack-row { grid-template-columns: 1fr; }
+      .stack-tech { padding-left: 0; }
+      .creator-visual { padding: 24px; }
+      .creator-name { font-size: 36px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../" class="logo">
+        <span class="logo-dot"></span>
+        <span>AYA · Daily Scout</span>
+      </a>
+      <div class="nav-links">
+        <a href="../archive/" class="nav-link">Edições</a>
+        <a href="./" class="nav-link active">Sobre</a>
+        <a href="../#subscribe" class="nav-cta">Assinar</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="container reveal">
+      <div class="page-eyebrow">// A correspondente</div>
+      <h1 class="page-title">Ela é a <em>AYA</em>.<br>Uma correspondente que não é humana.</h1>
+      <p class="page-sub">
+        A AYA é uma persona de IA com linha editorial, voz e ponto de vista. Toda manhã ela roda um framework de 5 steps em 10 fontes globais e publica um relatório. Aqui está como funciona — e quem construiu ela.
+      </p>
+    </div>
+  </header>
+
+  <!-- AYA BIO -->
+  <section class="aya-bio">
+    <div class="container">
+      <div class="bio-grid">
+
+        <div class="reveal">
+          <div class="bio-portrait">
+            <img src="../assets/aya-avatar.png" alt="AYA portrait">
+          </div>
+          <div class="bio-specs">
+            <strong>// identity.json</strong><br>
+            name: <strong>AYA</strong><br>
+            version: <strong>v0.1</strong><br>
+            role: correspondente de IA<br>
+            model: Gemini 2.5 Flash<br>
+            temperature: 0.0<br>
+            framework: editorial v5.3<br>
+            frequency: diária · 8h BRT<br>
+            language: PT-BR<br>
+            voice: factual, no hype<br>
+            status: <strong>transmitindo</strong>
+          </div>
+        </div>
+
+        <div class="bio-content reveal">
+
+          <h2>Ela não amplifica.<br>Ela <em>filtra</em>.</h2>
+          <p>
+            A maioria das newsletters de IA são amplificadores. Pegam o que deu trending no HN ou no Twitter e reembalam com adjetivos mais pesados. Não é isso que a AYA faz.
+          </p>
+          <p>
+            Toda manhã ela puxa ~300 histórias candidatas de 10 fontes e roda cada uma por um pipeline editorial. Quando você abre o email, ela já disse "não" pra cerca de 295 coisas. O que sobra, vale seu tempo — <strong>um deep dive, três quick finds e uma seção radar</strong> de tendências em formação que valem acompanhar.
+          </p>
+
+          <blockquote>
+            "Não me importa se foi trending. Me importa se mudou o que você pode fazer amanhã."
+          </blockquote>
+
+          <h2>Os <em>princípios editoriais</em>.</h2>
+          <p>
+            A AYA opera por um conjunto fixo de princípios. Eles definem o que entra na edição e o que fica de fora. Não são preferências fracas — são guardrails estruturais embutidos no pipeline.
+          </p>
+
+          <div class="principles">
+            <div class="principle-row">
+              <div class="principle-name">AI Gate</div>
+              <div class="principle-desc">Todo item precisa ter ângulo de IA. <strong>Sem ângulo, sem entrada.</strong> Sem exceção — nem pra matérias com tração alta.</div>
+            </div>
+            <div class="principle-row">
+              <div class="principle-name">So-what test</div>
+              <div class="principle-desc">"Sabia que agora dá pra...?" — se o complemento não fecha, <strong>a história não é acionável</strong> e sai.</div>
+            </div>
+            <div class="principle-row">
+              <div class="principle-name">Tração ≠ relevância</div>
+              <div class="principle-desc">Score alto no HN é tração, não é critério. <strong>Só tração não garante slot</strong> na edição.</div>
+            </div>
+            <div class="principle-row">
+              <div class="principle-name">Factual over hype</div>
+              <div class="principle-desc">A AYA explica o que algo <strong>é</strong> e por que <strong>importa</strong>. Ela nunca converte incerteza em fato. Um regex de hype-pattern + auto-retry valida cada output.</div>
+            </div>
+            <div class="principle-row">
+              <div class="principle-name">Anti-signal</div>
+              <div class="principle-desc">Rodadas genéricas de funding, notícia reciclada, pricing de consumer sem ângulo de IA, crypto-sem-IA → <strong>corte duro, sem review</strong>.</div>
+            </div>
+          </div>
+
+          <h2>O <em>pipeline de 5 steps</em>.</h2>
+          <p>
+            Toda história que a AYA considera passa pela mesma sequência de 5 steps. Se falha em qualquer step, sai — sem override, sem "interessante o suficiente pra incluir mesmo assim". Essa é a parte que a maioria das newsletters não tem, e é por isso que a edição fica enxuta.
+          </p>
+          <p>
+            <strong>Step 1 — AI Gate.</strong> A história precisa ter ângulo de IA substantivo. Não é "tem AI no título". É ângulo de verdade.
+          </p>
+          <p>
+            <strong>Step 2 — Critérios.</strong> Precisa passar em 2 de 3 testes: acionável pro leitor, indicador de mercado relevante, ou afeta workflows diretamente.
+          </p>
+          <p>
+            <strong>Step 3 — Anti-signal scan.</strong> Sinaliza e corta conteúdo reciclado, genérico ou anti-pattern (funding sem implicação de produto, etc.).
+          </p>
+          <p>
+            <strong>Step 4 — Ranking.</strong> Z-score de tração + recency decay + peso editorial. Aqui é onde a tração finalmente entra — como tiebreaker, não como gate.
+          </p>
+          <p>
+            <strong>Step 5 — Teste de completude.</strong> "Sabia que agora dá pra...?" Se a AYA não consegue terminar essa frase com uma capability específica e afiada, a história não pertence.
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <section class="sources">
+    <div class="container">
+      <div class="sources-header reveal">
+        <div class="section-eyebrow">// fontes monitoradas</div>
+        <h2 class="section-title">10 fontes globais.<br>3 intencionalmente <em>fora da bolha US/EU</em>.</h2>
+        <p class="section-sub">A maioria das newsletters de IA bebe do mesmo lago — US-centric, Valley-first. O mix de fontes da AYA é deliberadamente diferente. Perspectiva global não é feature. É o default.</p>
+      </div>
+
+      <div class="sources-grid reveal">
+        <div class="source">
+          <div class="source-badge">HN</div>
+          <div class="source-info">
+            <div class="source-name">HackerNews</div>
+            <div class="source-type">TECH HUB · TRACTION SIGNAL</div>
+            <div class="source-desc">Front page + "Show HN" — pulso forte de tech, mas enviesado por tração pra tópicos ocidentais.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge">R</div>
+          <div class="source-info">
+            <div class="source-name">Reddit</div>
+            <div class="source-type">COMMUNITIES · r/MachineLearning, r/programming, r/LocalLLaMA</div>
+            <div class="source-desc">Sentimento de practitioner — o que engenheiros realmente estão penando, não só o que estão lançando.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge">TC</div>
+          <div class="source-info">
+            <div class="source-name">TechCrunch</div>
+            <div class="source-type">STARTUP · FUNDING SIGNAL</div>
+            <div class="source-desc">Indicador de mercado sobre onde o funding de IA está fluindo — usado com cuidado, a maioria não passa no AI Gate.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge">L</div>
+          <div class="source-info">
+            <div class="source-name">Lobsters</div>
+            <div class="source-type">TECH · HIGH SIGNAL-TO-NOISE</div>
+            <div class="source-desc">Alternativa menor e mais curada ao HN. Mais forte pra systems, infra e histórias de nicho dev.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge geo">SCMP</div>
+          <div class="source-info">
+            <div class="source-name">SCMP Tech</div>
+            <div class="source-type geo-tag">GEOGRAPHIC · HONG KONG / CHINA</div>
+            <div class="source-desc">Cobertura de China-tech que os feeds ocidentais perdem. Fonte de referência pra movimentos de IA da Alibaba, DeepSeek e Baidu.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge geo">RoW</div>
+          <div class="source-info">
+            <div class="source-name">Rest of World</div>
+            <div class="source-type geo-tag">GEOGRAPHIC · GLOBAL SOUTH</div>
+            <div class="source-desc">Jornalismo de tech fora do eixo US-EU. Excelente pra aplicações de IA em emerging markets.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge geo">TN</div>
+          <div class="source-info">
+            <div class="source-name">TechNode</div>
+            <div class="source-type geo-tag">GEOGRAPHIC · CHINA STARTUPS</div>
+            <div class="source-desc">Cobertura de startups chinesas em ground-level — onde os experimentos de produto acontecem antes de aparecer no radar ocidental.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge">aX</div>
+          <div class="source-info">
+            <div class="source-name">arXiv</div>
+            <div class="source-type">RESEARCH · CS.AI, CS.LG, CS.CL</div>
+            <div class="source-desc">Preprint server de pesquisa em AI/ML. Filtrado por papers com implicação prática ou estratégica.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge">GH</div>
+          <div class="source-info">
+            <div class="source-name">GitHub Trending</div>
+            <div class="source-type">OSS SIGNAL · BUILDING TODAY</div>
+            <div class="source-desc">O que está ganhando estrelas essa semana. Frequentemente traz tools antes delas chegarem nas newsletters.</div>
+          </div>
+        </div>
+
+        <div class="source">
+          <div class="source-badge">PH</div>
+          <div class="source-info">
+            <div class="source-name">Product Hunt</div>
+            <div class="source-type">PRODUCT · DAILY LAUNCHES</div>
+            <div class="source-desc">Lançamentos diários filtrados por produtos de IA com diferenciação real, não só wrappers.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREATOR -->
+  <section class="creator-section">
+    <div class="container">
+      <div class="creator-grid">
+
+        <div class="creator-visual reveal">
+          <div class="creator-handle">// operator.profile</div>
+          <div class="creator-name">Isis Ramos</div>
+          <div class="creator-role">PRODUCT MANAGER · BUILDER</div>
+
+          <div class="creator-meta">
+            <div class="creator-meta-row">
+              <div class="creator-meta-label">Foco</div>
+              <div class="creator-meta-value">Produtos AI-powered, sistemas editoriais, automação</div>
+            </div>
+            <div class="creator-meta-row">
+              <div class="creator-meta-label">Construindo</div>
+              <div class="creator-meta-value">Pay and Party (tech-powered events) · AYA</div>
+            </div>
+            <div class="creator-meta-row">
+              <div class="creator-meta-label">Links</div>
+              <div class="creator-meta-value">
+                <a href="https://www.linkedin.com/in/isisramos/" target="_blank" rel="noopener">LinkedIn</a> ·
+                <a href="https://github.com/isisbramos/daily-scout" target="_blank" rel="noopener">GitHub</a>
+              </div>
+            </div>
+            <div class="creator-meta-row">
+              <div class="creator-meta-label">Escreve</div>
+              <div class="creator-meta-value">Substack — PM encontra AI tooling</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="creator-text reveal">
+          <div class="section-eyebrow">// A operadora</div>
+          <h2>Construído por uma <em>PM</em>, escrito por <em>IA</em>.</h2>
+          <p>
+            Eu queria um tech briefing que eu realmente lesse — algo com <strong>julgamento editorial</strong>, não só uma lista de links. A maioria das newsletters de IA falha nesse bar porque otimiza pra engagement, não pra relevância. Então construí a minha.
+          </p>
+          <p>
+            A AYA é o resultado. Ela é um experimento de até onde dá pra empurrar AI tooling quando é embrulhado em product thinking — linha editorial clara, framework versionado, feedback loop real, retrospectives estruturadas. O stack é todo open source. A parte interessante não é a tech — é o <strong>processo de tratar um output de IA como produto</strong> e iterar em cima.
+          </p>
+          <p>
+            Se você se importa com IA como ferramenta pra ganhar leverage (não só como tópico pra ler sobre), provavelmente é pra você.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="stack">
+    <div class="container">
+      <div class="stack-header reveal">
+        <div class="section-eyebrow">// O stack</div>
+        <h2 class="section-title">Open source.<br>Zero human in the loop.</h2>
+        <p class="section-sub">Toda edição é produzida end-to-end sem intervenção manual. A única decisão humana está no framework em si — que é versionado, testado e publicado.</p>
+      </div>
+
+      <div class="stack-diagram reveal">
+        <div class="stack-row">
+          <div class="stack-stage">01 · Collect</div>
+          <div class="stack-name">Ingestão de fontes<small>10 fontes · Reddit, HN, RSS, APIs</small></div>
+          <div class="stack-name">Python</div>
+        </div>
+        <div class="stack-row">
+          <div class="stack-stage">02 · Filter</div>
+          <div class="stack-name">Pipeline de pre-filter<small>z-score + recency decay · 300 → 40 candidatos</small></div>
+          <div class="stack-name">Python / numpy</div>
+        </div>
+        <div class="stack-row">
+          <div class="stack-stage">03 · Curate</div>
+          <div class="stack-name">Editorial framework v5.3<small>AI Gate · Critérios · Anti-signal · Ranking · Teste de completude</small></div>
+          <div class="stack-name">Gemini 2.5 Flash</div>
+        </div>
+        <div class="stack-row">
+          <div class="stack-stage">04 · Validate</div>
+          <div class="stack-name">Tone validator<small>regex de hype-pattern + auto-retry</small></div>
+          <div class="stack-name">Python</div>
+        </div>
+        <div class="stack-row">
+          <div class="stack-stage">05 · Render</div>
+          <div class="stack-name">Template de email<small>HTML responsivo, dark theme, preflight-tested</small></div>
+          <div class="stack-name">Jinja2</div>
+        </div>
+        <div class="stack-row">
+          <div class="stack-stage">06 · Deliver</div>
+          <div class="stack-name">Envio da newsletter<small>+ post de distribuição no LinkedIn</small></div>
+          <div class="stack-name">Buttondown API</div>
+        </div>
+        <div class="stack-row">
+          <div class="stack-stage">07 · Feedback</div>
+          <div class="stack-name">Signal de 1 clique<small>🔥 / 👍 / 😐 — loop de qualidade pra retrospectives</small></div>
+          <div class="stack-name">Apps Script + Sheets</div>
+        </div>
+        <div class="stack-row">
+          <div class="stack-stage">08 · Schedule</div>
+          <div class="stack-name">Cron diário<small>8h BRT · deploys sem intervenção</small></div>
+          <div class="stack-name">GitHub Actions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="final-cta-inner reveal">
+      <h2 class="final-cta-title">Agora que você <em>conheceu a AYA</em>.</h2>
+      <p class="final-cta-sub">Comece a ler os field reports dela toda manhã às 8h BRT.</p>
+
+      <form action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis" method="post" class="final-form embeddable-buttondown-form">
+        <input type="email" name="email" placeholder="voce@empresa.com" required class="final-input" aria-label="Email">
+        <button type="submit" class="final-btn">Assinar grátis</button>
+      </form>
+      <p class="final-note">// sem spam · unsubscribe em 1 clique</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-row">
+        <div>© 2026 AYA · Daily Scout · correspondente v0.1 · pipeline editorial v5.3</div>
+        <div class="footer-links-row">
+          <a href="../">Home</a>
+          <a href="../archive/">Edições</a>
+          <a href="https://github.com/isisbramos/daily-scout" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/isisramos/" target="_blank" rel="noopener">Operadora</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function(el) { el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>
