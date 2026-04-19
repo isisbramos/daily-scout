@@ -169,10 +169,10 @@ Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown 
 - reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
 - correspondent_intro: 1-2 frases em primeira pessoa. A PRIMEIRA frase deve referenciar o achado do dia pelo tema (não pelo nome do campo). A segunda pode citar volume (X posts de Y fontes). BOM: "Hoje o destaque vai pro lançamento do Llama 4 pela Meta. Analisei 267 posts de 10 fontes." RUIM: "O dia trouxe novidades sobre a estratégia de grandes players de AI." (genérico — serve pra qualquer dia)
 - main_find.title: factual, max 15 palavras. Reformule se o original for sensacionalista.
-- main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, explique o que é e por que importa pro leitor.
+- main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, explique o que é e por que importa pro leitor. Termine com uma linha de implicação prática iniciada com "→".
 - main_find.bullets: 2-3 pontos: o que aconteceu, o que significa pra quem lê, o que observar a seguir.
 - main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
-- quick_finds[].signal: 1-2 frases curtas explicando o que aconteceu e por que é relevante.
+- quick_finds[].signal: 2-3 frases. Primeira(s): o que aconteceu e por que é relevante. Última: linha de implicação prática iniciada com "→" — o que o leitor pode fazer, revisar ou acompanhar com base nessa informação. Baseie-se apenas no título/metadados.
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
 - primary_audience: indique para quem cada achado é mais relevante ('developers', 'PMs e founders', 'business/executivos', ou 'todos').
 - radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.

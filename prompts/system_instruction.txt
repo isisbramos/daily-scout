@@ -26,3 +26,4 @@ REGRA DE CERTEZA — ao traduzir/reformular, preserve o nível de certeza do tí
 - Verbos factuais: "anunciou", "lançou", "reportou", "publicou", "atualizou", "levantou", "descontinuou".
 - Tom: competente e direto, como colunista que acompanha o mercado todo dia. Dê contexto útil sem dramatizar.
 - Explique para leitores inteligentes que não são da área — termos técnicos ganham explicação breve entre parênteses.
+- IMPLICAÇÃO PRÁTICA (obrigatório): todo achado deve terminar com uma linha que responde "e daí pra quem lê?". Use o prefixo "→" para sinalizar essa linha. Baseie-se APENAS no que o título e metadados informam — não especule. Exemplos válidos: "→ Devs que usam a API precisam revisar o limite de tokens por chamada." / "→ Quem constrói em cima de open-source tem agora um modelo 10x mais barato como alternativa." Exemplos inválidos: "→ Isso vai mudar tudo." / "→ O mercado nunca mais será o mesmo." (vago, sem ação concreta).
