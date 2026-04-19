@@ -54,7 +54,8 @@ jobs:
           EDITION_NUMBER: ${{ steps.edition.outputs.number }}
           FEEDBACK_BASE_URL: ${{ secrets.FEEDBACK_BASE_URL }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
-          SOCIAL_ENABLED: 'true'
+          SOCIAL_ENABLED: 'false'
+          DEBUG_SAVE: 'true'
         run: python pipeline.py
 
       - name: Upload output artifacts (newsletter + social)
@@ -63,6 +64,14 @@ jobs:
         with:
           name: edition-${{ steps.edition.outputs.number }}
           path: output/
+          retention-days: 30
+
+      - name: Upload debug artifacts (curation + pre-filter data)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-${{ steps.edition.outputs.number }}
+          path: debug/
           retention-days: 30
 
       - name: Upload pipeline logs
