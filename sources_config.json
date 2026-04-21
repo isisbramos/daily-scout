@@ -83,6 +83,24 @@
       "rss_url": "https://research.facebook.com/feed/"
     },
 
+    "_comment_europe": "Europe primary — fecha Gap 1 do SOURCES_STUDY. Mistral não tem blog RSS oficial; usamos releases do repo mistral-inference como proxy de release cadence. Sinal técnico, não editorial — peso baixo até validar.",
+    "mistral_releases": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 2. Mistral releases via GitHub (proxy — blog oficial sem RSS). Revisar após 7d se densidade AI justifica manter.",
+      "weight": 0.7,
+      "limit": 10,
+      "rss_url": "https://github.com/mistralai/mistral-inference/releases.atom"
+    },
+
+    "_comment_china_primary": "China primary — fecha Gap 2 do SOURCES_STUDY. Labs chineses em primeira mão (complementa SCMP/TechNode que são cobertura *sobre* China). Sem 'region' pois são papers/research em inglês — não carregam lente editorial asiática que o cap geographic tenta balancear.",
+    "qwen_blog": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 2. Qwen LM blog oficial — releases, papers, model cards. Densidade AI alta (~100%).",
+      "weight": 0.9,
+      "limit": 15,
+      "rss_url": "https://qwenlm.github.io/blog/index.xml"
+    },
+
     "_comment_tooling": "Developer tooling / release feeds — lado de lançamento (complementa HF Papers que cobre research)",
     "huggingface_blog": {
       "enabled": true,
@@ -99,6 +117,20 @@
       "weight": 1.1,
       "limit": 15,
       "rss_url": "https://simonwillison.net/atom/everything/"
+    },
+    "ethan_mollick": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 2. One Useful Thing — uso aplicado de AI em trabalho/educação. Público exato da Aya.",
+      "weight": 0.9,
+      "limit": 15,
+      "rss_url": "https://www.oneusefulthing.org/feed"
+    },
+    "stratechery": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 2. Ben Thompson — análise estratégica big tech. RSS retorna só free posts; paid aparecem truncados. Aya deve tratar como signal-only (STEP 1.5 + anti-signal: posts incompletos não viram main_find).",
+      "weight": 0.9,
+      "limit": 10,
+      "rss_url": "https://stratechery.com/feed/"
     },
 
     "_comment_journalism": "AI journalism com profundidade — inclui regulação, política e implicação social (Gap 5 do SOURCES_STUDY).",

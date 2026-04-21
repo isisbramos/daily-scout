@@ -106,6 +106,55 @@ class MetaAIBlogSource(BaseSource):
         )
 
 
+# ── Europe Primary (Onda 2) ──────────────────────────────────────────
+
+@SourceRegistry.register
+class MistralReleasesSource(BaseSource):
+    source_id = "mistral_releases"
+    source_name = "Mistral Releases (GitHub)"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 10)
+        self.feed_url = self.config.get(
+            "rss_url",
+            "https://github.com/mistralai/mistral-inference/releases.atom",
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="Mistral Releases",
+            limit=self.limit,
+            default_category="ai",
+        )
+
+
+# ── China Primary (Onda 2) ───────────────────────────────────────────
+
+@SourceRegistry.register
+class QwenBlogSource(BaseSource):
+    source_id = "qwen_blog"
+    source_name = "Qwen LM Blog"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feed_url = self.config.get(
+            "rss_url", "https://qwenlm.github.io/blog/index.xml"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="Qwen LM Blog",
+            limit=self.limit,
+            default_category="ai",
+        )
+
+
 # ── Developer Tooling / Releases ─────────────────────────────────────
 
 @SourceRegistry.register
@@ -151,6 +200,50 @@ class SimonWillisonSource(BaseSource):
             source_label="Simon Willison",
             limit=self.limit,
             default_category="ai",
+        )
+
+
+@SourceRegistry.register
+class EthanMollickSource(BaseSource):
+    source_id = "ethan_mollick"
+    source_name = "Ethan Mollick — One Useful Thing"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feed_url = self.config.get(
+            "rss_url", "https://www.oneusefulthing.org/feed"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="Ethan Mollick",
+            limit=self.limit,
+            default_category="ai",
+        )
+
+
+@SourceRegistry.register
+class StratecherySource(BaseSource):
+    source_id = "stratechery"
+    source_name = "Stratechery (Ben Thompson)"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 10)
+        self.feed_url = self.config.get(
+            "rss_url", "https://stratechery.com/feed/"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="Stratechery",
+            limit=self.limit,
+            default_category="tech",
         )
 
 
