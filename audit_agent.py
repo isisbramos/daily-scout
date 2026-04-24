@@ -37,7 +37,7 @@ logging.basicConfig(
 logger = logging.getLogger("audit-agent")
 
 # ── Config ────────────────────────────────────────────────────────────
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
 DEBUG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "debug")
 
 # ── Audit Schema (structured output) ─────────────────────────────────
@@ -252,14 +252,13 @@ def load_edition_files(edition: str) -> tuple[dict, list[dict]]:
 
 # ── Run audit via Gemini ───────────────────────────────────────────────
 def run_audit(edition: str, curation_output: dict, input_items: list[dict]) -> AuditReport:
-    """Chama Gemini como LLM-as-Judge e retorna o AuditReport estruturado."""
-    from google import genai
-    from google.genai import types
+    """Chama DeepSeek como LLM-as-Judge e retorna o AuditReport estruturado."""
+    from openai import OpenAI
 
-    if not GEMINI_API_KEY:
-        raise ValueError("GEMINI_API_KEY não configurada")
+    if not DEEPSEEK_API_KEY:
+        raise ValueError("DEEPSEEK_API_KEY não configurada")
 
-    client = genai.Client(api_key=GEMINI_API_KEY)
+    client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
 
     user_prompt = build_audit_prompt(edition, curation_output, input_items)
     logger.info(f"Audit prompt: {len(user_prompt)} chars")
@@ -267,25 +266,23 @@ def run_audit(edition: str, curation_output: dict, input_items: list[dict]) -> A
     brt = timezone(timedelta(hours=-3))
     audited_at = datetime.now(brt).isoformat()
 
-    logger.info("Calling Gemini (audit)...")
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=user_prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=AUDIT_SYSTEM,
-            response_mime_type="application/json",
-            response_schema=AuditReport,
-            temperature=0.0,
-            max_output_tokens=8192,
-        ),
+    logger.info("Calling DeepSeek (audit)...")
+    response = client.chat.completions.create(
+        model="deepseek-chat",
+        messages=[
+            {"role": "system", "content": AUDIT_SYSTEM + "\n\nRetorne sempre um JSON válido."},
+            {"role": "user", "content": user_prompt},
+        ],
+        response_format={"type": "json_object"},
+        temperature=0.0,
+        max_tokens=8192,
     )
 
-    finish_reason = None
-    if response.candidates and response.candidates[0].finish_reason:
-        finish_reason = response.candidates[0].finish_reason
-    logger.info(f"Gemini audit returned {len(response.text)} chars (finish_reason={finish_reason})")
+    finish_reason = response.choices[0].finish_reason if response.choices else None
+    text = (response.choices[0].message.content or "").strip()
+    logger.info(f"DeepSeek audit returned {len(text)} chars (finish_reason={finish_reason})")
 
-    raw = json.loads(response.text.strip())
+    raw = json.loads(text)
     # Injeta edition e timestamp (podem não vir preenchidos corretamente)
     raw["edition"] = edition
     raw["audited_at"] = audited_at

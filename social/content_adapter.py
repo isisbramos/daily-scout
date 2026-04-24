@@ -12,7 +12,7 @@ import time
 
 logger = logging.getLogger("daily-scout.social-adapter")
 
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
 
 # ── LinkedIn Adaptation Prompt ───────────────────────────────────────
 
@@ -71,13 +71,13 @@ def adapt_for_linkedin(curated_content: dict, max_retries: int = 3) -> dict | No
         dict with linkedin_post, hook_line, char_count, hashtags, cta_type
         or None if adaptation fails
     """
-    from google import genai
+    from openai import OpenAI
 
-    if not GEMINI_API_KEY:
-        logger.error("GEMINI_API_KEY not configured — cannot adapt content")
+    if not DEEPSEEK_API_KEY:
+        logger.error("DEEPSEEK_API_KEY not configured — cannot adapt content")
         return None
 
-    client = genai.Client(api_key=GEMINI_API_KEY)
+    client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
 
     # Prepare content summary for the prompt
     content_summary = {
@@ -94,18 +94,16 @@ def adapt_for_linkedin(curated_content: dict, max_retries: int = 3) -> dict | No
     for attempt in range(max_retries):
         try:
             logger.info(f"LinkedIn adaptation attempt {attempt + 1}/{max_retries}...")
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=prompt,
-                config={
-                    "response_mime_type": "application/json",
-                    "temperature": 0.5,  # slightly more creative than curation
-                    "max_output_tokens": 4096,
-                },
+            response = client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[{"role": "user", "content": prompt}],
+                response_format={"type": "json_object"},
+                temperature=0.5,
+                max_tokens=4096,
             )
 
-            text = response.text.strip()
-            logger.info(f"Gemini returned {len(text)} chars for LinkedIn adaptation")
+            text = (response.choices[0].message.content or "").strip()
+            logger.info(f"DeepSeek returned {len(text)} chars for LinkedIn adaptation")
 
             # Try to parse (reuse try_fix_json from pipeline)
             try:

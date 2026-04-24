@@ -42,7 +42,7 @@ logging.basicConfig(
 logger = logging.getLogger("daily-scout")
 
 # ── Config ───────────────────────────────────────────────────────────
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
 BUTTONDOWN_API_KEY = os.environ.get("BUTTONDOWN_API_KEY")
 EDITION_NUMBER = os.environ.get("EDITION_NUMBER", "001")
 FEEDBACK_BASE_URL = os.environ.get(
@@ -146,8 +146,8 @@ SYSTEM_INSTRUCTION, CURATION_PROMPT_TEMPLATE = _load_prompts()
 def _validate_env() -> None:
     """Valida env vars obrigatórias antes de iniciar qualquer fase. Fail fast."""
     missing = []
-    if not GEMINI_API_KEY:
-        missing.append("GEMINI_API_KEY")
+    if not DEEPSEEK_API_KEY:
+        missing.append("DEEPSEEK_API_KEY")
     if not DRY_RUN and not BUTTONDOWN_API_KEY:
         missing.append("BUTTONDOWN_API_KEY")
     if missing:
@@ -207,17 +207,16 @@ def curate_and_write(
     - Context injection: AYA sabe quantos items existiam originalmente
     - Reasoning schema para observability
     """
-    from google import genai
-    from google.genai import types
+    from openai import OpenAI
 
     logger.info("=" * 50)
-    logger.info("PHASE 3: CURATE — Gemini processing (v5)")
+    logger.info("PHASE 3: CURATE — DeepSeek processing (v5)")
     logger.info("=" * 50)
 
-    if not GEMINI_API_KEY:
-        raise ValueError("GEMINI_API_KEY não configurada")
+    if not DEEPSEEK_API_KEY:
+        raise ValueError("DEEPSEEK_API_KEY não configurada")
 
-    client = genai.Client(api_key=GEMINI_API_KEY)
+    client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
 
     # ── v5: Shuffle para remover position bias ──
     # O pre-filter já selecionou os top N; a ordem interna não carrega
@@ -268,34 +267,33 @@ def curate_and_write(
 
     for attempt in range(max_retries):
         try:
-            logger.info(f"Gemini attempt {attempt + 1}/{max_retries}...")
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=user_prompt,
-                config=types.GenerateContentConfig(
-                    system_instruction=SYSTEM_INSTRUCTION,
-                    response_mime_type="application/json",
-                    response_schema=CurationOutput,
-                    temperature=0.0,
-                    max_output_tokens=16384,
-                ),
+            logger.info(f"DeepSeek attempt {attempt + 1}/{max_retries}...")
+            response = client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": SYSTEM_INSTRUCTION + "\n\nRetorne sempre um JSON válido."},
+                    {"role": "user", "content": user_prompt},
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.0,
+                max_tokens=16384,
             )
 
             # ── v5.2: Detecta truncação antes de tentar parse ──
-            finish_reason = None
-            if response.candidates and response.candidates[0].finish_reason:
-                finish_reason = response.candidates[0].finish_reason
+            finish_reason = response.choices[0].finish_reason if response.choices else None
 
-            text = response.text.strip()
-            logger.info(f"Gemini returned {len(text)} chars (finish_reason={finish_reason})")
+            text = (response.choices[0].message.content or "").strip()
+            logger.info(f"DeepSeek returned {len(text)} chars (finish_reason={finish_reason})")
 
-            if finish_reason and str(finish_reason) not in ("STOP", "FinishReason.STOP", "1"):
+            if finish_reason and finish_reason not in ("stop", None):
                 raise ValueError(
-                    f"Gemini output truncated (finish_reason={finish_reason}, "
-                    f"{len(text)} chars) — likely hit max_output_tokens"
+                    f"DeepSeek output truncated (finish_reason={finish_reason}, "
+                    f"{len(text)} chars) — likely hit max_tokens"
                 )
 
             content = json.loads(text)
+            if isinstance(content, str):
+                content = json.loads(content)
 
             # Validação mínima de estrutura
             if "main_find" not in content:
@@ -344,7 +342,12 @@ def curate_and_write(
 
             # ── v5: Log reasoning para observability ──
             reasoning = content.get("reasoning", {})
-            if reasoning:
+            if isinstance(reasoning, str):
+                try:
+                    reasoning = json.loads(reasoning)
+                except Exception:
+                    reasoning = {}
+            if reasoning and isinstance(reasoning, dict):
                 passed = reasoning.get("ai_gate_passed", [])
                 rejected = reasoning.get("ai_gate_rejected_sample", [])
                 rationale = reasoning.get("main_find_rationale", "")
@@ -373,7 +376,7 @@ def curate_and_write(
         except Exception as e:
             err_str = str(e).lower()
             is_rate_limit = any(
-                k in err_str for k in ("429", "resource exhausted", "quota", "rate limit")
+                k in err_str for k in ("429", "resource exhausted", "quota", "rate limit", "insufficient_quota")
             )
             if is_rate_limit:
                 sleep_secs = 60 + random.uniform(0, 15)
@@ -386,7 +389,7 @@ def curate_and_write(
             if attempt < max_retries - 1:
                 time.sleep(sleep_secs)
 
-    raise CurationError(f"Gemini failed after {max_retries} attempts")
+    raise CurationError(f"DeepSeek failed after {max_retries} attempts")
 
 
 # ── Render: Jinja2 HTML ──────────────────────────────────────────────
