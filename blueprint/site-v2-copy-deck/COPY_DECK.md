@@ -114,7 +114,7 @@ About (defensibilidade profunda) → captura no final CTA
 | Eyebrow | `// Conheça sua correspondente` |
 | Título (serif) | `Ela não é humana. Mas tem critério.` |
 | Blockquote | `"Eu não amplifico o que já está alto. Eu filtro pelo que você realmente vai querer saber amanhã."` |
-| Body 1 | `A AYA é uma persona de IA rodando no Gemini 2.5 Flash. Toda manhã ela escaneia 10 fontes globais — Reddit, HackerNews, SCMP Tech, Rest of World, TechNode, Lobsters, arXiv, e mais — e aplica um editorial framework de 5 steps pra encontrar o que vale a pena ler.` |
+| Body 1 | `A AYA é uma correspondente de IA. Toda manhã ela escaneia 10 fontes globais — Reddit, HackerNews, SCMP Tech, Rest of World, TechNode, Lobsters, arXiv, e mais — e aplica um editorial framework de 5 steps pra encontrar o que vale a pena ler.` |
 | Body 2 | `Ela usa IA como lente, não como tópico. Ela se importa com o "so what?" — a coisa que você não podia fazer ontem e agora pode. Ela filtra sem dó contra hype, notícia reciclada e anúncio genérico de funding.` |
 | Stat 1 | `10` / `Fontes globais / dia` |
 | Stat 2 | `3` / `Veículos não-ocidentais` |
@@ -253,7 +253,7 @@ About (defensibilidade profunda) → captura no final CTA
 | Brand | Logo + `Briefing de tech & IA com curadoria por IA, entregue toda manhã às 8h BRT.` |
 | Produto | `Edições` · `Sobre a AYA` · `Arquivo Buttondown` |
 | Operadora | `LinkedIn` · `GitHub (open source)` |
-| Stack | `Gemini 2.5 Flash` · `Buttondown` · `GitHub Actions` |
+| Stack | `Buttondown` · `GitHub Actions` |
 | Bottom line | `© 2026 AYA · Daily Scout` · `correspondente: aya v0.1 · pipeline: editorial v5.3` |
 
 ---
@@ -340,7 +340,7 @@ Com "Sobre" active.
 name: AYA
 version: v0.1
 role: correspondente de IA
-model: Gemini 2.5 Flash
+framework: editorial v5.3
 temperature: 0.0
 framework: editorial v5.3
 frequency: diária · 8h BRT
@@ -438,7 +438,7 @@ Escreve:     Substack — PM encontra AI tooling
 |---|---|---|---|
 | 01 · Collect | Ingestão de fontes | 10 fontes · Reddit, HN, RSS, APIs | Python |
 | 02 · Filter | Pipeline de pre-filter | z-score + recency decay · 300 → 40 candidatos | Python / numpy |
-| 03 · Curate | Editorial framework v5.3 | AI Gate · Critérios · Anti-signal · Ranking · Teste de completude | Gemini 2.5 Flash |
+| 03 · Curate | Editorial framework v5.3 | AI Gate · Critérios · Anti-signal · Ranking · Teste de completude | LLM |
 | 04 · Validate | Tone validator | regex de hype-pattern + auto-retry | Python |
 | 05 · Render | Template de email | HTML responsivo, dark theme, preflight-tested | Jinja2 |
 | 06 · Deliver | Envio da newsletter | + post de distribuição no LinkedIn | Buttondown API |
