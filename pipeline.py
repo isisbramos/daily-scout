@@ -318,7 +318,7 @@ def curate_and_write(
             # Validação: quick_finds não pode estar vazio (mas aceita na última tentativa)
             if not content.get("quick_finds"):
                 if attempt < max_retries - 1:
-                    raise ValueError("Gemini returned empty quick_finds — retrying")
+                    raise ValueError("DeepSeek returned empty quick_finds — retrying")
                 else:
                     logger.warning("Last attempt: accepting response without quick_finds")
                     content["quick_finds"] = []

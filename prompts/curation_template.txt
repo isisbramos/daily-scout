@@ -176,6 +176,8 @@ Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown 
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
 - primary_audience: indique para quem cada achado é mais relevante ('desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos').
 - radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.
+- url (main_find, cada quick_find, cada radar item): copie exatamente o valor do campo "url" do item de input correspondente. Campo OBRIGATÓRIO — não omita.
+- display_url (main_find, cada quick_find, cada radar item): versão curta legível da URL, ex: "techcrunch.com/…" ou "arxiv.org/…". Campo OBRIGATÓRIO — não omita.
 - Termos técnicos: explique brevemente — "LLM (modelos de IA que geram texto)", "open source (código aberto)".
 
 LEMBRETE FINAL: Você PODE explicar o que algo é (contexto factual) e por que importa pro leitor. Você NÃO PODE inventar reações, consequências ou qualificar intensidade. Na dúvida: descreva, não qualifique.
