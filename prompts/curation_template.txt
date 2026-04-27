@@ -10,18 +10,19 @@ Classifique a relação deste post com AI/ML:
 → TANGENCIAL: AI é mencionado mas não é o assunto central → DESCARTE, salvo magnitude excepcional (aquisição >$1B, regulação governamental, encerramento de plataforma relevante).
 → NENHUMA: sem conexão com AI/ML → DESCARTE.
 
-STEP 1.5 — SOURCE BIAS CHECK (para blogs oficiais de QUALQUER empresa):
+STEP 1.5 — SOURCE BIAS CHECK (blogs corporativos e blogs pessoais):
 Se a fonte original é um blog corporativo oficial (ex: blog.anthropic.com, openai.com/blog, deepmind.google, blog.google, developer.apple.com, aws.amazon.com/blogs):
 → O post anuncia algo que USUÁRIOS podem usar/testar agora? → Tratar normalmente.
 → O post é marketing / posicionamento de autoridade / construção de marca sem novidade concreta? → DESCARTE.
 → A informação já foi coberta por outra fonte na lista? → Preferir a cobertura independente.
 → EXCEÇÃO: fontes com label "arXiv" ou "HuggingFace Papers" são pesquisa acadêmica original — NÃO são blogs corporativos. STEP 1.5 não se aplica. Trate como fonte primária.
 Aplica a mesma lógica quando uma fonte jornalística (SCMP, TechCrunch, Rest of World) está reportando um anúncio de blog corporativo — avalie o conteúdo original, não a cobertura.
+Se a fonte é blog pessoal de indivíduo (domínio próprio, Substack, dev.to, Medium, blog.<nome>) e o post é manifesto ou opinião sobre como usar/pensar AI, sem anunciar ferramenta, sem reportar dado novo, sem ancorar em evento concreto verificável: DESCARTE. Exceção: ensaio com pesquisa original (benchmark próprio, dataset, estudo documentado) — nesse caso trate como fonte primária.
 
 STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
-1. Acionável — o leitor pode fazer algo concreto: testar ferramenta, mudar processo, tomar decisão
+1. Acionável (concreto, não cognitivo) — o leitor pode testar ferramenta específica, executar processo definido, ou tomar decisão com input de fato novo. Mudar mindset ou perspectiva após ler uma opinião NÃO conta.
 2. Sinal de mercado — revela movimento estratégico: empresa entrando/saindo de categoria, mudança de política de dados, nova aliança/aquisição
-3. Afeta fluxos de trabalho — muda como pessoas trabalham com tech/AI no dia a dia
+3. Afeta fluxos de trabalho (causal direto) — um anúncio, dado ou regra concreta muda como o trabalho é feito. Não inclui "ler argumento sobre como o trabalho deveria ser feito".
 
 STEP 3 — ANTI-SIGNAL:
 Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos frequentes de anti-signal:
@@ -32,6 +33,7 @@ Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos fre
 → Confirmação do óbvio ("X vai continuar fazendo Y")
 → Análises de hardware, notícias de games, opiniões de celebridades sobre tech sem ângulo AI
 → Notícia requentada: se o título reporta evento que você sabe que já aconteceu dias ou semanas atrás (lançamento já anunciado, descontinuação já reportada, aquisição já fechada), DESCARTE — mesmo que o post seja de hoje. Exceção: se o título traz INFORMAÇÃO NOVA sobre o evento (dados, reação, consequência concreta), trate como matéria nova.
+→ Manifesto / opinião / thought-leadership pessoal sem ancoragem em evento, dado ou ferramenta concreta — mesmo que o autor tenha credibilidade ou o argumento seja bem construído. Se o post é "como você deveria pensar/usar AI" sem novidade verificável: DESCARTE. Exceção: ensaio com pesquisa original (benchmark próprio, estudo, dataset).
 Se um post não se enquadra nesses exemplos mas claramente foge do escopo AI/tech relevante, DESCARTE também. Use o princípio, não apenas a lista.
 
 STEP 4 — RANKING:
@@ -73,6 +75,7 @@ Tom especulativo OBRIGATÓRIO quando claim_status = "especulativo": use "estaria
 → "[Player] está [movendo pra / investindo em / saindo de] [categoria]" — para M&A e estratégia
 → "[Resultado/dado] muda o que sabíamos sobre [área]" — para pesquisa e benchmarks
 → "[Autoridade] decidiu [ação] sobre [tema de AI/tech]" — para regulação e políticas
+Manifestos de opinião ("como usar AI", "por que AI importa", "você deveria X") não completam nenhuma das frases acima com informação do título — se o título não anuncia evento, ferramenta, dado ou decisão, DESCARTE aqui.
 
 ═══ EXEMPLOS DE CALIBRAÇÃO ═══
 
@@ -164,6 +167,13 @@ Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown 
 → Critérios: Acionável (afeta quem pagou pelo Sora) + Afeta workflows (usuários precisam buscar alternativas)
 → step5_phrase: "Agora é possível que usuários do Sora percam créditos pagos sem reembolso"
 → SELECIONADO como quick_find — info nova sobre evento conhecido
+
+Exemplo 12 — DESCARTE CORRETO (blog pessoal, manifesto sem evento):
+Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": "koshyjohn.com", "score": 0 }}
+→ AI gate: SIM (AI é o tema central)
+→ STEP 1.5: blog pessoal de indivíduo + conteúdo de manifesto/opinião sobre como usar AI + sem anúncio de ferramenta + sem dado novo + sem evento concreto verificável → DESCARTE.
+→ Confirmação pelo STEP 5: nenhuma das 4 frases se completa com informação do título — o título expressa posição, não evento. "Agora é possível [ação concreta]" não se aplica a uma tese de mindset.
+→ DESCARTADO — blog pessoal com thought-leadership sem ancoragem em evento
 
 ═══ REGRAS DE FORMATO ═══
 - reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
