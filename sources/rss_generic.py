@@ -327,6 +327,71 @@ class HuggingFacePapersSource(BaseSource):
         )
 
 
+# ── Brazil / LatAm ───────────────────────────────────────────────────
+
+# Keywords para filtrar a Agência Brasil (firehose geral → só AI/tech gov)
+_AGENCIA_BRASIL_KEYWORDS = [
+    "inteligência artificial", "inteligencia artificial",
+    "mcti", "serpro", "anatel",
+    "governo digital", "transformação digital", "digitalização do estado",
+    "cibersegurança", "segurança cibernética",
+    "plano brasileiro de ia", "estratégia nacional",
+    "dados pessoais", "lgpd", "anpd",
+    "reconhecimento facial", "algoritmo governamental",
+]
+
+@SourceRegistry.register
+class AgenciaBrasilSource(BaseSource):
+    source_id = "agencia_brasil"
+    source_name = "Agência Brasil (EBC)"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 30)
+        self.feed_url = self.config.get(
+            "rss_url",
+            "https://agenciabrasil.ebc.com.br/feed/ultimasnoticias/feed.xml",
+        )
+        self.keywords = [k.lower() for k in self.config.get("keywords", _AGENCIA_BRASIL_KEYWORDS)]
+
+    def fetch(self) -> list[SourceItem]:
+        raw = _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="Agência Brasil",
+            limit=self.limit,
+            default_category="regulacao",
+        )
+        filtered = [
+            item for item in raw
+            if any(kw in item.title.lower() for kw in self.keywords)
+        ]
+        logger.debug(f"    Agência Brasil: {len(raw)} raw → {len(filtered)} after keyword filter")
+        return filtered
+
+
+@SourceRegistry.register
+class MITTechReviewBrasilSource(BaseSource):
+    source_id = "mit_tech_review_brasil"
+    source_name = "MIT Technology Review Brasil"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 10)
+        self.feed_url = self.config.get(
+            "rss_url", "https://mittechreview.com.br/feed/"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="MIT Tech Review Brasil",
+            limit=self.limit,
+            default_category="tech",
+        )
+
+
 # ── Geographic Diversity Sources ─────────────────────────────────────
 
 @SourceRegistry.register

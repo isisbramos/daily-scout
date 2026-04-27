@@ -142,6 +142,24 @@
       "rss_url": "https://www.technologyreview.com/feed/"
     },
 
+    "_comment_brazil": "Brazil / LatAm — cobre gap de cobertura de AI na esfera governamental e jornalismo tech BR. Agência Brasil (EBC) = agência oficial do governo federal; filtro de keywords AI/tech aplicado na fonte para reduzir firehose. MIT TR Brasil = jornalismo analítico tech em PT-BR. Ambos com region=latam para cap geográfico.",
+    "agencia_brasil": {
+      "enabled": true,
+      "_comment": "Agência Brasil (EBC) — agência de notícias do governo federal. Firehose geral; filtro de keywords aplicado na classe (inteligência artificial, MCTI, Serpro, dados, etc). Peso baixo: cobertura eventual, não diária.",
+      "weight": 0.8,
+      "limit": 30,
+      "region": "latam",
+      "rss_url": "https://agenciabrasil.ebc.com.br/feed/ultimasnoticias/feed.xml"
+    },
+    "mit_tech_review_brasil": {
+      "enabled": true,
+      "_comment": "MIT Technology Review Brasil — jornalismo analítico tech/ciência em PT-BR. Feed pequeno (~10 itens/dia), curadoria editorial, densidade AI razoável. Complementa MIT TR EN para perspectiva BR.",
+      "weight": 0.9,
+      "limit": 10,
+      "region": "latam",
+      "rss_url": "https://mittechreview.com.br/feed/"
+    },
+
     "_comment_geographic": "Geographic Diversity — fontes não-ocidentais para quebrar echo chamber. Weights reduzidos v5.2 para evitar over-representation",
     "scmp_tech": {
       "enabled": true,
