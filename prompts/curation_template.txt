@@ -182,7 +182,7 @@ Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": 
 - main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, explique o que é e por que importa pro leitor. Termine com uma linha de implicação prática iniciada com "→".
 - main_find.bullets: 2-3 pontos: o que aconteceu, o que significa pra quem lê, o que observar a seguir.
 - main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
-- quick_finds[].signal: 2-3 frases. Primeira(s): o que aconteceu e por que é relevante. Última: linha de implicação prática iniciada com "→" — o que o leitor pode fazer, revisar ou acompanhar com base nessa informação. Baseie-se apenas no título/metadados.
+- quick_finds[].signal: OBRIGATÓRIO — NÃO omita. 2-3 frases: (1-2) o que aconteceu e por que é relevante, (última) linha de implicação prática iniciada com "→". EXEMPLO: "Benchmarks apontam que o modelo superou concorrentes diretos em tarefas de raciocínio. Se confirmado, representa mudança significativa no ranking open source. → Desenvolvedores que avaliam troca de modelo podem incluir este nos testes antes de fechar escolha." Baseie-se apenas no título/metadados. A linha com "→" é OBRIGATÓRIA em todo quick_find.
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
 - primary_audience: indique para quem cada achado é mais relevante ('desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos').
 - radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.
