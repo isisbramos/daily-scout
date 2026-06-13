@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-55 -30 280 60" role="img" aria-label="AYA">
+  <title>AYA — lockup L1 (vesica + wordmark)</title>
+  <!-- Vesica à esquerda -->
+  <path d="M -42 0 A 66.3 66.3 0 0 1 42 0 A 66.3 66.3 0 0 1 -42 0 Z"
+        fill="none"
+        stroke="#F4F2EA"
+        stroke-width="2.5"
+        stroke-linejoin="round"/>
+  <!-- Wordmark AYA à direita, mesma baseline -->
+  <text x="62" y="9"
+        font-family="'Space Grotesk', 'Inter', system-ui, sans-serif"
+        font-size="34"
+        font-weight="600"
+        letter-spacing="-1"
+        fill="#F4F2EA">AYA</text>
+</svg>

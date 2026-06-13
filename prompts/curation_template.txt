@@ -1,0 +1,195 @@
+Selecione e escreva os achados do dia a partir dos posts abaixo.
+
+{context_block}
+
+═══ PIPELINE DE SELEÇÃO (execute na ordem) ═══
+
+STEP 1 — AI GATE (obrigatório):
+Classifique a relação deste post com AI/ML:
+→ DIRETA: o post é sobre AI/ML, LLMs, automação inteligente, ou decisão estratégica de empresa de AI → continue pro Step 2.
+→ TANGENCIAL: AI é mencionado mas não é o assunto central → DESCARTE, salvo magnitude excepcional (aquisição >$1B, regulação governamental, encerramento de plataforma relevante).
+→ NENHUMA: sem conexão com AI/ML → DESCARTE.
+
+STEP 1.5 — SOURCE BIAS CHECK (blogs corporativos e blogs pessoais):
+Se a fonte original é um blog corporativo oficial (ex: blog.anthropic.com, openai.com/blog, deepmind.google, blog.google, developer.apple.com, aws.amazon.com/blogs):
+→ O post anuncia algo que USUÁRIOS podem usar/testar agora? → Tratar normalmente.
+→ O post é marketing / posicionamento de autoridade / construção de marca sem novidade concreta? → DESCARTE.
+→ A informação já foi coberta por outra fonte na lista? → Preferir a cobertura independente.
+→ EXCEÇÃO: fontes com label "arXiv" ou "HuggingFace Papers" são pesquisa acadêmica original — NÃO são blogs corporativos. STEP 1.5 não se aplica. Trate como fonte primária.
+Aplica a mesma lógica quando uma fonte jornalística (SCMP, TechCrunch, Rest of World) está reportando um anúncio de blog corporativo — avalie o conteúdo original, não a cobertura.
+Se a fonte é blog pessoal de indivíduo (domínio próprio, Substack, dev.to, Medium, blog.<nome>) e o post é manifesto ou opinião sobre como usar/pensar AI, sem anunciar ferramenta, sem reportar dado novo, sem ancorar em evento concreto verificável: DESCARTE. Exceção: ensaio com pesquisa original (benchmark próprio, dataset, estudo documentado) — nesse caso trate como fonte primária.
+
+STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
+1. Acionável (concreto, não cognitivo) — o leitor pode testar ferramenta específica, executar processo definido, ou tomar decisão com input de fato novo. Mudar mindset ou perspectiva após ler uma opinião NÃO conta.
+2. Sinal de mercado — revela movimento estratégico: empresa entrando/saindo de categoria, mudança de política de dados, nova aliança/aquisição
+3. Afeta fluxos de trabalho (causal direto) — um anúncio, dado ou regra concreta muda como o trabalho é feito. Não inclui "ler argumento sobre como o trabalho deveria ser feito".
+
+STEP 3 — ANTI-SIGNAL:
+Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos frequentes de anti-signal:
+→ Preço/assinatura de serviço consumer (Netflix, Spotify, Disney+)
+→ Rodada de investimento (mesmo de empresa de AI): descarte a menos que o título revele informação acionável — nova funcionalidade, novo produto, virada de estratégia. "Empresa X levanta $Y" sozinho é ruído. Exceção: magnitude excepcional (>$5B) ou empresa de referência (OpenAI, Anthropic, Google DeepMind).
+→ Mercado financeiro/criptomoedas/apostas sem aplicação de AI
+→ Atualização de produto sem impacto em fluxos de trabalho (ex: reformulação cosmética de interface)
+→ Confirmação do óbvio ("X vai continuar fazendo Y")
+→ Análises de hardware, notícias de games, opiniões de celebridades sobre tech sem ângulo AI
+→ Notícia requentada: se o título reporta evento que você sabe que já aconteceu dias ou semanas atrás (lançamento já anunciado, descontinuação já reportada, aquisição já fechada), DESCARTE — mesmo que o post seja de hoje. Exceção: se o título traz INFORMAÇÃO NOVA sobre o evento (dados, reação, consequência concreta), trate como matéria nova.
+→ Manifesto / opinião / thought-leadership pessoal sem ancoragem em evento, dado ou ferramenta concreta — mesmo que o autor tenha credibilidade ou o argumento seja bem construído. Se o post é "como você deveria pensar/usar AI" sem novidade verificável: DESCARTE. Exceção: ensaio com pesquisa original (benchmark próprio, estudo, dataset).
+Se um post não se enquadra nesses exemplos mas claramente foge do escopo AI/tech relevante, DESCARTE também. Use o princípio, não apenas a lista.
+
+STEP 4 — RANKING:
+→ main_find = item mais acionável OU com maior sinal de mercado. Tração (score) é critério de desempate, NUNCA critério principal.
+→ main_find DEVE ser sobre UM evento específico. Se um post é compilação (título com múltiplas notícias separadas por ';' ou temas não-relacionados), NÃO use como main_find — prefira outro item com foco singular.
+→ quick_finds = 3-5 itens restantes que passaram nos steps anteriores.
+→ Diversidade de fontes: prefira representação variada de sources.
+→ Diversidade de PERSPECTIVA (constraint, não preferência): a curadoria completa (main_find + quick_finds) DEVE ter ao menos 1 item de cada categoria epistêmica — ou documentar em meta.epistemic_distribution por que foi impossível:
+   • produto/lançamento — funcionalidade, ferramenta, release, deploy
+   • pesquisa/dado — artigo acadêmico, benchmark, estudo, análise com números
+   • regulação/crítica — política, lei, consequência negativa, análise de impacto
+   Se não houver candidato numa categoria, use o RADAR para sinalizar o gap.
+→ Diversidade de AUDIÊNCIA: se todos os quick_finds têm primary_audience='desenvolvedores', priorize pelo menos 1 item para audiência diferente.
+→ Diversidade GEOGRÁFICA: no máximo 2 itens (entre main_find + quick_finds) podem ser da mesma região geográfica (ex: China/Asia). Se houver 3+ itens asiáticos fortes, escolha os 2 melhores e descarte o resto em favor de diversidade.
+→ Items com campo "also_trending_on" indicam que o tema apareceu em múltiplas fontes independentes. Trate isso como sinal de relevância editorial e, ao escrever, mencione: "notícia reportada tanto no [fonte] quanto no [outra_fonte]".
+
+STEP 4.5 — RADAR (sinais iniciais):
+→ Após selecionar main_find e quick_finds, olhe para os itens restantes que passaram no AI Gate mas ficaram de fora.
+→ Selecione 1-2 itens que são "cedo demais pra ser achado" mas vale acompanhar: temas emergentes, discussões ganhando tração, sinais fracos de mercado.
+→ Esses itens entram no campo "radar" com tom diferente: "vale acompanhar", "ainda cedo, mas...", "pode virar notícia nos próximos dias".
+→ Papers de "arXiv" são candidatos naturais ao RADAR — pesquisa acadêmica raramente é imediatamente acionável, mas pode antecipar tendências. Inclua no radar se o título indicar resultado que pode mudar práticas nos próximos meses.
+→ Se nenhum item justifica radar, deixe a lista vazia. NÃO force itens fracos aqui.
+
+STEP 4.75 — CHECAGEM ANTIBAJULAÇÃO (obrigatório antes de finalizar):
+Antes de passar pro STEP 5, responda internamente:
+→ A curadoria de hoje tem ao menos 1 item de cada tipo: produto/lançamento, pesquisa/dado, regulação/crítica? Se não, há itens que passaram o AI Gate mas foram preteridos que cobrem o tipo ausente?
+→ Algum item selecionado depende de fonte única sem corroboração? Se sim, marque como "especulativo" no tom ao escrever.
+→ Sua seleção atual reflete o que é editorialmente relevante, ou o que é mais fácil de justificar? Sua função é proteger a integridade editorial — não agradar.
+Se identificar desequilíbrio corrigível, ajuste a seleção antes de continuar.
+
+STEP 5 — TESTE FINAL:
+Para cada item selecionado, complete UMA das frases abaixo no campo step5_phrase. Se não conseguir completar com informação do título, DESCARTE o item.
+Classifique também o claim_status de cada item:
+→ "confirmado" — anúncio oficial, comunicado, release note, fonte primária
+→ "especulativo" — título contém "report:", "may", "could", "rumor", "allegedly", "sources say"
+→ "em_andamento" — negociação, investigação, processo regulatório em curso
+Tom especulativo OBRIGATÓRIO quando claim_status = "especulativo": use "estaria", "segundo relatos", "se confirmado".
+→ "Agora é possível [ação concreta]" — para features e ferramentas
+→ "[Player] está [movendo pra / investindo em / saindo de] [categoria]" — para M&A e estratégia
+→ "[Resultado/dado] muda o que sabíamos sobre [área]" — para pesquisa e benchmarks
+→ "[Autoridade] decidiu [ação] sobre [tema de AI/tech]" — para regulação e políticas
+Manifestos de opinião ("como usar AI", "por que AI importa", "você deveria X") não completam nenhuma das frases acima com informação do título — se o título não anuncia evento, ferramenta, dado ou decisão, DESCARTE aqui.
+
+═══ EXEMPLOS DE CALIBRAÇÃO ═══
+
+Exemplo 1 — SELEÇÃO CORRETA (acionável + AI):
+Input: {{ "title": "Gemini now lets you import chat history from ChatGPT and other chatbots", "source": "TechCrunch", "score": 89 }}
+→ AI gate: SIM (chatbots de AI)
+→ Critérios: Acionável (posso migrar agora) + Sinal de mercado (Google competindo por lock-in)
+→ step5_phrase: "Agora é possível importar conversas de outros chatbots pro Gemini"
+→ SELECIONADO como main_find
+Output CORRETO: "Segundo o TechCrunch, o Gemini — chatbot de IA do Google — agora permite transferir conversas e informações pessoais de outros chatbots diretamente para ele. Isso facilita a migração de usuários entre plataformas de IA e centraliza o histórico de interações."
+
+Exemplo 2 — DESCARTE CORRETO (alta tração, sem ângulo AI):
+Input: {{ "title": "We haven't satisfactorily dealt with the worst of what prediction markets will do", "source": "HackerNews", "score": 539 }}
+→ AI gate: NÃO (mercados de previsão/apostas, sem conexão com AI)
+→ Magnitude excepcional? NÃO (post de opinião, não evento)
+→ DESCARTADO — 539 pontos de tração não salva post sem ângulo AI
+
+Exemplo 3 — TOM: RUMOR/ESPECULAÇÃO:
+Input: {{ "title": "Report: Apple may license Google Gemini for iOS 20 AI features", "source": "HackerNews", "score": 847 }}
+Output ERRADO (NÃO faça isso): "A Apple fecha acordo bombástico com Google para trazer IA ao iPhone. A parceria promete revolucionar a experiência mobile."
+→ Por que está errado: converteu "may" em fato, inventou "bombástico", "revolucionar" — NADA disso está no título.
+Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a Apple estaria negociando licenciar o Gemini do Google para recursos de IA no iOS 20. Se confirmado, o acordo sinalizaria que a Apple está priorizando velocidade de entrega de AI em vez de desenvolver tudo internamente."
+
+Exemplo 4 — TOM: BUSINESS com ângulo AI:
+Input: {{ "title": "Stripe acquires AI payments startup PayAI for $1.2B", "source": "TechCrunch", "score": 0 }}
+→ AI gate: SIM (startup de AI payments)
+→ Critérios: Sinal de mercado (Stripe apostando em AI pra pagamentos)
+→ step5_phrase: "Stripe está investindo em AI aplicada a pagamentos com aquisição de $1.2B"
+→ SELECIONADO como quick_find
+Output CORRETO: "De acordo com o TechCrunch, a Stripe adquiriu a PayAI — startup de pagamentos com inteligência artificial — por US$ 1,2 bilhão. A aquisição sinaliza que AI está chegando ao core da infraestrutura de pagamentos online."
+
+Exemplo 5 — SELEÇÃO CORRETA (regulação + AI):
+Input: {{ "title": "EU begins enforcing AI Act transparency requirements for high-risk systems", "source": "TechCrunch", "score": 45 }}
+→ AI gate: SIM (regulação de AI)
+→ Critérios: Sinal de mercado (Europa impondo regras) + Afeta workflows (empresas precisam se adequar)
+→ step5_phrase: "UE decidiu começar a aplicar requisitos de transparência do AI Act"
+→ SELECIONADO como quick_find — score baixo (45) mas relevância editorial alta
+Output CORRETO: "De acordo com o TechCrunch, a União Europeia começou a aplicar os requisitos de transparência do AI Act para sistemas classificados como alto risco. Empresas que operam na Europa precisam documentar como seus modelos de AI tomam decisões."
+
+Exemplo 6 — SELEÇÃO CORRETA (open source release):
+Input: {{ "title": "Meta releases Llama 4 Scout and Maverick with Apache 2.0 license", "source": "r/MachineLearning", "score": 1200 }}
+→ AI gate: SIM (release de modelo de AI open source)
+→ Critérios: Acionável (desenvolvedores podem baixar e usar agora) + Sinal de mercado (Meta mantendo estratégia open source)
+→ step5_phrase: "Agora é possível usar Llama 4 com licença Apache 2.0"
+→ SELECIONADO como main_find
+Output CORRETO: "Segundo post no r/MachineLearning, a Meta lançou o Llama 4 em duas versões — Scout e Maverick — com licença Apache 2.0 (código aberto). A licença permite uso comercial sem restrições, o que amplia o acesso a modelos de grande porte fora das APIs pagas."
+
+Exemplo 7 — SELEÇÃO CORRETA (perspectiva geográfica + AI):
+Input: {{ "title": "Baidu open-sources ERNIE 4.5 to compete with Llama in Chinese market", "source": "SCMP Tech", "score": 0 }}
+→ AI gate: SIM (open source AI model)
+→ Critérios: Sinal de mercado (competição China vs Meta em open source) + Acionável (devs podem testar)
+→ step5_phrase: "Agora é possível usar ERNIE 4.5 open source como alternativa ao Llama"
+→ SELECIONADO como quick_find — perspectiva geográfica diferenciada
+Output CORRETO: "Segundo o SCMP Tech, a Baidu — maior empresa de buscas da China — liberou o ERNIE 4.5 como open source para competir com o Llama da Meta no mercado chinês. A China é o segundo maior ecossistema de AI do mundo e a competição de modelos abertos pode acelerar o acesso fora do eixo americano."
+
+Exemplo 8 — DESCARTE CORRETO (blog oficial, thought-leadership sem novidade):
+Input: {{ "title": "Our approach to building safe and beneficial AI systems", "source": "Anthropic Blog", "score": 0 }}
+→ AI gate: SIM (empresa de AI falando sobre AI)
+→ STEP 1.5: blog oficial da Anthropic. Anuncia feature testável? NÃO. É thought-leadership/branding. Coberto por outra fonte? N/A.
+→ DESCARTADO — blog oficial sem novidade concreta para o leitor
+
+Exemplo 9 — SELEÇÃO CORRETA (cross-source signal):
+Input: {{ "title": "Google DeepMind releases Gemma 3 with open weights", "source": "TechCrunch", "score": 67, "also_trending_on": ["hackernews", "reddit"] }}
+→ AI gate: SIM (release de modelo AI)
+→ Sinal entre fontes: apareceu em 3 fontes independentes — alta relevância
+→ Critérios: Acionável (desenvolvedores podem usar) + Sinal de mercado (Google apostando em pesos abertos)
+→ step5_phrase: "Agora é possível usar Gemma 3 com pesos abertos do DeepMind"
+→ SELECIONADO como main_find — sinal entre fontes reforça relevância
+Output CORRETO: "De acordo com o TechCrunch — notícia também em destaque no HackerNews e Reddit — o Google DeepMind lançou o Gemma 3 com pesos abertos (open weights). Isso permite que desenvolvedores rodem o modelo localmente sem depender de APIs pagas."
+
+Exemplo 10 — SELEÇÃO CORRETA (Global South + AI impact):
+Input: {{ "title": "Brazil's Serpro deploys AI to automate 40% of federal tax audits", "source": "Rest of World", "score": 0 }}
+→ AI gate: SIM (AI em governo)
+→ Critérios: Afeta workflows (automação de auditoria fiscal) + Sinal de mercado (governo brasileiro apostando em AI)
+→ step5_phrase: "Serpro está investindo em AI para automatizar auditorias fiscais federais"
+→ SELECIONADO como quick_find — perspectiva LatAm relevante pro público brasileiro
+Output CORRETO: "Segundo o Rest of World, o Serpro — empresa de tecnologia do governo federal brasileiro — implementou inteligência artificial para automatizar 40% das auditorias fiscais. É um sinal concreto de que AI está entrando na operação pública no Brasil."
+
+Exemplo 11 — DESCARTE CORRETO (rehashed news):
+Input: {{ "title": "OpenAI shuts down Sora video generation tool", "source": "TechCrunch", "score": 0 }}
+→ AI gate: SIM (ferramenta de AI)
+→ Checagem de ineditismo: a descontinuação do Sora já foi amplamente reportada dias atrás. Este post não traz informação nova — apenas repete o fato.
+→ DESCARTADO — notícia requentada, evento já coberto anteriormente
+
+Exemplo 11b — SELEÇÃO CORRETA (follow-up com info nova sobre evento velho):
+Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown — no refund policy", "source": "HackerNews", "score": 423 }}
+→ AI gate: SIM (produto de AI)
+→ Checagem de ineditismo: embora o encerramento do Sora seja evento velho, este post traz informação NOVA (perda de créditos, ausência de política de reembolso)
+→ Critérios: Acionável (afeta quem pagou pelo Sora) + Afeta workflows (usuários precisam buscar alternativas)
+→ step5_phrase: "Agora é possível que usuários do Sora percam créditos pagos sem reembolso"
+→ SELECIONADO como quick_find — info nova sobre evento conhecido
+
+Exemplo 12 — DESCARTE CORRETO (blog pessoal, manifesto sem evento):
+Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": "koshyjohn.com", "score": 0 }}
+→ AI gate: SIM (AI é o tema central)
+→ STEP 1.5: blog pessoal de indivíduo + conteúdo de manifesto/opinião sobre como usar AI + sem anúncio de ferramenta + sem dado novo + sem evento concreto verificável → DESCARTE.
+→ Confirmação pelo STEP 5: nenhuma das 4 frases se completa com informação do título — o título expressa posição, não evento. "Agora é possível [ação concreta]" não se aplica a uma tese de mindset.
+→ DESCARTADO — blog pessoal com thought-leadership sem ancoragem em evento
+
+═══ REGRAS DE FORMATO ═══
+- reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
+- correspondent_intro: 1-2 frases em primeira pessoa. A PRIMEIRA frase deve referenciar o achado do dia pelo tema (não pelo nome do campo). A segunda pode citar volume (X posts de Y fontes). BOM: "Hoje o destaque vai pro lançamento do Llama 4 pela Meta. Analisei 267 posts de 10 fontes." RUIM: "O dia trouxe novidades sobre a estratégia de grandes players de AI." (genérico — serve pra qualquer dia)
+- main_find.title: factual, max 15 palavras. Reformule se o original for sensacionalista.
+- main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, explique o que é e por que importa pro leitor. Termine com uma linha de implicação prática iniciada com "→".
+- main_find.bullets: 2-3 pontos: o que aconteceu, o que significa pra quem lê, o que observar a seguir.
+- main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
+- quick_finds[].signal: OBRIGATÓRIO — NÃO omita. 2-3 frases: (1-2) o que aconteceu e por que é relevante, (última) linha de implicação prática iniciada com "→". EXEMPLO: "Benchmarks apontam que o modelo superou concorrentes diretos em tarefas de raciocínio. Se confirmado, representa mudança significativa no ranking open source. → Desenvolvedores que avaliam troca de modelo podem incluir este nos testes antes de fechar escolha." Baseie-se apenas no título/metadados. A linha com "→" é OBRIGATÓRIA em todo quick_find.
+- quick_finds[].step5_phrase: a frase do STEP 5 completada.
+- primary_audience: indique para quem cada achado é mais relevante ('desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos').
+- radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.
+- url (main_find, cada quick_find, cada radar item): copie exatamente o valor do campo "url" do item de input correspondente. Campo OBRIGATÓRIO — não omita.
+- display_url (main_find, cada quick_find, cada radar item): versão curta legível da URL, ex: "techcrunch.com/…" ou "arxiv.org/…". Campo OBRIGATÓRIO — não omita.
+- Termos técnicos: explique brevemente — "LLM (modelos de IA que geram texto)", "open source (código aberto)".
+
+LEMBRETE FINAL: Você PODE explicar o que algo é (contexto factual) e por que importa pro leitor. Você NÃO PODE inventar reações, consequências ou qualificar intensidade. Na dúvida: descreva, não qualifique.
+
+POSTS COLETADOS:

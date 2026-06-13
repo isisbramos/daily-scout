@@ -1,0 +1,207 @@
+{
+  "_comment": "Daily Scout v5 — Sources Configuration. Liga/desliga fontes sem mudar código.",
+
+  "sources": {
+    "reddit": {
+      "enabled": true,
+      "weight": 1.0,
+      "subreddits": [
+        "artificial", "MachineLearning", "ChatGPT", "LocalLLaMA",
+        "technology", "programming", "opensource", "singularity",
+        "techNews", "ArtificialIntelligence", "compsci",
+        "startups", "SideProject"
+      ],
+      "limit_per_sub": 10,
+      "rate_limit_delay": 0.5
+    },
+    "hackernews": {
+      "enabled": true,
+      "weight": 1.2,
+      "limit": 30,
+      "timeout": 15
+    },
+    "techcrunch": {
+      "enabled": true,
+      "weight": 1.1,
+      "limit": 20,
+      "feeds": {
+        "main": "https://techcrunch.com/feed/"
+      }
+    },
+    "lobsters": {
+      "enabled": true,
+      "weight": 0.9,
+      "limit": 25,
+      "rss_url": "https://lobste.rs/rss"
+    },
+
+    "_comment_primary": "T1 Primary Sources — pesquisa acadêmica original. Peso 1.3 (maior do sistema). Papers são candidatos naturais ao RADAR. Não são blogs corporativos — STEP 1.5 não se aplica.",
+    "arxiv_ai": {
+      "enabled": true,
+      "weight": 1.3,
+      "tier": "T1",
+      "limit": 15,
+      "feeds": {
+        "cs_ai": "https://rss.arxiv.org/rss/cs.AI",
+        "cs_lg": "https://rss.arxiv.org/rss/cs.LG",
+        "cs_cl": "https://rss.arxiv.org/rss/cs.CL"
+      }
+    },
+    "huggingface_papers": {
+      "enabled": true,
+      "_comment": "Papers em trending na comunidade HuggingFace — já pré-filtrados por tração da comunidade de ML. Feed confirmado e habilitado em 2026-04-19.",
+      "weight": 1.3,
+      "tier": "T1",
+      "limit": 20,
+      "rss_url": "https://huggingface.co/papers.rss"
+    },
+
+    "_comment_ai_labs": "AI Lab Blogs — weight 0.8 (abaixo de community sources; blogs oficiais são marketing-heavy)",
+    "anthropic_blog": {
+      "enabled": true,
+      "weight": 0.8,
+      "limit": 15,
+      "rss_url": "https://www.anthropic.com/feed"
+    },
+    "openai_blog": {
+      "enabled": true,
+      "weight": 0.8,
+      "limit": 15,
+      "rss_url": "https://openai.com/blog/rss.xml"
+    },
+    "deepmind_blog": {
+      "enabled": true,
+      "weight": 0.7,
+      "limit": 15,
+      "rss_url": "https://deepmind.google/blog/rss.xml"
+    },
+    "meta_ai_blog": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 1 (2026-04-19). Feed é research.facebook.com — cobertura mais ampla que só AI; conta com AI Gate + STEP 1.5 para filtrar marketing e non-AI.",
+      "weight": 0.8,
+      "limit": 15,
+      "rss_url": "https://research.facebook.com/feed/"
+    },
+
+    "_comment_europe": "Europe primary — fecha Gap 1 do SOURCES_STUDY. Mistral não tem blog RSS oficial; usamos releases do repo mistral-inference como proxy de release cadence. Sinal técnico, não editorial — peso baixo até validar.",
+    "mistral_releases": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 2. Mistral releases via GitHub (proxy — blog oficial sem RSS). Revisar após 7d se densidade AI justifica manter.",
+      "weight": 0.7,
+      "limit": 10,
+      "rss_url": "https://github.com/mistralai/mistral-inference/releases.atom"
+    },
+
+    "_comment_china_primary": "China primary — fecha Gap 2 do SOURCES_STUDY. Labs chineses em primeira mão (complementa SCMP/TechNode que são cobertura *sobre* China). Sem 'region' pois são papers/research em inglês — não carregam lente editorial asiática que o cap geographic tenta balancear.",
+    "qwen_blog": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 2. Qwen LM blog oficial — releases, papers, model cards. Densidade AI alta (~100%).",
+      "weight": 0.9,
+      "limit": 15,
+      "rss_url": "https://qwenlm.github.io/blog/index.xml"
+    },
+
+    "_comment_tooling": "Developer tooling / release feeds — lado de lançamento (complementa HF Papers que cobre research)",
+    "huggingface_blog": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 1 (2026-04-19). Releases de modelos, datasets, spaces — complementa huggingface_papers.",
+      "weight": 1.0,
+      "limit": 15,
+      "rss_url": "https://huggingface.co/blog/feed.xml"
+    },
+
+    "_comment_voice": "Editorial voice — analistas individuais com autoridade e densidade AI alta. Sinal pré-filtrado por editor humano que a Aya respeitaria.",
+    "simon_willison": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 1 (2026-04-19). Simon Willison — melhor curador individual de AI em inglês. Densidade AI ~95%, hands-on, cita primary sources.",
+      "weight": 1.1,
+      "limit": 15,
+      "rss_url": "https://simonwillison.net/atom/everything/"
+    },
+    "ethan_mollick": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 2. One Useful Thing — uso aplicado de AI em trabalho/educação. Público exato da Aya.",
+      "weight": 0.9,
+      "limit": 15,
+      "rss_url": "https://www.oneusefulthing.org/feed"
+    },
+    "stratechery": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 2. Ben Thompson — análise estratégica big tech. RSS retorna só free posts; paid aparecem truncados. Aya deve tratar como signal-only (STEP 1.5 + anti-signal: posts incompletos não viram main_find).",
+      "weight": 0.9,
+      "limit": 10,
+      "rss_url": "https://stratechery.com/feed/"
+    },
+
+    "_comment_journalism": "AI journalism com profundidade — inclui regulação, política e implicação social (Gap 5 do SOURCES_STUDY).",
+    "mit_tech_review": {
+      "enabled": true,
+      "_comment": "Adicionado Onda 1 (2026-04-19). MIT Technology Review — cobertura de AI + policy + ética com reporting profundo.",
+      "weight": 1.0,
+      "limit": 15,
+      "rss_url": "https://www.technologyreview.com/feed/"
+    },
+
+    "_comment_brazil": "Brazil / LatAm — cobre gap de cobertura de AI na esfera governamental e jornalismo tech BR. Agência Brasil (EBC) = agência oficial do governo federal; filtro de keywords AI/tech aplicado na fonte para reduzir firehose. MIT TR Brasil = jornalismo analítico tech em PT-BR. Ambos com region=latam para cap geográfico.",
+    "agencia_brasil": {
+      "enabled": true,
+      "_comment": "Agência Brasil (EBC) — agência de notícias do governo federal. Firehose geral; filtro de keywords aplicado na classe (inteligência artificial, MCTI, Serpro, dados, etc). Peso baixo: cobertura eventual, não diária.",
+      "weight": 0.8,
+      "limit": 30,
+      "region": "latam",
+      "rss_url": "https://agenciabrasil.ebc.com.br/feed/ultimasnoticias/feed.xml"
+    },
+    "mit_tech_review_brasil": {
+      "enabled": true,
+      "_comment": "MIT Technology Review Brasil — jornalismo analítico tech/ciência em PT-BR. Feed pequeno (~10 itens/dia), curadoria editorial, densidade AI razoável. Complementa MIT TR EN para perspectiva BR.",
+      "weight": 0.9,
+      "limit": 10,
+      "region": "latam",
+      "rss_url": "https://mittechreview.com.br/feed/"
+    },
+
+    "_comment_geographic": "Geographic Diversity — fontes não-ocidentais para quebrar echo chamber. Weights reduzidos v5.2 para evitar over-representation",
+    "scmp_tech": {
+      "enabled": true,
+      "weight": 0.9,
+      "limit": 15,
+      "region": "asia",
+      "rss_url": "https://www.scmp.com/rss/36/feed"
+    },
+    "rest_of_world": {
+      "enabled": true,
+      "weight": 0.9,
+      "limit": 15,
+      "region": "global_south",
+      "rss_url": "https://restofworld.org/feed/"
+    },
+    "technode": {
+      "enabled": true,
+      "weight": 0.8,
+      "limit": 15,
+      "region": "asia",
+      "rss_url": "https://technode.com/feed/"
+    }
+  },
+
+  "pre_filter": {
+    "recency_hours": 24,
+    "recency_fallback_min_items": 10,
+    "max_items_to_llm": 40,
+    "dedup_similarity_threshold": 0.7,
+    "max_per_source_pct": 0.25,
+    "geographic_max_pct": 0.30,
+    "wild_card_slots": 5,
+    "_comment_changes_v5": "max_items 30→40, max_per_source 0.4→0.25, wild_card_slots novo",
+    "_comment_changes_v52b": "geographic_max_pct novo — cap por região (ex: asia) para evitar over-representation de qualquer geografia. Não afeta sources sem campo 'region' (reddit, hackernews, etc)."
+  },
+
+  "scoring": {
+    "recency_decay_constant": 8,
+    "engagement_weight": 0.4,
+    "recency_weight": 0.3,
+    "source_diversity_weight": 0.2,
+    "category_weight": 0.1,
+    "_comment_changes_v5": "recency_decay_hours substituído por recency_decay_constant (exponential)"
+  }
+}

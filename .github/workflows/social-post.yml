@@ -1,0 +1,105 @@
+name: Daily Scout — Social Posting (Delayed)
+
+on:
+  schedule:
+    # 11:00 AM BRT = 14:00 UTC (3h after newsletter at 7:55 BRT)
+    - cron: '0 14 * * *'
+
+  # Manual trigger for testing / re-posting
+  workflow_dispatch:
+    inputs:
+      edition_number:
+        description: 'Edition number to post (e.g., 003). Leave empty for latest.'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Dry run — validates but does NOT post to LinkedIn'
+        type: boolean
+        required: false
+        default: false
+      preview_only:
+        description: 'Preview only — shows content without posting'
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  social-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Calculate edition number
+        id: edition
+        run: |
+          if [ -n "${{ github.event.inputs.edition_number }}" ]; then
+            echo "number=${{ github.event.inputs.edition_number }}" >> $GITHUB_OUTPUT
+          else
+            # Same logic as main pipeline
+            DAYS=$(( ($(date +%s) - $(date -d "2026-03-22" +%s)) / 86400 ))
+            printf "number=%03d\n" $DAYS >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download newsletter artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: edition-${{ steps.edition.outputs.number }}
+          path: output/
+        continue-on-error: true
+
+      - name: Check for social artifact
+        id: check
+        run: |
+          ARTIFACT="output/social/social_${{ steps.edition.outputs.number }}.json"
+          if [ -f "$ARTIFACT" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "Social artifact found: $ARTIFACT"
+            cat "$ARTIFACT" | python -m json.tool
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "No social artifact found for edition ${{ steps.edition.outputs.number }}"
+            echo "Available artifacts:"
+            ls -la output/social/ 2>/dev/null || echo "  (none)"
+          fi
+
+      - name: Post to social platforms
+        if: steps.check.outputs.found == 'true'
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+          EDITION_NUMBER: ${{ steps.edition.outputs.number }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          ARGS="--edition ${{ steps.edition.outputs.number }}"
+
+          if [ "${{ github.event.inputs.preview_only }}" = "true" ]; then
+            ARGS="$ARGS --preview"
+          elif [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+
+          python social_post.py $ARGS
+
+      - name: Skip notification
+        if: steps.check.outputs.found != 'true'
+        run: |
+          echo "::warning::No social content found for edition #${{ steps.edition.outputs.number }}. The main pipeline may not have generated social content today."
+
+      - name: Upload posting logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: social-post-${{ steps.edition.outputs.number }}
+          path: output/social/
+          retention-days: 30

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-100 -40 200 80" role="img" aria-label="AYA">
+  <title>AYA — lockup L3 inscribed (wordmark dentro da vesica) — uso cerimonial</title>
+  <!-- Vesica (proporção mantida, escala 2x pra acomodar wordmark inscrito) -->
+  <path d="M -84 0 A 132.6 132.6 0 0 1 84 0 A 132.6 132.6 0 0 1 -84 0 Z"
+        fill="none"
+        stroke="#F4F2EA"
+        stroke-width="2"
+        stroke-linejoin="round"/>
+  <!-- Wordmark centralizado dentro do olho -->
+  <text x="0" y="11"
+        text-anchor="middle"
+        font-family="'Space Grotesk', 'Inter', system-ui, sans-serif"
+        font-size="40"
+        font-weight="500"
+        letter-spacing="2"
+        fill="#F4F2EA">AYA</text>
+</svg>

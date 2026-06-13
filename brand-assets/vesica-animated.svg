@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-55 -30 110 60" role="img" aria-label="AYA">
+  <title>AYA — vesica mark (animated M3)</title>
+  <defs>
+    <clipPath id="vesicaClip">
+      <path d="M -42 0 A 66.3 66.3 0 0 1 42 0 A 66.3 66.3 0 0 1 -42 0 Z"/>
+    </clipPath>
+    <style>
+      .v-group {
+        transform-origin: 0 0;
+        animation: vesicaBlink 4.5s ease-in-out infinite;
+      }
+      .v-scan {
+        animation: vesicaSweep 2.6s linear infinite;
+      }
+      @keyframes vesicaBlink {
+        0%, 86%, 100% { transform: scaleY(1); }
+        91% { transform: scaleY(0.04); }
+      }
+      @keyframes vesicaSweep {
+        0% { transform: translateX(-50px); }
+        100% { transform: translateX(50px); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .v-group, .v-scan { animation: none; }
+      }
+    </style>
+  </defs>
+  <g class="v-group">
+    <path d="M -42 0 A 66.3 66.3 0 0 1 42 0 A 66.3 66.3 0 0 1 -42 0 Z"
+          fill="none"
+          stroke="#F4F2EA"
+          stroke-width="2.5"
+          stroke-linejoin="round"/>
+    <g clip-path="url(#vesicaClip)">
+      <rect class="v-scan" x="-1" y="-25" width="2" height="50" fill="#1FE070"/>
+    </g>
+  </g>
+</svg>
