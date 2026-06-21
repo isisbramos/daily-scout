@@ -7,6 +7,13 @@
 
 ## 📝 Changelog
 
+**2026-06-12 · Rebrand P2 — landing (voz 1ª pessoa + tokens AYA)**
+- Hero: headline reduzida à tagline canônica `curadoria de novidades sobre IA. todo dia.`; removidos eyebrow `TRANSMITINDO · 8H BRT`, sub `10 fontes globais…` e portrait badge `AYA v0.1…`. Note perde `verificação por PM`.
+- Meet AYA: reescrita 1ª pessoa — eyebrow `// sobre a AYA`, título `Eu sou a AYA. Leio o que você não tem tempo de ler.`, dois parágrafos novos, blockquote removido.
+- **Contagem de fontes corrigida**: `10` → `22` (total real `enabled:true` em `sources_config.json`, jun/2026). Atualizado em proof strip §1.3 + stats §1.4.
+- **Métrica "não-ocidentais" removida** do site (proof strip + stat) — Isis optou por não expor o número. Stats §1.4 agora têm 2 colunas (22 fontes / 5 filtros).
+- Sistema visual: tokens canônicos `--aya-*`, vesica no header/footer, favicon set, remoção de "Daily Scout" do copy visível.
+
 **2026-04-19 · UX writing pass (v2)**
 - Hero headline: `Uma correspondente de IA reportando da linha de frente do tech.` → `A AYA lê ~300 histórias de tech toda manhã. Você lê só as que importam.` (D1 benefit-driven)
 - Hero sub: reescrita afirmativa, sem triplete de negações — `10 fontes globais, 5 filtros editoriais, 1 email por dia às 8h BRT. Factual, curado, com perspectiva além do eixo US-EU.`
@@ -79,13 +86,13 @@ About (defensibilidade profunda) → captura no final CTA
 
 | Slot | Copy |
 |---|---|
-| Eyebrow (badge) | `● TRANSMITINDO · 8H BRT` |
-| Headline (serif, italic em "~300 histórias") | `A AYA lê ~300 histórias de tech toda manhã. Você lê só as que importam.` |
-| Sub (body) | `10 fontes globais, 5 filtros editoriais, 1 email por dia às 8h BRT. Factual, curado, com perspectiva além do eixo US-EU.` |
+| Eyebrow (badge) | _removido na rebrand P2_ |
+| Headline (serif, italic em "todo dia.") | `curadoria de novidades sobre IA. todo dia.` (tagline canônica do SYSTEM.md) |
+| Sub (body) | _removido na rebrand P2 — hero reduzido a tagline + form_ |
 | Input placeholder | `voce@empresa.com` |
 | CTA button | `Assinar grátis` |
-| Note (mono) | `// sem spam · unsubscribe em 1 clique · curadoria por IA, verificação por PM` |
-| Portrait badge | `● AYA v0.1 / correspondente de IA · online` |
+| Note (mono) | `// sem spam · unsubscribe em 1 clique · curadoria por IA` |
+| Portrait badge | _removido na rebrand P2_ |
 
 **Visual:** portrait da AYA à direita, gradient mesh ao fundo, parallax sutil no scroll.
 
@@ -99,7 +106,7 @@ About (defensibilidade profunda) → captura no final CTA
 |---|---|
 | 1 | `+ 3 min de leitura` |
 | 2 | `+ 8h BRT, toda manhã` |
-| 3 | `+ 10 fontes globais · 3 fora da bolha US` |
+| 3 | `+ 22 fontes globais` |
 | 4 | `+ 100% PT-BR` |
 | 5 | `+ Deep dive + 3 quick finds` |
 
@@ -111,14 +118,13 @@ About (defensibilidade profunda) → captura no final CTA
 
 | Slot | Copy |
 |---|---|
-| Eyebrow | `// Conheça sua correspondente` |
-| Título (serif) | `Ela não é humana. Mas tem critério.` |
-| Blockquote | `"Eu não amplifico o que já está alto. Eu filtro pelo que você realmente vai querer saber amanhã."` |
-| Body 1 | `A AYA é uma correspondente de IA. Toda manhã ela escaneia 10 fontes globais — Reddit, HackerNews, SCMP Tech, Rest of World, TechNode, Lobsters, arXiv, e mais — e aplica um editorial framework de 5 steps pra encontrar o que vale a pena ler.` |
-| Body 2 | `Ela usa IA como lente, não como tópico. Ela se importa com o "so what?" — a coisa que você não podia fazer ontem e agora pode. Ela filtra sem dó contra hype, notícia reciclada e anúncio genérico de funding.` |
-| Stat 1 | `10` / `Fontes globais / dia` |
-| Stat 2 | `3` / `Veículos não-ocidentais` |
-| Stat 3 | `5` / `Filtros editoriais` |
+| Eyebrow | `// sobre a AYA` |
+| Título (serif, italic em "não tem tempo") | `Eu sou a AYA. Leio o que você não tem tempo de ler.` |
+| Blockquote | _removido na rebrand P2 (voz reescrita em 1ª pessoa)_ |
+| Body 1 | `Toda manhã eu passo por mais de 20 fontes — umas 300 histórias sobre IA. Leio tudo, com o mesmo critério, todos os dias.` |
+| Body 2 | `Quase nada passa. O que passa é novo, é concreto e muda alguma coisa no que você pode fazer. Isso eu te conto em cinco histórias, num e-mail que você lê em um minuto.` |
+| Stat 1 | `22` / `Fontes globais / dia` |
+| Stat 2 | `5` / `Filtros editoriais` |
 | Portrait caption | `> FIELD REPORT #042 / transmitindo das fontes: HN · Reddit · SCMP · Rest of World · TechNode · Lobsters · arXiv` |
 | Portrait live badge | `● LIVE` |
 

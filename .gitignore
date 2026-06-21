@@ -25,6 +25,10 @@ ramosdisis-*/
 sandbox-*/
 scratch-*/
 
+# Local tooling & scratch (não vão pro repo)
+.claude/
+uploads/
+
 # Docs exportados (binários)
 *.docx
 *.pdf

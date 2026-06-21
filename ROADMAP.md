@@ -1,7 +1,7 @@
 # AYA's Daily — Roadmap
 
 > Framework: **Now / Next / Later**
-> Última atualização: 19/04/2026
+> Última atualização: 20/05/2026
 
 ---
 
@@ -55,68 +55,109 @@
 
 ---
 
-## 🔍 Now — Fase atual (abril 2026)
+### Abril — Expansão de fontes + DeepSeek (19–29 abr)
 
-**Modo:** Monitoramento. Aguardando dados de 2–3 semanas antes de nova iteração editorial.
+| Data | O que foi feito |
+|------|----------------|
+| 19/abr | **Onda 1** — +4 fontes: Meta AI Blog, HuggingFace Blog, Simon Willison, MIT Tech Review |
+| 19/abr | HuggingFace Papers habilitado (feed RSS confirmado) |
+| 24/abr | **Migração DeepSeek** — Gemini 2.5 Flash → DeepSeek V3 (`deepseek-chat`, OpenAI SDK) |
+| 27/abr | **Onda 2** — +4 fontes: Mistral Releases, Qwen Blog, Ethan Mollick, Stratechery |
+| 27/abr | **v5.4** — framework editorial endurecido: STEP 1.5 expandido + critérios STEP 2 mais concretos + anti-signal STEP 3 com "opinião pessoal sem evento âncora" |
+| 27/abr | **Onda 3** — +2 fontes BR/LatAm: Agência Brasil, MIT Tech Review Brasil |
+| 29/abr | fix: enforce signal field nos quick_finds para compatibilidade com DeepSeek structured output |
+
+**Resultado:** 10 → 22 fontes ativas. Stack custo-independente (sem lock-in Google). Framework editorial separa guardrails léxicos (anti-hype) de estruturais (anti-opinion).
+
+---
+
+### Maio — Produto empacotado (12–20 mai)
+
+| Data | O que foi feito |
+|------|----------------|
+| 12/mai | **Product Spec v0.2 travada** — ICP (Tech Operator + Builder-Adjacent), 4 pillars editoriais, 8 métricas com gates (North Star: CTR ≥ 12%, engaged subs = 30% da lista) |
+| 12/mai | Welcome email sequence v1 escrita (drip T+0 / T+3d / T+7d) |
+| 20/mai | **Rebrand AYA como entidade autônoma** — avatar, paleta (neon green + olive + charcoal), princípio "marca não orbita fundadora" |
+
+---
+
+## 📦 Now — Fase atual (maio 2026)
+
+**Modo:** Produto estabilizado. Executando backlog de distribuição e crescimento.
 
 | Item | Status | Detalhe |
 |------|--------|---------|
-| Pipeline v5.3 em prod | ✅ Rodando | Diariamente às 7:55 BRT sem intervenção manual |
-| DEBUG_SAVE ativo | ✅ Habilitado | Artifacts `debug-XXX` no GitHub Actions a partir de hoje |
+| Pipeline v5.4 em prod | ✅ Rodando | Diariamente às 7:55 BRT |
+| 22 fontes ativas | ✅ Configurado | Ondas 1, 2, 3 completas |
 | Feedback loop | ✅ Ativo | Coletando ratings por edição |
-| Social posting (LinkedIn) | ⏸ Pausado | Workflow existe — reativar quando pronto |
-| HuggingFace Papers | ⏸ Desabilitado | Feed URL pendente de confirmação |
+| Product Spec v0.2 | ✅ Travada | ICP, pillars, métricas definidas |
+| Welcome email sequence | ⏸ Pendente | Copy pronto — aguarda execução no Buttondown |
+| Analytics Buttondown | ⏸ Pendente | Necessário para acompanhar CTR / open rate |
+| Rebrand assets | ⏸ Pendente | Aguarda versões finais do avatar (Midjourney) |
+| Social posting (LinkedIn) | ⏸ Pausado | Workflow existe — reativar quando assets prontos |
 
-**Foco agora:** deixar o pipeline rodar e acumular dados de feedback antes de mexer no prompt.
+**Foco agora:** destravar os P1s de distribuição (welcome email + analytics) antes de qualquer nova iteração editorial.
 
 ---
 
 ## 🔜 Next — Próximas iterações (backlog priorizado)
 
-### P1 — Análise de dados acumulados
+### P1 — Welcome email + analytics (pronto pra executar)
 
-Depois de 2–3 semanas de `DEBUG_SAVE` ativo, rodar `audit_agent.py` para identificar padrões:
-- A AYA está selecionando bem? Quais são os false negatives recorrentes?
-- O feedback (🔥/😐) correlaciona com algum tipo de conteúdo ou fonte?
-- Alguma fonte está sistematicamente entregando ruído?
-
-**Output esperado:** hipóteses concretas para a próxima iteração do prompt (v5.4 ou v6).
+Copy do drip já escrito (`welcome-sequence-v1.md` no vault). Falta executar no Buttondown:
+- [ ] Criar sequência de automação no Buttondown (T+0, T+3d, T+7d)
+- [ ] Ativar analytics (open rate, CTR por edição)
+- [ ] Configurar alertas de falha no pipeline (GitHub Actions → email)
 
 ---
 
-### P1 — Reativar social posting
+### P1 — Rebrand assets
 
-O workflow `social-post.yml` está construído e testado. Falta:
+Decisão de visual identity travada (20/05). Falta produzir e migrar:
+- [ ] Gerar versões finais do avatar (prompts Midjourney prontos no vault)
+- [ ] Atualizar `aya-avatar.png` no repo
+- [ ] Atualizar template de email (`templates/email.html`) com nova paleta + avatar
+- [ ] Atualizar Apps Script do feedback loop (footer do email)
+- [ ] Atualizar `index.html` (archive page)
+
+---
+
+### P2 — Reativar social posting
+
+O workflow `social-post.yml` está construído. Falta:
 - [ ] Verificar status das secrets `LINKEDIN_ACCESS_TOKEN` e `LINKEDIN_PERSON_URN`
 - [ ] Validar `content_adapter.py` com uma edição real em dry-run
 - [ ] Mudar `SOCIAL_ENABLED` de volta para `true` no workflow
-
----
-
-### P2 — HuggingFace Papers
-
-Source T1 desabilitada desde v5.0. Alta relevância (papers com tração na comunidade = signal forte de mercado).
-- [ ] Confirmar URL do feed RSS: `https://huggingface.co/papers.rss`
-- [ ] Habilitar em `sources_config.json` e validar coleta
-- [ ] Monitorar representação na seleção final (pode precisar de weight adjustment)
+- Dependência: rebrand assets prontos primeiro (avatar + paleta no template)
 
 ---
 
 ### P2 — Subscriber growth
 
-Produto está rodando — momento de crescer audiência.
-- [ ] Definir estratégia de distribuição (LinkedIn orgânico, comunidades, referral)
-- [ ] Criar landing page de inscrição clara (o `index.html` atual é archive, não acquisition)
-- [ ] Definir meta de subscribers para o próximo quarter
+Métricas gate definidas: +10 novos subs/semana até 250; CTR ≥ 12%; open rate ≥ 40%.
+- [ ] Distribuição orgânica (LinkedIn, comunidades BR de produto/eng)
+- [ ] Criar landing page de aquisição clara (`index.html` atual é archive, não acquisition)
+- [ ] Referral program (unlock após 250+ engaged subs + 90 dias de dados)
+
+---
+
+### P2 — Análise de dados acumulados
+
+Com DEBUG_SAVE ativo desde abril, já há semanas de artifacts. Rodar `audit_agent.py`:
+- A AYA está selecionando bem com DeepSeek? Algum false negative recorrente?
+- O feedback (🔥/😐) correlaciona com tipo de conteúdo ou fonte?
+- As 12 novas fontes (Ondas 1–3) estão contribuindo ou gerando ruído?
+
+**Output esperado:** hipóteses para v5.5 ou v6 (não mexer antes de ter dados).
 
 ---
 
 ### P3 — [JC-03] Editorial memory block
 
-A AYA não tem memória entre edições. Ela pode selecionar o mesmo tema em dias consecutivos sem saber.
+A AYA não tem memória entre edições — pode selecionar o mesmo tema em dias consecutivos.
 - Solução: injetar no prompt um resumo das últimas 3–5 edições (títulos + sources)
 - Impacto: evita repetição, melhora percepção de curadoria fresca
-- Dependência: requer armazenamento das edições anteriores (JSON ou arquivo simples no repo)
+- Dependência: requer armazenamento das edições anteriores (JSON simples no repo)
 
 ---
 
@@ -137,9 +178,10 @@ A AYA não tem memória entre edições. Ela pode selecionar o mesmo tema em dia
 | Item | Decisão |
 |------|---------|
 | App mobile | Distribuição via email é suficiente na fase atual. Custo de desenvolvimento não justifica. |
-| Curadoria humana em cima da Aya | Negaria o pressuposto do produto. O desafio é melhorar a Aya, não compensar com esforço manual. |
-| Mudar de Gemini Flash | Custo/qualidade está bom. Reavaliar só se houver degradação de qualidade documentada. |
+| Curadoria humana em cima da AYA | Negaria o pressuposto do produto. O desafio é melhorar a AYA, não compensar com esforço manual. |
+| Mudar de DeepSeek agora | Migração de Gemini já feita (24/04). Stack atual funciona. Reavaliar só com degradação documentada. |
 | Aumentar frequência (> 1x/dia) | Volume já é alto. Mais frequência sem mais subscribers = mais custo sem mais impacto. |
+| Substack / social como canal primário | AYA é produto independente com domínio próprio (`assineaya.com.br`). Canais externos são distribuição, não sede. |
 
 ---
 

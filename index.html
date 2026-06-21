@@ -3,25 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AYA's Daily Scout — Sua correspondente de IA para tech & AI</title>
+  <title>AYA — Sua correspondente de IA para tech & AI</title>
   <meta name="description" content="A AYA lê ~300 histórias de tech toda manhã. Você lê só as que importam. Briefing diário factual, curado, com perspectiva além do eixo US-EU. 3 min de leitura, 8h BRT.">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="AYA's Daily Scout — Sua correspondente de IA para tech & AI">
+  <meta property="og:title" content="AYA — Sua correspondente de IA para tech & AI">
   <meta property="og:description" content="A AYA lê ~300 histórias de tech toda manhã. Você lê só as que importam. Briefing diário, factual, com perspectiva global.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://isisbramos.github.io/daily-scout/">
-  <meta property="og:image" content="https://isisbramos.github.io/daily-scout/assets/aya-avatar.png">
+  <meta property="og:url" content="https://assineaya.com.br/">
+  <meta property="og:image" content="https://assineaya.com.br/brand-assets/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:locale" content="pt_BR">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AYA's Daily Scout">
+  <meta name="twitter:title" content="AYA">
   <meta name="twitter:description" content="A AYA lê ~300 histórias de tech toda manhã. Você lê só as que importam.">
-  <meta name="twitter:image" content="https://isisbramos.github.io/daily-scout/assets/aya-avatar.png">
+  <meta name="twitter:image" content="https://assineaya.com.br/brand-assets/og-default.png">
 
-  <link rel="canonical" href="https://isisbramos.github.io/daily-scout/">
-  <link rel="icon" type="image/png" href="assets/aya-avatar.png">
+  <link rel="canonical" href="https://assineaya.com.br/">
+  <link rel="icon" type="image/svg+xml" href="brand-assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="brand-assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="brand-assets/aya-favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="brand-assets/aya-favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="brand-assets/aya-apple-touch-icon.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,29 +38,40 @@
     /* ═══════════════════════════════════════════════════════
        DESIGN TOKENS
        ═══════════════════════════════════════════════════════ */
+    /* AYA canonical tokens — source of truth: brand-system/SYSTEM.md §3 */
     :root {
-      --bg: #05060B;
-      --bg-soft: #0B0C14;
-      --bg-card: #11131E;
-      --bg-elevated: #171A28;
-      --border: #242838;
-      --border-soft: #1A1D2B;
-      --text: #F5F5F7;
-      --text-muted: #9CA0AD;
-      --text-dim: #5A5F6B;
-      --green: #22C55E;
-      --green-soft: rgba(34, 197, 94, 0.12);
-      --green-glow: rgba(34, 197, 94, 0.35);
-      --purple: #A78BFA;
-      --purple-soft: rgba(167, 139, 250, 0.12);
-      --red: #F87171;
+      --aya-ink: #060A09;
+      --aya-ink-soft: #0E1612;
+      --aya-cream: #F4F2EA;
+      --aya-green-primary: #1FE070;
+      --aya-green-soft: #4FAE74;
+      --aya-mute: #6B7370;
+    }
+
+    :root {
+      /* Semantic tokens rewired to AYA canonical palette */
+      --bg: var(--aya-ink);
+      --bg-soft: var(--aya-ink-soft);
+      --bg-card: #131C18;          /* TODO: rever cor — sem equivalente canônico (surface elevada) */
+      --bg-elevated: #1A251F;      /* TODO: rever cor — sem equivalente canônico (surface elevada) */
+      --border: #2A332E;           /* TODO: rever cor — derivado de ink-soft, sem token canônico */
+      --border-soft: #1A221D;      /* TODO: rever cor — derivado de ink-soft, sem token canônico */
+      --text: var(--aya-cream);
+      --text-muted: var(--aya-mute);
+      --text-dim: #4A524E;         /* TODO: rever cor — mute mais escuro, sem token canônico */
+      --green: var(--aya-green-primary);
+      --green-soft: rgba(31, 224, 112, 0.12);
+      --green-glow: rgba(31, 224, 112, 0.35);
+      --purple: #A78BFA;           /* TODO: rever cor — AYA não tem roxo no sistema (SYSTEM.md §3) */
+      --purple-soft: rgba(167, 139, 250, 0.12); /* TODO: rever cor — idem roxo */
+      --red: #F87171;              /* TODO: rever cor — AYA não tem vermelho; manter só p/ estado de erro */
 
       --serif: 'Instrument Serif', Georgia, serif;
       --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --mono: 'JetBrains Mono', 'Courier New', monospace;
 
-      --shadow-lg: 0 20px 60px -20px rgba(0, 0, 0, 0.6), 0 12px 40px -16px rgba(34, 197, 94, 0.12);
-      --shadow-xl: 0 30px 90px -30px rgba(0, 0, 0, 0.8), 0 20px 60px -20px rgba(34, 197, 94, 0.15);
+      --shadow-lg: 0 20px 60px -20px rgba(0, 0, 0, 0.6), 0 12px 40px -16px rgba(31, 224, 112, 0.12);
+      --shadow-xl: 0 30px 90px -30px rgba(0, 0, 0, 0.8), 0 20px 60px -20px rgba(31, 224, 112, 0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -224,30 +241,6 @@
       align-items: center;
     }
 
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      background: var(--green-soft);
-      border: 1px solid rgba(34, 197, 94, 0.2);
-      border-radius: 999px;
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--green);
-      letter-spacing: 0.5px;
-      margin-bottom: 24px;
-    }
-
-    .eyebrow-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--green);
-      border-radius: 50%;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
     .hero-title {
       font-family: var(--serif);
       font-size: clamp(44px, 5vw, 72px);
@@ -270,15 +263,6 @@
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--green), transparent);
       opacity: 0.3;
-    }
-
-    .hero-sub {
-      font-size: 19px;
-      line-height: 1.5;
-      color: var(--text-muted);
-      max-width: 540px;
-      margin-bottom: 36px;
-      font-weight: 300;
     }
 
     .hero-form {
@@ -378,44 +362,6 @@
     }
 
     .aya-frame:hover img { transform: scale(1.05); }
-
-    .aya-badge {
-      position: absolute;
-      bottom: 16px;
-      left: 16px;
-      right: 16px;
-      background: rgba(5, 6, 11, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .aya-badge-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--green);
-      border-radius: 50%;
-      box-shadow: 0 0 12px var(--green-glow);
-      animation: pulse 2s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-
-    .aya-badge-text {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .aya-badge-text strong {
-      color: var(--text);
-      font-weight: 600;
-    }
 
     /* ═══════════════════════════════════════════════════════
        PROOF STRIP
@@ -576,17 +522,6 @@
       animation: pulse 1.2s ease-in-out infinite;
     }
 
-    .meet-aya-quote {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 28px;
-      line-height: 1.4;
-      color: var(--text);
-      margin-bottom: 32px;
-      border-left: 2px solid var(--green);
-      padding-left: 24px;
-    }
-
     .meet-aya-body {
       font-size: 17px;
       line-height: 1.7;
@@ -599,7 +534,7 @@
 
     .aya-stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       margin-top: 40px;
       padding-top: 32px;
@@ -1243,7 +1178,6 @@
       .hero { padding: 48px 0 80px; }
       .hero-title { font-size: 44px; }
       .hero-form { flex-direction: column; max-width: 100%; }
-      .meet-aya-quote { font-size: 22px; padding-left: 20px; }
       .aya-stats { grid-template-columns: 1fr; gap: 20px; }
       .pipeline { grid-template-columns: 1fr; }
       .preview-card { transform: rotateX(0); }
@@ -1270,9 +1204,8 @@
   <!-- ═══════════════════════ NAV ═══════════════════════ -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="./" class="logo">
-        <span class="logo-dot"></span>
-        <span>AYA · Daily Scout</span>
+      <a href="./" class="logo" aria-label="AYA — início">
+        <img src="brand-assets/vesica-lockup-L1.svg" alt="AYA" height="28" style="display:block; width:auto;">
       </a>
       <div class="nav-links">
         <a href="./archive/" class="nav-link">Edições</a>
@@ -1289,19 +1222,10 @@
       <div class="hero-inner">
 
         <div class="hero-content reveal">
-          <div class="hero-eyebrow">
-            <span class="eyebrow-dot"></span>
-            <span>TRANSMITINDO · 8H BRT</span>
-          </div>
-
           <h1 class="hero-title">
-            A AYA lê <em>~300 histórias</em> de tech toda manhã.<br>
-            Você lê só as que importam.
+            curadoria de novidades sobre IA.<br>
+            <em>todo dia.</em>
           </h1>
-
-          <p class="hero-sub">
-            10 fontes globais, 5 filtros editoriais, 1 email por dia às 8h BRT. Factual, curado, com perspectiva além do eixo US-EU.
-          </p>
 
           <form
             action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis"
@@ -1312,19 +1236,13 @@
             <input type="email" name="email" placeholder="voce@empresa.com" required class="hero-input" aria-label="Email">
             <button type="submit" class="hero-btn">Assinar grátis</button>
           </form>
-          <p class="hero-note">// sem spam · unsubscribe em 1 clique · curadoria por IA, verificação por PM</p>
+          <p class="hero-note">// sem spam · unsubscribe em 1 clique · curadoria por IA</p>
         </div>
 
         <div class="hero-visual reveal">
           <div class="aya-frame">
-            <img src="./assets/aya-avatar.png" alt="AYA — AI correspondent" loading="eager">
-            <div class="aya-badge">
-              <div class="aya-badge-dot"></div>
-              <div class="aya-badge-text">
-                <strong>AYA v0.1</strong><br>
-                correspondente de IA · online
-              </div>
-            </div>
+            <!-- TODO: persona Crop A (full body 9:16) deferida (PERSONA-CROPS-SPEC.md) — hero roda com Crop D (accent) provisoriamente -->
+            <img src="./brand-assets/persona-accent.jpg" alt="AYA — correspondente de IA" loading="eager" style="object-position: 78% center;">
           </div>
         </div>
 
@@ -1338,7 +1256,7 @@
       <div class="proof-items">
         <div class="proof-item"><span class="proof-icon">+</span> 3 min de leitura</div>
         <div class="proof-item"><span class="proof-icon">+</span> 8h BRT, toda manhã</div>
-        <div class="proof-item"><span class="proof-icon">+</span> 10 fontes globais · 3 fora da bolha US</div>
+        <div class="proof-item"><span class="proof-icon">+</span> 22 fontes globais</div>
         <div class="proof-item"><span class="proof-icon">+</span> 100% PT-BR</div>
         <div class="proof-item"><span class="proof-icon">+</span> Deep dive + 3 quick finds</div>
       </div>
@@ -1352,7 +1270,7 @@
 
         <div class="meet-aya-visual reveal">
           <div class="meet-aya-portrait">
-            <img src="./assets/aya-avatar.png" alt="AYA portrait">
+            <img src="./brand-assets/persona-face-circular.jpg" alt="AYA — retrato">
             <div class="portrait-transmission">
               <span class="transmission-dot"></span>
               <span>LIVE</span>
@@ -1366,28 +1284,20 @@
         </div>
 
         <div class="meet-aya-text reveal">
-          <div class="section-eyebrow">// Conheça sua correspondente</div>
-          <h2 class="section-title">Ela não é humana.<br>Mas tem <em>critério</em>.</h2>
-
-          <blockquote class="meet-aya-quote">
-            "Eu não amplifico o que já está alto. Eu filtro pelo que você realmente vai querer saber amanhã."
-          </blockquote>
+          <div class="section-eyebrow">// sobre a AYA</div>
+          <h2 class="section-title">Eu sou a AYA.<br>Leio o que você <em>não tem tempo</em> de ler.</h2>
 
           <p class="meet-aya-body">
-            A <strong>AYA</strong> é uma correspondente de IA. Toda manhã ela escaneia 10 fontes globais — Reddit, HackerNews, SCMP Tech, Rest of World, TechNode, Lobsters, arXiv, e mais — e aplica um editorial framework de 5 steps pra encontrar o que vale a pena ler.
+            Toda manhã eu passo por mais de 20 fontes — umas 300 histórias sobre IA. Leio tudo, com o mesmo critério, todos os dias.
           </p>
           <p class="meet-aya-body">
-            Ela usa IA como lente, não como tópico. Ela se importa com o "so what?" — a coisa que você não podia fazer ontem e agora pode. Ela filtra sem dó contra hype, notícia reciclada e anúncio genérico de funding.
+            Quase nada passa. O que passa é novo, é concreto e muda alguma coisa no que você pode fazer. Isso eu te conto em cinco histórias, num e-mail que você lê em um minuto.
           </p>
 
           <div class="aya-stats">
             <div class="stat">
-              <div class="stat-value">10</div>
+              <div class="stat-value">22</div>
               <div class="stat-label">Fontes globais / dia</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">3</div>
-              <div class="stat-label">Veículos não-ocidentais</div>
             </div>
             <div class="stat">
               <div class="stat-value">5</div>
@@ -1403,7 +1313,7 @@
   <!-- ═══════════════════════ LIVE PREVIEW ═══════════════════════ -->
   <section class="preview-section">
     <div class="container-narrow preview-header reveal">
-      <div class="section-eyebrow">// Por dentro do daily scout</div>
+      <div class="section-eyebrow">// Por dentro da AYA</div>
       <h2 class="section-title">É assim que ela chega na sua <em>inbox</em>.</h2>
       <p class="section-sub">Um deep dive. Três quick finds. Uma seção radar. Toda manhã às 8h BRT. Sem scroll-bait — só o que muda algo.</p>
     </div>
@@ -1415,7 +1325,7 @@
             <span class="chrome-dot chrome-red"></span>
             <span class="chrome-dot chrome-yellow"></span>
             <span class="chrome-dot chrome-green"></span>
-            <span class="chrome-title">inbox · aya@daily-scout</span>
+            <span class="chrome-title">inbox · aya@assineaya.com.br</span>
           </div>
 
           <div class="preview-email">
@@ -1488,7 +1398,7 @@
   <section>
     <div class="container">
       <div class="container-narrow reveal" style="padding: 0;">
-        <div class="section-eyebrow">// Por que o Daily Scout é diferente</div>
+        <div class="section-eyebrow">// Por que a AYA é diferente</div>
         <h2 class="section-title">Três coisas que a maioria das newsletters de IA <em>não</em> faz.</h2>
       </div>
 
@@ -1591,10 +1501,10 @@
 
         <div>
           <div class="logo">
-            <span class="logo-dot"></span>
-            <span>AYA · Daily Scout</span>
+            <img src="brand-assets/vesica.svg" alt="" height="24" style="display:block; width:auto;">
+            <span>AYA</span>
           </div>
-          <p style="font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-top: 12px; max-width: 240px;">Briefing de tech & IA com curadoria por IA, entregue toda manhã às 8h BRT.</p>
+          <p style="font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin-top: 12px; max-width: 240px;">curadoria de novidades sobre IA. todo dia.</p>
         </div>
 
         <div>
@@ -1625,7 +1535,7 @@
       </div>
 
       <div class="footer-bottom">
-        <div>© 2026 AYA · Daily Scout</div>
+        <div>© 2026 AYA</div>
         <div>correspondente: aya v0.1 · pipeline: editorial v5.3</div>
       </div>
     </div>
