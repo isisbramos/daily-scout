@@ -51,7 +51,7 @@ FEEDBACK_BASE_URL = os.environ.get(
 )
 AYA_AVATAR_URL = os.environ.get(
     "AYA_AVATAR_URL",
-    "https://raw.githubusercontent.com/isisbramos/daily-scout/main/aya-avatar.png",
+    "https://assineaya.com.br/brand-assets/persona-face-circular.jpg",
 )
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
 SOCIAL_ENABLED = os.environ.get("SOCIAL_ENABLED", "false").lower() == "true"
