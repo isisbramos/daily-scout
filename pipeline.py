@@ -32,6 +32,13 @@ from pre_filter import run_pre_filter
 from schemas import Reasoning, MainFind, QuickFind, RadarItem, Meta, CurationOutput
 from delivery import send_via_buttondown, send_fallback
 from exceptions import FetchError, CurationError, DeliveryError
+from memory_store import (
+    load_recent_editions,
+    format_memory_block,
+    build_memory_record,
+    append_edition,
+    check_repetition,
+)
 
 # ── Logging ──────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -261,8 +268,24 @@ def curate_and_write(
             f"pré-filtrados de: {sources_in_input}."
         )
 
+    # ── Camada 1: Memória editorial — injeta as últimas edições no prompt ──
+    # Vazio nas primeiras edições (sem histórico) — o placeholder simplesmente some.
+    # Blindado: qualquer erro na memória degrada para "sem memória", NUNCA quebra a curadoria.
+    try:
+        recent_editions = load_recent_editions(n=7)
+        memory_block = format_memory_block(recent_editions)
+        if recent_editions:
+            logger.info(f"Memória editorial: {len(recent_editions)} edições recentes injetadas")
+        else:
+            logger.info("Memória editorial: sem histórico ainda (primeiras edições)")
+    except Exception as mem_err:
+        logger.warning(f"Memória editorial: falha ao carregar (degradando p/ sem memória): {mem_err}")
+        recent_editions = []
+        memory_block = ""
+
     user_prompt = CURATION_PROMPT_TEMPLATE.format(
-        context_block=context_block
+        context_block=context_block,
+        memory_block=memory_block,
     ) + json.dumps(items_for_prompt, ensure_ascii=False, indent=2)
 
     for attempt in range(max_retries):
@@ -308,12 +331,17 @@ def curate_and_write(
             mf.setdefault("url", "")
             mf.setdefault("display_url", "")
             mf.setdefault("source", "")
+            # Camada 1: campos de memória editorial (DeepSeek pode omitir — não pode quebrar)
+            mf.setdefault("entities", [])
 
             for qf in content.get("quick_finds", []):
                 qf.setdefault("signal", "")
                 qf.setdefault("url", "")
                 qf.setdefault("display_url", "")
                 qf.setdefault("source", "")
+                qf.setdefault("entities", [])
+
+            content.setdefault("themes", [])
 
             # Validação: quick_finds não pode estar vazio (mas aceita na última tentativa)
             if not content.get("quick_finds"):
@@ -361,6 +389,35 @@ def curate_and_write(
             # ── v5.2: Ensure radar field exists ──
             if "radar" not in content:
                 content["radar"] = []
+
+            # ── Camada 1: guard determinístico de deduplicação ──
+            # Não depende do LLM seguir a instrução: detecta sobreposição de entidades
+            # com edições recentes. Ação: DROPA quick_finds repetidos (seguro, sobram os
+            # demais); main_find repetido é só logado (dropá-lo exigiria regenerar).
+            # Blindado: erro no guard nunca quebra a curadoria.
+            if recent_editions:
+                try:
+                    hits = check_repetition(content, recent_editions)
+                    for h in hits:
+                        logger.warning(
+                            f"[REPETIÇÃO] {h['where']} '{h['title'][:50]}' "
+                            f"compartilha {h['shared']} com {h['matched']}"
+                        )
+                    drop_idx = {h["index"] for h in hits if h["where"] == "quick_find"}
+                    if drop_idx:
+                        content["quick_finds"] = [
+                            qf for i, qf in enumerate(content["quick_finds"]) if i not in drop_idx
+                        ]
+                        logger.warning(
+                            f"Dedup guard: {len(drop_idx)} quick_find(s) repetido(s) removido(s) "
+                            f"— restam {len(content['quick_finds'])}"
+                        )
+                    if any(h["where"] == "main_find" for h in hits):
+                        logger.warning(
+                            "Dedup guard: main_find sobrepõe edição recente — mantido (revisar manualmente)"
+                        )
+                except Exception as guard_err:
+                    logger.warning(f"Dedup guard falhou (não-bloqueante): {guard_err}")
 
             logger.info(f"Curation OK: '{content['main_find']['title']}'")
             logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")
@@ -560,6 +617,16 @@ def run_pipeline():
             success = send_via_buttondown(subject, html)
             if not success:
                 raise DeliveryError("Buttondown delivery failed — HTML saved as artifact")
+
+        # ── Step 6b: Registra a edição na memória editorial (só envios reais) ──
+        # Dry runs não escrevem para não poluir o histórico. Se a entrega falhou,
+        # o DeliveryError acima já desviou o fluxo — só registramos o que foi enviado.
+        if not DRY_RUN:
+            try:
+                record = build_memory_record(EDITION_NUMBER, content)
+                append_edition(record)
+            except Exception as mem_err:
+                logger.warning(f"Memória editorial: falha ao registrar edição (não-bloqueante): {mem_err}")
 
         # ── Step 7: Generate social content (isolated — failures don't affect newsletter) ──
         social_success = False

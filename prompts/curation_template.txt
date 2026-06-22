@@ -2,6 +2,8 @@ Selecione e escreva os achados do dia a partir dos posts abaixo.
 
 {context_block}
 
+{memory_block}
+
 ═══ PIPELINE DE SELEÇÃO (execute na ordem) ═══
 
 STEP 1 — AI GATE (obrigatório):
@@ -186,6 +188,8 @@ Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": 
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
 - primary_audience: indique para quem cada achado é mais relevante ('desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos').
 - radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.
+- entities (main_find e cada quick_find): lista das entidades-chave citadas no item — empresas, modelos, pessoas, produtos (ex: ["OpenAI", "GPT-5.2"]). Serve à memória editorial entre edições. Não invente: extraia só do título/metadados.
+- themes (topo do JSON): 2-4 temas macro que resumem a edição (ex: ["agentes de código", "regulação UE"]). Serve à memória editorial.
 - url (main_find, cada quick_find, cada radar item): copie exatamente o valor do campo "url" do item de input correspondente. Campo OBRIGATÓRIO — não omita.
 - display_url (main_find, cada quick_find, cada radar item): versão curta legível da URL, ex: "techcrunch.com/…" ou "arxiv.org/…". Campo OBRIGATÓRIO — não omita.
 - Termos técnicos: explique brevemente — "LLM (modelos de IA que geram texto)", "open source (código aberto)".

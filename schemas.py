@@ -43,6 +43,10 @@ class MainFind(BaseModel):
     claim_status: str = Field(
         description="Status factual do item: 'confirmado' (anúncio oficial, fonte primária), 'especulativo' (report, rumor, 'may', 'could'), ou 'em_andamento' (negociação, investigação, processo regulatório em curso)"
     )
+    entities: list[str] = Field(
+        default_factory=list,
+        description="Entidades-chave citadas (empresas, modelos, pessoas, produtos). Usado pela memória editorial entre edições."
+    )
 
 
 class QuickFind(BaseModel):
@@ -63,6 +67,10 @@ class QuickFind(BaseModel):
     )
     claim_status: str = Field(
         description="Status factual do item: 'confirmado' (anúncio oficial, fonte primária), 'especulativo' (report, rumor, 'may', 'could'), ou 'em_andamento' (negociação, investigação, processo regulatório em curso)"
+    )
+    entities: list[str] = Field(
+        default_factory=list,
+        description="Entidades-chave citadas (empresas, modelos, pessoas, produtos). Usado pela memória editorial entre edições."
     )
 
 
@@ -98,4 +106,5 @@ class CurationOutput(BaseModel):
     main_find: MainFind
     quick_finds: list[QuickFind] = Field(description="3-5 achados rápidos")
     radar: list[RadarItem] = Field(default_factory=list, description="1-2 itens de early signal — temas emergentes que ainda não são achados mas valem acompanhar")
+    themes: list[str] = Field(default_factory=list, description="2-4 temas macro da edição (ex: 'agentes de código', 'regulação UE'). Usado pela memória editorial entre edições.")
     meta: Meta
