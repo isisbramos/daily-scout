@@ -1,9 +1,8 @@
 # Inventário — Persona antiga (aya-avatar.png)
 
 > Gerado em 2026-05-24 no P1 do rebrand visual AYA.
-> **NÃO substitua nada ainda** — este doc é só inventário.
-> A persona nova (field-operator negra, cyberpunk-editorial) será fornecida pela Isis manualmente.
-> Executar a substituição em P2 (landing) e P3 (newsletter template).
+> A persona nova (field-operator negra, cyberpunk-editorial) foi fornecida pela Isis manualmente.
+> **Status:** P2 (landing) ✅ e P3 (newsletter template) ✅ executados — ver notas nas tabelas abaixo.
 
 ---
 
@@ -54,7 +53,7 @@ CSS relacionado no `index.html`:
 
 | Linha | Tipo | Uso atual | O que substituir |
 |---|---|---|---|
-| 272 | `<img src="{{ aya_avatar_url \| default('...') }}">` | Header do email | P3 substitui por `vesica-animated.gif` / `vesica-static.png` via GIF+MSO pattern |
+| 272 | `<img src="{{ aya_avatar_url \| default('...') }}">` | Header do email | ✅ **FEITO (2026-06-21, commit `f97ad2c`)** — trocado pra `persona-face-circular.jpg` (rosto da persona nova). **Decisão da Isis mudou:** o plano era a marca vesica, mas optou pelo rosto da field-operator pra consistência com o hero do site. |
 
 O default hardcoded aponta para:
 `https://raw.githubusercontent.com/isisbramos/daily-scout/main/aya-avatar.png`
@@ -63,14 +62,14 @@ O default hardcoded aponta para:
 
 | Linha | Tipo | Uso atual | O que fazer |
 |---|---|---|---|
-| 52–54 | `AYA_AVATAR_URL` env var | URL da avatar passada pro template do email | Atualizar default para URL da nova persona após P3 |
+| 52–54 | `AYA_AVATAR_URL` env var | URL da avatar passada pro template do email | ✅ **FEITO (`f97ad2c`)** — default agora `https://assineaya.com.br/brand-assets/persona-face-circular.jpg` |
 | 451 | `aya_avatar_url=AYA_AVATAR_URL` | Passada pro template Jinja | Acompanha mudança no template |
 
 ### `test_dry_run.py`
 
 | Linha | Tipo | Uso atual | O que fazer |
 |---|---|---|---|
-| 155 | `aya_avatar_url=` hardcoded | Mock para testes dry-run | Atualizar URL após P3 |
+| 155 | `aya_avatar_url=` hardcoded | Mock para testes dry-run | ✅ **FEITO (`f97ad2c`)** — mock aponta pra `persona-face-circular.jpg` |
 
 ---
 
@@ -79,7 +78,7 @@ O default hardcoded aponta para:
 | Fase | Arquivos a tocar | Ação |
 |---|---|---|
 | **P2** | `index.html`, `about/index.html`, `archive/index.html` | Substituir `<img>` da persona por placeholder + trocar favicon + trocar OG meta tags |
-| **P3** | `templates/email.html` | Substituir `<img>` da persona por vesica GIF/PNG pattern |
+| **P3** ✅ | `templates/email.html`, `pipeline.py`, `test_dry_run.py` | **FEITO (`f97ad2c`)** — `<img>` da persona trocado pelo rosto novo (`persona-face-circular.jpg`). Decisão final = rosto da persona (não a vesica do plano original). |
 | **Após persona nova** | `assets/` | Adicionar crops A, B, C, D da nova persona; atualizar `pipeline.py` + `test_dry_run.py` |
 
 ---
