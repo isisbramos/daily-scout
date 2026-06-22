@@ -1277,7 +1277,7 @@
             </div>
             <div class="portrait-overlay"></div>
             <div class="portrait-caption">
-              <strong>> FIELD REPORT #042</strong><br>
+              <strong>> FIELD REPORT<span id="hero-edition-num"></span></strong><br>
               transmitindo das fontes: HN · Reddit · SCMP · Rest of World · TechNode · Lobsters · arXiv
             </div>
           </div>
@@ -1578,6 +1578,22 @@
           ticking = true;
         }
       }, { passive: true });
+    })();
+
+    // Edição atual: número ao vivo puxado do feed Buttondown (fonte única).
+    // Sem fallback hardcoded — se o fetch falhar, o hero fica "> FIELD REPORT" sem número.
+    (function() {
+      var slot = document.getElementById('hero-edition-num');
+      if (!slot) return;
+      fetch('https://buttondown.com/ramosdisis/rss', { cache: 'no-store' })
+        .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
+        .then(function(xml) {
+          var doc = new DOMParser().parseFromString(xml, 'application/xml');
+          var title = doc.querySelector('item > title');
+          var m = title && title.textContent.match(/#(\d+)/);
+          if (m) slot.textContent = ' #' + m[1];
+        })
+        .catch(function() { /* sem número é melhor que número errado */ });
     })();
   </script>
 </body>
