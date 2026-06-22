@@ -685,8 +685,8 @@
       <h2>Não <em>leia</em> o arquivo.<br>Receba a próxima.</h2>
       <p>Edição nova toda manhã às 8h BRT. Grátis, 3 min, sem spam.</p>
       <form action="https://buttondown.com/api/emails/embed-subscribe/ramosdisis" method="post" class="sub-form embeddable-buttondown-form">
-        <input type="email" name="email" placeholder="voce@empresa.com" required class="sub-input" aria-label="Email">
-        <button type="submit" class="sub-btn">Assinar grátis</button>
+        <input type="email" name="email" placeholder="seu@melhoremail.com" required class="sub-input" aria-label="Email">
+        <button type="submit" class="sub-btn">Assinar</button>
       </form>
       <p class="sub-note">// unsubscribe em 1 clique</p>
     </div>
@@ -725,13 +725,25 @@
       els.forEach(function(el) { io.observe(el); });
     })();
 
-    // Simple chip filter toggle (client-side, visual only for now)
-    document.querySelectorAll('.chip').forEach(function(c) {
-      c.addEventListener('click', function() {
-        document.querySelectorAll('.chip').forEach(function(x) { x.classList.remove('active'); });
-        c.classList.add('active');
+    // Chip filter — filtra as edições pelo ângulo (texto da .edition-tag)
+    (function() {
+      var chips = document.querySelectorAll('.chip');
+      var editions = document.querySelectorAll('.edition');
+      function norm(s) { return (s || '').trim().toLowerCase(); }
+      chips.forEach(function(c) {
+        c.addEventListener('click', function() {
+          chips.forEach(function(x) { x.classList.remove('active'); });
+          c.classList.add('active');
+          var sel = norm(c.textContent);
+          editions.forEach(function(ed) {
+            var tagEl = ed.querySelector('.edition-tag');
+            var angle = norm(tagEl ? tagEl.textContent : '');
+            var show = (sel === 'todas') || (angle === sel);
+            ed.style.display = show ? '' : 'none';
+          });
+        });
       });
-    });
+    })();
   </script>
 </body>
 </html>
