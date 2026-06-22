@@ -1,7 +1,7 @@
 # AYA's Daily — Roadmap
 
 > Framework: **Now / Next / Later**
-> Última atualização: 20/05/2026
+> Última atualização: 22/06/2026
 
 ---
 
@@ -81,6 +81,16 @@
 
 ---
 
+### Junho — Memória editorial (22 jun)
+
+| Data | O que foi feito |
+|------|----------------|
+| 22/jun | **[JC-03] Memória editorial (Camada 1)** — pipeline deixou de ser stateless. `memory_store.py` + `memory/editions.jsonl` (store append-only com títulos/entities/themes por edição, commitado de volta no CI). Injeção das últimas 7 edições no prompt + guard determinístico que remove quick_finds repetidos (overlap ≥2 entidades). main_find repetido é logado. Tudo blindado — erro na memória nunca quebra a newsletter. |
+
+**Escopo v1:** só evitar repetição. `entities`/`themes` acumulam como fundação para futuras análises de correlação e evolução da IA.
+
+---
+
 ## 📦 Now — Fase atual (maio 2026)
 
 **Modo:** Produto estabilizado. Executando backlog de distribuição e crescimento.
@@ -152,12 +162,10 @@ Com DEBUG_SAVE ativo desde abril, já há semanas de artifacts. Rodar `audit_age
 
 ---
 
-### P3 — [JC-03] Editorial memory block
+### P3 — [JC-03] Editorial memory block ✅ Shipped 22/jun
 
-A AYA não tem memória entre edições — pode selecionar o mesmo tema em dias consecutivos.
-- Solução: injetar no prompt um resumo das últimas 3–5 edições (títulos + sources)
-- Impacto: evita repetição, melhora percepção de curadoria fresca
-- Dependência: requer armazenamento das edições anteriores (JSON simples no repo)
+Concluído — ver seção "Junho — Memória editorial" em Shipped. Evolução futura (correlações,
+análise de evolução da IA sobre `entities`/`themes` acumulados) fica como aposta separada.
 
 ---
 
