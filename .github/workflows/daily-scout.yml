@@ -2,8 +2,13 @@ name: Daily Scout Pipeline
 
 on:
   schedule:
-    # 7:55 AM BRT = 10:55 UTC (BRT is UTC-3)
-    - cron: '0 10 * * *'
+    # Dispara cedo (03:37 BRT = 06:37 UTC) de propósito.
+    # O envio é imediato (about_to_send), então a entrega = hora do run.
+    # O cron do GitHub Actions é best-effort e atrasa 1-5h, principalmente no
+    # topo da hora. Disparando cedo e num minuto fora do pico (:37, não :00),
+    # mesmo o pior atraso histórico cai antes das 8h BRT — nunca depois.
+    # Para entregar mais perto das 8h (aceitando risco de atraso), suba o horário.
+    - cron: '37 6 * * *'
 
   # Allow manual trigger for testing
   workflow_dispatch:
