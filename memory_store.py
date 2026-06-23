@@ -51,20 +51,46 @@ def load_recent_editions(n: int = 7) -> list[dict]:
     return records[-n:]
 
 
-def build_memory_record(edition: str, content: dict) -> dict:
+def _resolve_sources_used(content: dict, source_index: dict | None) -> list:
+    """Fontes realmente usadas na edição, como source_id canônico (= chave do
+    sources_config), derivadas dos itens SELECIONADOS — não do meta.sources_used,
+    que o LLM preenche de forma não confiável (vem vazio ou como contagem).
+
+    Estratégia: mapear a URL de cada achado (main_find + quick_finds) → source_id,
+    via `source_index` {url: source_id} passado pelo pipeline a partir dos
+    filtered_items. Determinístico e independente do LLM. Mantém a ordem de seleção
+    e deduplica. Fallback pro meta.sources_used (só se for lista) quando não há índice
+    ou nenhuma URL casou — nunca quebra.
+    """
+    if source_index:
+        used: list[str] = []
+        seen: set[str] = set()
+        items = [content.get("main_find", {})] + content.get("quick_finds", [])
+        for item in items:
+            sid = source_index.get((item or {}).get("url", ""))
+            if sid and sid not in seen:
+                seen.add(sid)
+                used.append(sid)
+        if used:
+            return used
+
+    meta_sources = content.get("meta", {}).get("sources_used", [])
+    return meta_sources if isinstance(meta_sources, list) else []
+
+
+def build_memory_record(edition: str, content: dict, source_index: dict | None = None) -> dict:
     """Monta o registro leve de uma edição a partir do output de curadoria.
 
     Mantém só o necessário para detectar repetição e conectar follow-ups —
     títulos, entidades, temas e fontes. Usa .get() em tudo: campos novos
     (entities/themes) podem faltar se o LLM não os emitir, e isso não pode quebrar.
+
+    `source_index` ({url: source_id}) vem do pipeline (filtered_items) e permite
+    registrar as fontes reais de forma determinística — ver _resolve_sources_used.
     """
     mf = content.get("main_find", {})
 
-    # DeepSeek às vezes devolve meta.sources_used como contagem (int) em vez de
-    # lista de nomes — só aceitamos se for lista, senão guardamos [] (dado limpo).
-    sources = content.get("meta", {}).get("sources_used", [])
-    if not isinstance(sources, list):
-        sources = []
+    sources = _resolve_sources_used(content, source_index)
 
     def _entities(d: dict) -> list:
         ents = d.get("entities") or []

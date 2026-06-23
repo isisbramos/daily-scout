@@ -623,7 +623,10 @@ def run_pipeline():
         # o DeliveryError acima já desviou o fluxo — só registramos o que foi enviado.
         if not DRY_RUN:
             try:
-                record = build_memory_record(EDITION_NUMBER, content)
+                # Índice url→source_id pra registrar as fontes reais de forma
+                # determinística (o LLM não preenche meta.sources_used de forma confiável).
+                source_index = {it.url: it.source_id for it in filtered_items}
+                record = build_memory_record(EDITION_NUMBER, content, source_index)
                 append_edition(record)
             except Exception as mem_err:
                 logger.warning(f"Memória editorial: falha ao registrar edição (não-bloqueante): {mem_err}")
