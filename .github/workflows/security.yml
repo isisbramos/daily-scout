@@ -1,0 +1,37 @@
+name: Security Audit
+
+# Auditoria de vulnerabilidades das dependências Python.
+# Isolado do pipeline da newsletter de propósito: uma falha aqui NUNCA pode
+# bloquear o envio diário. Roda semanal, em PRs que tocam dependências, e sob demanda.
+
+on:
+  schedule:
+    # Segunda-feira 06:00 UTC (03:00 BRT), antes dos PRs do Dependabot
+    - cron: '0 6 * * 1'
+  pull_request:
+    paths:
+      - 'requirements.txt'
+      - '.github/workflows/security.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pip-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run pip-audit
+        uses: pypa/gh-action-pip-audit@v1.1.0
+        with:
+          inputs: requirements.txt
