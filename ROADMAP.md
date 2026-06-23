@@ -151,12 +151,19 @@ Métricas gate definidas: +10 novos subs/semana até 250; CTR ≥ 12%; open rate
 
 ---
 
-### P2 — Análise de dados acumulados
+### P2 — Análise de dados acumulados — 🛠 Ferramenta pronta (23/jun), aguardando dados
 
-Com DEBUG_SAVE ativo desde abril, já há semanas de artifacts. Rodar `audit_agent.py`:
-- A AYA está selecionando bem com DeepSeek? Algum false negative recorrente?
-- O feedback (🔥/😐) correlaciona com tipo de conteúdo ou fonte?
-- As 12 novas fontes (Ondas 1–3) estão contribuindo ou gerando ruído?
+Construída a rotina que avalia a AYA através das edições e responde a essas perguntas:
+- `content_report.py` — relatório editorial (tendências de conteúdo + scorecard de qualidade do `audit_agent` + insights determinísticos + síntese DeepSeek). Saída em `reports/`.
+- `feedback_join.py` — junta os ratings do Google Sheet (🔥/👍/😐) no `editions.jsonl`, destravando a correlação feedback × conteúdo (campo `feedback_score` que nascia `None`).
+- `.github/workflows/content-report.yml` — roda semanalmente (seg 9:00 BRT) e commita o relatório de volta.
+
+As perguntas que a rotina cobre:
+- A AYA está selecionando bem? False negatives recorrentes por fonte (camada de qualidade, consome o `audit_agent`).
+- O feedback correlaciona com tema/fonte? Camada de correlação — viva assim que houver janela pareada.
+- As fontes habilitadas contribuem? Cruza `sources_config.json` × `sources_used` e lista as ociosas.
+
+**Bloqueio atual:** dado pareado. `editions.jsonl` só tem snapshots a partir da ed.093 (memória shipou 22/jun; antes era stateless); o feedback histórico (ed.5–90) é órfão de conteúdo. Convergem de 093 em diante — relatório fica significativo em ~2-3 semanas.
 
 **Output esperado:** hipóteses para v5.5 ou v6 (não mexer antes de ter dados).
 

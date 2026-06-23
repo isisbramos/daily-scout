@@ -1,0 +1,17 @@
+timestamp,edition,rating,referrer
+2026-06-09T12:01:00Z,81,fire,email
+2026-06-09T13:20:00Z,81,fire,email
+2026-06-09T18:02:00Z,81,solid,direct
+2026-06-10T09:10:00Z,82,solid,email
+2026-06-10T10:00:00Z,82,meh,email
+2026-06-11T08:30:00Z,83,fire,email
+2026-06-11T09:00:00Z,83,fire,email
+2026-06-12T11:00:00Z,84,meh,email
+2026-06-12T12:00:00Z,84,meh,direct
+2026-06-13T08:00:00Z,85,solid,email
+2026-06-16T08:05:00Z,86,fire,email
+2026-06-16T08:40:00Z,86,fire,email
+2026-06-16T09:00:00Z,86,solid,email
+2026-06-17T08:10:00Z,87,solid,email
+2026-06-18T08:00:00Z,88,meh,email
+2026-06-30T08:00:00Z,999,fire,email

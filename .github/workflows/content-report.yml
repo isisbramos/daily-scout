@@ -1,0 +1,72 @@
+name: AYA — Content Report (Weekly)
+
+on:
+  schedule:
+    # Segunda-feira 9:00 BRT = 12:00 UTC (BRT é UTC-3), depois do pipeline diário.
+    - cron: '0 12 * * 1'
+
+  # Trigger manual para rodar sob demanda.
+  workflow_dispatch:
+    inputs:
+      last:
+        description: 'Quantas edições recentes analisar (ex: 30)'
+        required: false
+        default: '30'
+
+permissions:
+  contents: write
+
+jobs:
+  content-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Puxa os ratings da planilha pública e grava feedback_score no editions.jsonl.
+      # Não-fatal: se a planilha estiver fora do ar, o relatório ainda roda com o que há.
+      - name: Join feedback (Sheet → editions.jsonl)
+        continue-on-error: true
+        env:
+          FEEDBACK_CSV_URL: ${{ secrets.FEEDBACK_CSV_URL }}
+        run: python feedback_join.py
+
+      - name: Generate content report
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: python content_report.py --last ${{ github.event.inputs.last || '30' }} --quiet
+
+      # Commita o relatório + o editions.jsonl enriquecido de volta. Defensivo: nunca
+      # falha o job (mesmo padrão da persistência de memória no pipeline diário).
+      - name: Persist report + feedback
+        if: success()
+        continue-on-error: true
+        run: |
+          if [ -z "$(git status --porcelain reports/ memory/editions.jsonl)" ]; then
+            echo "Sem mudanças — nada a commitar."
+            exit 0
+          fi
+          git config user.name "aya-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add reports/ memory/editions.jsonl
+          git commit -m "chore(report): relatório de conteúdo semanal $(date +%Y-%m-%d)" || { echo "nada a commitar"; exit 0; }
+          git pull --rebase --autostash origin main || echo "pull --rebase falhou — seguindo para push"
+          git push origin HEAD:main || echo "push falhou — relatório não persistido (sem impacto no pipeline)"
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-report
+          path: reports/
+          retention-days: 90
