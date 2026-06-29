@@ -165,8 +165,20 @@ TOM: frases curtas, verbos factuais, zero hype. Preservar nível de certeza do t
 
 # ── Audit User Prompt ──────────────────────────────────────────────────
 def build_audit_prompt(edition: str, curation_output: dict, input_items: list[dict]) -> str:
+    # Gap conhecido: o DeepSeek às vezes omite o campo `reasoning`. É observability-only
+    # (o email não usa — ver pipeline), então não deve ser punido como falha editorial.
+    reasoning_note = ""
+    if not curation_output.get("reasoning"):
+        reasoning_note = (
+            "\n⚠️ ATENÇÃO — CAMPO `reasoning` AUSENTE NESTE OUTPUT:\n"
+            "Este output não contém o campo `reasoning`. É um gap conhecido de observability\n"
+            "(o DeepSeek às vezes omite) e NÃO é falha editorial — o email do leitor não usa\n"
+            "esse campo. Para a DIMENSÃO 5 (Reasoning Coherence): score = 3 (neutro, 'não\n"
+            "avaliável por ausência do campo'); em issues registre 'campo reasoning ausente\n"
+            "(observability, não editorial)'; e NÃO rebaixe o overall_score por causa disso.\n"
+        )
     return f"""Audite a edição #{edition} do Daily Scout.
-
+{reasoning_note}
 ═══ INPUT (itens que entraram no LLM) ═══
 {json.dumps(input_items, ensure_ascii=False, indent=2)}
 
