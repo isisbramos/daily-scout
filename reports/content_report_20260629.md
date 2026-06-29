@@ -1,6 +1,6 @@
 # AYA — Relatório de Conteúdo
 
-**Gerado:** 2026-06-29 11:43 BRT  
+**Gerado:** 2026-06-29 12:32 BRT  
 **Janela:** 7 edições (2026-06-23 → 2026-06-29)
 
 > Avaliação editorial da AYA *através das edições*: o que cobre, com qual diversidade, como o feedback responde e como a qualidade evolui.
@@ -102,31 +102,34 @@ python audit_agent.py --all      # precisa de DEBUG_SAVE=true no pipeline
 
 ## Diagnóstico
 
-A newsletter está excessivamente dependente de **TechCrunch (6/7 edições) e SCMP (5/7)**, ignorando 16 fontes relevantes (incluindo blogs oficiais da Anthropic, DeepMind, Meta AI, ArXiv e Stratechery). O conteúdo é **100% especulativo ou confirmado** (67% confirmado, 33% especulativo), sem fontes primárias ou papers. O feedback é **artificialmente uniforme** (todos os temas com nota 2.0), sugerindo que a métrica não discrimina — e o baixo número de reações (5 fire, 1 solid) indica baixo engajamento real. A diversidade temática é alta (8 temas em 7 edições), mas a profundidade é sacrificada: nenhum tema se repete, o que impede a construção de autoridade em nichos.
-
----
+A AYA está operando com diversidade temática excessiva (8 temas em 7 edições) e dependência excessiva de fontes mainstream (TechCrunch/SCMP dominam 11 de 19 citações), gerando cobertura rasa e sem aprofundamento. O feedback "fire" (5 de 6) sugere que o público valoriza a curadoria, mas a ausência de fontes técnicas (arxiv, blogs de labs) e a alta proporção especulativa (33%) indicam risco de viés para notícias quentes em detrimento de análises fundamentadas. A repetição de entidades (OpenAI em 7/7 edições) cria monotonia estrutural.
 
 ## Recomendações
 
-### P0 – Diversificar fontes para reduzir viés e aumentar profundidade
-**Alavanca:** Adicionar **3 fontes nunca usadas** como obrigatórias no prompt: `anthropic_blog`, `arxiv_ai`, `stratechery`.  
-**Por quê:** TechCrunch e SCMP são jornalismo generalista; ArXiv e blogs oficiais trazem dados primários e análises de ponta. Stratechery oferece contexto estratégico (geopolítica, negócios) que falta nas edições atuais. Isso quebra a uniformidade temática e aumenta a credibilidade.
+### P0 – Diversificar fontes técnicas para reduzir especulação
+- **O que**: Substituir 2 das 6 citações do TechCrunch por fontes da lista `never_used_sources` (prioridade: `arxiv_ai`, `huggingface_papers`, `anthropic_blog`).
+- **Por que**: 33% especulativo vs 67% confirmado é alto para uma newsletter de IA. Fontes primárias (papers, blogs de labs) reduzem ruído e aumentam credibilidade. TechCrunch já cobre 31% das fontes usadas – saturação.
+- **Alavanca**: No prompt, adicionar regra: "Para cada tema, inclua ao menos 1 fonte primária (arxiv, blog de lab, paper) antes de fontes jornalísticas."
 
-### P0 – Corrigir o sistema de feedback para gerar dados acionáveis
-**Alavanca:** Substituir a escala atual (fire/solid) por **3 dimensões numéricas (1-5)** no prompt: `profundidade`, `relevância prática`, `novidade`.  
-**Por quê:** O feedback atual é inútil — todos os temas recebem nota 2.0, indicando que a métrica não discrimina. Sem dados reais, não é possível priorizar temas ou ajustar tom. A nova escala permitirá identificar padrões (ex.: temas com alta novidade mas baixa profundidade).
+### P1 – Reduzir cobertura da OpenAI para liberar espaço temático
+- **O que**: Limitar menções à OpenAI a no máximo 3 por edição (atualmente 7/7 edições = 100%).
+- **Por que**: A entidade domina 100% das edições, mas temas como "interface cérebro-computador" e "padrões de segurança" aparecem apenas 1 vez cada. Isso cria viés de cobertura e cansaço do leitor.
+- **Alavanca**: No prompt, incluir: "Se OpenAI aparecer em mais de 3 parágrafos, substitua 1 parágrafo por cobertura de entidade não-OpenAI com relevância similar (ex: DeepSeek, Anthropic, Mistral)."
 
-### P1 – Reduzir especulação e aumentar fontes primárias
-**Alavanca:** No prompt, exigir que **pelo menos 1 fonte primária** (paper, blog oficial, release técnico) seja citada por edição, com link direto.  
-**Por quê:** 33% do conteúdo é especulativo, e 0% vem de fontes como ArXiv ou blogs de pesquisa. Isso enfraquece a autoridade da newsletter. Exigir uma fonte primária força a curadoria de conteúdo mais denso e verificável.
+### P1 – Aumentar profundidade temática com séries de 2-3 edições
+- **O que**: Agrupar temas correlatos em mini-séries (ex: "agentes de IA" em 2 edições consecutivas, com progressão de básico para avançado).
+- **Por que**: 8 temas em 7 edições = 1.14 temas/edição, sem repetição. Isso impede aprofundamento. O feedback "solid" (1/6) pode indicar falta de valor agregado em temas superficiais.
+- **Alavanca**: No prompt, adicionar: "Se um tema apareceu nos últimos 3 dias, priorize aprofundamento (dados, comparações, implicações) em vez de novo tema."
 
-### P1 – Criar séries temáticas recorrentes para construir autoridade
-**Alavanca:** No prompt, incluir regra: **"A cada 3 edições, retorne a um dos 3 temas com maior feedback médio"** (usando a nova métrica do P0).  
-**Por quê:** Atualmente, 8 temas em 7 edições — nenhum se repete. Isso impede que a newsletter se torne referência em algo. Repetir temas permite aprofundamento, comparação temporal e fidelização de leitores interessados.
+### P2 – Incorporar fontes brasileiras para diferenciação regional
+- **O que**: Usar `agencia_brasil` e `mit_tech_review_brasil` em pelo menos 1 edição a cada 3.
+- **Por que**: `mit_tech_review_brasil` foi usado apenas 1 vez, `agencia_brasil` nunca. A newsletter tem público brasileiro – ignorar fontes locais perde relevância contextual e diferenciação frente a agregadores globais.
+- **Alavanca**: No prompt, incluir: "Para cada edição, verifique se há notícia relevante em `agencia_brasil` ou `mit_tech_review_brasil`; se sim, priorize como fonte principal."
 
-### P2 – Aumentar o uso de fontes brasileiras para diferenciação regional
-**Alavanca:** Adicionar `agencia_brasil` e `mit_tech_review_brasil` como fontes obrigatórias **a cada 2 edições**.  
-**Por quê:** A newsletter é em português, mas 0% das fontes são brasileiras. Isso é um diferencial competitivo inexplorado. A Agência Brasil cobre regulação e políticas públicas nacionais; MIT Tech Review Brasil traz curadoria local. Isso pode aumentar o engajamento do público brasileiro.
+### P2 – Reduzir especulação com regra de "confirmação dupla"
+- **O que**: Para qualquer afirmação marcada como "especulativo", exigir 2 fontes independentes ou 1 fonte primária + 1 secundária.
+- **Por que**: 33% especulativo é alto para uma newsletter que busca ser referência. Semântica de "especulativo" não está calibrada – pode estar sendo usado para notícias não confirmadas, o que erosiona confiança.
+- **Alavanca**: No prompt, adicionar: "Se o conteúdo for especulativo, cite explicitamente 2 fontes ou justifique por que a especulação é relevante (ex: tendência identificada por múltiplos labs)."
 
 ---
 
