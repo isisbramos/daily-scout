@@ -1,0 +1,84 @@
+{
+  "edition": "093",
+  "audited_at": "2026-06-29T12:24:25.422407-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (HappyHorse 1.1) passa no AI Gate e é acionável (testar modelo) e sinal de mercado (disputa China vs EUA). Quick_finds: DeepSeek recruta talentos (acionável e sinal de mercado), OpenAI iniciativa open source (acionável e sinal de mercado), Autodesk investimento (sinal de mercado, mas pouco acionável para leitor comum), PP-OCRv6 (acionável e sinal de mercado). Nenhum anti-signal claro. Porém, Autodesk é borderline: funding round sem info nova? Não é funding, é compromisso de investimento, mas a informação é basicamente o valor e o propósito, sem detalhes de produto ou shift estratégico concreto. Ainda assim, passa por ser sinal de mercado. Score 3 porque todos passam, mas Autodesk é fraco.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de hype identificada. Títulos originais são diretos, e o output mantém o nível de certeza. Não há informação inventada. Pequeno deslize: no quick_find da OpenAI, o body diz 'A ação pode fortalecer a segurança...' — 'pode' é condicional, mas o título original é 'OpenAI launches new initiative...' (afirmativo). O body adiciona especulação não presente no título. Leve, mas conta como imprecisão.",
+    "issues": [
+      "Quick_find OpenAI: body adiciona especulação ('pode fortalecer a segurança') não presente no título original."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find (TechNode), quick_finds (SCMP Tech, TechCrunch, Reddit, HuggingFace Blog) — 5 fontes diferentes, boa diversidade. Audiência: main_find 'todos', quick_finds: 3 'desenvolvedores', 1 'executivos de negócio' — apenas 2 categorias, poderia ter mais variedade. Geografia: main_find e DeepSeek são China, OpenAI e Autodesk são EUA, PP-OCRv6 é China (Baidu) — 3 China, 2 EUA, desbalanceado mas não crítico. Score 3 porque audiência poderia ser mais diversa.",
+    "issues": [
+      "Audiência: 3 de 4 quick_finds são 'desenvolvedores', falta variedade."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o main_find: 'lançamento do modelo de vídeo HappyHorse 1.1 pela Alibaba e a competição global de filmes com IA'. Não é genérica. Score 5.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 5,
+    "rationale": "Não há campo 'reasoning' no output fornecido. Assumindo que o reasoning está implícito na seleção, não há contradições aparentes. Os itens selecionados são coerentes com os critérios. Score 5 por falta de evidência de problema.",
+    "issues": []
+  },
+  "false_negatives": [
+    {
+      "title": "Elephant alert! AI warning systems aim to avoid deadly clashes",
+      "source": "MIT Technology Review",
+      "why_should_include": "É acionável (mostra aplicação de AI em conservação) e sinal de mercado (crescente uso de AI em soluções ambientais). Passa no AI Gate.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "How Anthropic’s Fable 5 shutdown could help China’s Zhipu GLM-5.2 gain ground",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado forte: shutdown de modelo da Anthropic e ganho para concorrente chinês. Passa no AI Gate e afeta workflows (mudança de ecossistema).",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "The AI-powered World Cup runs on thousands of data workers",
+      "source": "Rest of World",
+      "why_should_include": "Sinal de mercado (uso massivo de AI em evento global) e afeta workflows (mostra como AI está sendo usada em operações). Passa no AI Gate.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Autodesk commits $350M to help prepare students, educators, job-seekers, and professionals for the 'AI jobs that design and make the physical world'",
+      "field": "quick_finds",
+      "why_should_discard": "É basicamente um anúncio de investimento em educação, sem lançamento de produto, mudança de estratégia ou feature nova. Não é acionável para o leitor (não há ferramenta para testar) e o sinal de mercado é fraco (apenas compromisso financeiro). Pode ser considerado anti-signal: funding round sem info nova (embora não seja funding, é similar).",
+      "violated_rule": "STEP 1 - AI Gate? Passa, mas critérios de seleção: não atende 2 de 3 (apenas sinal de mercado marginal)."
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O critério 'Sinal de mercado' pode estar sendo interpretado de forma muito ampla, incluindo investimentos em educação como sinal de mercado.",
+      "evidence": "Autodesk foi selecionado como quick_find, mas é um compromisso de investimento sem novidade concreta de produto ou shift estratégico.",
+      "suggested_fix": "Reforçar no prompt que 'sinal de mercado' requer movimento estratégico claro (ex: mudança de categoria, M&A, shift de política), não apenas investimento genérico."
+    },
+    {
+      "hypothesis": "A regra de 'Acionável' pode estar sendo aplicada de forma inconsistente, permitindo itens que não oferecem ação direta ao leitor.",
+      "evidence": "Autodesk não é acionável (leitor não pode 'testar' nada), mas foi incluído. Em contraste, 'Elephant alert' é acionável (mostra aplicação prática) e foi ignorado.",
+      "suggested_fix": "Explicitar que 'acionável' significa que o leitor pode testar uma ferramenta, mudar um processo ou tomar uma decisão imediata, não apenas aprender sobre um investimento."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade de fontes e tom factual, mas cometeu um false positive (Autodesk) e deixou de fora itens mais relevantes (Elephant alert, Anthropic/Zhipu, World Cup AI). A seleção priorizou itens chineses e de agentes, mas negligenciou aplicações práticas de AI e movimentos geopolíticos. O prompt pode estar incentivando interpretação muito ampla de 'sinal de mercado' e 'acionável'."
+}

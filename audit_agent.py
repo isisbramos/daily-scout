@@ -26,7 +26,7 @@ import sys
 import glob
 import logging
 from datetime import datetime, timezone, timedelta
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 from typing import Optional
 
 logging.basicConfig(
@@ -165,8 +165,20 @@ TOM: frases curtas, verbos factuais, zero hype. Preservar nível de certeza do t
 
 # ── Audit User Prompt ──────────────────────────────────────────────────
 def build_audit_prompt(edition: str, curation_output: dict, input_items: list[dict]) -> str:
+    # Gap conhecido: o DeepSeek às vezes omite o campo `reasoning`. É observability-only
+    # (o email não usa — ver pipeline), então não deve ser punido como falha editorial.
+    reasoning_note = ""
+    if not curation_output.get("reasoning"):
+        reasoning_note = (
+            "\n⚠️ ATENÇÃO — CAMPO `reasoning` AUSENTE NESTE OUTPUT:\n"
+            "Este output não contém o campo `reasoning`. É um gap conhecido de observability\n"
+            "(o DeepSeek às vezes omite) e NÃO é falha editorial — o email do leitor não usa\n"
+            "esse campo. Para a DIMENSÃO 5 (Reasoning Coherence): score = 3 (neutro, 'não\n"
+            "avaliável por ausência do campo'); em issues registre 'campo reasoning ausente\n"
+            "(observability, não editorial)'; e NÃO rebaixe o overall_score por causa disso.\n"
+        )
     return f"""Audite a edição #{edition} do Daily Scout.
-
+{reasoning_note}
 ═══ INPUT (itens que entraram no LLM) ═══
 {json.dumps(input_items, ensure_ascii=False, indent=2)}
 
@@ -221,6 +233,38 @@ Seja específico: cite o STEP, a regra ou o few-shot que pode ter levado ao comp
 
 OVERALL SCORE (1-5):
 Score geral, considerando as 5 dimensões. 5 = edição excelente sem problemas. 1 = múltiplas falhas graves.
+
+═══ FORMATO DE SAÍDA (JSON obrigatório) ═══
+
+Retorne EXATAMENTE este objeto JSON, sem nenhum texto fora dele. Todos os campos são obrigatórios.
+As 5 dimensões são OBJETOS (não números soltos). prompt_hypotheses são OBJETOS (não strings).
+
+{{
+  "editorial_alignment":         {{"score": 1, "rationale": "2-3 frases", "issues": ["..."]}},
+  "tone_accuracy":               {{"score": 1, "rationale": "2-3 frases", "issues": ["..."]}},
+  "diversity":                   {{"score": 1, "rationale": "2-3 frases", "issues": ["..."]}},
+  "correspondent_intro_quality": {{"score": 1, "rationale": "2-3 frases", "issues": ["..."]}},
+  "reasoning_coherence":         {{"score": 1, "rationale": "2-3 frases", "issues": ["..."]}},
+  "false_negatives": [
+    {{"title": "...", "source": "...", "why_should_include": "1-2 frases", "missed_criteria": ["AI Gate", "Acionável"]}}
+  ],
+  "false_positives": [
+    {{"title": "...", "field": "main_find", "why_should_discard": "1-2 frases", "violated_rule": "ex: STEP 1 - AI Gate"}}
+  ],
+  "prompt_hypotheses": [
+    {{"hypothesis": "cite o STEP/regra", "evidence": "qual erro do output é evidência", "suggested_fix": "1 frase"}}
+  ],
+  "overall_score": 1,
+  "top_issues_summary": "2-3 frases"
+}}
+
+REGRAS DO FORMATO:
+- Cada dimensão é um objeto com score (int 1-5), rationale (string) e issues (lista de strings; [] se score = 5).
+- false_negatives / false_positives: [] se não houver. Cada item DEVE ter TODOS os campos mostrados acima.
+- missed_criteria é uma LISTA de strings.
+- prompt_hypotheses: cada item é um OBJETO com hypothesis/evidence/suggested_fix — NUNCA uma string solta.
+- overall_score e top_issues_summary são obrigatórios.
+- NÃO inclua "edition" nem "audited_at" — são preenchidos pelo sistema.
 """
 
 
@@ -266,28 +310,53 @@ def run_audit(edition: str, curation_output: dict, input_items: list[dict]) -> A
     brt = timezone(timedelta(hours=-3))
     audited_at = datetime.now(brt).isoformat()
 
-    logger.info("Calling DeepSeek (audit)...")
-    response = client.chat.completions.create(
-        model="deepseek-chat",
-        messages=[
-            {"role": "system", "content": AUDIT_SYSTEM + "\n\nRetorne sempre um JSON válido."},
-            {"role": "user", "content": user_prompt},
-        ],
-        response_format={"type": "json_object"},
-        temperature=0.0,
-        max_tokens=8192,
+    messages = [
+        {"role": "system", "content": AUDIT_SYSTEM + "\n\nRetorne sempre um JSON válido seguindo exatamente o schema pedido."},
+        {"role": "user", "content": user_prompt},
+    ]
+
+    # Loop de validação/reparo: o DeepSeek (json_object) garante JSON válido mas não
+    # adesão ao schema. Em caso de drift, devolvemos os erros do Pydantic e pedimos correção.
+    max_attempts = 3
+    last_err: Exception | None = None
+    for attempt in range(max_attempts):
+        logger.info(f"Calling DeepSeek (audit) — tentativa {attempt + 1}/{max_attempts}...")
+        response = client.chat.completions.create(
+            model="deepseek-chat",
+            messages=messages,
+            response_format={"type": "json_object"},
+            temperature=0.0,
+            max_tokens=8192,
+        )
+        finish_reason = response.choices[0].finish_reason if response.choices else None
+        text = (response.choices[0].message.content or "").strip()
+        logger.info(f"DeepSeek audit returned {len(text)} chars (finish_reason={finish_reason})")
+
+        try:
+            raw = json.loads(text)
+            # Injeta edition e timestamp (não vêm do modelo, por design)
+            raw["edition"] = edition
+            raw["audited_at"] = audited_at
+            return AuditReport(**raw)
+        except (json.JSONDecodeError, ValidationError) as e:
+            last_err = e
+            logger.warning(
+                f"Tentativa {attempt + 1}: saída do audit inválida ({type(e).__name__}) — re-pedindo correção."
+            )
+            messages.append({"role": "assistant", "content": text})
+            messages.append({
+                "role": "user",
+                "content": (
+                    "O JSON acima não validou contra o schema. Erros:\n"
+                    f"{str(e)[:1500]}\n\n"
+                    "Corrija e retorne o objeto JSON completo seguindo EXATAMENTE o schema pedido. "
+                    "Apenas o objeto JSON, sem texto fora dele."
+                ),
+            })
+
+    raise ValueError(
+        f"Audit da edição {edition} falhou após {max_attempts} tentativas. Último erro: {last_err}"
     )
-
-    finish_reason = response.choices[0].finish_reason if response.choices else None
-    text = (response.choices[0].message.content or "").strip()
-    logger.info(f"DeepSeek audit returned {len(text)} chars (finish_reason={finish_reason})")
-
-    raw = json.loads(text)
-    # Injeta edition e timestamp (podem não vir preenchidos corretamente)
-    raw["edition"] = edition
-    raw["audited_at"] = audited_at
-
-    return AuditReport(**raw)
 
 
 # ── Save outputs ───────────────────────────────────────────────────────
@@ -501,6 +570,7 @@ def main():
     group.add_argument("--list", action="store_true", help="Lista edições disponíveis para auditoria")
     parser.add_argument("--verbose", action="store_true", help="Mostra detalhes dos issues no console")
     parser.add_argument("--dry-run", action="store_true", help="Simula o carregamento sem chamar o LLM")
+    parser.add_argument("--skip-existing", action="store_true", help="Pula edições que já têm audit json (idempotente para CI)")
 
     args = parser.parse_args()
 
@@ -528,6 +598,12 @@ def main():
 
     results = []
     for edition in editions_to_audit:
+        if args.skip_existing and os.path.exists(
+            os.path.join(DEBUG_DIR, f"edition_{edition}_audit.json")
+        ):
+            logger.info(f"#{edition} já tem audit — pulando (--skip-existing)")
+            continue
+
         logger.info(f"\n{'=' * 50}")
         logger.info(f"Auditando edição #{edition}...")
 

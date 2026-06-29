@@ -1,0 +1,74 @@
+{
+  "edition": "098",
+  "audited_at": "2026-06-29T12:25:49.312590-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Apple Vision Pro exec leaving for OpenAI) passes AI Gate and satisfies at least 2 criteria (signal of market, affects workflows). Quick_finds: BIS alert passes AI Gate and is actionable; Wayfinder Router passes AI Gate and is actionable; Ford AI backfire passes AI Gate and is actionable. However, the main_find is speculative (claim_status: especulativo) and the title uses 'reportedly', which is acceptable but weak. No false positives among selected items. The selection is reasonable but not outstanding.",
+    "issues": [
+      "Main_find is based on unconfirmed reports, reducing its strength as a main find."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "No hype words found. The main_find body correctly uses conditional language ('estaria', 'se verdadeiro') matching the speculative nature. Quick_finds use factual verbs. No invented details. The tone is appropriate.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Sources: main_find from TechCrunch, quick_finds from SCMP, HackerNews, and HackerNews again. Two items from HackerNews (Wayfinder Router and Ford) is acceptable but could be more diverse. Audience: main_find targets business executives, quick_finds target business (BIS), developers (Wayfinder), and business (Ford) – good mix. Geography: all US/global, no overrepresentation of one region.",
+    "issues": [
+      "Two quick_finds from same source (HackerNews) reduces source diversity slightly."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "The intro mentions the main_find theme ('movimentação de executivos entre gigantes tech') and the BIS alert. It is specific to this edition, not generic. Could be more concise but acceptable.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 5,
+    "rationale": "The reasoning field is not present in the output, but the selection logic is coherent: main_find is the most signal-rich item, quick_finds are actionable and relevant. No contradictions.",
+    "issues": []
+  },
+  "false_negatives": [
+    {
+      "title": "Anonymous GitHub account mass-dropping undisclosed 0-days",
+      "source": "HackerNews",
+      "why_should_include": "High score (808) and comments (317) indicate strong community interest; security 0-days are actionable for developers and sysadmins.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    },
+    {
+      "title": "OpenRA",
+      "source": "HackerNews",
+      "why_should_include": "High score (709) and comments (134); open-source RTS engine revival is relevant to developers and gamers, but lacks AI connection.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    },
+    {
+      "title": "As AI pushes data centres to breaking point, some Chinese chipmakers bet on SiC",
+      "source": "SCMP Tech",
+      "why_should_include": "Directly about AI infrastructure and supply chain shift; actionable for investors and tech strategists.",
+      "missed_criteria": [
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: The rule may be too strict, causing high-signal non-AI items to be excluded even when they have exceptional magnitude (e.g., 0-day drops with 808 points).",
+      "evidence": "False negatives like 'Anonymous GitHub account mass-dropping undisclosed 0-days' and 'OpenRA' were excluded despite high scores and community engagement.",
+      "suggested_fix": "Consider adding a 'community signal' exception for items with extremely high engagement (score >500, comments >100) even if not AI-related."
+    },
+    {
+      "hypothesis": "STEP 2 - Selection criteria: The requirement for at least 2 of 3 criteria may be too rigid, leading to exclusion of items that are highly actionable but lack market signal or workflow impact.",
+      "evidence": "The item 'As AI pushes data centres to breaking point...' was excluded; it has market signal and affects workflows but may not be directly actionable for an individual reader.",
+      "suggested_fix": "Allow items that strongly satisfy one criterion (e.g., very high actionability) to be included if they also have broad relevance."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com seleção coerente e tom adequado. Principais problemas: main_find especulativo como destaque principal e exclusão de itens de alto engajamento não-AI que poderiam ter valor para a audiência. Diversidade de fontes poderia ser melhor."
+}

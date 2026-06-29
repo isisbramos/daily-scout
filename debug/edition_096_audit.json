@@ -1,0 +1,95 @@
+{
+  "edition": "096",
+  "audited_at": "2026-06-29T12:38:28.183608-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (White House pede atraso da OpenAI) passa no AI Gate e satisfaz sinal de mercado e afeta workflows. Quick_finds: Amazon $13B (sinal de mercado, afeta workflows), Zhipu AI (acionável, sinal de mercado), Patronus AI (acionável, sinal de mercado), DeepSeek hiring (sinal de mercado, afeta workflows). Todos válidos. Nenhum anti-signal evidente. Score 5, mas rebaixado para 3 devido a false positives (ver abaixo).",
+    "issues": [
+      "False positive: 'Om Malik has died' não é AI/ML e não se enquadra na exceção de magnitude excepcional (não é aquisição >$1B, regulação ou shutdown de plataforma major).",
+      "False positive: 'YouTube Shorts playback speed' não tem conexão com AI/ML."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de exagero. Níveis de certeza preservados (ex: 'pedido' no main_find reflete 'asking' do título). Nenhuma informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find e 2 quick_finds do TechCrunch (3 itens mesma fonte) - poderia diversificar. Audiência: executivos de negócio (main_find, Amazon), desenvolvedores (Zhipu, DeepSeek), product managers (Patronus) - boa variedade. Geografia: EUA (main_find, Patronus), Índia (Amazon), China (Zhipu, DeepSeek) - diversa. Perde 1 ponto por concentração de fonte.",
+    "issues": [
+      "Três itens (main_find, Amazon, Patronus) são do TechCrunch, concentração excessiva."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "Primeira frase menciona especificamente o main_find (pedido da Casa Branca para OpenAI). Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap de observability conhecido). Não é possível avaliar coerência. Score 3 conforme instrução.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Anthropic Accuses Alibaba of Largest AI Model Extraction Campaign as US-China AI Race Heats Up",
+      "source": "r/artificial",
+      "why_should_include": "Sinal de mercado forte: acusação de espionagem industrial entre gigantes de IA, afeta geopolítica e segurança de modelos.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Trump administration proposes axing brake-pedal requirement for AVs in a boost for Tesla",
+      "source": "TechCrunch",
+      "why_should_include": "Regulação governamental (exceção de magnitude) que impacta diretamente o setor de veículos autônomos e empresas como Tesla.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Japan Unveils $2.3T AI Plan as Morgan Stanley Turns More Bullish on China's Robots",
+      "source": "r/artificial",
+      "why_should_include": "Investimento governamental massivo (>$2T) em IA, sinal de mercado e geopolítico relevante.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Om Malik has died",
+      "field": "radar",
+      "why_should_discard": "Notícia de falecimento sem conexão com AI/ML, não se enquadra em exceção de magnitude.",
+      "violated_rule": "STEP 1 - AI Gate"
+    },
+    {
+      "title": "YouTube Shorts are getting even shorter with an update that lets you double the playback speed",
+      "field": "radar",
+      "why_should_discard": "Funcionalidade de produto consumer sem AI/ML, anti-signal de preço/assinatura.",
+      "violated_rule": "STEP 1 - AI Gate"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) pode estar sendo interpretado de forma muito ampla, permitindo itens sem conexão com AI/ML.",
+      "evidence": "Inclusão de 'Om Malik has died' e 'YouTube Shorts playback speed' no radar, que não passam no AI Gate.",
+      "suggested_fix": "Reforçar no prompt que o AI Gate é obrigatório e que exceções são apenas para magnitude excepcional (aquisição >$1B, regulação governamental, shutdown de plataforma major)."
+    },
+    {
+      "hypothesis": "Critério de 'magnitude excepcional' pode estar sendo mal aplicado para notícias de falecimento.",
+      "evidence": "Inclusão de 'Om Malik has died' como radar, mesmo sem conexão com AI/ML.",
+      "suggested_fix": "Especificar que 'shutdown de plataforma major' se refere a plataformas de tech/AI, não a pessoas."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição tem boa seleção de itens acionáveis e com sinal de mercado, mas inclui dois false positives no radar (Om Malik e YouTube Shorts) que violam o AI Gate. Além disso, três itens fortes (Anthropic vs Alibaba, regulação AVs, plano do Japão) foram deixados de fora. A concentração de três itens do TechCrunch reduz diversidade de fontes."
+}

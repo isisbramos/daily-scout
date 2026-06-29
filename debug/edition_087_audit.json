@@ -1,0 +1,12 @@
+{
+  "edition": "087", "audited_at": "2026-06-17T08:09:00-03:00",
+  "editorial_alignment": {"score": 5, "rationale": "Todos passam no AI Gate com 2+ critérios.", "issues": []},
+  "tone_accuracy": {"score": 4, "rationale": "Quase perfeito; 'rivaliza' é levemente competitivo.", "issues": ["palavra 'rivaliza' no main_find"]},
+  "diversity": {"score": 3, "rationale": "Dois itens muito centrados em labs de fronteira.", "issues": ["pouca variação de audiência"]},
+  "correspondent_intro_quality": {"score": 5, "rationale": "Boa.", "issues": []},
+  "reasoning_coherence": {"score": 4, "rationale": "Coerente.", "issues": []},
+  "false_negatives": [{"title": "Estudo de eficiência de fine-tuning no arXiv", "source": "arxiv_ai", "why_should_include": "Sinal de mercado para times de ML.", "missed_criteria": ["Sinal de mercado"]}],
+  "false_positives": [],
+  "prompt_hypotheses": [{"hypothesis": "Anti-signal de funding não barra rodadas grandes de ferramentas conhecidas", "evidence": "Padrão repetido de viés contra arXiv", "suggested_fix": "Adicionar few-shot que valoriza papers acionáveis."}],
+  "overall_score": 4, "top_issues_summary": "Boa edição; diversidade de audiência é o ponto mais fraco."
+}

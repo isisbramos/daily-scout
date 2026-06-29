@@ -1,0 +1,78 @@
+{
+  "edition": "095",
+  "audited_at": "2026-06-29T12:25:03.542913-03:00",
+  "editorial_alignment": {
+    "score": 4,
+    "rationale": "Todos os itens selecionados passam no AI Gate e satisfazem pelo menos 2 dos 3 critérios. Nenhum anti-signal foi incluído. A seleção está alinhada com as regras.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "O tom é factual, sem hype. A certeza dos títulos originais foi preservada (ex: 'may' no título da Europa foi mantido como 'pode'). Nenhuma informação inventada foi adicionada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há concentração de fontes: 3 dos 4 itens (main_find + quick_finds) vêm do TechCrunch. A audiência primária é majoritariamente 'executivos de negócio' (3 de 4), com apenas um 'product managers e fundadores'. Geografia é dominada por EUA (3 itens) e um sobre Europa.",
+    "issues": [
+      "3 de 4 itens são do TechCrunch",
+      "Audiência primária repetitiva: 3 de 4 'executivos de negócio'",
+      "Foco geográfico nos EUA (3 itens)"
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona diretamente o tema do main_find (chip customizado da OpenAI). É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 4,
+    "rationale": "O reasoning descreve corretamente os itens selecionados e a lógica de escolha. Não há contradições. A perspectiva_check não está presente, mas não é obrigatória. O main_find_rationale explica por que o chip da OpenAI foi escolhido (acionável, sinal de mercado, afeta workflows).",
+    "issues": [
+      "O reasoning menciona 'perspective_check' que não aparece no output, mas isso não é um erro grave."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Huawei and Cambricon lead China’s AI server chip surge, piling pressure on Nvidia",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado forte: mostra competição chinesa no hardware de AI, afetando cadeia de suprimentos e posição da Nvidia.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Cloudflare launched self-managed OAuth for all",
+      "source": "HackerNews",
+      "why_should_include": "Acionável para desenvolvedores: nova ferramenta de autenticação que pode mudar workflows de segurança.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Stripe, Anthropic, and OpenAI are backing an effort to stop respiratory infections",
+      "source": "MIT Technology Review",
+      "why_should_include": "Sinal de mercado: grandes empresas de AI investindo em saúde, indicando diversificação e parcerias estratégicas.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: a regra 'precisa de pelo menos 2 de 3' pode estar sendo interpretada de forma muito restritiva, excluindo itens que são acionáveis ou sinal de mercado, mas não ambos.",
+      "evidence": "O item 'Cloudflare launched self-managed OAuth' é claramente acionável e afeta workflows, mas não foi selecionado. Pode ter sido considerado como não passando no AI Gate, mas OAuth é relevante para autenticação em APIs de AI.",
+      "suggested_fix": "Esclarecer que 'afeta workflows' inclui ferramentas de infraestrutura que impactam o trabalho com AI, mesmo que não sejam diretamente AI."
+    },
+    {
+      "hypothesis": "STEP 1 - AI Gate: a definição de 'conexão com AI/ML' pode estar sendo aplicada de forma muito restritiva, excluindo itens que são sobre infraestrutura de AI (ex: chips, OAuth) ou aplicações de AI em outros setores.",
+      "evidence": "O item 'Stripe, Anthropic, and OpenAI backing health effort' foi excluído, mas envolve empresas de AI e pode ser considerado sinal de mercado. O item 'Cloudflare OAuth' pode ser relevante para segurança de APIs de AI.",
+      "suggested_fix": "Ampliar a definição de AI Gate para incluir itens que envolvem empresas de AI ou infraestrutura que suporta AI, mesmo que o foco não seja exclusivamente AI."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "A edição é sólida em alinhamento editorial, tom e intro, mas peca na diversidade de fontes e audiência, e deixou de fora itens acionáveis e com sinal de mercado que poderiam enriquecer a newsletter. A concentração no TechCrunch e o foco em executivos de negócio reduzem a variedade."
+}
