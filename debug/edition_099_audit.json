@@ -1,0 +1,93 @@
+{
+  "edition": "099",
+  "audited_at": "2026-06-29T12:38:44.371095-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (GLM 5.2) e quick_finds (Ford, CrowdStrike, HP) passam no AI Gate e satisfazem pelo menos 2 critérios. Porém, o quick_find sobre vacina de câncer com IA é borderline: embora use IA, o foco principal é biotecnologia e o impacto direto para o leitor de tech é baixo. Além disso, o radar inclui 'Modelo chinês de IA reduz diferença para EUA em caça a bugs' que é essencialmente o mesmo tema do main_find, configurando redundância.",
+    "issues": [
+      "Quick_find 'China lança primeira linha de produção de vacinas contra câncer com IA' tem conexão fraca com AI/ML e baixa acionabilidade para o público de tech.",
+      "Radar item 'Modelo chinês de IA reduz diferença para EUA em caça a bugs' é redundante com o main_find sobre GLM 5.2."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom geral é factual, sem hype. O main_find.body afirma 'GLM 5.2 superou Claude em benchmarks de cibersegurança', o que corresponde ao título original. Não há palavras de hype evidentes. Porém, no quick_find sobre CrowdStrike, a frase 'ataques baseados em engenharia de prompt estão se tornando mais comuns e acessíveis' é uma inferência não explicitamente confirmada no título original, que apenas cita o relatório.",
+    "issues": [
+      "Quick_find 'CrowdStrike' adiciona inferência sobre 'mais comuns e acessíveis' que não está no título original."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find (HackerNews), quick_finds (TechCrunch, Reddit, SCMP, OpenAI Blog) – boa diversidade de fontes. Audiência: main_find e dois quick_finds são para 'desenvolvedores', apenas um para 'executivos de negócio' e um para 'todos'. Geografia: três itens (GLM 5.2, vacina China, radar China) focam na China, o que é desbalanceado.",
+    "issues": [
+      "Três dos cinco itens principais (main_find + quick_finds) têm forte viés geográfico para China.",
+      "Audiência majoritariamente 'desenvolvedores' – falta variedade."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o GLM 5.2 e o benchmark de cibersegurança, que é o tema do main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (conforme instrução, não é falha editorial). Score neutro 3 por não ser avaliável.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Apple reportedly lobbies US for approval to source DRAM from China’s CXMT",
+      "source": "TechNode",
+      "why_should_include": "Sinal de mercado relevante: movimento estratégico de Apple para contornar restrições de supply chain, afeta workflows de hardware e decisões de sourcing.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    },
+    {
+      "title": "Top China chip toolmakers consolidate to build national champions, defy US curbs",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado forte: consolidação de fabricantes de chips chineses impacta geopolítica e supply chain de semicondutores, relevante para leitores de tech.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    },
+    {
+      "title": "HackerRank open sourced its ATS. My resume scored 90/100. Oh wait 74. No – 88",
+      "source": "HackerNews",
+      "why_should_include": "Altamente acionável para desenvolvedores: ferramenta open source para testar currículos, com score alto (539) e muitos comentários (218).",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "China’s first AI-powered cancer vaccine production line set to launch in Beijing",
+      "field": "quick_finds",
+      "why_should_discard": "Conexão tangencial com AI/ML (apenas 'AI-powered' no título), baixa acionabilidade para leitores de tech, mais relevante para biotecnologia.",
+      "violated_rule": "STEP 1 - AI Gate: não há conexão substancial com AI/ML, automação inteligente ou decisão de empresa de AI."
+    },
+    {
+      "title": "Chinese AI model’s bug-hunting prowess narrows gap to US",
+      "field": "radar",
+      "why_should_discard": "Redundante com o main_find sobre GLM 5.2, que já cobre o mesmo tema de modelos chineses superando benchmarks de segurança.",
+      "violated_rule": "STEP 3 - Diversidade: radar não deve duplicar tema do main_find."
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: a regra pode estar sendo interpretada de forma muito permissiva para itens com 'AI-powered' no título, mesmo sem conexão real com AI/ML.",
+      "evidence": "Inclusão do item sobre vacina de câncer com IA, que tem baixa relevância para o público de tech.",
+      "suggested_fix": "Reforçar que 'AI-powered' não é suficiente; exigir que o item trate de decisão de empresa de AI, automação inteligente ou impacto direto em workflows de tech."
+    },
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: a regra de 'Sinal de mercado' pode estar sendo priorizada em detrimento de 'Acionável', levando à inclusão de itens com baixa acionabilidade.",
+      "evidence": "Item sobre vacina de câncer tem sinal de mercado fraco e baixa acionabilidade, mas foi incluído.",
+      "suggested_fix": "Exigir que pelo menos um dos critérios seja 'Acionável' para itens não relacionados a grandes movimentos de mercado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição com boa seleção central (GLM 5.2, Ford, CrowdStrike, HP), mas inclui um false positive (vacina de câncer) e tem redundância no radar. Faltaram itens acionáveis como HackerRank ATS e sinais de mercado como Apple/DRAM. Tom e intro estão corretos, mas diversidade geográfica e de audiência poderia ser melhor."
+}

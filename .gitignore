@@ -7,8 +7,11 @@ __pycache__/
 # Output (generated at runtime)
 output/
 
-# Debug artifacts para o audit agent (PE study — não vai pro repo)
-debug/
+# Debug artifacts para o audit agent (PE study).
+# curation/items são efêmeros (vêm dos artifacts do Actions); só os audit jsons
+# persistem — são a fonte do Scorecard de Qualidade no content_report.
+debug/*
+!debug/*_audit.json
 
 # OS
 .DS_Store

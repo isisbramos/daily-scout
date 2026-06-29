@@ -570,6 +570,7 @@ def main():
     group.add_argument("--list", action="store_true", help="Lista edições disponíveis para auditoria")
     parser.add_argument("--verbose", action="store_true", help="Mostra detalhes dos issues no console")
     parser.add_argument("--dry-run", action="store_true", help="Simula o carregamento sem chamar o LLM")
+    parser.add_argument("--skip-existing", action="store_true", help="Pula edições que já têm audit json (idempotente para CI)")
 
     args = parser.parse_args()
 
@@ -597,6 +598,12 @@ def main():
 
     results = []
     for edition in editions_to_audit:
+        if args.skip_existing and os.path.exists(
+            os.path.join(DEBUG_DIR, f"edition_{edition}_audit.json")
+        ):
+            logger.info(f"#{edition} já tem audit — pulando (--skip-existing)")
+            continue
+
         logger.info(f"\n{'=' * 50}")
         logger.info(f"Auditando edição #{edition}...")
 

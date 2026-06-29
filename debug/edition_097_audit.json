@@ -1,0 +1,85 @@
+{
+  "edition": "097",
+  "audited_at": "2026-06-29T12:25:32.927262-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find e quick_finds passam no AI Gate e satisfazem pelo menos 2 critérios. No entanto, o item 'China workers worry' foi mencionado no reasoning como mantido, mas não aparece no output, o que é inconsistente. Além disso, o reasoning descarta corretamente vários itens não-AI, mas a inclusão de 'China workers worry' como tangencial é questionável, embora não tenha sido selecionado. Nenhum false positive claro no output.",
+    "issues": [
+      "Inconsistência no reasoning: item 'China workers worry' é citado como mantido mas não aparece no output."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "O tom é factual, sem hype. As frases são curtas e verbos factuais. O nível de certeza é preservado (ex: 'segundo post', 'reporta'). Não há informações inventadas. Os bullets e signals são precisos em relação aos títulos originais.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find usa HackerNews e TechCrunch; quick_finds usam TechCrunch e SCMP Tech. Há repetição de TechCrunch (2 itens), mas não excessiva. Audiência: main_find e primeiro quick_find são 'executivos de negócio', segundo quick_find é 'desenvolvedores' — boa diversidade. Geografia: dois itens dos EUA, um da China — diversidade geográfica adequada.",
+    "issues": [
+      "TechCrunch aparece em dois dos três itens selecionados, o que poderia ser mais diverso."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o preview do GPT-5.6 Sol e as restrições governamentais, que é o tema do main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista 'China workers worry' como mantido, mas ele não aparece no output. Isso é uma contradição. Além disso, o reasoning afirma que 'AI in mathematics' é manifesto, mas o título sugere um artigo do IEEE Spectrum que pode conter novidades concretas — poderia ser um falso negativo. O main_find_rationale explica bem a escolha do main_find. A perspective_check não está presente no reasoning (campo não usado).",
+    "issues": [
+      "Contradição: 'China workers worry' é listado como mantido no reasoning mas não está no output.",
+      "Possível falso negativo: 'AI in mathematics' foi descartado como manifesto, mas pode ser um artigo com novidades."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "AI in mathematics is forcing big questions",
+      "source": "HackerNews",
+      "why_should_include": "Tem 117 pontos e 85 comentários, indicando relevância. O artigo do IEEE Spectrum pode conter novidades concretas sobre o impacto da IA na matemática, não apenas opinião.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Tesla settles FSD crash lawsuit as federal investigations continue",
+      "source": "TechCrunch",
+      "why_should_include": "Envolve AI (Full Self-Driving) e tem implicações regulatórias e de mercado. É acionável para investidores e profissionais de regulamentação.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Google keeps losing top ai researchers, the moat was never the weights",
+      "source": "r/artificial",
+      "why_should_include": "Sinal de mercado sobre perda de talento em AI, relevante para entender dinâmica competitiva. Embora seja opinião, reflete um movimento estratégico.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 4 (main_find selection) pode estar priorizando tração (score) sobre critérios editoriais, levando a ignorar itens com menor score mas alto sinal de mercado.",
+      "evidence": "Itens como 'Tesla settles FSD crash lawsuit' e 'Google keeps losing top ai researchers' foram descartados, possivelmente por baixo score, mas têm sinal de mercado.",
+      "suggested_fix": "Reforçar no prompt que tração é tiebreaker, não critério principal, e incluir exemplos de itens com baixo score mas alto sinal."
+    },
+    {
+      "hypothesis": "O reasoning pode estar mal estruturado, levando a inconsistências entre o que é listado como 'mantido' e o que é selecionado.",
+      "evidence": "'China workers worry' aparece como mantido no reasoning mas não no output, indicando falha de rastreamento.",
+      "suggested_fix": "Revisar o formato do reasoning para garantir que todos os itens mantidos sejam refletidos no output, ou remover menções inconsistentes."
+    },
+    {
+      "hypothesis": "A classificação de 'manifesto' pode estar sendo aplicada de forma muito ampla, descartando artigos com novidades concretas.",
+      "evidence": "'AI in mathematics' foi classificado como manifesto, mas pode conter novidades do IEEE Spectrum.",
+      "suggested_fix": "Especificar no prompt que artigos de fontes respeitadas (IEEE, Nature, etc.) devem ser avaliados quanto a novidades concretas, não descartados automaticamente como manifesto."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "A edição é sólida em tom e diversidade, mas apresenta inconsistência no reasoning (item listado como mantido não aparece no output) e possíveis falsos negativos (itens com sinal de mercado descartados por baixo score). O correspondent intro é específico e adequado."
+}

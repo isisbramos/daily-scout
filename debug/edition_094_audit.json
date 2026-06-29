@@ -1,0 +1,103 @@
+{
+  "edition": "094",
+  "audited_at": "2026-06-29T12:24:44.923529-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (MoEngage) e quick_finds (China Telecom, BCI, OpenAI standards, governança agentes) passam no AI Gate e satisfazem pelo menos 2 critérios. No entanto, o quick_find 'Ecossistema de agentes de IA: para governar é preciso enxergar' é um artigo de opinião sem novidade concreta, violando anti-signal de blog corporativo/thought-leadership. Além disso, o quick_find 'Interface cérebro-computador' não tem conexão direta com AI/ML (é neurotecnologia, não AI), e a exceção de magnitude não se aplica.",
+    "issues": [
+      "Quick_find 'Ecossistema de agentes de IA' é thought-leadership sem novidade concreta (anti-signal).",
+      "Quick_find 'Interface cérebro-computador' não passa no AI Gate (não é AI/ML, nem exceção de magnitude)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Nenhum título com may/might foi transformado em afirmação direta. Não há informações inventadas. Apenas um pequeno exagero no main_find: 'milhões de agentes' é uma aposta da empresa, mas o texto trata como fato.",
+    "issues": [
+      "Main_find.body: 'MoEngage planeja usar milhões de agentes' — o título original diz 'bets that the future is millions of AI agents', então 'planeja' é uma interpretação, mas aceitável."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find (TechCrunch), quick_finds (SCMP, MIT Tech Review Brasil, OpenAI, MIT Tech Review Brasil) — boa diversidade de fontes. Audiência: product managers, executivos, desenvolvedores, todos — variada. Geografia: 2 itens do Brasil (MIT Tech Review Brasil), 1 China, 1 EUA, 1 Índia — razoável, mas 2 do mesmo source brasileiro.",
+    "issues": [
+      "Dois quick_finds da MIT Tech Review Brasil (BCI e governança agentes) — concentração de fonte."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "Primeira frase menciona o tema do main_find (agentes de IA em marketing). É específica, não genérica. Poderia ser mais direta, mas está adequada.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning não foi fornecido no output (campo ausente). Portanto, não é possível avaliar coerência. Assumindo que o reasoning justificaria as escolhas, a ausência é uma falha. Além disso, a seleção de itens que não passam no AI Gate indica incoerência entre critérios e seleção.",
+    "issues": [
+      "Campo 'reasoning' não presente no output da AYA.",
+      "Seleção de itens que violam AI Gate sugere que o reasoning não foi seguido."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "How GPT-5 helped immunologist Derya Unutmaz solve a 3-year-old mystery",
+      "source": "OpenAI Blog",
+      "why_should_include": "Exemplo concreto de aplicação de AI em pesquisa científica, acionável (mostra uso de GPT-5 para descoberta), sinal de mercado (OpenAI promovendo casos de uso).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Build real agentic apps using CUGA: two dozen working examples on a lightweight harness",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Ferramenta prática para desenvolvedores (acionável), sinal de mercado (IBM Research investindo em agentes), afeta workflows. Está no radar, mas merecia quick_find.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "University of Utah trustees greenlight creation of state's first AI bachelor's degree",
+      "source": "r/artificial",
+      "why_should_include": "Sinal de mercado (educação formal em AI), afeta workflows (futuros profissionais), acionável para estudantes. Exceção de magnitude? Não, mas critérios suficientes.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Interface cérebro-computador permite que homem com ELA volte a falar",
+      "field": "quick_finds",
+      "why_should_discard": "Não é AI/ML, é neurotecnologia. Não se enquadra no AI Gate, nem na exceção de magnitude.",
+      "violated_rule": "STEP 1 - AI Gate"
+    },
+    {
+      "title": "Ecossistema de agentes de IA: para governar é preciso enxergar",
+      "field": "quick_finds",
+      "why_should_discard": "Artigo de opinião/thought-leadership sem novidade concreta. Anti-signal.",
+      "violated_rule": "Anti-signal: blog corporativo de thought-leadership sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) pode estar mal interpretado: a AYA considerou 'interface cérebro-computador' como AI por envolver processamento de sinais, mas não é ML/AI.",
+      "evidence": "Inclusão de BCI como quick_find, que não é AI.",
+      "suggested_fix": "Reforçar que AI Gate exige conexão explícita com AI/ML, automação inteligente ou decisão de empresa de AI."
+    },
+    {
+      "hypothesis": "Anti-signal de thought-leadership pode não estar claro: a AYA incluiu artigo de opinião sobre governança de agentes.",
+      "evidence": "Quick_find 'Ecossistema de agentes de IA' é claramente thought-leadership.",
+      "suggested_fix": "Adicionar exemplo explícito de thought-leadership no prompt ou few-shot."
+    },
+    {
+      "hypothesis": "Critério de 'magnitude excepcional' pode estar sendo aplicado de forma muito ampla para BCI.",
+      "evidence": "BCI foi incluído sem ser AI, possivelmente por ser 'avanço significativo'.",
+      "suggested_fix": "Especificar que exceção de magnitude se aplica apenas a aquisições >$1B, regulação governamental ou shutdown de plataforma major."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem problemas de alinhamento editorial: dois quick_finds não passam no AI Gate (BCI e thought-leadership). Além disso, o reasoning não foi reportado, indicando falha no processo. Por outro lado, o tom é factual e a diversidade de fontes é razoável. A seleção poderia ser melhorada incluindo itens mais acionáveis como o caso GPT-5 e CUGA."
+}

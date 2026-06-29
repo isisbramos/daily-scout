@@ -1,0 +1,12 @@
+{
+  "edition": "086", "audited_at": "2026-06-16T08:10:00-03:00",
+  "editorial_alignment": {"score": 4, "rationale": "Seleção sólida, AI Gate ok em todos.", "issues": ["Cursor Série C beira anti-signal de funding"]},
+  "tone_accuracy": {"score": 5, "rationale": "Sem hype, certeza preservada.", "issues": []},
+  "diversity": {"score": 4, "rationale": "Boa, mas 2 itens OpenAI-adjacentes.", "issues": []},
+  "correspondent_intro_quality": {"score": 5, "rationale": "Intro cita o tema do achado.", "issues": []},
+  "reasoning_coherence": {"score": 4, "rationale": "Coerente.", "issues": []},
+  "false_negatives": [{"title": "Paper sobre RAG agêntico no arXiv", "source": "arxiv_ai", "why_should_include": "Acionável e AI-first.", "missed_criteria": ["Acionável", "Afeta workflows"]}],
+  "false_positives": [{"title": "Cursor levanta Série C de US$ 900M", "field": "quick_finds[0]", "why_should_discard": "Funding sem info de produto nova.", "violated_rule": "STEP 3 - Anti-signal: funding"}],
+  "prompt_hypotheses": [{"hypothesis": "Anti-signal de funding não barra rodadas grandes de ferramentas conhecidas", "evidence": "Cursor Série C entrou como quick_find", "suggested_fix": "Reforçar STEP 3 com limiar explícito de exceção por valor."}],
+  "overall_score": 4, "top_issues_summary": "Edição forte; único deslize é o funding da Cursor passar o anti-signal."
+}

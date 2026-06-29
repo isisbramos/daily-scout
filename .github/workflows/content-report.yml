@@ -15,11 +15,12 @@ on:
 
 permissions:
   contents: write
+  actions: read   # necessário para o gh api baixar os artifacts debug-NNN
 
 jobs:
   content-report:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -41,6 +42,35 @@ jobs:
           FEEDBACK_CSV_URL: ${{ secrets.FEEDBACK_CSV_URL }}
         run: python feedback_join.py
 
+      # Baixa os artifacts debug (curation+items) das edições recentes que ainda não
+      # têm audit, roda o audit_agent (LLM-as-judge) e popula o Scorecard de Qualidade.
+      # Idempotente (--skip-existing) e não-fatal: falha aqui nunca bloqueia o relatório.
+      - name: Audit recent editions (artifacts → audit)
+        continue-on-error: true
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LAST: ${{ github.event.inputs.last || '30' }}
+        run: |
+          mkdir -p debug
+          EDITIONS=$(python -c "import json; \
+          lines=[l for l in open('memory/editions.jsonl') if l.strip()]; \
+          eds=[json.loads(l).get('edition') for l in lines]; \
+          print(' '.join(e for e in eds[-int('${LAST}'):] if e))")
+          echo "Janela de edições: $EDITIONS"
+          for n in $EDITIONS; do
+            if [ -f "debug/edition_${n}_audit.json" ]; then echo "#$n já auditada"; continue; fi
+            id=$(gh api "repos/${{ github.repository }}/actions/artifacts" --paginate \
+                 --jq ".artifacts[] | select(.name==\"debug-$n\") | .id" | head -1)
+            if [ -n "$id" ]; then
+              gh api "repos/${{ github.repository }}/actions/artifacts/$id/zip" > "/tmp/debug-$n.zip" \
+                && unzip -o -q "/tmp/debug-$n.zip" -d debug/ && echo "baixado debug-$n"
+            else
+              echo "sem artifact debug-$n (expirado?)"
+            fi
+          done
+          python audit_agent.py --all --skip-existing || echo "audit parcial — seguindo para o relatório"
+
       - name: Generate content report
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
@@ -52,13 +82,13 @@ jobs:
         if: success()
         continue-on-error: true
         run: |
-          if [ -z "$(git status --porcelain reports/ memory/editions.jsonl)" ]; then
+          if [ -z "$(git status --porcelain reports/ memory/editions.jsonl debug/)" ]; then
             echo "Sem mudanças — nada a commitar."
             exit 0
           fi
           git config user.name "aya-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add reports/ memory/editions.jsonl
+          git add reports/ memory/editions.jsonl debug/
           git commit -m "chore(report): relatório de conteúdo semanal $(date +%Y-%m-%d)" || { echo "nada a commitar"; exit 0; }
           git pull --rebase --autostash origin main || echo "pull --rebase falhou — seguindo para push"
           git push origin HEAD:main || echo "push falhou — relatório não persistido (sem impacto no pipeline)"
