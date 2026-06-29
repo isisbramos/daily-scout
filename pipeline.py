@@ -60,6 +60,9 @@ AYA_AVATAR_URL = os.environ.get(
     "AYA_AVATAR_URL",
     "https://assineaya.com.br/brand-assets/persona-face-circular.jpg",
 )
+# Camada 2 (sinal por achado): se setado, embrulha os links dos achados num redirect
+# rastreável que loga (edição, achado, atributos) e segue pra fonte. Vazio = links crus.
+TRACK_BASE_URL = os.environ.get("TRACK_BASE_URL", "")
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
 SOCIAL_ENABLED = os.environ.get("SOCIAL_ENABLED", "false").lower() == "true"
 # DEBUG_SAVE=true → salva curation output + pre-filter items em debug/ para o audit agent
@@ -449,6 +452,27 @@ def curate_and_write(
     raise CurationError(f"DeepSeek failed after {max_retries} attempts")
 
 
+# ── Camada 2: tracking de clique por achado ──────────────────────────
+def make_tracked_url(url, edition, kind, idx="", aud="", src="", claim=""):
+    """Embrulha a URL de um achado num redirect rastreável (filtro Jinja `track`).
+
+    Sem TRACK_BASE_URL configurado, devolve a URL crua — desligado por padrão,
+    então a mudança no template é inerte até o endpoint de redirect existir.
+    """
+    if not TRACK_BASE_URL or not url:
+        return url
+    from urllib.parse import urlencode
+    qs = urlencode({
+        "ed": edition,
+        "id": f"{kind}{idx}",
+        "aud": aud or "",
+        "src": src or "",
+        "claim": claim or "",
+        "to": url,
+    })
+    return f"{TRACK_BASE_URL}?{qs}"
+
+
 # ── Render: Jinja2 HTML ──────────────────────────────────────────────
 def render_email(
     content: dict,
@@ -472,6 +496,7 @@ def render_email(
         loader=FileSystemLoader(template_dir),
         autoescape=True,
     )
+    env.filters["track"] = make_tracked_url  # Camada 2: links rastreáveis (no-op se TRACK_BASE_URL vazio)
     template = env.get_template("email.html")
 
     brt = timezone(timedelta(hours=-3))
