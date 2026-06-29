@@ -152,7 +152,7 @@
 
               <!-- Link -->
               <div style="margin-top: 14px; word-break: break-all;">
-                <a href="{{ main_find.url | track(edition_number, 'main', '', main_find.primary_audience, main_find.source, main_find.claim_status) }}" style="color: #818CF8; font-size: 13px; font-weight: bold; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
+                <a href="{{ main_find.url | track(edition_number, 'main', '', main_find.primary_audience, main_find.claim_status) }}" style="color: #818CF8; font-size: 13px; font-weight: bold; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
                   :: {{ main_find.display_url }}
                 </a>
               </div>
@@ -193,7 +193,7 @@
                       <span style="color: #22C55E; font-weight: bold;">signal:</span> {{ find.signal }}
                     </div>
                     <div style="margin-top: 4px; word-break: break-all;">
-                      <a href="{{ find.url | track(edition_number, 'q', loop.index, find.primary_audience, find.source, find.claim_status) }}" style="color: #94A3B8; font-size: 11px; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
+                      <a href="{{ find.url | track(edition_number, 'q', loop.index, find.primary_audience, find.claim_status) }}" style="color: #94A3B8; font-size: 11px; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
                         :: {{ find.display_url }}
                       </a>
                     </div>
@@ -239,7 +239,7 @@
                       <span style="color: #FBBF24; font-weight: bold;">keep an eye:</span> {{ item.why_watch }}
                     </div>
                     <div style="margin-top: 4px; word-break: break-all;">
-                      <a href="{{ item.url | track(edition_number, 'r', loop.index, '', item.source) }}" style="color: #94A3B8; font-size: 11px; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
+                      <a href="{{ item.url | track(edition_number, 'r', loop.index) }}" style="color: #94A3B8; font-size: 11px; text-decoration: none; font-family: 'Courier New', Courier, monospace;">
                         :: {{ item.display_url }}
                       </a>
                     </div>
