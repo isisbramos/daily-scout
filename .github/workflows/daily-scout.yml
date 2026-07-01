@@ -61,6 +61,7 @@ jobs:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
           EDITION_NUMBER: ${{ steps.edition.outputs.number }}
           FEEDBACK_BASE_URL: ${{ secrets.FEEDBACK_BASE_URL }}
+          TRACK_BASE_URL: ${{ secrets.TRACK_BASE_URL }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           SOCIAL_ENABLED: 'false'
           DEBUG_SAVE: 'true'

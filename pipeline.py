@@ -60,6 +60,9 @@ AYA_AVATAR_URL = os.environ.get(
     "AYA_AVATAR_URL",
     "https://assineaya.com.br/brand-assets/persona-face-circular.jpg",
 )
+# Camada 2 (sinal por achado): se setado, embrulha os links dos achados num redirect
+# rastreável que loga (edição, achado, atributos) e segue pra fonte. Vazio = links crus.
+TRACK_BASE_URL = os.environ.get("TRACK_BASE_URL", "")
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
 SOCIAL_ENABLED = os.environ.get("SOCIAL_ENABLED", "false").lower() == "true"
 # DEBUG_SAVE=true → salva curation output + pre-filter items em debug/ para o audit agent
@@ -449,6 +452,31 @@ def curate_and_write(
     raise CurationError(f"DeepSeek failed after {max_retries} attempts")
 
 
+# ── Camada 2: tracking de clique por achado ──────────────────────────
+def make_tracked_url(url, edition, kind, idx="", aud="", claim="", src=""):
+    """Embrulha a URL de um achado num redirect rastreável (filtro Jinja `track`).
+
+    Sem TRACK_BASE_URL configurado, devolve a URL crua — desligado por padrão,
+    então a mudança no template é inerte até o endpoint de redirect existir.
+
+    `src` (fonte canônica) NÃO vem do template: o campo source do achado é vazio
+    no output do LLM. O wrapper em render_email resolve a fonte pela URL via
+    source_index (mesmo mapa determinístico que alimenta o sources_used).
+    """
+    if not TRACK_BASE_URL or not url:
+        return url
+    from urllib.parse import urlencode
+    qs = urlencode({
+        "ed": edition,
+        "id": f"{kind}{idx}",
+        "aud": aud or "",
+        "src": src or "",
+        "claim": claim or "",
+        "to": url,
+    })
+    return f"{TRACK_BASE_URL}?{qs}"
+
+
 # ── Render: Jinja2 HTML ──────────────────────────────────────────────
 def render_email(
     content: dict,
@@ -456,6 +484,7 @@ def render_email(
     filtered_count: int,
     active_sources: list[str],
     runtime: str,
+    source_index: dict | None = None,
 ) -> str:
     """Renderiza o template HTML com o conteúdo curado."""
     logger.info("=" * 50)
@@ -472,6 +501,12 @@ def render_email(
         loader=FileSystemLoader(template_dir),
         autoescape=True,
     )
+    # Camada 2: filtro `track` resolve a fonte real pela URL (source_index), já que
+    # o campo source do achado vem vazio do LLM. No-op se TRACK_BASE_URL vazio.
+    def _track(url, edition, kind, idx="", aud="", claim=""):
+        src = (source_index or {}).get(url, "")
+        return make_tracked_url(url, edition, kind, idx, aud, claim, src)
+    env.filters["track"] = _track
     template = env.get_template("email.html")
 
     brt = timezone(timedelta(hours=-3))
@@ -590,12 +625,16 @@ def run_pipeline():
 
         # ── Step 4: Render ──
         elapsed = f"{time.time() - start_time:.1f}s"
+        # Mapa URL→fonte canônica (mesmo usado pela memória editorial). Alimenta o
+        # tracking de clique por achado, já que o campo source do LLM vem vazio.
+        render_source_index = {it.url: it.source_id for it in filtered_items}
         html = render_email(
             content,
             raw_count=len(raw_items),
             filtered_count=len(filtered_items),
             active_sources=active_sources,
             runtime=elapsed,
+            source_index=render_source_index,
         )
 
         # ── Step 5: Save local (artifact) ──
