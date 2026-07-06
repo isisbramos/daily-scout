@@ -1,0 +1,94 @@
+{
+  "edition": "105",
+  "audited_at": "2026-07-06T12:15:27.162226-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (vazamento YouTube) não passa no AI Gate e não atende 2/3 critérios: não é acionável para o leitor de tech (não há ferramenta para testar), não é sinal de mercado, e não afeta workflows de AI. Quick_find 'Midjourney quer transparência' é borderline: tem conexão AI, mas é mais thought-leadership do que acionável ou sinal de mercado forte. Os demais quick_finds (chip chinês, Meta-Samsung, GPT-5.5) estão corretos. Radar items são adequados como watch.",
+    "issues": [
+      "Main_find não tem conexão com AI/ML, automação inteligente ou decisão de empresa de AI. Exceção de magnitude não se aplica (não é aquisição >$1B, regulação governamental ou shutdown de plataforma major).",
+      "Main_find não é acionável (leitor não pode testar ou mudar processo), não é sinal de mercado (não revela movimento estratégico de player), e não afeta workflows de tech/AI (é sobre segurança de plataforma, não sobre como pessoas trabalham com AI).",
+      "Quick_find 'Midjourney quer transparência' é fraco em acionabilidade e sinal de mercado; poderia ser radar."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom geral é factual, sem hype. Nenhuma palavra de hype identificada. Níveis de certeza preservados: 'reportedly' no Meta-Samsung, 'pode estar' no GPT-5.5. Não há informação inventada. Um pequeno deslize: no main_find, 'Agora é possível que vídeos privados do YouTube sejam vazados' sugere certeza maior que o título original (que descreve vulnerabilidade, não vazamento ativo).",
+    "issues": [
+      "Main_find step5_phrase: 'Agora é possível que vídeos privados do YouTube sejam vazados' — o título original não afirma que vazamentos estão ocorrendo, apenas que uma vulnerabilidade foi descoberta. A frase aumenta ligeiramente a certeza."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find + 4 quick_finds usam 4 fontes diferentes (HackerNews, SCMP, TechCrunch, Reddit) — boa diversidade. Audiência: main_find é 'todos', quick_finds têm 'executivos de negócio', 'product managers', 'desenvolvedores' — diversa. Geografia: main_find (global), chip chinês (China), Meta-Samsung (global), Midjourney (EUA), GPT-5.5 (global) — boa. Um quick_find a mais do Reddit não quebra.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('vazamento de vídeos privados de criadores do YouTube'). Não é genérica. Corresponde ao esperado.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap conhecido de observability). Conforme instrução, score = 3 (neutro, não avaliável). Issue registrada: 'campo reasoning ausente (observability, não editorial)'. Não rebaixa overall_score.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Alibaba reportedly bans employees from using Claude Code",
+      "source": "TechCrunch",
+      "why_should_include": "Passa no AI Gate (decisão de empresa de AI), é sinal de mercado (movimento estratégico de big tech restringindo uso de concorrente), e afeta workflows (desenvolvedores na China/Alibaba).",
+      "missed_criteria": [
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Shadcn/UI now defaults to Base UI instead of Radix",
+      "source": "HackerNews",
+      "why_should_include": "É acionável (desenvolvedores podem testar nova configuração), sinal de mercado (mudança de dependência em ecossistema UI), e afeta workflows de front-end. Não passa no AI Gate, mas é tech relevante para o público.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    },
+    {
+      "title": "Citi CEO says 2 AI races are shaping future of banking",
+      "source": "SCMP Tech",
+      "why_should_include": "Passa no AI Gate (AI em banking), é sinal de mercado (declaração de CEO de banco global sobre estratégia de AI), e é acionável para executivos (insight sobre direção do setor).",
+      "missed_criteria": []
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Vazamento expõe vídeos privados de criadores do YouTube",
+      "field": "main_find",
+      "why_should_discard": "Não passa no AI Gate (não tem conexão com AI/ML, automação inteligente ou decisão de empresa de AI). Exceção de magnitude não se aplica. Também não atende 2/3 critérios: não é acionável, não é sinal de mercado, não afeta workflows de tech/AI.",
+      "violated_rule": "STEP 1 - AI Gate"
+    },
+    {
+      "title": "Midjourney quer que estúdios de Hollywood revelem detalhes de uso de IA",
+      "field": "quick_finds",
+      "why_should_discard": "Embora passe no AI Gate, é essencialmente thought-leadership sem novidade concreta (pedido de transparência, não ação ou produto). Não é acionável (leitor não pode testar ou mudar processo), e o sinal de mercado é fraco. Poderia ser radar.",
+      "violated_rule": "STEP 3 - Anti-signals: Blog corporativo de thought-leadership sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: O prompt pode não estar explicitamente exigindo que o main_find passe no AI Gate, ou a exceção de magnitude pode estar mal definida, levando a seleção de item não-AI.",
+      "evidence": "Main_find sobre vazamento YouTube não tem conexão com AI, mas foi selecionado como principal. Isso sugere que o critério AI Gate foi ignorado ou mal interpretado.",
+      "suggested_fix": "Reforçar no prompt que o main_find DEVE passar no AI Gate, a menos que se enquadre na exceção de magnitude (aquisição >$1B, regulação governamental, shutdown de plataforma major)."
+    },
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: O prompt pode não estar exigindo que o main_find atenda a pelo menos 2 dos 3 critérios (acionável, sinal de mercado, afeta workflows).",
+      "evidence": "Main_find não atende a nenhum dos três critérios, mas foi selecionado. Quick_find 'Midjourney' também é fraco nos critérios.",
+      "suggested_fix": "Adicionar verificação explícita: 'O main_find deve satisfazer pelo menos 2 dos 3 critérios. Se não, rebaixar para radar ou descartar.'"
+    },
+    {
+      "hypothesis": "STEP 3 - Anti-signals: O prompt pode não estar filtrando adequadamente thought-leadership sem novidade concreta.",
+      "evidence": "Quick_find 'Midjourney quer transparência' é essencialmente um pedido público, sem lançamento de produto, mudança de política ou dado novo. Foi incluído como quick_find em vez de radar.",
+      "suggested_fix": "Incluir exemplo de thought-leadership no anti-signals e instruir a mover para radar se não houver novidade concreta."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição #105 tem um problema grave de alinhamento editorial: o main_find não passa no AI Gate e não atende aos critérios de seleção, sendo um falso positivo. Além disso, um quick_find é thought-leadership sem novidade concreta. A diversidade e o tom estão bons, e a intro está correta. O reasoning não pôde ser avaliado por ausência do campo. A edição precisa de ajustes no processo de seleção para garantir que o item principal seja relevante para AI/tech e atenda aos critérios mínimos."
+}

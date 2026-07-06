@@ -1,0 +1,76 @@
+{
+  "edition": "106",
+  "audited_at": "2026-07-06T12:15:46.665774-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (ByteDance/Alibaba agent shutdown) passes AI Gate and is actionable. Quick_find 'When AI Costs More Than the Engineer' is speculative but passes AI Gate and signal. Quick_find 'Amazon Mechanical Turk' is tangentially AI (data labeling) but actionable. Quick_find 'Global robotaxi market' is AI-adjacent and signal. However, 'GPT-5.6 Sol Ultra' in radar is a tweet with no confirmation, borderline anti-signal (rehashed hype). No false positives in main/quick finds.",
+    "issues": [
+      "Radar item 'GPT-5.6 Sol Ultra' is a tweet with no official confirmation, could be considered rehashed hype."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "No hype words found. Titles with 'reportedly' (e.g., GPT-5.6) are correctly treated as speculative in radar. Main_find body accurately reflects the source. Quick_find 'When AI Costs More Than the Engineer' uses 'may' in body, matching the speculative nature. No invented details.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Sources: main_find from TechNode, quick_finds from HackerNews, TechCrunch, SCMP – good diversity. Audience: main_find and two quick_finds target 'developers', only one targets 'executives' – slightly skewed. Geography: three items involve China (main_find, robotaxi, Biren in radar), two US (Mechanical Turk, AI cost) – reasonable balance.",
+    "issues": [
+      "Primary audience is heavily developer-focused (3 out of 4 items)."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "First sentence directly mentions the main_find topic (ByteDance and Alibaba agent shutdown). It is specific and not generic.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 4,
+    "rationale": "Reasoning correctly identifies AI Gate items and explains main_find choice. However, it lists 'GPT-5.6 Sol Ultra' as direct AI but then places it in radar, which is consistent. No contradictions. The perspective_check is not present in the output, but reasoning does not mention it.",
+    "issues": [
+      "Reasoning mentions 'perspective_check' but the output does not include that field; minor inconsistency."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "China’s Biren seeks US$900m to fund GPU push and challenge Nvidia amid AI boom",
+      "source": "SCMP Tech",
+      "why_should_include": "Direct AI Gate (GPU for AI), strong market signal (funding round >$5B? No, but $900M is significant and challenges Nvidia), actionable for investors and tech strategists.",
+      "missed_criteria": [
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Revealed: landmark Scottish AI project has no prospect of meeting renewables promise",
+      "source": "r/artificial",
+      "why_should_include": "Direct AI Gate, regulatory/critical signal, affects public perception and policy. Could be a quick_find or radar.",
+      "missed_criteria": [
+        "Acionável"
+      ]
+    },
+    {
+      "title": "AI-enhanced rare-event sampling helps predict extreme weather",
+      "source": "r/artificial",
+      "why_should_include": "Direct AI Gate, research advance with potential workflow impact (weather prediction). Should have been a quick_find instead of radar.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: The rule allows 'magnitude excepcional' exceptions, but the editor may have undervalued Biren's $900M funding as not >$5B, missing its strategic importance.",
+      "evidence": "Biren item was not selected despite being direct AI and strong market signal.",
+      "suggested_fix": "Clarify that funding rounds >$500M with clear AI relevance can qualify as market signal even if below $5B."
+    },
+    {
+      "hypothesis": "STEP 2 - Anti-signals: The rule 'Funding round without new info' may have been applied too strictly to Biren, which does have new info (challenge Nvidia).",
+      "evidence": "Biren item omitted; it includes strategic shift (GPU push) and is not just a funding announcement.",
+      "suggested_fix": "Add explicit note that funding rounds with explicit strategic intent (e.g., 'challenge Nvidia') are not anti-signals."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida com boa seleção e tom. Falha em incluir Biren funding como quick_find (forte sinal de mercado). Radar inclui item especulativo (GPT-5.6 tweet). Audiência levemente desbalanceada para desenvolvedores."
+}

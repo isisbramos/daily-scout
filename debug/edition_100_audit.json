@@ -1,0 +1,82 @@
+{
+  "edition": "100",
+  "audited_at": "2026-07-06T12:14:15.813376-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (DeepSeek V4) e quick_finds (Qwen 3.6, China chip, OKX, Base44) passam no AI Gate e satisfazem pelo menos 2 critérios. Nenhum anti-signal evidente. Porém, o item 'OKX quer que agentes de IA contratem e paguem uns aos outros' é especulativo e tem baixo acionabilidade imediata, mas ainda assim é sinal de mercado.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de hype identificada. Títulos com 'may/might' foram mantidos no condicional (ex: 'OKX quer' no quick_find). Nenhuma informação inventada. Apenas um pequeno exagero no quick_find 'China afirma ter maior modelo...' que repete a alegação sem questionamento crítico.",
+    "issues": [
+      "Quick_find 'China afirma ter maior modelo...' poderia incluir disclaimer sobre a fonte ser estatal."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: TechCrunch aparece 2 vezes (OKX e Base44), mas são itens diferentes. Audiência: primary_audience variado (developers, executivos, product managers). Geografia: 2 itens da China (DeepSeek, China chip), 1 dos EUA (Base44), 1 global (OKX). Diversidade adequada.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o main_find (DeepSeek V4 e precificação). Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (gap de observability). Conforme instrução, score = 3 (neutro). Não é falha editorial.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "US Supreme Court rules geofence warrants require constitutional protections",
+      "source": "HackerNews",
+      "why_should_include": "Decisão da Suprema Corte dos EUA sobre geofence warrants é regulatório crítico, afeta workflows de empresas de tech e tem magnitude excepcional.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    },
+    {
+      "title": "Chamath Palihapitiya raises $135M Series A for his AI coding startup, takes CEO role",
+      "source": "TechCrunch",
+      "why_should_include": "Funding round de $135M em AI coding startup com figura conhecida é sinal de mercado e acionável para investidores.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "CXMT and Tencent reportedly reach $2.94 billion DRAM supply agreement",
+      "source": "TechNode",
+      "why_should_include": "Acordo de $2.94B em DRAM é magnitude excepcional (>$1B) e sinal de mercado na cadeia de suprimentos de AI.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "OKX quer que agentes de IA contratem e paguem uns aos outros",
+      "field": "quick_finds",
+      "why_should_discard": "Item especulativo, sem data de lançamento ou detalhes concretos. Baixo acionabilidade imediata. Poderia ser radar.",
+      "violated_rule": "STEP 1 - AI Gate (conexão fraca com AI/ML real)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) pode estar sendo interpretado de forma muito ampla, permitindo itens especulativos como OKX.",
+      "evidence": "OKX foi incluído como quick_find mesmo sendo especulativo e com baixa acionabilidade.",
+      "suggested_fix": "Reforçar que itens especulativos sem roadmap concreto devem ir para radar, não quick_finds."
+    },
+    {
+      "hypothesis": "Critério de magnitude excepcional pode estar subvalorizado, levando a exclusão de itens regulatórios e de M&A.",
+      "evidence": "Supreme Court geofence e CXMT-Tencent DRAM deal foram ignorados, apesar de magnitude excepcional.",
+      "suggested_fix": "Adicionar checklist explícito para magnitude excepcional (ex: >$1B, regulação governamental) no prompt."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa diversidade e tom factual. Perdeu 3 itens relevantes (Supreme Court, Chamath funding, CXMT DRAM deal) e incluiu um item especulativo (OKX). Campo reasoning ausente por limitação técnica, não editorial."
+}

@@ -1,0 +1,53 @@
+{
+  "edition": "103",
+  "audited_at": "2026-07-06T12:14:59.082131-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Kuaishou) passa AI Gate e atende sinal de mercado e acionável. Quick_finds: Índia (AI Gate, acionável e sinal de mercado), Zuckerberg (AI Gate, sinal de mercado e afeta workflows), Wiola (AI Gate, acionável para desenvolvedores). Nenhum anti-signal evidente. Porém, o item 'Alibaba to ban Claude Code' (presente no input) não foi selecionado, mas poderia ser um quick_find forte (AI Gate, sinal de mercado, afeta workflows). Isso não é um false positive, mas uma omissão que afeta a cobertura.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de hype identificada. Certeza preservada: títulos com 'may/might' não foram transformados em afirmações diretas. Nenhuma informação inventada. Bullets e signals são fiéis aos títulos e fontes.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find (SCMP Tech, TechNode), quick_finds (Rest of World, TechCrunch, arXiv) – boa variedade. Audiência: executivos de negócio (main_find), product managers/fundadores (Índia, Zuckerberg), desenvolvedores (Wiola) – diversa. Geografia: China (Kuaishou), Índia, EUA (Meta), global (pesquisa) – equilibrada. Leve concentração em China (Kuaishou + Alibaba omitido), mas ainda aceitável.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o main_find (Kuaishou e US$ 3 bi). Não é genérica. Correta.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 4,
+    "rationale": "O reasoning descreve que descartou 28 posts por não AI Gate ou thought-leadership, e manteve 12 candidatos. Coerente com o output. Explica por que Kuaishou foi main_find (sinal de mercado, acionável). A perspective_check (diversidade) é observação real. Pequena contradição: o reasoning menciona 'Alibaba/Claude Code (regulação/crítica)' como quick_find, mas no output não aparece – foi omitido. Isso indica que o reasoning não reflete exatamente o output final.",
+    "issues": [
+      "Reasoning menciona Alibaba/Claude Code como quick_find, mas não está no output."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+      "source": "HackerNews",
+      "why_should_include": "Passa AI Gate (decisão de empresa de AI sobre ferramenta de AI), sinal de mercado (movimento estratégico de grande empresa chinesa), afeta workflows (desenvolvedores que usam Claude Code). Atende 3 critérios.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: AYA pode ter interpretado 'acionável' de forma restrita, descartando notícias de banimento por não serem 'testar ferramenta'.",
+      "evidence": "Alibaba/Claude Code foi omitido, apesar de ser acionável (desenvolvedores podem precisar migrar de ferramenta) e forte sinal de mercado.",
+      "suggested_fix": "Reforçar no prompt que 'acionável' inclui decisões de não usar uma ferramenta ou mudar de fornecedor."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa diversidade e tom factual. O principal problema é a omissão do item 'Alibaba to ban Claude Code', que atende todos os critérios e poderia substituir ou complementar quick_finds. O reasoning tem pequena inconsistência ao mencionar esse item como quick_find mas não incluí-lo. No geral, qualidade alta."
+}

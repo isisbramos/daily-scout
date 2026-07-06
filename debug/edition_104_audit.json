@@ -1,0 +1,85 @@
+{
+  "edition": "104",
+  "audited_at": "2026-07-06T12:15:09.609798-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Leanstral 1.5) e quick_finds (Alibaba Elements Claw, ByteDance scaling law) passam no AI Gate e satisfazem pelo menos 2 critérios. No entanto, o radar inclui 'Jamesob's guide to running SOTA LLMs locally' que, embora acionável, é um guia prático sem novidade concreta (rehashed news? não, mas é um tutorial que não revela movimento estratégico ou shift de workflow significativo). Além disso, o radar 'Repeat the text' é um post do Reddit sem confirmação independente, mas pode ser considerado sinal de segurança. Nenhum anti-signal claro.",
+    "issues": [
+      "Radar 'Jamesob's guide' é um tutorial sem novidade concreta, poderia ser descartado como rehashed ou blog corporativo (embora não corporativo).",
+      "Quick_find 'ByteDance scaling law' é especulativo (claim_status: especulativo), mas ainda assim é sinal de mercado."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom geral é factual, sem palavras de hype. O main_find.body usa 'promete' que reflete o anúncio. O quick_find 'ByteDance' tem claim_status 'especulativo' e o body usa 'pode permitir' e 'se confirmado', mantendo condicional. Não há informação inventada. Um pequeno deslize: no main_find.body, 'promete' poderia ser visto como leve hype, mas é aceitável por vir do anúncio original.",
+    "issues": [
+      "Main_find.body: 'promete' é fiel ao anúncio, mas poderia ser substituído por 'afirma' para maior neutralidade."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find (Mistral blog), quick_finds (SCMP x2). Dois itens do SCMP é aceitável (max 2). Audiência: main_find e ByteDance são 'desenvolvedores', Elements Claw é 'todos' — há diversidade. Geografia: Mistral (França), Alibaba e ByteDance (China) — boa diversidade geográfica. Nenhum problema grave.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o Leanstral 1.5 da Mistral, que é o main_find. Não é genérica. A frase é direta e informativa.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os itens que passam no AI Gate e justifica a seleção. No entanto, há contradição: o reasoning diz que 'Jamesob's guide' é 'acionável' e o coloca no radar, mas depois no radar diz 'Ainda cedo para conclusão' — isso é inconsistente. Além disso, o reasoning menciona 'repeat the text' como 'achado de segurança' e o coloca no radar, mas não explica por que não foi incluído como quick_find. A perspective_check não está presente no reasoning (campo não usado).",
+    "issues": [
+      "Contradição: reasoning classifica 'Jamesob's guide' como acionável, mas radar diz 'Ainda cedo para conclusão'.",
+      "Falta clareza sobre por que 'repeat the text' foi para radar e não para quick_finds."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Alibaba bans staff from using Claude Code over Anthropic spyware concerns",
+      "source": "SCMP Tech",
+      "why_should_include": "É um sinal de mercado forte (regulação corporativa) e afeta workflows de desenvolvedores na China. Passa no AI Gate e satisfaz pelo menos 2 critérios (sinal de mercado + afeta workflows).",
+      "missed_criteria": [
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Google DeepMind and A24 announce first-of-its-kind research partnership",
+      "source": "Google DeepMind Blog",
+      "why_should_include": "Parceria inédita entre DeepMind e estúdio de cinema A24 pode sinalizar nova aplicação de IA em mídia. Passa no AI Gate e satisfaz sinal de mercado e afeta workflows (criativos).",
+      "missed_criteria": [
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Performance per dollar is getting faster and cheaper",
+      "source": "HackerNews",
+      "why_should_include": "Post sobre eficiência de hardware/software para IA, com alta tração (235 pontos). Passa no AI Gate (discute performance de modelos) e é acionável para quem busca otimizar custos.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Jamesob's guide to running SOTA LLMs locally",
+      "field": "radar",
+      "why_should_discard": "É um guia prático sem novidade concreta, poderia ser considerado rehashed (tutorial comum) ou blog corporativo (embora pessoal). Não revela movimento estratégico nem shift de workflow significativo.",
+      "violated_rule": "Anti-signal: rehashed news / blog de thought-leadership sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 4 (radar) pode estar muito permissivo com itens acionáveis mas sem novidade concreta.",
+      "evidence": "Jamesob's guide foi incluído no radar apesar de ser um tutorial comum, sem sinal de mercado ou novidade.",
+      "suggested_fix": "Reforçar que radar deve conter apenas sinais emergentes, não tutoriais ou guias já consolidados."
+    },
+    {
+      "hypothesis": "A regra de 'acionável' pode estar sendo interpretada de forma muito ampla, incluindo tutoriais que não trazem novidade.",
+      "evidence": "Jamesob's guide é acionável (pode testar), mas não atende aos outros critérios (sinal de mercado, afeta workflows).",
+      "suggested_fix": "Esclarecer que 'acionável' sozinho não é suficiente; precisa de pelo menos 2 critérios, e tutorial sem novidade não conta como sinal de mercado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa seleção de main_find e quick_finds, mas o radar inclui um tutorial sem novidade concreta (Jamesob's guide). Além disso, o reasoning apresenta contradição sobre a classificação desse item. Três itens relevantes (Alibaba bans Claude Code, DeepMind-A24, performance per dollar) foram deixados de fora como false negatives."
+}

@@ -1,0 +1,94 @@
+{
+  "edition": "101",
+  "audited_at": "2026-07-06T12:14:28.434440-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Claude Science) e quick_finds (Claude Code steganography, NVIDIA hiring, China roadmap) passam no AI Gate e satisfazem pelo menos 2 critérios. No entanto, o quick_find sobre NVIDIA hiring é fraco em acionabilidade e sinal de mercado (apenas contratações, sem produto ou estratégia nova). Além disso, o radar item 'Contrastive Reflection' é um paper de pesquisa sem aplicação imediata, o que o torna borderline para a newsletter.",
+    "issues": [
+      "NVIDIA hiring quick_find tem baixo sinal de mercado (apenas contratações, sem anúncio de produto ou parceria).",
+      "Radar item 'Contrastive Reflection' é pesquisa pura, sem evidência de adoção ou impacto imediato."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom geral é factual, sem hype. O main_find body afirma 'produto focado em cientistas' e 'aposta em workflows', o que condiz com as fontes. O quick_find sobre Claude Code usa 'estaria marcando' (condicional) e 'especulativo' no claim_status, correto. Nenhuma informação inventada detectada. Pequeno deslize: no main_find bullets, 'Sinal de que a concorrência em IA está migrando de modelos para aplicações verticais' é uma inferência não explicitamente apoiada pelas fontes, mas plausível.",
+    "issues": [
+      "Main_find bullet 3 é inferência não diretamente suportada pelas fontes citadas."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find usa MIT Tech Review e TechCrunch; quick_finds usam HackerNews, TechNode, SCMP. Há diversidade de fontes. Audiência: main_find primary_audience é 'product managers e fundadores', quick_finds têm 'desenvolvedores', 'todos', 'executivos de negócio' – boa variedade. Geografia: 2 itens sobre China (NVIDIA hiring, China roadmap) e 2 sobre Anthropic (EUA). Não há concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o main_find: 'Hoje o destaque vai para o lançamento do Claude Science pela Anthropic.' É direta e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap conhecido). Conforme instrução, score = 3 (neutro, não avaliável). Issues registradas como 'campo reasoning ausente (observability, não editorial)'.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Trump drops restrictions on Anthropic’s Mythos and Fable models",
+      "source": "TechCrunch",
+      "why_should_include": "Regulação governamental sobre modelos de IA é sinal de mercado forte e afeta workflows de quem usa ou desenvolve com esses modelos.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "UBTECH unveils consumer humanoid robot U1, says orders secure 11,000 ahead of first deliveries",
+      "source": "TechNode",
+      "why_should_include": "Lançamento de produto com pedidos concretos é acionável (sinal de demanda) e sinal de mercado (robótica consumer).",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Netflix uses AI to recreate Gene Wilder's voice for new Willy Wonka competition show",
+      "source": "r/artificial",
+      "why_should_include": "Uso de AI para recriar voz de ator falecido é polêmico e afeta workflows de produção de conteúdo, além de ser sinal de mercado (aplicação de AI em entretenimento).",
+      "missed_criteria": [
+        "Afeta workflows",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "NVIDIA expands robotics hiring in China, opens roles in Beijing, Shanghai, and Shenzhen",
+      "field": "quick_finds",
+      "why_should_discard": "Apenas contratações, sem anúncio de produto, parceria ou estratégia nova. Não é acionável (não há ferramenta para testar) e o sinal de mercado é fraco.",
+      "violated_rule": "STEP 1 - AI Gate (não é decisão de empresa de AI? é, mas critérios de seleção: não satisfaz 2 de 3)"
+    },
+    {
+      "title": "Contrastive Reflection for Iterative Prompt Optimization",
+      "field": "radar",
+      "why_should_discard": "Paper de pesquisa sem evidência de adoção ou aplicação prática imediata. Não atende critérios de acionabilidade ou sinal de mercado.",
+      "violated_rule": "STEP 1 - AI Gate (passa, mas critérios de seleção: não satisfaz 2 de 3)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate pode estar sendo interpretado de forma muito ampla, permitindo itens com conexão tangencial com AI.",
+      "evidence": "NVIDIA hiring quick_find foi incluído mesmo sendo apenas contratações, sem produto ou estratégia nova.",
+      "suggested_fix": "Reforçar que 'conexão com AI' não é suficiente; o item precisa também satisfazer 2 de 3 critérios de seleção."
+    },
+    {
+      "hypothesis": "Critério 'Sinal de mercado' pode estar sendo mal aplicado, confundindo movimento estratégico com notícias de RH.",
+      "evidence": "NVIDIA hiring foi considerado sinal de mercado, mas não revela shift de política, M&A ou mudança de categoria.",
+      "suggested_fix": "Incluir exemplo explícito no prompt: 'contratações sem anúncio de produto ou parceria não contam como sinal de mercado'."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição tem main_find e quick_finds adequados, mas inclui um quick_find fraco (NVIDIA hiring) e um radar de pesquisa sem aplicação imediata. Dois false negatives relevantes (Trump restrictions, UBTECH robot) ficaram de fora. Tom e diversidade estão bons. Reasoning não avaliável por ausência do campo."
+}
