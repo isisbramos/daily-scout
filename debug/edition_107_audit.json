@@ -1,0 +1,90 @@
+{
+  "edition": "107",
+  "audited_at": "2026-07-13T11:09:28.595020-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Tencent Hy3) passa no AI Gate e é acionável para desenvolvedores, mas não é o maior sinal de mercado (SK Hynix ou veículos autônomos seriam mais fortes). Quick_finds: 'Primeiro ataque de ransomware com IA' é borderline (não é claramente acionável nem sinal de mercado forte). 'ASK in the Dark' é pesquisa acadêmica sem aplicação imediata, falha em acionável e sinal de mercado. Nenhum anti-signal claro.",
+    "issues": [
+      "Main_find poderia ser mais forte (SK Hynix ou veículos autônomos têm maior sinal de mercado).",
+      "Quick_find 'ASK in the Dark' é pesquisa sem acionabilidade imediata ou sinal de mercado."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "Nenhum hype identificado. Títulos com 'may/might' foram mantidos no condicional (ex: 'poderão comprar'). Nenhuma informação inventada. Tom factual e direto.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: 3 itens do TechCrunch (main_find é TechNode, quick_finds têm 2 TechCrunch, 1 arXiv). Audiência: 2 desenvolvedores, 2 executivos, 1 todos – boa diversidade. Geografia: 2 China, 1 EUA/Ucrânia, 1 global – ok. Leve concentração em TechCrunch.",
+    "issues": [
+      "Dois quick_finds são do TechCrunch (veículos autônomos e ransomware)."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "Primeira frase menciona especificamente o lançamento do Hunyuan Hy3 pela Tencent, que é o main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (gap de observability). Conforme instrução, score = 3 (neutro). Issues registradas como 'campo reasoning ausente (observability, não editorial)'.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "The first American autonomous ground vehicles are fighting in Ukraine",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado forte: uso real de IA militar em combate, afeta workflows de defesa e geopolítica.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "US investors will soon get access to SK Hynix, another memory maker riding the AI boom",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado claro: abertura de investimento em fornecedor crítico de memória para IA, acionável para investidores.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Every major tech layoff in 2026 that has name-checked AI",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado e afeta workflows: mostra tendência de substituição de empregos por IA, relevante para todos os públicos.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "ASK in the Dark: Uncertainty-Gated LLM Assistance under Partial Observability",
+      "field": "quick_finds",
+      "why_should_discard": "Pesquisa acadêmica sem aplicação imediata, não é acionável nem sinal de mercado forte.",
+      "violated_rule": "STEP 2 - Critérios de seleção: não atende 2 de 3 (acionável, sinal de mercado, afeta workflows)."
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: AYA pode estar priorizando 'acionável' sobre 'sinal de mercado', resultando em quick_finds fracos como 'ASK in the Dark'.",
+      "evidence": "Quick_find 'ASK in the Dark' é acionável para desenvolvedores (técnica de gating), mas não tem sinal de mercado nem afeta workflows amplamente. Enquanto itens como veículos autônomos e SK Hynix têm forte sinal de mercado mas foram relegados a quick_finds.",
+      "suggested_fix": "Reforçar que 'sinal de mercado' e 'afeta workflows' devem ter peso igual a 'acionável', e que pesquisa acadêmica sem aplicação prática imediata deve ser evitada."
+    },
+    {
+      "hypothesis": "STEP 3 - Anti-signals: AYA pode não estar aplicando corretamente a regra de 'funding round sem info nova' ou 'rehashed news', mas não há evidência clara aqui.",
+      "evidence": "Nenhum item no output parece violar anti-signals. Mas a ausência de itens como 'Zhipu AI, MiniMax shares' (que é sobre lock-up, não funding) sugere que AYA pode ter interpretado erroneamente como anti-signal.",
+      "suggested_fix": "Esclarecer que notícias sobre lock-up de ações não são funding rounds e podem ser sinal de mercado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Main_find é adequado mas não o mais forte; quick_find 'ASK in the Dark' é fraco (pesquisa sem aplicação imediata). Três itens fortes (veículos autônomos, SK Hynix, layoffs) ficaram de fora como false negatives. Campo reasoning ausente (não editorial)."
+}

@@ -1,0 +1,83 @@
+{
+  "edition": "109",
+  "audited_at": "2026-07-13T11:10:01.201113-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Databricks benchmark) e quick_finds (Chatto open source, OpenAI policy, Chinese chips) passam no AI Gate e satisfazem pelo menos 2 critérios. O quick_find sobre teoria de complexidade (arXiv) é pesquisa acadêmica sem acionabilidade imediata, mas ainda assim é sinal de pesquisa e afeta workflows de pesquisa. Nenhum anti-signal claro. Porém, o item 'Artigo propõe teoria de complexidade' é borderline em acionabilidade.",
+    "issues": [
+      "Quick find 'Artigo propõe teoria de complexidade para raciocínio' tem baixa acionabilidade para o público geral de desenvolvedores, podendo ser considerado pesquisa pura sem aplicação prática imediata."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de hype identificada. Níveis de certeza preservados (ex: 'reportedly' no item Chinese chips). Nenhuma informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find (Databricks blog), quick_finds (HackerNews, arXiv, OpenAI blog, SCMP) - boa diversidade. Audiência: 3 de 5 itens têm primary_audience 'developers', 2 têm 'executivos de negócio' - razoável. Geografia: 3 itens dos EUA, 1 da China, 1 global - aceitável. Leve desequilíbrio para desenvolvedores.",
+    "issues": [
+      "Três dos cinco itens (main_find + 2 quick_finds) têm primary_audience 'developers', concentrando a newsletter em um único perfil."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('agentes de código'), seguido por menção a benchmarks reais e open source. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap conhecido de observability). Não é possível avaliar coerência. Conforme instrução, score = 3 (neutro) e não rebaixa overall.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "John Deere owners will get the right to repair equipment under FTC settlement",
+      "source": "HackerNews",
+      "why_should_include": "Sinal de mercado forte (regulamentação FTC) e afeta workflows de agricultores e empresas de reparo. Score 840, alta tração.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    },
+    {
+      "title": "Lovable reportedly in talks to double its valuation to $13.2B",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado: valuation bilionária de startup de AI (Lovable é ferramenta de desenvolvimento com AI). Acionável para investidores.",
+      "missed_criteria": [
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Truecaller clashes with India’s telecom regulator over anti-spam rules",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado: regulação impactando empresa de tech. Afeta workflows de usuários de Truecaller na Índia.",
+      "missed_criteria": [
+        "AI Gate"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Artigo propõe teoria de complexidade para raciocínio com busca em contexto",
+      "field": "quick_finds",
+      "why_should_discard": "Pesquisa acadêmica sem acionabilidade imediata para a maioria dos leitores; não atende bem aos critérios de seleção (acionável, sinal de mercado, afeta workflows).",
+      "violated_rule": "Critério de seleção: acionabilidade baixa"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode estar priorizando tração (score) sobre critérios editoriais, levando a inclusão de itens com alta tração mas baixa relevância para o público.",
+      "evidence": "O item 'Artigo propõe teoria de complexidade' tem score 0 e foi incluído, mas não é acionável. Isso sugere que o critério 'pesquisa' pode estar sendo supervalorizado.",
+      "suggested_fix": "Reforçar que acionabilidade e sinal de mercado devem pesar mais que novidade acadêmica."
+    },
+    {
+      "hypothesis": "O prompt pode não estar filtrando adequadamente itens sem conexão com AI (AI Gate), como o caso do John Deere e Truecaller.",
+      "evidence": "Itens com alta tração mas sem AI foram ignorados, mas poderiam ser incluídos se a exceção de magnitude fosse aplicada (ex: regulamentação FTC).",
+      "suggested_fix": "Especificar melhor a exceção de magnitude para incluir regulação governamental mesmo sem AI."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa diversidade de fontes e tom factual. Principais problemas: um quick find com baixa acionabilidade (artigo teórico) e ausência de itens relevantes como John Deere (regulamentação) e Lovable (valuation). O campo reasoning ausente é um gap de observability, não editorial."
+}

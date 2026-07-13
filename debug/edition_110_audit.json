@@ -1,0 +1,78 @@
+{
+  "edition": "110",
+  "audited_at": "2026-07-13T11:10:16.870606-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (GPT-5.6 no Copilot) e quick_finds (Fidji Simo, China H200, Anthropic hidden space, EU Chat Control) passam no AI Gate e satisfazem pelo menos 2 critérios. Nenhum anti-signal evidente. Porém, o quick_find 'Anthropic hidden space' é mais pesquisa do que acionável ou sinal de mercado, mas ainda assim relevante.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de exagero. Certeza preservada (ex: 'pode sinalizar', 'pode representar'). Nenhuma informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes variadas: TechCrunch, SCMP, MIT Tech Review, HackerNews. Audiência: main_find 'todos', quick_finds misturam 'executivos de negócio' e 'desenvolvedores'. Geografia: 2 itens EUA (OpenAI, Anthropic), 1 China, 1 Europa. Boa diversidade, mas poderia incluir mais fontes não-americanas.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "Primeira frase menciona o tema específico do main_find (GPT-5.6 e Copilot). Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 4,
+    "rationale": "Reasoning lista corretamente os itens que passaram no AI Gate e justifica a escolha do main_find. Não há contradições. Porém, o reasoning menciona 'AgentLens' e 'cost analysis' como radar, mas não explica por que não foram selecionados como quick_finds. Coerente no geral.",
+    "issues": []
+  },
+  "false_negatives": [
+    {
+      "title": "MiniMax CEO forgoes salary until ‘AGI achieved’ as firm seeks US$2b amid 80% stock plunge",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado forte: CEO de empresa de IA abrindo mão de salário e buscando funding em meio a queda de 80% das ações. Acionável para investidores.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Paris-based AI voice startup Gradium raises $100M seed, backed by Nvidia",
+      "source": "TechCrunch",
+      "why_should_include": "Funding round de $100M com participação da Nvidia é sinal de mercado relevante, apesar de seed. Acionável para quem acompanha investimentos em IA.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Elon Musk praises Mythos/Fable, promises not to ‘cut off’ Anthropic",
+      "source": "TechCrunch",
+      "why_should_include": "Declaração de Musk sobre não cortar Anthropic pode impactar relações entre empresas de IA. Sinal de mercado.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: AYA pode estar priorizando 'acionável' sobre 'sinal de mercado', deixando de fora itens como MiniMax e Gradium que são fortes sinais de mercado.",
+      "evidence": "MiniMax e Gradium não foram selecionados apesar de serem claros sinais de mercado (funding, mudança de CEO).",
+      "suggested_fix": "Reforçar no prompt que 'sinal de mercado' é tão importante quanto 'acionável' e que funding rounds com info nova (como Gradium) devem ser considerados."
+    },
+    {
+      "hypothesis": "STEP 3 - Anti-signals: AYA pode estar interpretando 'funding round sem info nova' de forma muito ampla, descartando Gradium mesmo tendo info nova (participação da Nvidia).",
+      "evidence": "Gradium foi descartado, mas o funding tem info nova (backing da Nvidia).",
+      "suggested_fix": "Especificar que funding rounds com investidores notáveis ou valores excepcionais (>$100M) não são anti-signal."
+    },
+    {
+      "hypothesis": "STEP 4 - Ranking: AYA pode estar usando score como tiebreaker de forma inadequada, favorecendo itens com mais upvotes (ex: EU Chat Control) em detrimento de outros.",
+      "evidence": "EU Chat Control (score 1397) foi selecionado como quick_find, enquanto MiniMax (sem score) não. Mas o critério principal deveria ser acionabilidade/sinal.",
+      "suggested_fix": "Deixar explícito que score é tiebreaker apenas entre itens de mesma relevância, não critério principal."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa diversidade e tom factual. Perdeu alguns itens de sinal de mercado (MiniMax, Gradium) que poderiam ter sido incluídos como quick_finds. Nenhum falso positivo. Prompt pode estar subvalorizando sinais de mercado em favor de acionabilidade."
+}

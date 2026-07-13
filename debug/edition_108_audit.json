@@ -1,0 +1,82 @@
+{
+  "edition": "108",
+  "audited_at": "2026-07-13T11:09:44.457902-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (ZML) e quick_finds (Claude Cowork, DeepSeek, SambaNova) passam no AI Gate e satisfazem pelo menos 2 critérios. No entanto, o quick_find sobre 'China pondera riscos de segurança de IA de pesos abertos' é um artigo de opinião/debate, não um anúncio concreto de política ou ação; é borderline como sinal de mercado e não é acionável. Além disso, o radar inclui dois artigos do arXiv que são pesquisas iniciais, sem evidência de impacto imediato, o que é aceitável para radar, mas não há false positives claros.",
+    "issues": [
+      "Quick_find 'China pondera riscos...' é debate, não ação concreta; acionabilidade baixa."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "Nenhum termo de hype identificado. O tom é factual e direto. Os títulos originais não usam 'may/might' que tenham sido alterados para afirmações diretas. Não há informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find e quick_finds usam TechCrunch (2x), TechNode, SCMP. Há diversidade de fontes. Audiência: primary_audience varia entre 'desenvolvedores', 'product managers e fundadores', 'executivos de negócio', 'todos' — boa diversidade. Geografia: ZML (França), Claude Cowork (EUA), DeepSeek (China), China policy (China), SambaNova (EUA) — equilibrado. Apenas 2 itens dos EUA, sem concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente a startup ZML e o produto gratuito, que é o tema do main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap conhecido). Conforme instrução, score = 3 (neutro, não avaliável). Issues registradas como 'campo reasoning ausente (observability, não editorial)'.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Every new car sold in the European Union must include a driver monitoring camera",
+      "source": "HackerNews",
+      "why_should_include": "Regulação governamental de magnitude excepcional (afeta toda indústria automotiva na UE) e tem conexão com AI (monitoramento de motorista usa visão computacional). Passa no AI Gate pela exceção de regulação governamental.",
+      "missed_criteria": [
+        "AI Gate (exceção)",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Meta just launched a new AI generator, Muse Image, and users are already pushing back over use of their photos",
+      "source": "TechCrunch",
+      "why_should_include": "Lançamento de produto de AI da Meta, com controvérsia sobre uso de fotos — acionável para desenvolvedores e sinal de mercado sobre privacidade em AI.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "30papers.com – Ilya's 30 essential ML papers, in a beginner friendly format",
+      "source": "HackerNews",
+      "why_should_include": "Recurso educacional curado por Ilya Sutskever, figura central em AI. Altamente acionável para aprendizado e sinal de mercado sobre quais papers são considerados essenciais.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: a regra de exceção para 'regulação governamental' pode não estar sendo aplicada corretamente, pois o item sobre câmeras em carros na UE foi ignorado.",
+      "evidence": "False negative: regulação de monitoramento de motorista na UE não foi selecionada, apesar de ser regulação governamental com impacto massivo.",
+      "suggested_fix": "Reforçar no prompt que regulações governamentais de grande escala (ex: mandato da UE) são exceção automática ao AI Gate."
+    },
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: o critério 'Sinal de mercado' pode estar sendo interpretado de forma restrita, excluindo lançamentos de grandes players como Meta.",
+      "evidence": "False negative: lançamento do Muse Image pela Meta não foi selecionado, mesmo sendo um movimento estratégico claro.",
+      "suggested_fix": "Incluir explicitamente 'lançamento de produto de AI por big tech' como exemplo de sinal de mercado."
+    },
+    {
+      "hypothesis": "STEP 3 - Anti-signals: o item '30papers.com' pode ter sido descartado por ser 'rehashed news' ou 'blog corporativo', mas é um recurso original e curado.",
+      "evidence": "False negative: 30papers.com é um site novo, não rehash, e tem alto engajamento (509 pontos no HN).",
+      "suggested_fix": "Esclarecer que recursos educacionais originais com alta tração não são anti-signal, mesmo que não sejam 'notícias' tradicionais."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa seleção geral, mas perdeu três itens relevantes (regulação UE, lançamento Meta, recurso educacional) que atendiam aos critérios. O quick_find sobre China é borderline. O tom e diversidade estão adequados. O reasoning não pôde ser avaliado por ausência do campo."
+}

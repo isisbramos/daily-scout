@@ -1,0 +1,103 @@
+{
+  "edition": "113",
+  "audited_at": "2026-07-13T11:11:05.780994-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (data centers na Irlanda) é um anti-signal: é um post no Reddit sem fonte original, não é acionável (não oferece ferramenta, processo ou decisão), não é sinal de mercado (não revela movimento estratégico de player) e não afeta workflows. Além disso, o item 'Usuários do HackerNews pedem flag para artigos gerados por IA' é uma discussão comunitária, não uma decisão ou ação concreta, e não atende aos critérios de seleção. O item 'Claude Code vs OpenCode' é acionável e afeta workflows, mas o main_find deveria ser este, não o dos data centers.",
+    "issues": [
+      "main_find: 'Data centers na Irlanda consomem 23% da eletricidade nacional' é anti-signal (post no Reddit sem fonte original, não acionável, não é sinal de mercado, não afeta workflows).",
+      "quick_find: 'Usuários do HackerNews pedem flag para artigos gerados por IA' é discussão comunitária, não atende critérios de seleção (não acionável, não sinal de mercado, não afeta workflows)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. Não há palavras de hype identificadas. A certeza é preservada: o título original do main_find é uma afirmação direta (dado do Reddit), e o texto mantém o mesmo nível. Não há informação inventada. Pequeno problema: no quick_find 'Ant Group lança modelos de segurança', o signal repete a mesma frase duas vezes, mas não é erro de tom.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find + quick_finds usam 3 fontes (Reddit, TechNode, HackerNews) - boa diversidade. Audiência: 3 itens têm primary_audience 'desenvolvedores', 1 'executivos de negócio', 1 'product managers e fundadores', 1 'todos' - razoável. Geografia: 2 itens são sobre China (Ant Group, pacto chinês), 1 sobre Irlanda, 1 sobre Anthropic (EUA), 1 sobre HackerNews (global) - concentração na China, mas não excessiva.",
+    "issues": [
+      "Dois quick_finds (Ant Group e pacto chinês) são da mesma fonte (TechNode) e mesma região (China), reduzindo diversidade geográfica."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('consumo energético dos data centers na Irlanda'), o que é correto. Porém, o main_find em si é mal selecionado (anti-signal), então a intro destaca um item fraco. Além disso, a frase 'Analisei 279 posts de 19 fontes' é genérica e poderia ser usada em qualquer edição.",
+    "issues": [
+      "A intro destaca um main_find que é anti-signal, enfraquecendo a credibilidade.",
+      "A frase 'Analisei 279 posts de 19 fontes' é genérica e não agrega valor específico à edição."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap conhecido de observability). Conforme instrução, score = 3 (neutro, não avaliável por ausência do campo). Issues registradas como 'campo reasoning ausente (observability, não editorial)'.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Zhipu AI founder outlines Touch High plan for AGI research",
+      "source": "TechNode",
+      "why_should_include": "Sinal de mercado claro: player chinês (Zhipu AI) revela plano estratégico para AGI, afeta workflows de pesquisa e desenvolvimento.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "ByteDance explores autonomous driving for unmanned logistics",
+      "source": "TechNode",
+      "why_should_include": "Sinal de mercado: ByteDance entrando em novo setor (autonomous driving), acionável para quem acompanha logística e veículos autônomos.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "China sets 2030 target for next-generation internet infrastructure",
+      "source": "TechNode",
+      "why_should_include": "Sinal de mercado: política governamental que afeta infraestrutura de internet e pode impactar empresas de tech que operam na China.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Data centers na Irlanda consomem 23% da eletricidade nacional em 2025",
+      "field": "main_find",
+      "why_should_discard": "Anti-signal: post no Reddit sem fonte original, não acionável, não é sinal de mercado, não afeta workflows.",
+      "violated_rule": "STEP 1 - AI Gate (não é sobre AI/ML, automação inteligente ou decisão de empresa de AI) e ANTI-SIGNALS (rehashed news? não, mas é apenas dado estatístico sem novidade concreta)"
+    },
+    {
+      "title": "Usuários do HackerNews pedem flag para artigos gerados por IA",
+      "field": "quick_finds",
+      "why_should_discard": "Não atende critérios de seleção: não é acionável (não há ferramenta para testar, nem decisão a tomar), não é sinal de mercado (discussão comunitária, não movimento estratégico), não afeta workflows (apenas pedido de flag).",
+      "violated_rule": "CRITÉRIOS DE SELEÇÃO (precisa de pelo menos 2 de 3)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: a regra pode estar sendo interpretada de forma muito ampla, permitindo itens que apenas mencionam 'AI' no título, sem conexão real com AI/ML.",
+      "evidence": "O main_find sobre data centers na Irlanda foi aceito mesmo sendo apenas um dado energético, sem relação direta com AI/ML.",
+      "suggested_fix": "Reforçar que o item precisa ter conexão explícita com AI/ML, automação inteligente ou decisão de empresa de AI, e não apenas menção genérica."
+    },
+    {
+      "hypothesis": "ANTI-SIGNALS: a regra de 'rehashed news' pode estar sendo ignorada; o post do Reddit sobre data centers é essencialmente uma notícia recontada sem fonte original.",
+      "evidence": "O main_find é um post no Reddit que cita dados, mas não é uma fonte primária nem oferece novidade concreta.",
+      "suggested_fix": "Adicionar verificação explícita de que o item deve ter fonte original ou link direto para o dado, e não ser apenas um post de fórum sem autoridade."
+    },
+    {
+      "hypothesis": "CRITÉRIOS DE SELEÇÃO: a AYA pode estar priorizando 'tração' (score) sobre os critérios de seleção, escolhendo itens com alto score mesmo sem atender aos critérios.",
+      "evidence": "O item 'Usuários do HackerNews pedem flag' tem score 669, mas não atende a 2 dos 3 critérios; mesmo assim foi selecionado como quick_find.",
+      "suggested_fix": "Reiterar que score é tiebreaker, nunca critério principal; incluir verificação explícita de que o item deve atender a pelo menos 2 critérios antes de considerar score."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "O main_find é um anti-signal (post no Reddit sem fonte original, não acionável), e um quick_find é uma discussão comunitária sem atender aos critérios de seleção. A edição perdeu oportunidades de incluir itens com sinal de mercado claro (Zhipu AI, ByteDance, China internet infrastructure). O tom e a diversidade são razoáveis, mas a seleção editorial compromete a qualidade geral."
+}

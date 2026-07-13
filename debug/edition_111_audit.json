@@ -1,0 +1,95 @@
+{
+  "edition": "111",
+  "audited_at": "2026-07-13T11:10:31.506322-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Apple vs OpenAI) passa no AI Gate e satisfaz critérios de sinal de mercado e afeta workflows, mas o quick_find sobre saída do chefe de segurança da OpenAI é baseado em post no Reddit sem confirmação de fonte primária, o que é frágil. O radar sobre 'world models' é especulativo e não acionável. Nenhum anti-signal claro, mas a seleção do quick_find do Reddit é questionável.",
+    "issues": [
+      "Quick find 'Chefe de Segurança da OpenAI está deixando a empresa' usa fonte Reddit sem verificação cruzada, violando critério de confiabilidade.",
+      "Radar 'world models' é genérico e não atende critérios de acionabilidade ou sinal de mercado."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de exagero identificada. Título original 'Apple sues OpenAI' foi mantido como 'Apple processa OpenAI', sem aumento de certeza. Não há informação inventada. Leve imprecisão: o título original menciona 'ex-employees', mas o body diz 'ex-funcionários', correto.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find (9to5Mac, SCMP), quick_finds (TechCrunch, Reddit) - boa variedade. Audiência: main_find para executivos, quick_finds para product managers e desenvolvedores, diverso. Geografia: todos os itens são dos EUA, falta diversidade geográfica (ex: China, Europa).",
+    "issues": [
+      "Todos os itens selecionados são dos EUA, nenhum de outras regiões."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('Apple processando a OpenAI por roubo de segredos comerciais'), não é genérica. Corresponde ao esperado.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap conhecido). Não é possível avaliar coerência interna. Conforme instrução, score = 3 (neutro) e não rebaixa overall.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Meta removes controversial AI feature on Instagram after backlash",
+      "source": "TechCrunch",
+      "why_should_include": "Evento concreto de remoção de recurso de IA por pressão pública, acionável para product managers e sinal de mercado sobre riscos de IA em plataformas sociais.",
+      "missed_criteria": [
+        "N/A - deveria estar no output"
+      ]
+    },
+    {
+      "title": "Chinese chip start-up aims to build 5-nanometre equivalent chips without using EUV by 2029",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado significativo sobre inovação em semicondutores na China, afeta workflows de hardware e geopolítica tech.",
+      "missed_criteria": [
+        "AI Gate? Não diretamente AI, mas magnitude excepcional (tecnologia de chips) justifica inclusão."
+      ]
+    },
+    {
+      "title": "New York City to ban deceptive subscription practices",
+      "source": "HackerNews",
+      "why_should_include": "Regulação governamental com impacto direto em workflows de produto e compliance, acionável para empresas de SaaS.",
+      "missed_criteria": [
+        "AI Gate? Não, mas magnitude excepcional (regulação) justifica exceção."
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Chefe de Segurança da OpenAI está deixando a empresa",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte é post no Reddit sem confirmação de fonte primária ou cruzamento com outras fontes. Informação não verificada.",
+      "violated_rule": "Critério de confiabilidade da fonte (Reddit não é fonte primária para notícias de saída de executivo)."
+    },
+    {
+      "title": "A próxima fronteira da IA: como 'world models' estão simulando realidade e espaços virtuais",
+      "field": "radar",
+      "why_should_discard": "Artigo especulativo, sem novidade concreta ou acionabilidade. Não atende critérios de seleção.",
+      "violated_rule": "Anti-signal: rehashed news / thought-leadership sem novidade concreta."
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: a regra de exceção para magnitude excepcional pode estar sendo interpretada de forma restritiva, excluindo itens como regulação de NYC ou chips chineses.",
+      "evidence": "False negatives: NYC subscription ban e chip start-up não foram selecionados, apesar de terem magnitude excepcional.",
+      "suggested_fix": "Especificar que regulação governamental e inovação tecnológica de alto impacto são exceções automáticas ao AI Gate."
+    },
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: a exigência de pelo menos 2 de 3 critérios pode estar sendo aplicada de forma inconsistente, permitindo itens especulativos no radar.",
+      "evidence": "Radar 'world models' não é acionável nem sinal de mercado claro, mas foi incluído.",
+      "suggested_fix": "Reforçar que radar deve ter pelo menos um critério forte (ex: sinal de mercado) e não ser meramente especulativo."
+    },
+    {
+      "hypothesis": "STEP 3 - Fontes: a instrução não prioriza fontes primárias ou verificadas, permitindo uso de Reddit para notícias importantes.",
+      "evidence": "Quick find sobre saída do chefe de segurança da OpenAI usa Reddit como única fonte.",
+      "suggested_fix": "Adicionar regra: notícias sobre mudanças executivas em empresas de IA devem ter confirmação de fonte primária (comunicado oficial, imprensa especializada) ou no mínimo duas fontes cruzadas."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição com main_find forte, mas sofre com inclusão de quick_find baseado em Reddit sem verificação e radar especulativo. Deixou de fora itens relevantes como regulação de NYC e inovação em chips chineses. Tom e intro estão corretos, mas diversidade geográfica e rigor na seleção precisam melhorar."
+}
