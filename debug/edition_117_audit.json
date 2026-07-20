@@ -1,0 +1,83 @@
+{
+  "edition": "117",
+  "audited_at": "2026-07-20T10:50:42.840278-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Kimi K3) passa no AI Gate e satisfaz acionável e sinal de mercado. Quick_find sobre Meta demissões é borderline: não é acionável nem sinal de mercado claro, e o título original do Reddit é anedótico, sem confirmação. Quick_find sobre Xi Jinping é sinal de mercado (geopolítica) mas não acionável. Quick_find sobre BrainCo é acionável para nicho, mas fraco. No geral, 1 dos 4 itens é questionável.",
+    "issues": [
+      "Quick_find 'Meta demitiu milhares...' é anedótico, sem fonte confirmada, e não atende 2 dos 3 critérios (não acionável, sinal de mercado fraco, não afeta workflows)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de hype identificada. Níveis de certeza preservados (ex: 'segundo post no Reddit' para especulativo). Não há informação inventada. Pequeno deslize: no main_find, 'superando Opus 4.8 e GPT-5.6 Sol' é afirmação direta, mas o título original da Kimi pode não usar 'superando' — porém é consistente com o ranking.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find (kimi.com), quick_finds (Reddit, HuggingFace, SCMP) — boa diversidade. Audiência: 3 de 4 itens têm primary_audience 'desenvolvedores' ou 'executivos de negócio', apenas 1 'todos' — concentrado. Geografia: 2 itens sobre China (Xi, BrainCo) + 1 global (NVIDIA) + 1 EUA (Meta) — aceitável, mas viés China.",
+    "issues": [
+      "Primary_audience concentrado em 'desenvolvedores' e 'executivos de negócio', falta variedade (ex: 'pesquisadores', 'reguladores')."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o Kimi K3 e o Intelligence Index, alinhado com o main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (gap de observability). Conforme instrução, score = 3 (neutro). Issues registradas como 'campo reasoning ausente (observability, não editorial)'.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "NVIDIA Nemotron 3 Embed Ranks #1 Overall on RTEB, Advancing Agentic Retrieval",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Item altamente acionável para desenvolvedores de RAG e agentes, com sinal de mercado claro (NVIDIA dominando benchmark).",
+      "missed_criteria": [
+        "Já está em quick_finds, então não é false negative."
+      ]
+    },
+    {
+      "title": "San Francisco mayor pushes for tougher rules after the Waymo traffic fiasco",
+      "source": "TechCrunch",
+      "why_should_include": "Regulação de AVs é sinal de mercado e afeta workflows de empresas de autonomia. Poderia substituir item fraco como Meta demissões.",
+      "missed_criteria": [
+        "AI Gate (Waymo usa AI), Acionável (reguladores), Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Chinese Nvidia alternatives project massive sales as AI chip demand surges",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado forte sobre geopolítica de chips, acionável para investidores e estrategistas.",
+      "missed_criteria": [
+        "AI Gate (chips AI), Sinal de mercado, Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Meta demitiu milhares para priorizar IA; ex-funcionários dizem que IA foi usada para demiti-los",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte Reddit anedótica, sem confirmação jornalística. Não atende 2 dos 3 critérios: não é acionável (não dá para agir), sinal de mercado fraco (já sabido), não afeta workflows diretamente.",
+      "violated_rule": "STEP 1 - AI Gate (passa), mas falha nos critérios de seleção (precisa de pelo menos 2 de 3)."
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: a regra 'pelo menos 2 de 3' pode estar sendo interpretada de forma frouxa para itens com apelo emocional (ex: Meta demissões).",
+      "evidence": "Quick_find sobre Meta demissões foi incluído mesmo sendo anedótico e sem atender claramente 2 critérios.",
+      "suggested_fix": "Reforçar no prompt que itens anedóticos sem fonte confirmada não contam como 'sinal de mercado'."
+    },
+    {
+      "hypothesis": "STEP 3 - Anti-signals: a regra 'rehashed news' pode não estar sendo aplicada a itens que são apenas discussão de Reddit sem novidade.",
+      "evidence": "O post do Reddit sobre Meta é essencialmente rehash de notícias anteriores, sem nova informação.",
+      "suggested_fix": "Adicionar exemplo explícito de 'rehashed news' incluindo discussões de Reddit que apenas repetem fatos conhecidos."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição razoável, mas com um false positive (Meta demissões) que não atende critérios de seleção. Faltaram itens mais fortes como regulação de Waymo e chips chineses. Tom e intro estão corretos. Reasoning ausente por gap de observability."
+}

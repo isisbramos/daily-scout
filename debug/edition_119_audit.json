@@ -1,0 +1,73 @@
+{
+  "edition": "119",
+  "audited_at": "2026-07-20T10:51:11.703252-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (NYC AI disclosure) passes AI Gate and meets at least 2 criteria (acionável, sinal de mercado). Quick_finds: Alibaba vs Nvidia (AI Gate, sinal de mercado, afeta workflows), GPT-5.6 (AI Gate, acionável para pesquisadores), Prompt injection (AI Gate, acionável), LLMs arguing (AI Gate, acionável para pesquisadores). No false positives among selected items. However, some items in radar (White House dictating access) are speculative but acceptable as radar. Score 3 because no major violations but could be more selective.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Main_find body uses 'pode exigir' (may require) matching original 'may require'. No hype words found. Quick_finds: 'Alibaba mira' (targets) is factual; 'usou prompt para fechar lacuna' (used prompt to close gap) matches original 'used a prompt to close a 30-year gap'. No invented details. One minor issue: 'GPT-5.6 usou prompt para fechar lacuna' could imply certainty, but original title says 'used a prompt' (past tense), so it's accurate. Score 4 for overall accuracy.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Sources: main_find from HackerNews, quick_finds from SCMP Tech, HackerNews, Reddit (2x). Two items from HackerNews (main_find and GPT-5.6) is acceptable. Audiences: executivos de negócio (main_find), desenvolvedores (Alibaba, Prompt injection), pesquisadores (GPT-5.6, LLMs arguing) – good mix. Geography: 3 items US (NYC, GPT-5.6, LLMs arguing), 1 China (Alibaba), 1 global (Telegram). Slight US bias but not severe. Score 3.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "First sentence mentions 'regulação do uso de IA em anúncios imobiliários em Nova York' – directly references main_find. Not generic. Score 5.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 4,
+    "rationale": "Reasoning states 12 passed AI Gate, which matches selected items (5 in main+quick, 2 in radar = 7, but reasoning says 12 – discrepancy likely due to counting all AI-related items in input, not just selected). Main_find rationale explains why NYC item chosen (regulação, acionável, sinal de mercado). No contradiction between reasoning and output. Minor: reasoning mentions '40 posts analisados' but input has 40 items – consistent. Score 4.",
+    "issues": []
+  },
+  "false_negatives": [
+    {
+      "title": "Claude Code uses Bun written in Rust now",
+      "source": "Simon Willison",
+      "why_should_include": "Directly relevant to developers using Claude Code; shows shift in tooling (Bun in Rust) that affects workflows.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
+      "source": "HackerNews",
+      "why_should_include": "Highly actionable guide for developers to set up Claude Code on spare Mac; strong community engagement (227 points).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "The Kimi K3 Moment",
+      "source": "HackerNews",
+      "why_should_include": "Significant market signal about Kimi K3 model; high engagement (375 points, 411 comments) and relevant to AI model competition.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: The rule may be too strict, causing items like 'Claude Code uses Bun in Rust' to be excluded despite being AI-related (Claude Code is an AI tool).",
+      "evidence": "False negatives include items directly about AI tools (Claude Code) that were not selected.",
+      "suggested_fix": "Clarify that AI tools and their infrastructure changes (e.g., runtime changes) qualify under AI Gate."
+    },
+    {
+      "hypothesis": "STEP 2 - Selection criteria: The requirement for at least 2 of 3 criteria may have excluded 'Setting up your spare Mac for Claude Code' which is highly actionable but may not be a strong market signal.",
+      "evidence": "That item was not selected despite high actionability and community interest.",
+      "suggested_fix": "Consider adding a fourth criterion: community engagement (score/comments) as a tiebreaker or additional signal."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida com boa seleção e tom preciso. Pequena oportunidade perdida ao não incluir itens altamente acionáveis sobre Claude Code e o Kimi K3 Moment. A diversidade de fontes e audiências é adequada. O reasoning tem leve inconsistência numérica, mas sem impacto na qualidade editorial."
+}

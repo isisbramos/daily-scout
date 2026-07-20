@@ -1,0 +1,95 @@
+{
+  "edition": "115",
+  "audited_at": "2026-07-20T10:50:13.996722-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Bonsai 27B) passa no AI Gate e é acionável para desenvolvedores, mas não é um sinal de mercado claro (não revela movimento estratégico de player relevante). Quick_finds: OpenAI hardware (reportedly, não confirmado) é borderline; DeepSeek valuation é funding round sem info nova (exceto valor alto, mas não >$5B? US$70B é >$5B, então passa como exceção). Alibaba+Apple Intelligence é parceria relevante. Miles Wang startup é funding round sem info nova (valuation $2B < $5B, e não é OpenAI/Anthropic/DeepMind) — deveria ser descartado como anti-signal. Radar: 'I tricked Claude' é acionável (segurança) e passa. 'Meta Muse Spark' é rehashed de discussão sem novidade concreta.",
+    "issues": [
+      "Miles Wang startup é anti-signal: funding round sem info nova e valuation < $5B, não é OpenAI/Anthropic/DeepMind.",
+      "Meta Muse Spark no radar é rehashed de discussão sem novidade concreta."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom geral é factual, sem hype evidente. Main_find body usa 'representa um avanço significativo' — leve hype, mas aceitável. Quick_find OpenAI hardware: título original tem 'reportedly', mas body mantém condicional ('seria', 'se verdadeiro'). Quick_find Miles Wang: 'está em negociações' reflete incerteza. Nenhuma informação inventada.",
+    "issues": [
+      "Main_find body: 'representa um avanço significativo' é leve hype, poderia ser mais neutro."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find + quick_finds usam 3 fontes (HackerNews, TechCrunch, TechNode, SCMP) — diversidade razoável. Audiência: main_find é 'desenvolvedores', quick_finds têm 'executivos de negócio', 'product managers e fundadores', 'todos' — boa variedade. Geografia: 3 itens da China (Alibaba, DeepSeek, CXMT? CXMT não está no output) — 2 itens (Alibaba, DeepSeek) é aceitável, mas poderia ter mais diversidade geográfica (apenas EUA e China).",
+    "issues": [
+      "Predomínio de itens dos EUA e China; falta cobertura de Europa ou outras regiões."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "Primeira frase menciona o tema específico do main_find (Bonsai 27B). É direta e informativa. Poderia ser mais concisa, mas cumpre o papel.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (gap de observability). Não é possível avaliar coerência. Score 3 conforme instrução.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "The AI honeymoon is ending",
+      "source": "r/artificial",
+      "why_should_include": "Discussão sobre fim do 'honeymoon' da IA pode ser sinal de mercado (mudança de sentimento) e afeta workflows (decisões de adoção).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Context bombs: Exploiting AI Guard Rails as a defense against AI Attacks",
+      "source": "r/artificial",
+      "why_should_include": "Técnica de segurança em IA é acionável para desenvolvedores e afeta workflows de segurança.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Xiaomi updates progress on humanoid robots in auto factory, achieves 98% success rate in some tasks",
+      "source": "TechNode",
+      "why_should_include": "Sinal de mercado (robótica em manufatura) e afeta workflows de automação industrial.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Pesquisador da OpenAI negocia startup de descoberta de medicamentos avaliada em US$ 2B",
+      "field": "quick_finds",
+      "why_should_discard": "Funding round sem info nova (valuation $2B < $5B, não é OpenAI/Anthropic/DeepMind).",
+      "violated_rule": "STEP 1 - Anti-signal: funding round sem info nova"
+    },
+    {
+      "title": "Meta says Muse Spark 1.1 beats OpenAI and Anthropic. On price it actually does, just not in the way that matters to most people.",
+      "field": "radar",
+      "why_should_discard": "Rehashed de discussão sem novidade concreta; não é acionável nem sinal de mercado claro.",
+      "violated_rule": "STEP 1 - Anti-signal: rehashed news"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - Anti-signal: funding round sem info nova pode ter sido mal interpretado para Miles Wang (valuation $2B não atinge exceção).",
+      "evidence": "Miles Wang startup foi incluída como quick_find, mas é anti-signal.",
+      "suggested_fix": "Reforçar no prompt que funding rounds < $5B e não de OpenAI/Anthropic/DeepMind são descartados, mesmo se envolverem pesquisador famoso."
+    },
+    {
+      "hypothesis": "STEP 2 - Critério 'Sinal de mercado' pode estar sendo aplicado de forma muito ampla, incluindo itens como 'OpenAI hardware' que é apenas rumor.",
+      "evidence": "OpenAI hardware (reportedly) foi incluído como quick_find, mas não é confirmado e não revela movimento estratégico claro.",
+      "suggested_fix": "Adicionar no prompt que rumores não confirmados (reportedly, may) não contam como sinal de mercado a menos que haja fontes oficiais ou vazamentos corroborados."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição tem main_find sólido, mas inclui um anti-signal (Miles Wang startup) e um radar rehashed (Meta Muse Spark). Faltam itens acionáveis sobre segurança (context bombs) e robótica (Xiaomi). Tom é bom, diversidade de audiência razoável, mas geografia concentrada em EUA/China."
+}

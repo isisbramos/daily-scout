@@ -1,0 +1,79 @@
+{
+  "edition": "120",
+  "audited_at": "2026-07-20T10:51:23.693029-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Claude Fable contraexemplo) passa AI Gate e satisfaz critérios de sinal de mercado e afeta workflows. Quick finds: 'AI advice bias' passa AI Gate e é acionável; 'Kimi K3 suspende assinaturas' passa AI Gate e é sinal de mercado; 'Current AI' passa AI Gate e é acionável. Nenhum false positive evidente. Porém, o item 'Fable 5 metered' (Reddit) foi listado como direto no reasoning mas não foi selecionado, o que é consistente. Score 3 porque a seleção é adequada, mas poderia ter incluído mais itens acionáveis.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Título original do main_find é 'Claude Fable produced a counterexample...' e AYA manteve o tom assertivo, sem aumentar certeza. Bullets são diretos. Quick finds também sem exageros. Pequeno deslize: no main_find.body, 'mudando o que sabíamos sobre os limites de IA em matemática' é ligeiramente interpretativo, mas não chega a ser hype. Score 4 por ser quase perfeito.",
+    "issues": [
+      "main_find.body: 'mudando o que sabíamos sobre os limites de IA em matemática' é uma inferência não presente no título original, mas aceitável."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: HackerNews (main_find), Reddit (quick find 1), SCMP (quick find 2), TechCrunch (quick find 3) — boa variedade. Audiência: main_find para pesquisadores, quick finds para todos/desenvolvedores — diversa. Geografia: main_find global, quick find 1 global, quick find 2 China, quick find 3 global — equilibrado. Score 4 porque não há concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o Claude Fable e o contraexemplo matemático, que é o tema do main_find. Não é genérica. Score 5.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os itens diretos e tangenciais. A seleção do main_find é justificada pela tração (390) e sinal de pesquisa. Porém, o reasoning menciona 'Fable 5 metered' como direto, mas não o inclui no output — isso é coerente porque não foi selecionado, mas poderia ter sido um quick find. Não há contradição grave. Score 3 porque a justificativa para main_find é clara, mas poderia explicar melhor por que outros itens de alta tração (ex: Xiaomi Robotics com 206) não foram escolhidos.",
+    "issues": [
+      "reasoning não explica por que Xiaomi Robotics (206 pontos) não foi considerado como main_find ou quick find."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Xiaomi-Robotics-1",
+      "source": "HackerNews",
+      "why_should_include": "Anúncio de robô humanoide da Xiaomi com 206 pontos e 142 comentários, forte sinal de mercado e afeta workflows de robótica.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Netflix paid $587M for Ben Affleck’s AI filmmaking startup",
+      "source": "TechCrunch",
+      "why_should_include": "Aquisição de startup de AI por US$587M é sinal de mercado significativo e afeta workflows de produção de conteúdo.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Alibaba says newest Qwen AI model is second only to Anthropic’s Claude Fable 5",
+      "source": "SCMP Tech",
+      "why_should_include": "Comparação de modelo de IA da Alibaba com Claude Fable é sinal de mercado e acionável para desenvolvedores que escolhem modelos.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O critério de tração como tiebreaker pode ter feito AYA priorizar o item com maior score (390) em detrimento de outros com tração também alta (206, 490) mas que não eram de AI pura.",
+      "evidence": "Xiaomi Robotics (206) e 'What I learned selling MIDI recorders' (490) não foram selecionados, mas o primeiro é claramente AI/robótica.",
+      "suggested_fix": "Reforçar que tração é tiebreaker e não critério principal; incluir exemplo de que itens com alta tração e AI Gate devem ser considerados mesmo se não forem o top score."
+    },
+    {
+      "hypothesis": "A regra de 'anti-signal' para funding rounds pode ter sido interpretada de forma restritiva, excluindo a aquisição da Netflix ($587M) por ser 'funding'?",
+      "evidence": "Netflix acquisition não foi selecionada, mas é M&A, não funding round. AYA pode ter confundido.",
+      "suggested_fix": "Especificar que M&A (aquisições) não são anti-signal, mesmo que envolvam valores; apenas funding rounds sem novidade são descartados."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa diversidade e tom factual. Perdeu pontos por não incluir itens relevantes como Xiaomi Robotics e Netflix acquisition, que atendiam aos critérios. O reasoning poderia ser mais explícito sobre exclusões. No geral, qualidade alta."
+}

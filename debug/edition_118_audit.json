@@ -1,0 +1,66 @@
+{
+  "edition": "118",
+  "audited_at": "2026-07-20T10:50:56.281079-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (Databricks valuation) passa AI Gate e satisfaz sinal de mercado e afeta workflows. Quick finds: Anthropic Fable 5 (acionável, sinal de mercado), Kaiser nurses (afeta workflows, sinal de mercado), LLM inference costs (acionável, afeta workflows), Biren (sinal de mercado). Todos passam AI Gate. Nenhum anti-signal claro. Porém, o item 'Kaiser nurses' tem conexão tangencial com AI (ferramentas de AI mencionadas), mas o foco é vigilância e impacto no trabalho, não AI em si. Ainda assim, é aceitável. Nenhum false positive evidente.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Verbos como 'atingiu', 'expandindo', 'relatam', 'aborda', 'aposta' são adequados. Nenhuma palavra de hype identificada. Níveis de certeza preservados: títulos originais não usam 'may/might', então afirmações diretas são aceitáveis. Informação não inventada. Um pequeno deslize: no quick find 'Kaiser nurses', o step5_phrase diz 'decidiram denunciar' – o título original diz 'say', não 'decidiram denunciar', mas é nuance aceitável.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find (TechCrunch), quick_finds (Reddit, Local News Matters, Reddit, SCMP) – boa variedade, nenhuma fonte repetida mais de uma vez. Audiência: main_find para executivos, quick_finds misturam desenvolvedores e executivos – ok. Geografia: 3 itens dos EUA (Databricks, Anthropic, Kaiser), 1 China (Biren), 1 global (LLM costs). Concentração nos EUA, mas não excessiva. Diversidade razoável.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o main_find: 'Hoje o destaque vai para a avaliação de mercado da Databricks, que atingiu US$ 188 bilhões.' Não é genérica. Boa.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning menciona '40 posts analisados' mas o input tem 40 itens, então ok. Porém, há contradições: o reasoning descarta 'A scorecard for the AI age' como thought-leadership, mas depois o inclui na lista de itens mantidos? Na verdade, ele diz 'descartado', então não está no output. Mas o reasoning também menciona 'A Anthropic encontrou um espaço oculto' como radar, mas no output radar há exatamente esse item. Coerente. O problema principal: o reasoning afirma que o main_find foi escolhido por 'sinal de mercado forte, valuation recorde', mas o critério principal deveria ser 'mais acionável OU maior sinal de mercado'. Databricks valuation é sinal de mercado, mas não é acionável para o leitor comum (não podem comprar ações, não muda workflow). Um item como 'Anthropic expanding Claude Fable 5 access' é mais acionável. A escolha do main_find parece enviesada por tração (score 0 no input, mas valuation alto). O reasoning não explica por que Databricks é mais relevante que outros. Além disso, o reasoning lista 'A scorecard for the AI age' como descartado, mas no output ele não aparece – ok. Mas há um erro: o reasoning diz '40 posts analisados' e depois 'Analisei 264 posts de 11 fontes' no correspondent_intro – contradição numérica (40 vs 264). Isso é um erro de consistência.",
+    "issues": [
+      "Contradição numérica: reasoning diz 40 posts, correspondent_intro diz 264.",
+      "Main_find escolhido sem justificativa clara de por que é mais acionável ou maior sinal que outros itens."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Fine-tune video and image models at scale with NVIDIA NeMo Automodel and 🤗 Diffusers",
+      "source": "HuggingFace Blog",
+      "why_should_include": "É acionável (permite fine-tuning prático) e sinal de mercado (NVIDIA + HuggingFace). Passa AI Gate. Poderia ser quick find.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "A scorecard for the AI age",
+      "source": "OpenAI Blog",
+      "why_should_include": "Embora seja blog corporativo, o conteúdo pode conter indicadores concretos de progresso da OpenAI (scorecard). Se tiver métricas, é sinal de mercado. Mas o reasoning descartou como thought-leadership. Se for apenas opinião, está correto descartar. Incluo como possível false negative se houver dados concretos.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP que define main_find como 'mais acionável OU maior sinal de mercado' pode ter sido interpretado como 'maior valuation = maior sinal', ignorando acionabilidade.",
+      "evidence": "Main_find escolhido foi Databricks valuation (pouco acionável) em vez de itens mais acionáveis como Anthropic Fable 5.",
+      "suggested_fix": "Reforçar no prompt que acionabilidade tem precedência sobre sinal de mercado quando ambos são fortes, ou exigir justificativa explícita."
+    },
+    {
+      "hypothesis": "O campo 'score' (tração) pode estar influenciando indevidamente a seleção do main_find, apesar da regra dizer que é tiebreaker.",
+      "evidence": "Databricks tem score 0 no input, mas valuation alto; Anthropic Fable 5 também score 0. Mas a escolha pode ter sido influenciada pelo valor do valuation (que não é score de tração). Ainda assim, a regra diz que tração é tiebreaker, não critério principal.",
+      "suggested_fix": "Esclarecer que 'score' se refere à pontuação de engajamento (ex: HN points) e não a valor financeiro."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição razoável, mas com falha na coerência do reasoning (contradição numérica) e escolha do main_find questionável por não priorizar acionabilidade. Diversidade e tom estão bons. Nenhum false positive grave, mas dois possíveis false negatives (fine-tuning post e scorecard)."
+}

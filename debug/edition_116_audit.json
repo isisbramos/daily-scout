@@ -1,0 +1,92 @@
+{
+  "edition": "116",
+  "audited_at": "2026-07-20T10:50:27.608323-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (GPT-Red) passa no AI Gate e satisfaz 2 critérios (sinal de mercado, afeta workflows). Quick_finds: Grok Build open source (AI Gate, acionável, sinal de mercado), China regula bots (AI Gate, sinal de mercado, afeta workflows), guerra de preços OpenAI (AI Gate, sinal de mercado, acionável). Nenhum anti-signal evidente. Porém, o item 'China introduces rules' tem fonte Reddit (r/artificial) sem confirmação cruzada, o que fragiliza a credibilidade. Além disso, o main_find poderia ser questionado por ser um blog corporativo (OpenAI) e reportagem (MIT Tech Review) — mas a novidade concreta (GPT-Red como ferramenta de segurança) justifica a inclusão.",
+    "issues": [
+      "Quick_find 'China introduz regras para bots de IA companheiros' baseado apenas em post no Reddit, sem fonte primária ou cruzamento com outras fontes confiáveis.",
+      "Main_find poderia ser considerado 'blog corporativo' (OpenAI) mas a reportagem do MIT Tech Review adiciona independência."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de hype identificada. Níveis de certeza preservados: títulos originais usam 'signals', 'introduces', 'becomes' — a AYA manteve tom condicional em 'sinaliza' e 'pode reduzir'. Não há informação inventada. Um pequeno deslize: no quick_find 'Grok Build se torna open source', o body diz 'A decisão segue a estratégia de Elon Musk de abrir partes do ecossistema Grok' — isso é inferência não explicitada no título original, mas é plausível e não distorce.",
+    "issues": [
+      "Quick_find 'Grok Build' adiciona inferência sobre estratégia de Elon Musk não presente no título original."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find (MIT Tech Review, OpenAI Blog), quick_finds (HackerNews, Reddit, SCMP Tech) — boa variedade. Audiência: main_find e dois quick_finds têm primary_audience 'desenvolvedores', mas um quick_find tem 'product managers e fundadores' — diversidade mínima. Geografia: main_find (EUA), quick_finds (EUA, China, China) — dois itens da China, mas não mais que dois. Sem concentração excessiva.",
+    "issues": [
+      "Audiência ainda muito concentrada em 'desenvolvedores' (3 de 4 itens)."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o tema do main_find: 'GPT-Red, um super-hacker de LLM que a OpenAI construiu para tornar seus modelos mais seguros'. Não é genérica. Cumpre o requisito.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (conforme nota, não é falha editorial). Não é possível avaliar coerência interna. Porém, a seleção parece coerente com os critérios. O main_find é o mais acionável e com maior sinal de mercado. Os quick_finds complementam bem. A ausência do reasoning impede verificação de contradições.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Baidu to power AI search for Apple’s Apple Intelligence in China",
+      "source": "TechNode",
+      "why_should_include": "Sinal de mercado importante: parceria entre gigante tech (Apple) e empresa chinesa de IA (Baidu) para AI search, afeta workflows de usuários Apple na China.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "China approves Apple Intelligence for iPhones, with Alibaba, Baidu emerging as partners",
+      "source": "SCMP Tech",
+      "why_should_include": "Regulação governamental (aprovação) e parcerias estratégicas, sinal de mercado e afeta workflows de milhões de usuários.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "As US AI costs soar, global businesses pivot to China’s low-cost, open-weight models",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado claro sobre shift de adoção de modelos, acionável para desenvolvedores que buscam alternativas de baixo custo.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "China introduces rules to rein in AI companion bots amid emotional dependency concerns",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte exclusivamente Reddit (r/artificial) sem confirmação cruzada com fontes oficiais ou jornalísticas. Regra de credibilidade: fontes de baixa confiabilidade devem ser evitadas para notícias de regulação.",
+      "violated_rule": "Critério de qualidade da fonte (não explícito no prompt, mas implícito na curadoria editorial)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt não prioriza explicitamente a confiabilidade da fonte (ex: Reddit vs. veículo estabelecido).",
+      "evidence": "Quick_find 'China introduces rules' foi incluído baseado apenas em post no Reddit, sem verificação cruzada.",
+      "suggested_fix": "Adicionar regra no STEP de seleção: 'Fontes como Reddit sem confirmação cruzada devem ser descartadas ou marcadas como rumor'."
+    },
+    {
+      "hypothesis": "O prompt pode estar supervalorizando itens com alta pontuação no HackerNews (score 432) sem considerar se a novidade é realmente relevante para o público da newsletter.",
+      "evidence": "Grok Build open source foi incluído como quick_find, mas poderia ser considerado rehashed news (já era esperado) ou blog corporativo? Não é claro, mas a alta pontuação pode ter influenciado.",
+      "suggested_fix": "Explicitar que score/tração é tiebreaker, não critério principal, e que itens de blog corporativo sem novidade concreta devem ser descartados."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa seleção de itens relevantes e tom factual. Principais problemas: inclusão de um quick_find baseado em fonte Reddit sem confirmação (China companion bots) e ausência de itens importantes sobre parcerias Apple-Baidu e shift para modelos chineses. A diversidade de audiência poderia ser melhor. Reasoning ausente por limitação técnica, não editorial."
+}

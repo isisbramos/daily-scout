@@ -1,0 +1,94 @@
+{
+  "edition": "114",
+  "audited_at": "2026-07-20T10:50:00.600186-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (QuestMobile) passa no AI Gate e é sinal de mercado, mas não é acionável para o leitor médio (não podem testar ou mudar processo). Quick_find 1 (SenseTime) é acionável e sinal de mercado. Quick_find 2 (FSI) é pesquisa, pouco acionável. Quick_find 3 (Índia/WhatsApp) não é AI, viola AI Gate. Quick_find 4 (PixVerse) é funding >$5B, mas não traz info nova sobre produto ou estratégia, configurando anti-signal.",
+    "issues": [
+      "Quick_find 3 (Índia/WhatsApp) não tem conexão com AI/ML, viola AI Gate.",
+      "Quick_find 4 (PixVerse) é funding round sem info nova sobre feature ou shift de estratégia, anti-signal.",
+      "Main_find é sinal de mercado mas não acionável; depende de interpretação para executivos."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de exagero identificada. Títulos originais são afirmativos e foram mantidos com mesmo nível de certeza. Não há informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: 2 itens do TechNode (main_find e quick_find 1), 1 do arXiv, 1 do Rest of World, 1 do TechCrunch. Audiência: 2 itens para desenvolvedores, 3 para executivos de negócio, há diversidade. Geografia: 2 itens focam China (main_find e quick_find 1), 1 Índia, 1 global (arXiv), 1 EUA (PixVerse). Concentração em China é notável mas justificada pelos temas do dia.",
+    "issues": [
+      "Dois itens do mesmo source (TechNode) entre main_find e quick_finds."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o tema do main_find (adoção de apps de IA na China, 499 milhões de MAU). Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap de observability). Conforme instrução, score = 3 (neutro) e não rebaixa overall. Issues registradas: campo reasoning ausente.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Apple Sues OpenAI, Apple’s Real Problem",
+      "source": "Stratechery",
+      "why_should_include": "Ação judicial de grande empresa de tech contra líder de AI é sinal de mercado e afeta workflows de desenvolvedores que usam OpenAI.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Global AI boom sees China’s chip exports nearly double in first half of year",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado forte sobre cadeia de suprimentos de AI, acionável para investidores e estrategistas.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "What Anthropic’s latest AI discovery does—and doesn’t—show",
+      "source": "MIT Technology Review",
+      "why_should_include": "Análise de descoberta de AI da Anthropic é sinal de mercado e relevante para quem acompanha pesquisa em AI.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Índia reprime novo recurso do WhatsApp e pode criar precedente global",
+      "field": "quick_finds",
+      "why_should_discard": "Não tem conexão com AI/ML, automação inteligente ou decisão de empresa de AI. Violação clara do AI Gate.",
+      "violated_rule": "STEP 1 - AI Gate"
+    },
+    {
+      "title": "Startup de geração de vídeo PixVerse levanta US$ 439 milhões e valuation ultrapassa US$ 2 bilhões",
+      "field": "quick_finds",
+      "why_should_discard": "Funding round sem info nova sobre feature, produto ou shift de estratégia. Exceto >$5B ou OpenAI/Anthropic/DeepMind, é anti-signal.",
+      "violated_rule": "STEP 3 - Anti-signals (funding round sem info nova)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) pode estar sendo interpretado de forma muito ampla, permitindo itens de regulação de criptografia sem conexão com AI.",
+      "evidence": "Quick_find sobre Índia/WhatsApp foi incluído mesmo sem qualquer menção a AI no título ou descrição.",
+      "suggested_fix": "Reforçar no prompt que AI Gate exige conexão explícita com AI/ML, automação inteligente ou decisão de empresa de AI."
+    },
+    {
+      "hypothesis": "STEP 3 (Anti-signals) pode estar sendo ignorado para fundings com valuation alto, mesmo sem info nova.",
+      "evidence": "PixVerse (US$439M, >$2B valuation) foi incluído como quick_find, mas não atende exceção (>$5B ou OpenAI/Anthropic/DeepMind) e não traz info nova.",
+      "suggested_fix": "Adicionar checklist explícito: 'Se funding, verificar se há info nova sobre feature, produto ou shift de estratégia. Caso contrário, descartar a menos que >$5B ou empresa listada.'"
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição com dois false positives (WhatsApp sem AI Gate, PixVerse funding sem info nova) e três false negatives (Apple vs OpenAI, chip exports, Anthropic discovery). Tom e intro estão corretos, mas alinhamento editorial e diversidade de fontes precisam de ajuste."
+}
