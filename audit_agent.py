@@ -29,6 +29,8 @@ from datetime import datetime, timezone, timedelta
 from pydantic import BaseModel, Field, ValidationError
 from typing import Optional
 
+from llm_config import DEEPSEEK_MODEL, DEEPSEEK_EXTRA_BODY
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -322,11 +324,12 @@ def run_audit(edition: str, curation_output: dict, input_items: list[dict]) -> A
     for attempt in range(max_attempts):
         logger.info(f"Calling DeepSeek (audit) — tentativa {attempt + 1}/{max_attempts}...")
         response = client.chat.completions.create(
-            model="deepseek-chat",
+            model=DEEPSEEK_MODEL,
             messages=messages,
             response_format={"type": "json_object"},
             temperature=0.0,
             max_tokens=8192,
+            extra_body=DEEPSEEK_EXTRA_BODY,
         )
         finish_reason = response.choices[0].finish_reason if response.choices else None
         text = (response.choices[0].message.content or "").strip()

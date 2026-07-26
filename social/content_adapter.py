@@ -10,6 +10,8 @@ import logging
 import os
 import time
 
+from llm_config import DEEPSEEK_MODEL, DEEPSEEK_EXTRA_BODY
+
 logger = logging.getLogger("daily-scout.social-adapter")
 
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
@@ -95,11 +97,12 @@ def adapt_for_linkedin(curated_content: dict, max_retries: int = 3) -> dict | No
         try:
             logger.info(f"LinkedIn adaptation attempt {attempt + 1}/{max_retries}...")
             response = client.chat.completions.create(
-                model="deepseek-chat",
+                model=DEEPSEEK_MODEL,
                 messages=[{"role": "user", "content": prompt}],
                 response_format={"type": "json_object"},
                 temperature=0.5,
                 max_tokens=4096,
+                extra_body=DEEPSEEK_EXTRA_BODY,
             )
 
             text = (response.choices[0].message.content or "").strip()

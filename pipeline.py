@@ -21,6 +21,7 @@ from collections import Counter
 from datetime import datetime, timezone, timedelta
 from jinja2 import Environment, FileSystemLoader
 
+from llm_config import DEEPSEEK_MODEL, DEEPSEEK_EXTRA_BODY
 from sources.base import SourceRegistry, SourceItem
 # Importar sources registra elas automaticamente no registry
 import sources.reddit
@@ -295,14 +296,18 @@ def curate_and_write(
         try:
             logger.info(f"DeepSeek attempt {attempt + 1}/{max_retries}...")
             response = client.chat.completions.create(
-                model="deepseek-chat",
+                model=DEEPSEEK_MODEL,
                 messages=[
                     {"role": "system", "content": SYSTEM_INSTRUCTION + "\n\nRetorne sempre um JSON válido."},
                     {"role": "user", "content": user_prompt},
                 ],
                 response_format={"type": "json_object"},
                 temperature=0.0,
-                max_tokens=16384,
+                # v4-flash é mais verboso que o antigo deepseek-chat e truncava em 16384
+                # (finish_reason=length). O modelo suporta 384K de saída e a cobrança é por
+                # token gerado, então a folga não custa nada nas respostas de tamanho normal.
+                max_tokens=32768,
+                extra_body=DEEPSEEK_EXTRA_BODY,
             )
 
             # ── v5.2: Detecta truncação antes de tentar parse ──

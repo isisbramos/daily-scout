@@ -43,6 +43,8 @@ import glob
 from collections import Counter, defaultdict
 from datetime import datetime, timezone, timedelta
 
+from llm_config import DEEPSEEK_MODEL, DEEPSEEK_EXTRA_BODY
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -431,10 +433,11 @@ def llm_insights(content: dict, quality: dict) -> str | None:
         client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
         logger.info("Chamando DeepSeek para síntese de insights…")
         resp = client.chat.completions.create(
-            model="deepseek-chat",
+            model=DEEPSEEK_MODEL,
             messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
             temperature=0.3,
             max_tokens=1500,
+            extra_body=DEEPSEEK_EXTRA_BODY,
         )
         return (resp.choices[0].message.content or "").strip() or None
     except Exception as e:  # noqa: BLE001 — síntese é best-effort, nunca quebra o relatório
