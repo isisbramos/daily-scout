@@ -1,0 +1,84 @@
+{
+  "edition": "121",
+  "audited_at": "2026-07-27T11:12:19.313021-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find e quick_finds passam no AI Gate e atendem aos critérios. No entanto, o radar inclui 'Rater State Bias RLHF' que é pesquisa acadêmica sem novidade concreta (anti-signal: rehashed research). Além disso, 'Agent economy empty' é discussão sem evento, mas pode ser aceito como radar. Nenhum false positive grave, mas o radar poderia ser mais criterioso.",
+    "issues": [
+      "Radar item 'Rater State Bias RLHF' é pesquisa sem novidade concreta, viola anti-signal de rehashed research."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Títulos originais com 'reportedly' (Colossal) foram mantidos condicionais. Nenhuma informação inventada. Leve excesso de certeza em 'AI is shrinking video game development teams to one' (título original é afirmativo, mas o corpo mantém tom).",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find (Stratechery), quick_finds (TechCrunch, Rest of World, HackerNews, Simon Willison) - boa diversidade. Audiência: main_find para executivos, quick_finds para product managers e desenvolvedores - diversa. Geografia: 3 itens sobre China (main_find, Kimi Work, AI shrinking game dev teams é global) - concentração em China, mas justificável pelo tema do dia.",
+    "issues": [
+      "Três dos cinco itens (main_find + quick_finds) têm forte foco na China, o que pode ser excessivo."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('ascensão dos modelos chineses de IA'), não é genérica. Conecta com o restante da edição.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 4,
+    "rationale": "Reasoning lista corretamente os itens mantidos e descartados. Main_find rationale explica por que 'Who's afraid of Chinese models?' foi escolhido (maior sinal de mercado, trending). Não há contradições. Leve inconsistência: 'Kimi Work' aparece como quick_find mas no reasoning está listado como produto; coerente.",
+    "issues": []
+  },
+  "false_negatives": [
+    {
+      "title": "Google is working on a new AI chip designed to make Gemini more efficient",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado importante: Google desenvolvendo chip próprio para Gemini, afeta workflows de quem usa Gemini.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Safety and alignment in an era of long-horizon models",
+      "source": "OpenAI Blog",
+      "why_should_include": "Post oficial da OpenAI sobre safety em modelos de longo horizonte, relevante para quem desenvolve ou usa agentes autônomos.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "XPENG releases TuringViT for smart driving and humanoid robots",
+      "source": "TechNode",
+      "why_should_include": "Lançamento de modelo de visão para direção autônoma e robôs, sinal de mercado e acionável para desenvolvedores de robótica.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Rater State Bias in RLHF Preference Data: An Audit Framework",
+      "field": "radar",
+      "why_should_discard": "Pesquisa acadêmica sem novidade concreta, não atende critérios de seleção (não é acionável, não é sinal de mercado, não afeta workflows imediatamente).",
+      "violated_rule": "Anti-signal: rehashed research (artigo de pesquisa sem novidade concreta)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 - AI Gate: o critério de 'conexão com AI/ML' é muito amplo, permitindo que pesquisas acadêmicas sem novidade concreta passem como radar.",
+      "evidence": "Radar incluiu 'Rater State Bias RLHF' que é pesquisa sem novidade concreta, violando anti-signal de rehashed research.",
+      "suggested_fix": "Reforçar no prompt que pesquisas acadêmicas só devem ser incluídas se trouxerem novidade concreta ou forem acionáveis."
+    },
+    {
+      "hypothesis": "STEP 3 - Ranking: o critério 'main_find = mais acionável OU maior sinal de mercado' pode levar a ignorar itens com alto sinal de mercado mas menor tração.",
+      "evidence": "Google AI chip e XPENG TuringViT são sinais de mercado fortes mas foram ignorados; talvez por terem score 0.",
+      "suggested_fix": "Explicitar que tração (score) é tiebreaker, não critério principal, e que itens com sinal de mercado claro devem ser considerados mesmo com score baixo."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição tem boa seleção editorial e tom adequado, mas peca por incluir pesquisa acadêmica sem novidade no radar e por deixar de fora itens com forte sinal de mercado (Google AI chip, XPENG TuringViT). A diversidade geográfica é aceitável dado o tema central. Prompt pode ser ajustado para evitar falsos negativos e positivos."
+}

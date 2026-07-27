@@ -1,0 +1,72 @@
+{
+  "edition": "124",
+  "audited_at": "2026-07-27T11:13:05.401685-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (startup founders pedem que EUA não bloqueiem modelos abertos chineses) passa no AI Gate e satisfaz pelo menos 2 critérios (sinal de mercado, afeta workflows). Quick_find 'Etched atinge valuation de US$ 10,3 bilhões' é funding round sem info nova sobre produto ou shift de estratégia, violando anti-signal. Quick_find 'Comparação de 67 LLMs' é pesquisa acadêmica, acionável para pesquisadores, mas não para audiência principal. Quick_find 'Como as salvaguardas de IA estão atrapalhando pesquisadores' é acionável e afeta workflows. No geral, um false positive claro.",
+    "issues": [
+      "Quick_find 'Etched atinge valuation de US$ 10,3 bilhões' é funding round sem info nova sobre feature, produto ou shift de estratégia, violando anti-signal (exceto >$5B, mas não se aplica a startup não listada como OpenAI/Anthropic/DeepMind).",
+      "Quick_find 'Comparação de 67 LLMs' é pesquisa acadêmica, acionável apenas para pesquisadores, não para audiência principal (product managers e fundadores)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de hype identificada. Certeza preservada: títulos com 'may/might' não foram transformados em afirmações diretas. Nenhuma informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find (Politico via HN), quick_finds (TechCrunch, TechCrunch, Reddit) - dois itens do TechCrunch, mas não mais que 2. Audiência: main_find 'product managers e fundadores', quick_finds 'executivos de negócio', 'desenvolvedores', 'pesquisadores' - diversidade adequada. Geografia: main_find (EUA/China), quick_finds (EUA, global) - sem concentração excessiva.",
+    "issues": [
+      "Dois quick_finds do TechCrunch, mas dentro do limite de 2."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find: 'apelo de fundadores de startups ao governo dos EUA para não bloquear modelos de IA chineses de peso aberto'. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap conhecido de observability). Não é possível avaliar coerência. Conforme instrução, score = 3 (neutro) e não rebaixa overall_score.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Nvidia is sending GPUs to the moon",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado: Nvidia expandindo para exploração espacial, movimento estratégico relevante para o setor de AI hardware.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "AI chip startup Etched defies skeptics, hits $10.3B valuation from big-name investors",
+      "source": "TechCrunch",
+      "why_should_include": "Já está como quick_find, mas deveria ser descartado como anti-signal. Se mantido, é redundante.",
+      "missed_criteria": [
+        "Anti-signal"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Etched atinge valuation de US$ 10,3 bilhões com investidores de peso",
+      "field": "quick_finds",
+      "why_should_discard": "Funding round sem info nova sobre feature, produto ou shift de estratégia. Exceção >$5B não se aplica (startup não listada como OpenAI/Anthropic/DeepMind).",
+      "violated_rule": "STEP 1 - Anti-signal: funding round sem info nova"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode não ter explicitado que funding rounds de startups de AI hardware (exceto as exceções) são anti-signal, mesmo com valuation alto.",
+      "evidence": "Quick_find 'Etched atinge valuation de US$ 10,3 bilhões' foi incluído apesar de ser funding round sem info nova.",
+      "suggested_fix": "Adicionar no STEP 1 (Anti-signals) que funding rounds de startups de AI hardware sem anúncio de produto ou shift de estratégia são descartados, mesmo com valuation >$5B."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com um false positive claro (Etched funding round) que viola anti-signal. Demais dimensões ok. Reasoning não avaliável por ausência do campo."
+}

@@ -1,0 +1,68 @@
+{
+  "edition": "127",
+  "audited_at": "2026-07-27T11:13:16.373943-03:00",
+  "editorial_alignment": {
+    "score": 4,
+    "rationale": "Main_find (Kimi K3) e quick_finds (NVIDIA Cosmos, chips China, Momenta) passam no AI Gate e satisfazem pelo menos 2 critérios. Nenhum anti-signal evidente. Apenas um quick_find (lucros chips) é mais sinal de mercado do que acionável, mas ainda válido.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "Tom factual, sem hype. Nenhuma palavra de exagero. Certeza preservada (títulos originais são afirmativos). Nenhuma informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find (TechNode), quick_finds (HuggingFace Blog, SCMP Tech, TechNode) – TechNode aparece duas vezes, mas fontes diferentes. Audiência: main_find e primeiro quick_find são 'desenvolvedores', segundo e terceiro são 'executivos de negócio' – diversidade ok. Geografia: 3 itens sobre China (Kimi K3, chips, Momenta) – concentração geográfica alta, mas justificável pelo volume de notícias chinesas no input.",
+    "issues": [
+      "Concentração geográfica: 3 dos 4 itens principais são sobre China."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "Primeira frase menciona o tema específico do main_find (Kimi K3 da Moonshot AI). Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (gap de observability conhecido). Não é possível avaliar coerência interna. Score neutro conforme instrução.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "AgiBot starts Hong Kong IPO process",
+      "source": "TechNode",
+      "why_should_include": "IPO de empresa de robótica com IA é sinal de mercado (movimento estratégico) e afeta workflows (investimento em automação).",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Hugging Face CEO calls for ‘radical transparency’ after ‘unprecedented’ OpenAI hack",
+      "source": "TechCrunch",
+      "why_should_include": "Evento de segurança em IA de grande repercussão, acionável para decisões de política de segurança e sinal de mercado (regulação).",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 2 (critérios de seleção) pode estar sendo interpretado de forma restritiva, favorecendo itens acionáveis sobre sinais de mercado puros.",
+      "evidence": "AgiBot IPO (sinal de mercado forte) foi ignorado, enquanto lucros de chips (também sinal) foi incluído como quick_find.",
+      "suggested_fix": "Reforçar no prompt que 'sinal de mercado' sozinho pode ser suficiente se for de magnitude excepcional."
+    },
+    {
+      "hypothesis": "A ausência de um campo de 'reasoning' no output pode levar a inconsistências na seleção, mas é um gap de observability.",
+      "evidence": "Campo reasoning ausente impede auditoria de coerência interna.",
+      "suggested_fix": "Garantir que o campo reasoning seja sempre gerado, mesmo que resumido."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa seleção e tom adequado. Dois false negatives (AgiBot IPO e OpenAI hack) poderiam ter sido incluídos como radar ou quick_finds. Concentração geográfica na China é notada mas justificável. Campo reasoning ausente é gap conhecido."
+}

@@ -1,0 +1,75 @@
+{
+  "edition": "123",
+  "audited_at": "2026-07-27T11:12:53.745909-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Main_find (OpenAI hackeia Hugging Face) passa no AI Gate e satisfaz 2 critérios (sinal de mercado, afeta workflows). Quick_finds: SAAG é pesquisa acionável; Beijing amplia poder computacional é sinal de mercado; RedNote é marco mas menos acionável. Nenhum anti-signal claro. Porém, o item 'SysAdmin: Measuring Instrumental Power-Seeking' no radar é borderline (pesquisa sem aplicação imediata), mas não é falso positivo grave.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. Main_find.body usa 'executou um ataque cibernético não autorizado' que reflete o tom das fontes. Bullets são diretos. Quick_finds mantêm tom. Não há palavras de hype. Certeza preservada: 'reportedly' no título do Microsoft/Moonshot não foi usado, mas esse item não está no output. Nenhuma informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find usa Stratechery, MIT Tech Review, Simon Willison; quick_finds usam arXiv, SCMP, SCMP. Duas fontes SCMP, mas são itens diferentes. Audiência: main_find para executivos, quick_finds para desenvolvedores, executivos, todos. Geografia: main_find EUA, quick_finds China (2) e global (SAAG). Boa diversidade.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find: 'incidente de segurança entre OpenAI e Hugging Face'. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Conforme instrução, score = 3 (neutro). Issues registradas.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "ServiceNow bets $40 million on Indian banking software specialist to expand its financial services push",
+      "source": "TechCrunch",
+      "why_should_include": "Aquisição de $40M com valuation de $700M é sinal de mercado claro (M&A) e afeta workflows de serviços financeiros com IA.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Microsoft reportedly evaluates Moonshot AI’s Kimi K3 for Copilot",
+      "source": "TechNode",
+      "why_should_include": "Sinal de mercado: Microsoft avaliando modelo chinês para Copilot indica shift estratégico e afeta workflows de desenvolvedores.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Google justifies its massive AI spending with a booming cloud business",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado: justificativa de gastos massivos em IA por receita de nuvem é relevante para executivos e investidores.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 2 (Critérios de Seleção) pode estar sendo interpretado de forma restritiva, priorizando acionabilidade sobre sinal de mercado.",
+      "evidence": "Itens como ServiceNow e Microsoft/Moonshot, que são fortes sinais de mercado, foram ignorados em favor de itens mais acionáveis como SAAG.",
+      "suggested_fix": "Reforçar que sinal de mercado é critério suficiente, não apenas acionabilidade."
+    },
+    {
+      "hypothesis": "A regra de anti-signals para funding rounds pode estar sendo aplicada de forma muito ampla, descartando aquisições relevantes.",
+      "evidence": "ServiceNow ($40M, valuation $700M) foi ignorado, possivelmente por ser funding, mas é aquisição com shift estratégico.",
+      "suggested_fix": "Especificar que aquisições (M&A) são exceção à regra de funding rounds, especialmente quando envolvem IA."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa diversidade e tom factual. Perdeu alguns itens de sinal de mercado (ServiceNow, Microsoft/Moonshot) que poderiam enriquecer a seleção. Campo reasoning ausente por limitação de observability, não por falha editorial."
+}
