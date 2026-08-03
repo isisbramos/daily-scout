@@ -1,0 +1,88 @@
+{
+  "edition": "129",
+  "audited_at": "2026-08-03T11:18:29.350354-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Anatomy of a Frontier Lab Agent Intrusion) passa no AI Gate e é acionável, mas o reasoning lista 'The Download' como mantido, que é uma compilação de notícias sem novidade concreta (anti-signal). Além disso, o quick_find 'Codex Security' é apenas um repositório no GitHub sem descrição clara de conteúdo, o que pode ser considerado pouco acionável ou sem sinal de mercado claro.",
+    "issues": [
+      "The Download (MIT Technology Review) foi mantido no reasoning, mas é uma compilação de notícias sem novidade concreta, violando o anti-signal de rehashed news.",
+      "Codex Security: o título não indica se é uma ferramenta, diretriz ou apenas um repositório de documentação; sem contexto, pode não atender aos critérios de acionável ou sinal de mercado."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom geral é factual e sem hype. No entanto, o main_find.body afirma que 'a transparência na divulgação dos detalhes técnicos é um sinal de que a segurança de agentes autônomos está se tornando uma prioridade crítica', o que é uma interpretação que vai além do título original, que apenas descreve a timeline. Não há palavras de hype, mas há um leve aumento de certeza.",
+    "issues": [
+      "No main_find.body, a frase 'é um sinal de que a segurança de agentes autônomos está se tornando uma prioridade crítica' adiciona interpretação não presente no título original."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas (HuggingFace, TechCrunch, HackerNews, arXiv, etc.) e as audiências incluem desenvolvedores e executivos de negócio. Geograficamente, há itens dos EUA e da China, mas o main_find e os quick_finds são majoritariamente dos EUA. Não há mais de 2 itens da mesma fonte entre os selecionados.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase do correspondent_intro menciona diretamente o tema do main_find: 'relato técnico detalhado de uma intrusão de agente de IA entre laboratórios de fronteira'. É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista 'The Download' como mantido, mas ele não aparece no output final (nem como main_find, quick_find ou radar). Isso é uma contradição entre o reasoning e a seleção efetiva. Além disso, o reasoning não explica por que o main_find foi escolhido em detrimento de outros itens com forte sinal de mercado, como a aquisição da Cyera/Oasis (que também é acionável).",
+    "issues": [
+      "Contradição: 'The Download' é listado como mantido no reasoning, mas não aparece no output.",
+      "O reasoning não justifica claramente por que 'Anatomy of a Frontier Lab Agent Intrusion' foi escolhido como main_find em vez de 'Cyera adquire Oasis Security' (que tem sinal de mercado claro e é acionável)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Cyera agrees to acquire Oasis Security for $1B to safeguard proliferating AI agents",
+      "source": "TechCrunch",
+      "why_should_include": "Aquisição de US$ 1B é um sinal de mercado forte e acionável para empresas que implantam agentes de IA. Poderia ser main_find ou quick_find.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "China’s Robotaxi enters London for first time as Baidu’s Apollo Go begins UK road tests with Uber and Lyft",
+      "source": "TechNode",
+      "why_should_include": "Expansão internacional de robotáxis da Baidu é um movimento estratégico significativo, com implicações para o mercado de mobilidade e para a adoção de IA.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Kimi K3 Architecture Overview and Notes",
+      "source": "HackerNews",
+      "why_should_include": "Análise detalhada da arquitetura de um modelo de fronteira chinês, com alta pontuação no HN (417), é relevante para desenvolvedores e pesquisadores.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "The Download: OpenAI’s predictable hack, and an AI stock sell-off",
+      "field": "reasoning",
+      "why_should_discard": "É uma compilação de notícias sem novidade concreta, violando o anti-signal de rehashed news.",
+      "violated_rule": "Anti-signal: rehashed news"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção pode não ter sido aplicado rigorosamente para filtrar compilações de notícias (rehashed news).",
+      "evidence": "O reasoning incluiu 'The Download' como mantido, apesar de ser uma compilação sem novidade concreta.",
+      "suggested_fix": "Reforçar no prompt que compilações de notícias sem análise nova devem ser descartadas automaticamente."
+    },
+    {
+      "hypothesis": "O critério de 'sinal de mercado' pode estar subvalorizado em relação a 'acionável' na escolha do main_find.",
+      "evidence": "O main_find escolhido é acionável, mas a aquisição de US$ 1B (Cyera/Oasis) tem sinal de mercado mais forte e também é acionável.",
+      "suggested_fix": "Esclarecer que, em caso de empate, o sinal de mercado deve ter precedência sobre acionabilidade."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade e tom factual, mas o reasoning contém contradições (item listado como mantido que não aparece no output) e a seleção do main_find pode não ter priorizado o maior sinal de mercado. Além disso, há um false positive de rehashed news no reasoning."
+}

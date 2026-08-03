@@ -1,0 +1,87 @@
+{
+  "edition": "133",
+  "audited_at": "2026-08-03T11:19:20.154270-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Seedance 2.5) passa no AI Gate e é acionável, mas o quick_find sobre UBTech é fraco em sinal de mercado e acionabilidade, e o radar sobre conselho financeiro de IA é borderline. Nenhum item é claramente anti-signal, mas a seleção é limitada e não aproveita itens mais fortes como a decisão judicial sobre xAI.",
+    "issues": [
+      "quick_find UBTech: embora seja sobre humanoides (AI), o artigo é mais sobre primeiras impressões de consumidores do que um movimento estratégico claro; acionabilidade é vaga ('priorizar experiência de primeira impressão').",
+      "radar sobre conselho financeiro de IA: é um estudo do MIT, mas não é claro se é acionável ou sinal de mercado forte; poderia ser considerado rehashed se já foi coberto."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. O main_find body mantém o nível de certeza do título original (lançamento). Não há palavras de hype. Porém, o quick_find UBTech usa 'pode sinalizar' que é condicional, mas o step5_phrase afirma 'está movendo' sem condicional, aumentando a certeza.",
+    "issues": [
+      "quick_find UBTech step5_phrase: 'UBTech está movendo seus humanoides para o mercado consumidor chinês' — o título original não afirma isso diretamente, apenas que compradores estão abrindo suas casas; é uma inferência apresentada como fato."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas: HackerNews, SCMP, MIT. As audiências são diferentes: criadores de conteúdo, executivos de negócio. Geografia: China (UBTech) e global (Seedance, MIT). Não há concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o Seedance 2.5 da ByteDance, alinhado ao main_find. É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Não é possível avaliar coerência interna. Conforme instrução, score neutro 3.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Judge denies xAI’s request to block Minnesota ban on ‘nudify’ apps",
+      "source": "TechCrunch",
+      "why_should_include": "Decisão judicial sobre regulação de IA (nudify apps) é um sinal de mercado e afeta workflows de empresas de IA; tem magnitude regulatória.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Uber is building an autonomous vehicle empire, and here’s every company it’s using to do it",
+      "source": "TechCrunch",
+      "why_should_include": "Movimento estratégico de M&A/parcerias de uma grande empresa em AV (automação inteligente) é sinal de mercado forte e afeta o setor.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "A OpenAI classificou o ataque à Hugging Face como ‘sem precedentes’. Mas já vimos isso antes",
+      "source": "MIT Tech Review Brasil",
+      "why_should_include": "Incidente de segurança envolvendo modelos OpenAI e Hugging Face é relevante para segurança de IA e afeta workflows de quem usa essas plataformas.",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Primeiras impressões contam: compradores chineses abrem suas casas para humanoides da UBTech",
+      "field": "quick_find",
+      "why_should_discard": "É mais uma reportagem sobre adoção de robôs domésticos do que um movimento estratégico claro; acionabilidade é fraca e não atende 2 dos 3 critérios.",
+      "violated_rule": "STEP 2 - Critérios de seleção (não atende 2 de 3)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode estar priorizando itens com alto score de tração (HackerNews) em vez de sinal de mercado, levando a escolha do Seedance 2.5 como main_find, mas ignorando itens regulatórios e de M&A.",
+      "evidence": "O main_find é o item com maior score (323) entre os que passaram no AI Gate, mas itens como a decisão judicial sobre xAI e o tracker de AV da Uber têm sinal de mercado mais forte.",
+      "suggested_fix": "Reforçar no prompt que sinal de mercado deve ter peso maior que tração, e incluir exemplos de itens regulatórios e de M&A como candidatos a main_find."
+    },
+    {
+      "hypothesis": "O prompt pode não estar filtrando adequadamente itens com acionabilidade fraca, como o quick_find da UBTech.",
+      "evidence": "O quick_find UBTech foi incluído apesar de ter acionabilidade vaga e não atender claramente 2 critérios.",
+      "suggested_fix": "Adicionar no prompt uma checagem explícita de acionabilidade: 'o leitor consegue testar, mudar processo ou tomar decisão concreta?'"
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find razoável (Seedance 2.5) e boa diversidade, mas peca na seleção de quick_finds com acionabilidade fraca e ignora itens com forte sinal de mercado (regulação xAI, AV da Uber). O tom é factual, mas há uma inferência não suportada no quick_find UBTech. O reasoning ausente impede avaliação de coerência."
+}

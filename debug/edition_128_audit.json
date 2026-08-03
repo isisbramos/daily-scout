@@ -1,0 +1,86 @@
+{
+  "edition": "128",
+  "audited_at": "2026-08-03T11:18:15.512024-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (posição da Anthropic sobre open-weights) passa no AI Gate e atende aos critérios de sinal de mercado e afeta workflows, mas é um documento de posicionamento, não uma novidade acionável. Os quick_finds incluem itens válidos (Lyft/Baidu, LoRA, face renting), mas o item 'In China, people are renting out their faces to AI' é mais um fenômeno social/regulatório do que uma decisão de empresa de AI, embora tenha conexão com IA. Nenhum item é claramente anti-signal, mas o main_find poderia ser questionado por ser um blog corporativo de thought-leadership, embora tenha magnitude regulatória.",
+    "issues": [
+      "Main find é um posicionamento corporativo, não uma novidade acionável; poderia ser considerado thought-leadership sem novidade concreta, mas tem peso regulatório.",
+      "Quick find 'In China, people are renting out their faces to AI' é mais um fenômeno social/regulatório do que uma decisão de empresa de AI, embora tenha conexão com IA."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. Não há palavras de exagero. A certeza é preservada: títulos com 'may' (ex: 'Chinese AI developers may shift') foram mantidos como possibilidade no radar. Não há informação inventada nos textos; os corpos são fiéis aos títulos.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas: HackerNews, TechCrunch, arXiv, Rest of World, SCMP, etc. As audiências incluem executivos de negócio, desenvolvedores e todos. A geografia é diversa: EUA, China, Reino Unido. Não há concentração excessiva em uma fonte ou região.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o tema do main_find: 'a posição oficial da Anthropic sobre modelos de pesos abertos'. É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista os itens descartados e mantidos, mas a justificativa para o main_find é baseada principalmente na tração (score 888) e não nos critérios editoriais. O reasoning menciona 'maior tração (888), sinal de mercado forte, afeta debate regulatório', mas não explica por que é mais acionável ou tem maior sinal de mercado que outros itens como o lançamento do Kimi-K3. Há coerência entre os itens mantidos e o output, mas a rationale do main_find é fraca.",
+    "issues": [
+      "Main find rationale prioriza tração sobre critérios editoriais, contradizendo a regra de que tração é tiebreaker.",
+      "Não explica por que o posicionamento da Anthropic é mais relevante que o lançamento do Kimi-K3 (produto concreto)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Kimi-K3 is published on HuggingFace",
+      "source": "r/artificial",
+      "why_should_include": "Lançamento de um modelo de peso aberto da Moonshot AI, com potencial de mercado e acionável para desenvolvedores.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "NVIDIA Cosmos-H-Dreams: Bringing Real-Time Generative Simulation to Surgical Robotics",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Produto da NVIDIA com aplicação em robótica cirúrgica, sinal de mercado e acionável para desenvolvedores.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "OpenAI called the Hugging Face attack unprecedented. But we’ve been here before.",
+      "source": "MIT Technology Review",
+      "why_should_include": "Análise de segurança cibernética com implicações para a indústria de IA, sinal de mercado e afeta workflows.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "In China, people are renting out their faces to AI",
+      "field": "quick_finds",
+      "why_should_discard": "É um fenômeno social/regulatório, não uma decisão de empresa de AI ou produto acionável; não atende aos critérios de seleção.",
+      "violated_rule": "STEP 1 - AI Gate (conexão fraca com AI/ML) e critérios de seleção"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP 1 (AI Gate) pode estar sendo interpretado de forma muito ampla, permitindo itens com conexão tangencial com IA.",
+      "evidence": "O quick find 'In China, people are renting out their faces to AI' foi incluído apesar de ser mais um fenômeno social do que uma decisão de empresa de AI.",
+      "suggested_fix": "Reforçar que a conexão com AI deve ser central, não periférica."
+    },
+    {
+      "hypothesis": "A regra de que tração é tiebreaker pode não estar sendo aplicada corretamente, pois o main_find foi escolhido principalmente pela alta pontuação no HackerNews.",
+      "evidence": "O reasoning cita 'maior tração (888)' como justificativa principal para o main_find, em vez de critérios editoriais.",
+      "suggested_fix": "Explicitar que tração só deve ser usada para desempate após aplicar os critérios de seleção."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade e tom factual, mas o main_find é um posicionamento corporativo com justificativa baseada em tração, não em critérios editoriais. Há um false positive (face renting) e false negatives relevantes (Kimi-K3, NVIDIA Cosmos). O reasoning precisa alinhar melhor com as regras de seleção."
+}
