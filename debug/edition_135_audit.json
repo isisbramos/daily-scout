@@ -1,0 +1,84 @@
+{
+  "edition": "135",
+  "audited_at": "2026-08-10T09:46:43.481353-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Qwen3.8) passa no AI Gate e é acionável, mas o quick_find sobre eficiência energética de LLMs locais é um estudo preliminar com dados de benchmark, que pode ser considerado acionável para desenvolvedores que consideram deploy local, mas é borderline. O quick_find sobre guerra de talentos é mais um sinal de mercado do que acionável, mas ainda atende a dois critérios. Nenhum item é claramente anti-signal, mas o quick_find sobre eficiência energética poderia ser questionado por ser um estudo acadêmico sem aplicação imediata.",
+    "issues": [
+      "O quick_find 'Estudo do arXiv mede eficiência energética de LLMs locais' é um estudo preliminar que pode não ser acionável para a maioria dos leitores, mas ainda atende ao critério de sinal de mercado (custo energético).",
+      "O quick_find 'Guerra de talentos em IA' é mais um sinal de mercado do que acionável, mas ainda atende a dois critérios."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. O main_find.body afirma que o Qwen3.8 'promete reacender a disputa', o que é uma interpretação, mas não é exagerado. Não há palavras de hype. A certeza do título original é mantida (o título do TechNode é factual). Não há informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas: TechNode, Hacker News, arXiv, MIT Tech Review, SCMP. As audiências são variadas: desenvolvedores, pesquisadores, executivos, todos. A geografia é variada: China, EUA, global. Não há mais de 2 itens da mesma fonte.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o lançamento do Qwen3.8 pela Alibaba, que é o tema do main_find. É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme observado. Não é possível avaliar a coerência interna. Conforme instrução, score = 3 (neutro) e não rebaixa o overall.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Apple is getting this wrong",
+      "source": "OpenAI Blog",
+      "why_should_include": "É um post do blog da OpenAI criticando a Apple, o que é um sinal de mercado relevante (disputa entre gigantes) e pode afetar workflows de quem usa produtos Apple com IA.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "After killer quarter, Palantir CEO Alex Karp calls AI industry ‘Marxist’",
+      "source": "TechCrunch",
+      "why_should_include": "Declaração polêmica de CEO de empresa de IA com forte sinal de mercado e potencial impacto na percepção pública da indústria.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "AWS is helping vibe-coding startup Superblocks, and the implications are big",
+      "source": "TechCrunch",
+      "why_should_include": "Envolve AWS apoiando startup de vibe-coding, o que é um sinal de mercado e afeta workflows de desenvolvedores que usam ferramentas de coding assistido por IA.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Estudo do arXiv mede eficiência energética de LLMs locais em GPUs de consumo",
+      "field": "quick_finds",
+      "why_should_discard": "É um estudo acadêmico preliminar com dados de benchmark, sem aplicação prática imediata para a maioria dos leitores. Não atende claramente a dois critérios de seleção.",
+      "violated_rule": "STEP 2 - Critérios de seleção (não é claramente acionável nem sinal de mercado forte)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode não ter enfatizado suficientemente a necessidade de descartar estudos acadêmicos sem aplicação prática imediata, levando a inclusão de um benchmark de eficiência energética.",
+      "evidence": "O quick_find sobre eficiência energética é um estudo do arXiv que não é claramente acionável para a maioria dos leitores.",
+      "suggested_fix": "Adicionar regra explícita para descartar estudos acadêmicos que não apresentem aplicação prática ou implicação de mercado clara."
+    },
+    {
+      "hypothesis": "O prompt pode não ter priorizado corretamente itens com alto sinal de mercado, como declarações de CEOs ou parcerias estratégicas, em detrimento de itens mais genéricos.",
+      "evidence": "Itens como 'Apple is getting this wrong' e 'Palantir CEO chama indústria de IA de marxista' foram deixados de fora, enquanto um estudo de eficiência energética foi incluído.",
+      "suggested_fix": "Reforçar no prompt que sinal de mercado forte (declarações de líderes, parcerias estratégicas) deve ter prioridade sobre estudos acadêmicos."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade e tom factual, mas há um false positive (estudo de eficiência energética) e alguns false negatives com forte sinal de mercado. O reasoning está ausente, mas é um gap de observability. No geral, a edição é aceitável, mas poderia ter selecionado itens mais relevantes."
+}

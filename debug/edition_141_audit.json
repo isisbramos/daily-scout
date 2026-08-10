@@ -1,0 +1,94 @@
+{
+  "edition": "141",
+  "audited_at": "2026-08-10T09:47:50.500437-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Claude Code auto mode) passa no AI Gate e é acionável, mas o quick_find sobre BCI da China é tangencial à IA (neurotech, não explicitamente AI/ML) e não atende claramente a 2 dos 3 critérios. O quick_find sobre o hedge fund investindo em chips é sinal de mercado, mas o investimento de US$400M não é excepcional (>$1B) e a conexão com IA é indireta (hardware). O quick_find sobre Tencent WorkBuddy é especulativo e pode ser considerado rehashed se já foi reportado.",
+    "issues": [
+      "BCI da China: não é claramente AI/ML, e não atende a 2 critérios (não é acionável para o público geral, sinal de mercado fraco, não afeta workflows de tech/AI).",
+      "Investimento de US$400M em chip startup: não é excepcional (>$1B) e não é claramente AI (pode ser hardware genérico).",
+      "Tencent WorkBuddy: 'reportedly' e sem detalhes concretos de feature/produto, pode ser anti-signal (rehashed news)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom geral é factual e sem hype. No entanto, o main_find.body afirma 'A Anthropic ativou o modo automático como padrão' com certeza, enquanto o título original do TechCrunch diz 'is turning... on by default' (presente contínuo, mas não é 'may/might'). O quick_find sobre Tencent usa 'estaria' (condicional) corretamente. Não há palavras de hype evidentes.",
+    "issues": [
+      "main_find.body: 'A Anthropic ativou o modo automático como padrão' - o título original não indica incerteza, mas a frase 'ativou' pode ser interpretada como passado definitivo, enquanto o anúncio pode ser recente. Não é um erro grave."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas: TechCrunch, SCMP, TechNode. As audiências são diferentes: desenvolvedores, executivos, product managers. Geografia: dois itens da China (BCI e Tencent) e um dos EUA (hedge fund), mas não há mais de 2 da mesma região. O main_find é dos EUA. Portanto, diversidade adequada.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o main_find: 'Hoje o destaque vai para a mudança no Claude Code, que agora usa o modo automático por padrão.' É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme observado. Não é possível avaliar a coerência interna. Conforme instrução, score neutro 3 e não rebaixar o overall por isso.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "China’s top AI is still trained on Nvidia chips. What is delaying a switch to local tech?",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado forte sobre dependência de hardware e geopolítica, afeta workflows de empresas de IA na China e globalmente.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Docker Sandboxes – Disposable, isolated sandboxes for AI agents",
+      "source": "HackerNews",
+      "why_should_include": "Acionável para desenvolvedores que trabalham com agentes de IA, oferece ferramenta concreta para testar.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "How I use LLMs to learn complex topics",
+      "source": "HackerNews",
+      "why_should_include": "Altamente acionável e com alto engajamento (608 pontos), oferece método prático para aprendizado com LLMs.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "China desenvolve interfaces cérebro-computador implantáveis em 10 minutos",
+      "field": "quick_finds",
+      "why_should_discard": "Não é claramente AI/ML, não atende a 2 critérios de seleção (não é acionável para o público geral, sinal de mercado fraco, não afeta workflows de tech/AI).",
+      "violated_rule": "STEP 1 - AI Gate"
+    },
+    {
+      "title": "Hedge fund Situational Awareness investe US$ 400 mi em startup de chips",
+      "field": "quick_finds",
+      "why_should_discard": "Investimento de US$400M não é excepcional (>$1B) e a conexão com IA é indireta (hardware genérico). Não atende claramente a 2 critérios.",
+      "violated_rule": "STEP 1 - AI Gate e anti-signal de funding round sem info nova"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode não ter enfatizado suficientemente a necessidade de aplicar o AI Gate de forma rigorosa, permitindo itens tangenciais como BCI.",
+      "evidence": "O quick_find sobre BCI foi incluído apesar de não ser claramente AI/ML.",
+      "suggested_fix": "Reforçar no prompt que itens sem conexão direta com AI/ML devem ser descartados, a menos que sejam de magnitude excepcional."
+    },
+    {
+      "hypothesis": "O prompt pode não ter definido claramente o que conta como 'sinal de mercado' para funding rounds, permitindo que investimentos de US$400M fossem considerados relevantes.",
+      "evidence": "O quick_find sobre o hedge fund foi incluído, mas o valor não é excepcional (>$1B) e não há info nova sobre produto.",
+      "suggested_fix": "Especificar no prompt que funding rounds só são relevantes se >$5B ou de empresas como OpenAI/Anthropic/DeepMind, ou se trouxerem info nova de produto/estratégia."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find forte e acionável, mas inclui dois quick_finds que não passam no AI Gate ou nos critérios de seleção (BCI e hedge fund). O reasoning está ausente, mas isso é observability. A diversidade e o tom são adequados. Faltam itens acionáveis como Docker Sandboxes e o post sobre LLMs para aprendizado."
+}

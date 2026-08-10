@@ -1,0 +1,71 @@
+{
+  "edition": "138",
+  "audited_at": "2026-08-10T09:47:17.200655-03:00",
+  "editorial_alignment": {
+    "score": 4,
+    "rationale": "Todos os itens selecionados passam no AI Gate e atendem a pelo menos 2 dos 3 critérios. O main_find (AMD/Taalas) é um forte sinal de mercado e acionável. Os quick_finds incluem regulação (Meta), adoção governamental (911), produto (Qwen) e pesquisa aplicada (WeatherNext). Nenhum anti-signal evidente.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom factual, sem hype. O main_find preserva a incerteza do título original ('reportedly' não foi mencionado, mas a aquisição é fato). Não há palavras de hype. Algumas frases como 'pode reduzir custos' são especulativas, mas coerentes com o tom. Nenhuma informação inventada.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes variadas: HackerNews, The Guardian, Reddit, TechNode, DeepMind. Audiências variadas: desenvolvedores, executivos, todos, product managers. Geografia: EUA, China, global. Não há concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente a aquisição da Taalas pela AMD, que é o main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (gap de observability, não editorial). Não é possível avaliar coerência interna. Conforme instrução, score neutro.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Unitree IPO tests investor appetite for China’s AI robotics boom",
+      "source": "SCMP Tech",
+      "why_should_include": "IPO de empresa de robótica com IA, apoiada pela DeepSeek, é um forte sinal de mercado e acionável para investidores.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Chinese AI Models Turn Cost Into a Competitive Weapon",
+      "source": "r/artificial",
+      "why_should_include": "Tendência de custo como arma competitiva na China é um sinal de mercado relevante para quem acompanha o setor.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "New Mexico court orders Meta to pay $567m over harms to children’s mental health",
+      "source": "HackerNews",
+      "why_should_include": "Decisão judicial histórica com impacto regulatório e de mercado, mas já foi incluída como quick_find, então não é false negative.",
+      "missed_criteria": []
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode não ter critérios claros para priorizar IPOs de empresas de IA como sinal de mercado.",
+      "evidence": "Unitree IPO não foi selecionado apesar de ser um evento de mercado significativo.",
+      "suggested_fix": "Adicionar regra explícita para considerar IPOs de empresas de IA como sinal de mercado forte."
+    },
+    {
+      "hypothesis": "O prompt pode não ter orientação para incluir tendências de custo como sinal de mercado.",
+      "evidence": "O artigo sobre custo como arma competitiva na China não foi selecionado.",
+      "suggested_fix": "Incluir análise de custo como critério de sinal de mercado."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "Edição sólida, com boa seleção e tom. Principais gaps: ausência do campo reasoning (não editorial) e possíveis false negatives como o IPO da Unitree e a tendência de custo na China. Nenhum false positive identificado."
+}

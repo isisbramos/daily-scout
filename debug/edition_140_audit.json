@@ -1,0 +1,103 @@
+{
+  "edition": "140",
+  "audited_at": "2026-08-10T09:47:36.616997-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Meta AI coding agent) passa no AI Gate e é acionável, mas a fonte é um post do Reddit sem detalhes concretos, o que enfraquece o sinal de mercado. O quick_find sobre LLMs chineses é vago e sem fonte primária, falhando nos critérios de acionabilidade e sinal de mercado. O quick_find sobre o EU AI Act é especulativo e não traz novidade concreta, sendo um anti-signal de 'rehashed news'.",
+    "issues": [
+      "main_find: fonte Reddit sem detalhes verificáveis, sinal de mercado fraco.",
+      "quick_find 'LLMs chineses dominam rankings': sem fonte primária, não acionável, sem sinal de mercado claro.",
+      "quick_find 'EU AI Act pode virar regra global': especulativo, sem novidade concreta, anti-signal."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é factual, sem palavras de hype. No entanto, o main_find.body afirma 'A Meta lançou seu primeiro agente de codificação' como fato, enquanto o título original diz 'debuts' (estreia), o que é aceitável, mas o corpo adiciona 'possivelmente integrada ao ecossistema da empresa' sem base no título. O quick_find sobre o EU AI Act usa 'pode se tornar' (condicional), mas o step5_phrase diz 'A UE decidiu estabelecer um padrão', aumentando a certeza.",
+    "issues": [
+      "main_find.body: 'possivelmente integrada ao ecossistema da empresa' é especulação não presente no título.",
+      "quick_find EU AI Act: step5_phrase 'A UE decidiu' aumenta a certeza em relação ao título original ('may become')."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há diversidade de fontes (Reddit, TechCrunch, Simon Willison) e audiências (desenvolvedores, executivos, product managers). Porém, 3 dos 5 itens (main_find + quick_finds) são do Reddit, e a maioria dos itens tem foco em desenvolvedores, com apenas 2 para executivos. Geograficamente, todos os itens são dos EUA ou globais, sem representação de outras regiões.",
+    "issues": [
+      "3 de 5 itens são do Reddit (main_find + 2 quick_finds).",
+      "Audiência majoritariamente desenvolvedores; falta mais variedade."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o main_find (Meta AI coding agent) e o contexto de competição com Anthropic e OpenAI. É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap de observability, não editorial). Não é possível avaliar coerência interna. Conforme instrução, score neutro 3.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI acquires presentation startup NextSlide",
+      "source": "TechCrunch",
+      "why_should_include": "Aquisição da OpenAI é sinal de mercado claro (M&A) e acionável para product managers; deveria estar no main_find ou quick_finds.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Now we have a timeline of the OpenAI accidental attack against Hugging Face",
+      "source": "Simon Willison",
+      "why_should_include": "Incidente de segurança envolvendo OpenAI e Hugging Face é relevante para workflows de segurança e tem sinal de mercado (impacto em confiança).",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "ByteDance trains massive AI model in bid to rival Anthropic",
+      "source": "r/artificial",
+      "why_should_include": "Movimento estratégico da ByteDance é sinal de mercado e afeta o cenário competitivo de IA; deveria estar no radar ou quick_finds.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "LLMs chineses dominam os rankings da semana",
+      "field": "quick_finds",
+      "why_should_discard": "Post vago no Reddit sem fonte primária ou dados concretos; não é acionável e não revela movimento estratégico claro.",
+      "violated_rule": "STEP 1 - AI Gate (conexão fraca com AI/ML) e critérios de seleção (não acionável, sem sinal de mercado)"
+    },
+    {
+      "title": "EU AI Act pode virar regra global sem adoção por outros países",
+      "field": "quick_finds",
+      "why_should_discard": "Especulativo e sem novidade concreta; discussão genérica sobre AI Act, não é acionável para o leitor.",
+      "violated_rule": "Anti-signal: rehashed news / thought-leadership sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP 1 (AI Gate) pode estar sendo interpretado de forma muito ampla, permitindo itens com conexão superficial com IA.",
+      "evidence": "Itens como 'LLMs chineses dominam rankings' e 'EU AI Act' passaram, apesar de serem vagos e sem novidade concreta.",
+      "suggested_fix": "Reforçar no prompt que o AI Gate exige conexão direta e substantiva com IA/ML, não apenas menção."
+    },
+    {
+      "hypothesis": "A regra de anti-signal para 'rehashed news' pode não estar sendo aplicada com rigor.",
+      "evidence": "O quick_find sobre EU AI Act é uma discussão genérica que já foi amplamente reportada, sem nova informação.",
+      "suggested_fix": "Adicionar exemplo explícito de 'rehashed news' no prompt e instruir a descartar itens sem ângulo novo."
+    },
+    {
+      "hypothesis": "A preferência por fontes com alto score (Reddit) pode estar influenciando a seleção, mesmo quando o conteúdo é fraco.",
+      "evidence": "O main_find e dois quick_finds são do Reddit, com títulos vagos e sem fonte primária.",
+      "suggested_fix": "Instruir a priorizar fontes primárias e verificar a qualidade do conteúdo, não apenas o score."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem problemas de seleção: main_find fraco (fonte Reddit sem detalhes), quick_finds com itens vagos ou especulativos, e falta de itens mais relevantes como aquisição da OpenAI e incidente de segurança. Tom é majoritariamente factual, mas há pequenas imprecisões. Diversidade de fontes é limitada (muito Reddit)."
+}

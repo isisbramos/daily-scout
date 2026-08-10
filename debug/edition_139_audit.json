@@ -1,0 +1,90 @@
+{
+  "edition": "139",
+  "audited_at": "2026-08-10T09:47:25.219113-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Kimi K3) passa no AI Gate e é acionável, mas o quick_find sobre Cambricon é essencialmente um resultado financeiro sem novidade estratégica concreta, violando o anti-signal de funding/earnings sem info nova. O quick_find sobre OpenAI Astra é borderline, mas aceitável por sinal de mercado. Os demais itens são adequados.",
+    "issues": [
+      "Cambricon: earnings report sem info nova sobre produto/estratégia, apenas crescimento de receita — anti-signal.",
+      "main_find é acionável e tem sinal de mercado, mas poderia ser questionado por ser um incidente de segurança isolado sem magnitude excepcional; ainda assim, é relevante para workflows de segurança."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. Não há palavras exageradas. A maioria dos títulos com 'may/might' foi preservada com condicional (ex: 'pode indicar'). Não há informação inventada evidente, mas o main_find.body adiciona interpretação ('afeta diretamente empresas') que não está no título, embora seja razoável.",
+    "issues": [
+      "main_find.body: 'Isso afeta diretamente empresas que dependem de ambientes controlados' — inferência não suportada diretamente pelo título, mas plausível.",
+      "quick_find Cambricon: 'O crescimento é impulsionado pela demanda massiva por chips de IA na China' — 'massiva' é um leve exagero, mas aceitável."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Há boa diversidade de fontes (SCMP, HackerNews, TechCrunch, etc.) e audiências (executivos, desenvolvedores, product managers). Geograficamente, há 3 itens da China (Kimi K3, dados de treinamento, Cambricon) entre main_find e quick_finds, o que é um pouco concentrado, mas não excessivo.",
+    "issues": [
+      "3 dos 6 itens (main_find + quick_finds) são sobre China — concentração geográfica."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o tema do main_find (segurança de modelos de IA, caso Kimi K3). É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (gap de observability, não editorial). Não é possível avaliar coerência interna. Conforme instrução, score neutro 3.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Oracle bans AI-generated code from OpenJDK",
+      "source": "HackerNews",
+      "why_should_include": "Alta relevância para desenvolvedores (acionável) e sinal de mercado sobre políticas de IA em projetos open source. Deveria estar no main_find ou quick_finds.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "U.S. Department of Energy Launches the Genesis Open Models Initiative",
+      "source": "HackerNews",
+      "why_should_include": "Sinal de mercado forte: governo dos EUA lançando iniciativa de modelos abertos, afeta políticas e workflows de pesquisa. Deveria estar no quick_finds.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Kitesurf: Agent-first browser that runs in V8 isolates",
+      "source": "HackerNews",
+      "why_should_include": "Acionável para desenvolvedores e sinal de mercado (Cloudflare entrando em browsers para agentes). Deveria estar no quick_finds ou radar.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Cambricon posts 108% surge in first-half revenue amid China’s massive AI chip drive",
+      "field": "quick_finds",
+      "why_should_discard": "É um earnings report sem novidade estratégica concreta (nenhum produto, feature ou shift de estratégia). Violação do anti-signal de funding/earnings sem info nova.",
+      "violated_rule": "STEP 3 - Anti-signals: funding round sem info nova"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O critério de 'sinal de mercado' pode estar sendo interpretado de forma ampla, permitindo earnings reports como sinal de mercado.",
+      "evidence": "O quick_find Cambricon foi incluído apesar de ser apenas um resultado financeiro.",
+      "suggested_fix": "Reforçar no prompt que earnings/funding só são válidos se revelarem movimento estratégico (ex: novo produto, mudança de categoria)."
+    },
+    {
+      "hypothesis": "A seleção do main_find pode estar priorizando novidade/segurança em vez de acionabilidade ou sinal de mercado mais forte.",
+      "evidence": "O main_find é o Kimi K3, mas o Oracle OpenJDK é mais acionável para desenvolvedores e tem sinal de mercado claro.",
+      "suggested_fix": "Instruir o modelo a ranquear itens com base nos critérios explícitos, não apenas na novidade."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade e tom factual, mas inclui um anti-signal (Cambricon earnings) e deixa de fora itens mais acionáveis como Oracle OpenJDK e Genesis. O main_find é relevante, mas poderia ser mais acionável. O campo reasoning ausente impede avaliação de coerência."
+}
