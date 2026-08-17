@@ -1,0 +1,88 @@
+{
+  "edition": "147",
+  "audited_at": "2026-08-17T09:25:32.271172-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find sobre watermarking da Anthropic passa no AI Gate e é acionável, mas o quick_find sobre a província chinesa é fraco em acionabilidade e sinal de mercado. O quick_find sobre interpretabilidade é borderline, mas tem sinal de pesquisa. Nenhum item é claramente anti-signal, mas a seleção é conservadora e deixa de fora itens mais fortes.",
+    "issues": [
+      "quick_find 'Província chinesa busca reter talentos' tem baixa acionabilidade para o público-alvo e sinal de mercado limitado (não é um movimento estratégico claro de uma empresa).",
+      "main_find é acionável, mas o sinal de mercado é moderado; poderia ter priorizado o fechamento da aquisição da Cursor pela SpaceX, que é um evento de M&A claro."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. Não há palavras exageradas. A maioria dos itens preserva o nível de certeza dos títulos originais. Porém, o main_find.body adiciona interpretações ('enfrenta críticas de usuários que temem vigilância') que não estão no título original, o que é um pequeno desvio de acurácia.",
+    "issues": [
+      "main_find.body: 'enfrenta críticas de usuários que temem vigilância' é uma inferência não suportada pelo título original.",
+      "quick_find 'Pesquisa questiona interpretabilidade' usa 'sugere' e 'pode', mantendo condicional, ok."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são diversificadas: TechCrunch, arXiv, SCMP, MIT Tech Review. As audiências variam entre 'todos', 'desenvolvedores', 'executivos' e 'pesquisadores'. Geograficamente, há itens dos EUA, China e Brasil. Não há concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o tema do main_find (watermarking do Claude) e a fonte (Anthropic). É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme observado. Não é possível avaliar a coerência interna. O score é neutro, sem rebaixar o overall.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "SpaceX officially closes its Cursor acquisition",
+      "source": "TechCrunch",
+      "why_should_include": "Aquisição de empresa de AI por player relevante (SpaceX) é um forte sinal de mercado e acionável para observadores do setor.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Patterns and problems in emerging multi-agent systems",
+      "source": "HackerNews",
+      "why_should_include": "Pesquisa da Anthropic sobre sistemas multi-agente é altamente acionável para desenvolvedores e tem sinal de mercado (empresa líder).",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "OpenAI talent exodus raises 'huge red flag' ahead of IPO",
+      "source": "r/artificial",
+      "why_should_include": "Movimentação de talentos na OpenAI antes de IPO é um sinal de mercado relevante e afeta workflows de quem depende da empresa.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Província chinesa busca reter talentos de IA após sucesso de DeepSeek e Moonshot",
+      "field": "quick_find",
+      "why_should_discard": "Notícia institucional sem novidade concreta para o leitor; não é acionável e o sinal de mercado é fraco.",
+      "violated_rule": "STEP 2 - Critérios de seleção (não atende 2 de 3)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode estar priorizando itens com 'AI' explícito no título, ignorando eventos de M&A que envolvem AI indiretamente.",
+      "evidence": "A aquisição da Cursor pela SpaceX não foi selecionada, apesar de ser um evento de M&A claro.",
+      "suggested_fix": "Reforçar no STEP 2 que M&A envolvendo empresas de AI deve ser considerado sinal de mercado, mesmo sem 'AI' no título."
+    },
+    {
+      "hypothesis": "O prompt pode estar subvalorizando itens com alto score de engajamento (HackerNews) em favor de fontes tradicionais.",
+      "evidence": "O item 'Patterns and problems in emerging multi-agent systems' (score 49) não foi selecionado, enquanto itens com score 0 foram.",
+      "suggested_fix": "Incluir no STEP 3 que score de engajamento pode ser usado como tiebreaker, mas não como critério principal."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade e tom factual, mas a seleção deixa de fora itens com forte sinal de mercado (aquisição da Cursor, pesquisa da Anthropic) e inclui um item fraco (província chinesa). O main_find é razoável, mas poderia ter sido mais forte. O campo reasoning ausente impede avaliação de coerência, mas não é falha editorial."
+}

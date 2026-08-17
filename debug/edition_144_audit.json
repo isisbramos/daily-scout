@@ -1,0 +1,86 @@
+{
+  "edition": "144",
+  "audited_at": "2026-08-17T09:24:57.618713-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "A maioria dos itens selecionados passa no AI Gate e atende a pelo menos dois critérios de seleção. No entanto, o main_find sobre o DeepSeek V4 Pro é problemático: o título original do HackerNews é apenas 'DeepSeek V4 Pro 0813' e o SCMP indica desempenho misto, mas a AYA o apresenta como um lançamento com destaque em cibersegurança, o que é uma interpretação que pode não ser acionável nem sinal de mercado claro. Além disso, o quick_find sobre a Cognition é especulativo e pode ser considerado um anti-signal (funding round sem info nova), embora o valuation alto possa justificar. O item sobre o Qwen3.8-2.4T é forte, mas o main_find deveria ser mais acionável ou com maior sinal de mercado.",
+    "issues": [
+      "main_find: DeepSeek V4 Pro 0813 - o título original não menciona cibersegurança; a AYA adiciona interpretação que pode não ser suportada. O item pode não atender a 2 dos 3 critérios (não é claramente acionável nem sinal de mercado forte).",
+      "quick_find: Cognition - funding round especulativo sem info nova de produto; pode ser anti-signal, apesar do valuation alto."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom geral é factual e sem hype. No entanto, o main_find.body afirma que o modelo 'se destaca em tarefas de cibersegurança' e 'indica uma especialização que pode ser estratégica', o que aumenta a certeza em relação ao título original que apenas menciona 'struggles on benchmarks, shines in cybersecurity' (do SCMP). A AYA também usa 'está lançando' no step5_phrase, enquanto o título original não indica lançamento oficial, apenas disponibilidade no OpenRouter. Não há palavras de hype, mas há leve aumento de certeza.",
+    "issues": [
+      "main_find: 'se destaca em tarefas de cibersegurança' - o título original do HackerNews não menciona isso; a AYA adiciona interpretação que pode ser prematura.",
+      "main_find: 'DeepSeek está lançando' - o título original não diz 'lançando', apenas 'DeepSeek V4 Pro 0813' (disponível no OpenRouter)."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são diversificadas: HackerNews, SCMP, TechCrunch, TechNode, Reddit. As audiências variam entre desenvolvedores, executivos, product managers e todos. Geograficamente, há itens dos EUA, China e outros. Não há mais de 2 itens da mesma fonte entre main_find e quick_finds. A diversidade é boa.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase do correspondent_intro menciona especificamente o DeepSeek V4 Pro, que é o main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme observado. Não é possível avaliar a coerência interna. Conforme instrução, score neutro 3 e não rebaixar o overall por isso.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "We tracked down the 16-year-old WAL-reset SQLite bug",
+      "source": "HackerNews",
+      "why_should_include": "Tem score alto (1000) e é altamente acionável para desenvolvedores que usam SQLite; afeta workflows diretamente.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "AI nuclear power firm Fermi finally has a new CEO",
+      "source": "TechCrunch",
+      "why_should_include": "Sinal de mercado relevante: mudança de liderança em empresa de energia nuclear para IA, pode indicar estratégia futura.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "China’s YMTC breaks into global top 3 flash-memory suppliers with 14% market share",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado significativo: mudança no ranking global de fornecedores de memória, impacta cadeia de suprimentos de tech.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Cognition negocia rodada de US$ 40 bilhões em valuation",
+      "field": "quick_find",
+      "why_should_discard": "É um funding round especulativo sem info nova de produto ou estratégia; valuation alto pode justificar, mas a notícia é apenas 'reportedly in talks'.",
+      "violated_rule": "Anti-signal: funding round sem info nova (exceto >$5B ou OpenAI/Anthropic/DeepMind)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção pode estar priorizando itens com score alto do HackerNews sem verificar se atendem aos critérios de acionabilidade ou sinal de mercado.",
+      "evidence": "O main_find escolheu DeepSeek V4 Pro (score 892) em vez de itens mais acionáveis como o bug do SQLite (score 1000) ou com sinal de mercado claro como YMTC.",
+      "suggested_fix": "Reforçar no prompt que o main_find deve ser o mais acionável OU com maior sinal de mercado, não apenas o de maior score."
+    },
+    {
+      "hypothesis": "O prompt pode não estar filtrando adequadamente funding rounds especulativos sem info nova.",
+      "evidence": "O quick_find sobre Cognition foi incluído apesar de ser apenas 'reportedly in talks' e sem detalhes de produto.",
+      "suggested_fix": "Adicionar regra explícita para descartar funding rounds sem info nova, mesmo com valuation alto, a menos que seja >$5B ou de empresas listadas."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade e tom factual, mas o main_find é questionável em acionabilidade e precisão, e há um quick_find que pode ser anti-signal. Faltam itens fortes como o bug do SQLite e o YMTC. O reasoning ausente impede avaliação mais profunda."
+}

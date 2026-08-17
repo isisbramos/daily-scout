@@ -1,0 +1,93 @@
+{
+  "edition": "145",
+  "audited_at": "2026-08-17T09:25:09.730805-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Gemini 3.7 Flash) passa no AI Gate e é acionável para desenvolvedores, mas não é o item com maior sinal de mercado da edição — DeepSeek Harness e SMIC/Hua Hong têm sinal mais forte. O quick_find sobre a nomeação do CRO da OpenAI é borderline: é um movimento de negócio, mas não é claramente acionável nem afeta workflows diretamente, e não é um sinal de mercado tão forte quanto outros itens. O quick_find sobre Flock é relevante para regulação/vigilância, mas não é claramente acionável para o leitor médio.",
+    "issues": [
+      "main_find deveria ser DeepSeek Harness (maior sinal de mercado) ou SMIC/Hua Hong (sinal de mercado forte), não Gemini 3.7 Flash que é apenas um lançamento de modelo.",
+      "Quick find sobre OpenAI CRO é fraco: não é acionável, não é sinal de mercado forte, e não afeta workflows diretamente.",
+      "Quick find sobre Flock é mais notícia de política/regulação do que algo acionável para o leitor."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. Não há palavras de hype evidentes. A certeza dos títulos originais foi preservada (ex: 'may' virou 'pode'). Não há informação inventada nos corpos dos itens.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas (Google, TechNode, SCMP, OpenAI, MIT Tech Review). As audiências são majoritariamente desenvolvedores, mas há executivos de negócio e 'todos'. A geografia é diversa (EUA, China, global).",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Gemini 3.7 Flash) e o contexto (lançamento pelo Google). Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Não é possível avaliar a coerência interna. Score neutro.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "DeepSeek Harness developer preview",
+      "source": "HackerNews",
+      "why_should_include": "É um lançamento de ferramenta open source para agentes de IA, altamente acionável para desenvolvedores e com forte sinal de mercado (DeepSeek competindo com Claude Cowork).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "AI demand drives triple-digit profit growth for Chinese chip foundries SMIC, Hua Hong",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado forte: mostra o impacto da demanda de IA na indústria de semicondutores chinesa, afetando a cadeia global de suprimentos.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Accelerating GPT-5.6 Sol Ultrafast",
+      "source": "HackerNews",
+      "why_should_include": "Parceria OpenAI-Cerebras para acelerar inferência, sinal de mercado relevante e acionável para desenvolvedores que buscam performance.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "OpenAI nomeia Dali Rajic como Chief Revenue Officer",
+      "field": "quick_finds",
+      "why_should_discard": "Notícia de contratação executiva sem impacto direto em produtos ou workflows; não é acionável e não é sinal de mercado forte.",
+      "violated_rule": "STEP 1 - AI Gate (não é sobre AI/ML em si, é sobre negócio)"
+    },
+    {
+      "title": "Flock endurece regras após reação a vigilância",
+      "field": "quick_finds",
+      "why_should_discard": "Notícia de política/regulação de vigilância, mas não é acionável para o leitor e não é um sinal de mercado claro de AI.",
+      "violated_rule": "STEP 1 - AI Gate (não é sobre AI/ML em si, é sobre vigilância)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP 2 (critérios de seleção) pode estar sendo interpretado de forma muito permissiva, permitindo itens que passam apenas por um critério fraco.",
+      "evidence": "Itens como OpenAI CRO e Flock foram incluídos apesar de não serem claramente acionáveis nem terem forte sinal de mercado.",
+      "suggested_fix": "Reforçar que pelo menos 2 critérios devem ser claramente atendidos, e que 'sinal de mercado' deve ser algo mais concreto que uma contratação ou mudança de política."
+    },
+    {
+      "hypothesis": "O STEP 3 (anti-signals) pode não estar sendo aplicado com rigor, permitindo notícias de negócio sem novidade de produto.",
+      "evidence": "A nomeação do CRO da OpenAI é um exemplo de notícia corporativa sem novidade de produto ou feature.",
+      "suggested_fix": "Adicionar exemplo explícito de 'contratação executiva' como anti-signal, a menos que haja impacto claro em produtos."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade e tom factual, mas o main_find não é o item mais relevante (DeepSeek Harness ou SMIC/Hua Hong seriam melhores). Há dois false positives (OpenAI CRO e Flock) que não atendem aos critérios de seleção. O reasoning ausente impede avaliação completa, mas não é falha editorial."
+}

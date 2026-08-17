@@ -1,0 +1,88 @@
+{
+  "edition": "143",
+  "audited_at": "2026-08-17T09:24:47.393314-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (roubo de reasoning traces) passa no AI Gate e é acionável, mas o quick_find sobre ModelBest pré-IPO é um funding/IPO sem info nova de produto ou estratégia, violando o anti-signal de funding round sem novidade. O quick_find sobre ByteDance é especulativo e sem detalhes concretos, mas ainda é sinal de mercado. O quick_find sobre Alibaba assinatura é acionável e sinal de mercado, ok.",
+    "issues": [
+      "ModelBest pré-IPO: funding/IPO sem info nova de produto ou estratégia, viola anti-signal de funding round sem novidade (exceto >$5B ou OpenAI/Anthropic/DeepMind).",
+      "ByteDance departamento: 'reportedly' sem detalhes concretos, mas ainda é sinal de mercado; não é false positive claro."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom geral é factual, sem hype. O main_find.body adiciona 'propriedade intelectual' e 'informações sensíveis' que não estão no título, mas são inferências razoáveis. O quick_find sobre OpenAI ads está correto. O quick_find sobre ByteDance usa 'estaria' mantendo o condicional do título.",
+    "issues": [
+      "main_find.body: 'propriedade intelectual' e 'informações sensíveis' são inferências não presentes no título, mas plausíveis; não é invenção grave."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes variadas: HackerNews, OpenAI, SCMP, TechNode. Audiências variadas: desenvolvedores, todos, product managers, executivos. Geografia: China (Alibaba, ByteDance, ModelBest) e global (OpenAI, HackerNews). Não há concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find (roubo de cadeias de raciocínio de LLMs), e o restante contextualiza a análise. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Não é possível avaliar coerência interna. Conforme instrução, score neutro 3.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI launches ChatGPT desktop app for Linux",
+      "source": "TechCrunch",
+      "why_should_include": "Lançamento de produto acionável para desenvolvedores, sinal de mercado da OpenAI, afeta workflows.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Alibaba Cloud Makes Its M890 AI Supernode Available in China",
+      "source": "TechNode",
+      "why_should_include": "Disponibilidade de infraestrutura de AI é acionável para empresas, sinal de mercado da Alibaba.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Daybreak models are now available on AWS",
+      "source": "OpenAI Blog",
+      "why_should_include": "Disponibilidade de modelos em AWS é acionável para desenvolvedores, sinal de mercado da OpenAI.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "ModelBest kicks off pre-IPO tutoring process for mainland listing",
+      "field": "quick_finds",
+      "why_should_discard": "IPO/funding sem info nova de produto ou estratégia, não atende critérios de seleção.",
+      "violated_rule": "Anti-signal: funding round sem info nova (exceto >$5B ou OpenAI/Anthropic/DeepMind)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 3 - Anti-signals: a regra de funding round sem info nova pode não ter sido aplicada com rigor, permitindo IPO de startup sem destaque.",
+      "evidence": "ModelBest pré-IPO foi selecionado como quick_find, apesar de não ter info nova de produto ou estratégia.",
+      "suggested_fix": "Reforçar no prompt que IPOs/funding rounds só passam se houver info nova de produto, feature ou shift de estratégia."
+    },
+    {
+      "hypothesis": "STEP 2 - Critérios de seleção: a regra de 'pelo menos 2 de 3' pode ter sido interpretada de forma frouxa, permitindo itens com apenas 1 critério forte.",
+      "evidence": "ByteDance departamento foi selecionado com base em 'reportedly' sem detalhes concretos, talvez contando como sinal de mercado fraco.",
+      "suggested_fix": "Exigir que cada critério seja claramente atendido com evidência no título/fonte."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find forte e tom factual, mas inclui um false positive (ModelBest pré-IPO) e deixa de fora lançamentos acionáveis como ChatGPT Linux e Daybreak na AWS. A diversidade é boa, mas a seleção poderia ser mais criteriosa quanto a anti-signals."
+}
