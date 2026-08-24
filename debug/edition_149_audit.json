@@ -1,0 +1,77 @@
+{
+  "edition": "149",
+  "audited_at": "2026-08-24T09:29:11.199092-03:00",
+  "editorial_alignment": {
+    "score": 4,
+    "rationale": "Todos os itens selecionados passam no AI Gate e atendem a pelo menos dois critérios de seleção. O main_find (Nvidia/OpenAI) é um forte sinal de mercado e afeta workflows de infraestrutura. Os quick_finds são relevantes e acionáveis. Nenhum anti-signal evidente foi incluído.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. Não há palavras exageradas. A certeza dos títulos originais foi preservada (ex: 'garante' no main_find reflete o título original). Não há informações inventadas nos corpos dos itens.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há diversidade de fontes (SCMP, TechCrunch, HackerNews, TechNode) e de audiências (executivos, desenvolvedores). Porém, há uma concentração geográfica: 3 dos 5 itens (main_find + quick_finds) são sobre empresas chinesas (VeriSilicon, Zhipu AI) ou envolvem a China (Nvidia/OpenAI é EUA, mas o item é da SCMP). Isso pode enviesar a edição para o mercado chinês.",
+    "issues": [
+      "Concentração geográfica: 3 de 5 itens têm forte componente chinês."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o tema do main_find (Nvidia garantindo US$ 105 bi para data center da OpenAI em Ohio). É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme observado. Não é possível avaliar a coerência interna. Conforme instrução, isso é um gap de observability e não deve ser penalizado além do neutro.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Stripe Acquiring OpenRouter, Aggregating AI?, Flipping the Business Model",
+      "source": "Stratechery",
+      "why_should_include": "Aquisição de uma plataforma de agregação de IA pela Stripe é um movimento estratégico significativo, com implicações para o mercado de pagamentos e distribuição de IA. É um forte sinal de mercado e afeta workflows de desenvolvedores.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "AI automation startup Relay shuts down, staff joins Google’s Chrome team",
+      "source": "TechCrunch",
+      "why_should_include": "Shutdown de uma startup de automação de IA e absorção pela equipe do Chrome da Google é um evento relevante para o ecossistema de IA, indicando consolidação e mudança de estratégia. É um sinal de mercado e afeta workflows de automação.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Same Cluster, 33 Points More Utilization: What Changed Was the Order",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Otimização de utilização de GPU é altamente acionável para engenheiros de ML e afeta diretamente custos e eficiência. É um exemplo claro de item acionável e que afeta workflows.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode não ter enfatizado suficientemente a importância de itens com forte sinal de mercado, como aquisições e shutdowns, levando a AYA a priorizar itens de receita/financeiro.",
+      "evidence": "A ausência de itens como a aquisição da OpenRouter pela Stripe e o shutdown da Relay no output, apesar de serem fortes sinais de mercado.",
+      "suggested_fix": "Adicionar um critério explícito de 'sinal de mercado' com exemplos de M&A e shutdowns para orientar a seleção."
+    },
+    {
+      "hypothesis": "O prompt pode não ter incentivado a diversidade geográfica, resultando em uma super-representação de notícias da China.",
+      "evidence": "Três dos cinco itens selecionados têm forte componente chinês (VeriSilicon, Zhipu AI, e o main_find é da SCMP).",
+      "suggested_fix": "Incluir uma regra de diversidade geográfica no prompt, limitando o número de itens por região."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "A edição é sólida, com boa seleção de itens e tom factual. Os principais problemas são a concentração geográfica em notícias da China e a ausência de itens com forte sinal de mercado, como aquisições e shutdowns. O campo reasoning ausente é um gap de observability, não editorial."
+}

@@ -1,0 +1,89 @@
+{
+  "edition": "152",
+  "audited_at": "2026-08-24T09:29:46.580872-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (robotáxis em Nevada) passa no AI Gate e atende aos critérios de sinal de mercado e afeta workflows. Os quick_finds sobre chips chineses, SenseTime e Alibaba também são relevantes. No entanto, o quick_find sobre Alibaba T-Head é mais tangencial (hardware, não diretamente AI) e o main_find poderia ter sido mais acionável. Nenhum anti-signal claro foi incluído.",
+    "issues": [
+      "Quick find 'Alibaba T-Head chip' tem conexão fraca com AI/ML, mas é aceitável como sinal de mercado.",
+      "Main find é mais regulatório do que acionável, mas tem forte sinal de mercado."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. Não há palavras exageradas. A certeza do título original ('get the OK') foi mantida. Não há informação inventada aparente. Porém, o main_find.body inclui uma frase especulativa ('Isso pode acelerar a adoção...') que não estava no título, mas é uma inferência razoável.",
+    "issues": [
+      "Main find body adiciona especulação sobre impacto em outros estados, não presente no título."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas: TechCrunch, SCMP, TechNode (duas vezes). Há duas fontes da China (SCMP e TechNode) e uma dos EUA (TechCrunch). As audiências são majoritariamente executivos de negócio, com um para desenvolvedores. Não há mais de dois itens da mesma fonte entre main_find e quick_finds.",
+    "issues": [
+      "Duas das três quick finds são da TechNode, mas não é excessivo."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente o tema do main_find (aprovação de robotáxis em Nevada) e o número de posts analisados. É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme aviso. Portanto, não é possível avaliar a coerência interna. Isso é uma limitação de observabilidade, não uma falha editorial.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "ChatGPT search now uses the site:operator at scale",
+      "source": "Simon Willison",
+      "why_should_include": "É acionável para desenvolvedores e usuários de busca, e mostra uma mudança de comportamento do ChatGPT.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Up to 3.2x Faster Inference with LFM2.5-DSpark",
+      "source": "HuggingFace Blog",
+      "why_should_include": "É acionável para desenvolvedores que buscam otimização de inferência, e tem sinal de mercado (modelo open source).",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "AI companies destroy physical books – let's scan rare books before it's too late",
+      "source": "HackerNews",
+      "why_should_include": "Tem alto engajamento (276 pontos, 205 comentários) e levanta questão ética relevante para a indústria de IA, afetando workflows de digitalização.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Alibaba espera que chip T-Head de segunda geração entre em produção ainda este ano",
+      "field": "quick_finds",
+      "why_should_discard": "É mais sobre hardware e estratégia de nuvem do que sobre AI/ML diretamente, e não é acionável para o leitor comum.",
+      "violated_rule": "STEP 1 - AI Gate"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O critério de 'sinal de mercado' pode estar sendo interpretado de forma ampla, permitindo itens com conexão fraca com AI.",
+      "evidence": "O quick find sobre chip T-Head foi incluído apesar de ser mais hardware que AI.",
+      "suggested_fix": "Reforçar no prompt que o AI Gate é obrigatório e que itens tangenciais devem ser descartados."
+    },
+    {
+      "hypothesis": "A seleção de main_find pode estar priorizando sinal de mercado sobre acionabilidade, mesmo quando há itens mais acionáveis.",
+      "evidence": "O main_find é regulatório, enquanto itens como ChatGPT search ou LFM2.5-DSpark são mais acionáveis.",
+      "suggested_fix": "Explicitar que main_find deve ser o mais acionável OU com maior sinal de mercado, mas que acionabilidade deve ser considerada primeiro."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa seleção geral, mas há um false positive (chip T-Head) e alguns false negatives acionáveis. O tom é factual e a intro é específica. A ausência do reasoning impede avaliação completa da coerência."
+}

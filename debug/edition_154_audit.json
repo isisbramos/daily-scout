@@ -1,0 +1,77 @@
+{
+  "edition": "154",
+  "audited_at": "2026-08-24T09:30:08.484060-03:00",
+  "editorial_alignment": {
+    "score": 4,
+    "rationale": "Todos os itens selecionados (main_find e quick_finds) passam no AI Gate e atendem aos critérios de seleção. O main_find sobre contenção de modelos é acionável e sinal de mercado. Os quick_finds sobre OpenAI, Nvidia e Alibaba são relevantes e acionáveis. Nenhum anti-signal evidente.",
+    "issues": []
+  },
+  "tone_accuracy": {
+    "score": 5,
+    "rationale": "O tom é factual e sem hype. As frases são curtas e diretas. Não há aumento de certeza em relação aos títulos originais. Não há informações inventadas.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há diversidade de fontes (TechCrunch, SCMP, Reddit) e audiências (executivos de negócio, desenvolvedores). Porém, há 3 itens da TechCrunch entre main_find e quick_finds, o que pode indicar viés de fonte. A geografia é variada (EUA, China, global).",
+    "issues": [
+      "Três dos quatro itens principais vêm da TechCrunch, o que pode reduzir a diversidade de fontes."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase do correspondent_intro menciona diretamente o tema do main_find (pressão sobre laboratórios de IA para conter modelos descontrolados). É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme observado. Isso é um gap de observability, não editorial. Não é possível avaliar a coerência do reasoning, então o score é neutro.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Inherent, founded by DeepMind alumni, says its AI ‘teammate’ just outperformed Anthropic and OpenAI at replicating research",
+      "source": "TechCrunch",
+      "why_should_include": "É um sinal de mercado forte: startup de DeepMind alumni com performance superior a líderes de IA. Acionável para quem acompanha o setor.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Why your local LLM feels dumber than it is",
+      "source": "HackerNews",
+      "why_should_include": "Alta tração (288 pontos) e acionável para desenvolvedores que usam LLMs locais. Explica um problema comum e pode mudar workflows.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Munder Difflin – Agent harness to run an office of your clones",
+      "source": "HackerNews",
+      "why_should_include": "Ferramenta prática de agentes de IA, com alta tração (275 pontos). Acionável para desenvolvedores e sinal de tendência em automação.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode estar priorizando itens com forte sinal de mercado e acionabilidade para executivos, deixando de lado itens com alta tração e acionabilidade para desenvolvedores.",
+      "evidence": "Itens como 'Why your local LLM feels dumber than it is' e 'Munder Difflin' têm alta tração e são acionáveis, mas não foram selecionados.",
+      "suggested_fix": "Revisar o critério de seleção para incluir itens com alta tração e acionabilidade para desenvolvedores, mesmo que não sejam voltados a executivos."
+    },
+    {
+      "hypothesis": "O prompt pode estar incentivando a seleção de itens de fontes mainstream (TechCrunch, SCMP) em detrimento de fontes como HackerNews e Reddit, que têm alta tração.",
+      "evidence": "Três dos quatro itens principais vêm da TechCrunch, enquanto itens de HackerNews com alta pontuação foram ignorados.",
+      "suggested_fix": "Equilibrar a seleção entre fontes mainstream e comunidades técnicas, considerando a tração como tiebreaker."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "A edição é sólida, com boa seleção e tom factual. Principais problemas: viés de fonte (3 itens da TechCrunch) e ausência de itens de alta tração de comunidades técnicas. O reasoning ausente é um gap de observability, não editorial."
+}

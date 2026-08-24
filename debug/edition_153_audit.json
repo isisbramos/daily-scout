@@ -1,0 +1,88 @@
+{
+  "edition": "153",
+  "audited_at": "2026-08-24T09:29:56.937055-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find sobre telecoms chinesas e 'fábricas de tokens' passa no AI Gate e atende aos critérios de sinal de mercado e afeta workflows, mas é um item de nicho com apelo limitado. Os quick_finds incluem itens acionáveis (Kimi K3, autocorreção) e de sinal de mercado (Alibaba, Nvidia), mas o item sobre autocorreção é especulativo e de baixa relevância para o público geral. Nenhum item é claramente um anti-signal, mas a seleção tende a favorecer notícias da China, possivelmente em detrimento de itens mais acionáveis.",
+    "issues": [
+      "O main_find sobre 'fábricas de tokens' é um conceito vago e pode não ser o mais acionável ou de maior sinal de mercado entre os disponíveis.",
+      "O quick_find sobre autocorreção é especulativo e de baixa relevância para o público geral, podendo ser considerado um false positive."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype, com frases curtas. Não há palavras de hype evidentes. A maioria dos títulos originais não continha modais, e o output preserva o nível de certeza. Não há informação inventada aparente.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 2,
+    "rationale": "Há uma concentração excessiva em fontes chinesas: main_find e dois quick_finds são do SCMP Tech, e o radar inclui itens da China. Isso viola a diretriz de diversidade geográfica. As audiências são variadas (executivos, product managers, desenvolvedores), mas a geografia é desbalanceada.",
+    "issues": [
+      "Três dos cinco itens principais (main_find + quick_finds) são do SCMP Tech, todos sobre China.",
+      "A diversidade geográfica é baixa, com foco excessivo na China."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase do correspondent_intro menciona especificamente o tema do main_find ('fábricas de tokens' das telecoms chinesas), cumprindo o requisito de ser específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente, conforme instrução, então a coerência não pode ser avaliada. O score é neutro (3) e não rebaixa o overall.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Kagi added a setting for removing paywalled links from search results",
+      "source": "HackerNews",
+      "why_should_include": "É acionável (usuários podem testar a nova configuração) e afeta workflows de busca, além de ter alta tração (1086 pontos).",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Felony charges for citizen deleting phone data at US Border",
+      "source": "HackerNews",
+      "why_should_include": "É um evento de magnitude excepcional (regulação/governo) e afeta workflows de viagem e privacidade, com alta tração (720 pontos).",
+      "missed_criteria": [
+        "AI Gate (exceção)",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "There's no reason for software to be slow anymore",
+      "source": "HackerNews",
+      "why_should_include": "É acionável para desenvolvedores (otimização de performance) e afeta workflows de engenharia, com alta tração (322 pontos).",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Estudo: loops de autocorreção podem degradar confiabilidade em pipelines de LLM",
+      "field": "quick_finds",
+      "why_should_discard": "É um post do Reddit com score 0, sem fonte confiável, e o conteúdo é especulativo, não atendendo aos critérios de acionabilidade ou sinal de mercado.",
+      "violated_rule": "STEP 1 - AI Gate (não é um evento concreto) e critérios de seleção (não é acionável nem sinal de mercado)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode estar incentivando a seleção de itens com alta tração (score) como tiebreaker, mas não como critério principal, e a AYA pode ter interpretado isso como priorizar itens com score alto, ignorando itens acionáveis com score baixo.",
+      "evidence": "Itens com alta tração (Kagi, Felony charges, software lento) foram ignorados, enquanto itens com score 0 (autocorreção) foram incluídos.",
+      "suggested_fix": "Reforçar no prompt que tração é apenas tiebreaker e que acionabilidade/sinal de mercado devem ser priorizados."
+    },
+    {
+      "hypothesis": "O prompt pode não ter critérios claros para diversidade geográfica, levando a uma super-representação de notícias da China.",
+      "evidence": "Três dos cinco itens principais são do SCMP Tech, todos sobre China.",
+      "suggested_fix": "Adicionar uma regra explícita de diversidade geográfica (máximo de 2 itens por região)."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem problemas de diversidade geográfica (excesso de China) e seleção de itens com baixa relevância (autocorreção). Faltam itens acionáveis de alta tração que foram ignorados. O tom e a intro estão corretos, mas a curadoria precisa de ajustes."
+}
