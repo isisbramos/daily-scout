@@ -1,7 +1,7 @@
 # AYA — Relatório de Conteúdo
 
-**Gerado:** 2026-08-31 09:42 BRT  
-**Janela:** 67 edições (2026-06-23 → 2026-08-30)
+**Gerado:** 2026-08-31 15:30 BRT  
+**Janela:** 30 edições (2026-08-02 → 2026-08-31)
 
 > Avaliação editorial da AYA *através das edições*: o que cobre, com qual diversidade, como o feedback responde e como a qualidade evolui.
 
@@ -13,143 +13,66 @@
 
 | Tema | Edições | |
 |---|---|---|
-| regulação de IA | 19 | `████████████████` |
-| agentes de IA | 13 | `███████████·····` |
-| infraestrutura de IA | 10 | `████████········` |
-| segurança em IA | 8 | `███████·········` |
-| modelos open source | 6 | `█████···········` |
-| segurança de IA | 5 | `████············` |
-| agentes de código | 5 | `████············` |
-| hardware de IA | 4 | `███·············` |
-| geopolítica da IA | 4 | `███·············` |
-| modelos de código aberto | 3 | `███·············` |
+| regulação de IA | 14 | `████████████████` |
+| agentes de IA | 7 | `████████········` |
+| infraestrutura de IA | 7 | `████████········` |
+| segurança de IA | 4 | `█████···········` |
+| modelos open source | 4 | `█████···········` |
+| agentes de código | 3 | `███·············` |
+| modelos de vídeo | 2 | `██··············` |
+| modelos abertos | 2 | `██··············` |
+| segurança cibernética | 2 | `██··············` |
+| modelos de linguagem | 2 | `██··············` |
 
 ### Entidades mais citadas
 
-`OpenAI (46)` · `China (37)` · `Anthropic (25)` · `Alibaba (20)` · `DeepSeek (12)` · `arXiv (11)` · `IA (11)` · `Nvidia (10)` · `EUA (9)` · `Hugging Face (8)` · `Meta (8)` · `ByteDance (8)`
+`OpenAI (18)` · `China (14)` · `Alibaba (12)` · `Anthropic (10)` · `arXiv (7)` · `IA (6)` · `Nvidia (6)` · `DeepSeek (5)` · `ByteDance (4)` · `LLMs (4)` · `Google DeepMind (4)` · `Meta (4)`
 
 ### Distribuição de fontes
 
 | Fonte | Usos | |
 |---|---|---|
-| techcrunch | 45 | `████████████████` |
-| hackernews | 45 | `████████████████` |
-| scmp_tech | 41 | `███████████████·` |
-| technode | 26 | `█████████·······` |
-| reddit | 20 | `███████·········` |
-| arxiv_ai | 14 | `█████···········` |
-| openai_blog | 8 | `███·············` |
-| mit_tech_review | 7 | `██··············` |
-| rest_of_world | 5 | `██··············` |
-| lobsters | 4 | `█···············` |
-| mit_tech_review_brasil | 3 | `█···············` |
-| huggingface_blog | 3 | `█···············` |
-| deepmind_blog | 2 | `█···············` |
-| stratechery | 1 | `················` |
-| simon_willison | 1 | `················` |
-| agencia_brasil | 1 | `················` |
+| techcrunch | 20 | `████████████████` |
+| scmp_tech | 18 | `██████████████··` |
+| hackernews | 16 | `█████████████···` |
+| technode | 15 | `████████████····` |
+| reddit | 9 | `███████·········` |
+| arxiv_ai | 7 | `██████··········` |
+| mit_tech_review | 3 | `██··············` |
+| lobsters | 3 | `██··············` |
+| openai_blog | 3 | `██··············` |
+| deepmind_blog | 2 | `██··············` |
+| rest_of_world | 2 | `██··············` |
+| simon_willison | 1 | `█···············` |
+| agencia_brasil | 1 | `█···············` |
+| mit_tech_review_brasil | 1 | `█···············` |
+| huggingface_blog | 1 | `█···············` |
 
-**Fontes habilitadas nunca selecionadas (6/22):** `anthropic_blog`, `ethan_mollick`, `huggingface_papers`, `meta_ai_blog`, `mistral_releases`, `qwen_blog`
+**Fontes habilitadas nunca selecionadas (7/22):** `anthropic_blog`, `ethan_mollick`, `huggingface_papers`, `meta_ai_blog`, `mistral_releases`, `qwen_blog`, `stratechery`
 
 ### Mix epistêmico (claim_status)
 
-**confirmado** 93% · **especulativo** 7%
+**confirmado** 94% · **especulativo** 6%
 
 ### Feedback coletado
 
-🔥 95 · 👍 33 · 😐 37  (54 edições com rating)
+🔥 57 · 👍 35 · 😐 37  (27 edições com rating)
 
 
 _Média de feedback por tema:_
 
-- modelos de vídeo e código aberto: **2.0**
-- agentes de IA e mercado de trabalho: **2.0**
-- geopolítica da IA (EUA vs China): **2.0**
-- custo e eficiência de IA: **2.0**
-- China e infraestrutura de AI: **2.0**
-- interface cérebro-computador: **2.0**
-- padrões de segurança para AI avançada: **2.0**
-- modelos de código: **2.0**
-- DeepSeek V4 e precificação de API: **2.0**
-- modelos locais e desenvolvimento: **2.0**
-- agentes de IA e autonomia: **2.0**
-- Claude Science: **2.0**
-- Claude Code steganography: **2.0**
-- Trump libera modelos Anthropic: **2.0**
-- China robótica e IA industrial: **2.0**
-- pesquisa em alinhamento: **2.0**
-- mercado de chips: **2.0**
-- financiamento de IA na China: **2.0**
-- agentes de código e segurança: **2.0**
-- IA alternativa no Sul Global: **2.0**
-- pesquisa em eficiência de modelos: **2.0**
-- agentes de IA em pesquisa científica: **2.0**
-- segurança e espionagem em ferramentas de IA: **2.0**
-- modelos de código aberto para raciocínio formal: **2.0**
-- segurança de dados: **2.0**
-- ferramentas de desenvolvimento: **2.0**
-- encerramento de agentes de IA na China: **2.0**
-- custo de IA vs engenheiros: **2.0**
-- robotáxi e robótica: **2.0**
-- regulação de dados e trabalho: **2.0**
-- infraestrutura de inferência: **2.0**
-- regulação de IA na China: **2.0**
-- custom chips China: **2.0**
-- open source AI: **2.0**
-- GPT-5.6: **2.0**
-- Microsoft Copilot: **2.0**
-- regulação UE: **2.0**
-- China e chips Nvidia: **2.0**
-- modelos de mundo: **2.0**
-- adoção de apps de IA na China: **2.0**
-- agentes e web de agentes: **2.0**
-- open source de modelos de visão: **2.0**
-- regulação de criptografia e IA: **2.0**
-- modelos leves: **2.0**
-- investimento em IA: **2.0**
-- segurança de modelos: **2.0**
-- China e IA: **2.0**
-- privacidade: **2.0**
-- segurança de LLM: **2.0**
-- aplicações científicas: **2.0**
-- modelos abertos chineses: **2.0**
-- startups de chips de IA: **2.0**
-- segurança e alinhamento de LLMs: **2.0**
-- modelos open source chineses: **2.0**
-- automação industrial com IA: **2.0**
-- chipmaking e AI boom: **2.0**
-- competição Microsoft vs OpenAI/Anthropic: **2.0**
-- ByteDance reestrutura AI: **2.0**
-- ARC-AGI benchmark: **2.0**
-- modelos leves open source: **2.0**
-- aquisições e consolidação: **2.0**
-- expansão de infraestrutura de IA: **2.0**
-- avaliação e segurança de modelos: **2.0**
-- IA em mercados emergentes: **2.0**
-- open source: **1.9**
-- consumo energético de data centers: **1.8**
-- regulação de conteúdo gerado por IA: **1.8**
+- segurança de agentes: **2.0**
+- mercado de IA na China: **2.0**
 - modelos de fronteira: **1.8**
-- hardware de IA: **1.75**
 - IA em hardware: **1.75**
 - IA em governo: **1.75**
 - IA em robótica: **1.75**
 - IA em saúde: **1.75**
-- segurança em IA: **1.69**
-- modelos de raciocínio: **1.62**
-- China e semicondutores: **1.5**
-- regulação e segurança: **1.5**
-- agentes de código: **1.5**
-- geopolítica da IA: **1.5**
-- modelos chineses: **1.5**
 - mercado de IA: **1.4**
-- modelos open source: **1.39**
-- agentes de IA: **1.37**
-- regulação de IA: **1.37**
-- infraestrutura de IA: **1.37**
+- open source: **1.4**
+- modelos de linguagem: **1.33**
 - otimização de inferência: **1.33**
 - regulação de dados: **1.33**
-- segurança de IA: **1.31**
 - segurança cibernética: **1.29**
 - governança de IA: **1.29**
 - modelos de vídeo: **1.25**
@@ -162,61 +85,68 @@ _Média de feedback por tema:_
 - código aberto e governança: **1.25**
 - IA na indústria e governo: **1.25**
 - dados de treinamento e escassez: **1.25**
+- infraestrutura de IA: **1.25**
+- modelos de IA: **1.25**
 - regulação de vigilância: **1.25**
 - finanças de empresas de IA: **1.25**
+- modelos de raciocínio: **1.25**
 - privacidade e proteção de dados em IA: **1.25**
 - aquisições e consolidação no setor de IA: **1.25**
 - modelos de fronteira e infraestrutura: **1.25**
 - regulação e ética em IA: **1.25**
+- regulação de IA: **1.22**
+- competição China-EUA: **1.22**
+- modelos open source: **1.21**
 - agentes de voz IA: **1.17**
 - robotáxis e regulação: **1.17**
 - chips de IA na China: **1.17**
-- modelos de IA: **1.12**
+- segurança de IA: **1.14**
+- aquisições e consolidação: **1.14**
+- expansão de infraestrutura de IA: **1.14**
+- avaliação e segurança de modelos: **1.14**
+- IA em mercados emergentes: **1.14**
 - modelos abertos: **1.12**
-- competição China-EUA: **1.07**
-- aplicações de IA em saúde: **1.0**
-- Apple vs OpenAI: **1.0**
-- avaliação de mercado de AI: **1.0**
-- monitoramento de LLMs em produção: **1.0**
-- expansão de acesso a modelos: **1.0**
-- impacto de AI no trabalho: **1.0**
+- agentes de IA: **1.03**
+- agentes de código: **1.0**
+- modelos chineses: **1.0**
 - governança de dados: **1.0**
+- hardware de IA: **1.0**
+- China e semicondutores: **1.0**
 - pesquisa em IA: **1.0**
+- regulação e segurança: **1.0**
 - adoção de IA em mercados emergentes: **1.0**
 - saída de executivos em empresas de IA: **1.0**
 - modelos de linguagem de código aberto: **1.0**
 - regulação de plataformas e scraping: **1.0**
 - financiamento e IPO de empresas de IA na Ásia: **1.0**
-- modelos de código aberto: **0.92**
+- modelos open-weight: **1.0**
+- aquisições de IA: **1.0**
+- benchmarks de agentes: **1.0**
+- sanções e regulação: **1.0**
+- aquisições: **1.0**
+- modelos de código aberto: **0.88**
 - modelos de IA chineses: **0.75**
 - impacto da IA no trabalho: **0.75**
 - segurança e regulação de IA: **0.75**
 - watermarking e detecção de uso: **0.75**
-- watermarking em IA: **0.75**
-- segurança de contas de IA: **0.75**
-- interpretabilidade de modelos: **0.75**
-- talento em IA: **0.75**
-- modelos de linguagem: **0.67**
 - estratégia de empresas de IA: **0.67**
-- modelos abertos vs fechados: **0.5**
-- agentes autônomos: **0.5**
-- regulação de exportação de chips: **0.5**
-- AI para famílias: **0.0**
-- computação distribuída de IA: **0.0**
-- financiamento de GPU: **0.0**
+- watermarking em IA: **0.6**
+- segurança de contas de IA: **0.6**
+- interpretabilidade de modelos: **0.6**
+- talento em IA: **0.6**
 
 ### Repetição entre edições
 
-484 par(es) com sobreposição ≥2 entidades:
+80 par(es) com sobreposição ≥2 entidades:
 
-- ed.093 (2026-06-23) ↔ ed.095 (2026-06-25) — compartilham: alibaba, openai
-- ed.094 (2026-06-24) ↔ ed.095 (2026-06-25) — compartilham: openai, techcrunch
-- ed.093 (2026-06-23) ↔ ed.096 (2026-06-26) — compartilham: deepseek, openai
-- ed.095 (2026-06-25) ↔ ed.097 (2026-06-27) — compartilham: anthropic, openai
-- ed.095 (2026-06-25) ↔ ed.099 (2026-06-29) — compartilham: anthropic, claude, openai
-- ed.096 (2026-06-26) ↔ ed.099 (2026-06-29) — compartilham: openai, zhipu ai
-- ed.097 (2026-06-27) ↔ ed.099 (2026-06-29) — compartilham: anthropic, china, openai
-- ed.098 (2026-06-28) ↔ ed.099 (2026-06-29) — compartilham: ford, openai
+- ed.134 (2026-08-03) ↔ ed.138 (2026-08-07) — compartilham: alibaba, ia
+- ed.137 (2026-08-06) ↔ ed.138 (2026-08-07) — compartilham: google deepmind, meta
+- ed.135 (2026-08-04) ↔ ed.139 (2026-08-08) — compartilham: openai, scmp
+- ed.136 (2026-08-05) ↔ ed.140 (2026-08-09) — compartilham: anthropic, openai
+- ed.140 (2026-08-09) ↔ ed.142 (2026-08-11) — compartilham: meta, openai
+- ed.135 (2026-08-04) ↔ ed.143 (2026-08-12) — compartilham: alibaba, openai
+- ed.136 (2026-08-05) ↔ ed.143 (2026-08-12) — compartilham: llms, openai
+- ed.142 (2026-08-11) ↔ ed.143 (2026-08-12) — compartilham: bytedance, openai
 
 ---
 
@@ -226,44 +156,6 @@ _Média de feedback por tema:_
 
 | Edição | Overall | Editorial | Tom | Diversidade | Intro | Reasoning |
 |---|---|---|---|---|---|---|
-| #093 | 3/5 | 3 | 4 | 3 | 5 | 5 |
-| #094 | 3/5 | 3 | 4 | 3 | 4 | 3 |
-| #095 | 4/5 | 4 | 5 | 3 | 5 | 4 |
-| #096 | 3/5 | 3 | 5 | 4 | 5 | 3 |
-| #097 | 4/5 | 3 | 5 | 4 | 5 | 3 |
-| #098 | 4/5 | 3 | 4 | 3 | 4 | 5 |
-| #099 | 3/5 | 3 | 4 | 3 | 5 | 3 |
-| #100 | 4/5 | 3 | 4 | 4 | 5 | 3 |
-| #101 | 3/5 | 3 | 4 | 4 | 5 | 3 |
-| #102 | 3/5 | 2 | 4 | 3 | 5 | 3 |
-| #103 | 4/5 | 3 | 5 | 4 | 5 | 4 |
-| #104 | 3/5 | 3 | 4 | 4 | 5 | 3 |
-| #105 | 3/5 | 3 | 4 | 4 | 5 | 3 |
-| #106 | 4/5 | 3 | 4 | 3 | 5 | 4 |
-| #107 | 3/5 | 3 | 5 | 4 | 5 | 3 |
-| #108 | 3/5 | 3 | 5 | 4 | 5 | 3 |
-| #109 | 4/5 | 3 | 5 | 4 | 5 | 3 |
-| #110 | 4/5 | 3 | 5 | 4 | 5 | 4 |
-| #111 | 3/5 | 2 | 4 | 3 | 5 | 3 |
-| #112 | 3/5 | 3 | 5 | 4 | 5 | 4 |
-| #113 | 2/5 | 2 | 4 | 3 | 2 | 3 |
-| #114 | 3/5 | 3 | 4 | 3 | 5 | 3 |
-| #115 | 3/5 | 3 | 4 | 3 | 4 | 3 |
-| #116 | 4/5 | 3 | 4 | 4 | 5 | 3 |
-| #117 | 3/5 | 3 | 4 | 3 | 5 | 3 |
-| #118 | 3/5 | 3 | 4 | 3 | 5 | 2 |
-| #119 | 4/5 | 3 | 4 | 3 | 5 | 4 |
-| #120 | 4/5 | 3 | 4 | 4 | 5 | 3 |
-| #121 | 3/5 | 3 | 4 | 3 | 5 | 4 |
-| #122 | 3/5 | 3 | 4 | 4 | 5 | 3 |
-| #123 | 4/5 | 3 | 4 | 4 | 5 | 3 |
-| #124 | 4/5 | 3 | 5 | 4 | 5 | 3 |
-| #127 | 4/5 | 4 | 5 | 3 | 5 | 3 |
-| #128 | 3/5 | 3 | 4 | 4 | 5 | 3 |
-| #129 | 3/5 | 3 | 4 | 4 | 5 | 2 |
-| #130 | 4/5 | 4 | 4 | 4 | 5 | 3 |
-| #131 | 3/5 | 3 | 4 | 4 | 5 | 3 |
-| #132 | 3/5 | 3 | 4 | 3 | 5 | 3 |
 | #133 | 3/5 | 3 | 4 | 4 | 5 | 3 |
 | #134 | 4/5 | 4 | 4 | 4 | 5 | 3 |
 | #135 | 3/5 | 3 | 4 | 4 | 5 | 3 |
@@ -287,34 +179,41 @@ _Média de feedback por tema:_
 | #153 | 3/5 | 3 | 4 | 2 | 5 | 3 |
 | #154 | 4/5 | 4 | 5 | 3 | 5 | 3 |
 | #155 | 4/5 | 4 | 4 | 4 | 5 | 3 |
+| #156 | 2/5 | 2 | 3 | 4 | 5 | 3 |
+| #157 | 2/5 | 2 | 4 | 3 | 5 | 3 |
+| #158 | 4/5 | 4 | 4 | 4 | 5 | 3 |
+| #159 | 3/5 | 3 | 4 | 3 | 5 | 3 |
+| #160 | 4/5 | 4 | 4 | 3 | 5 | 3 |
+| #161 | 4/5 | 4 | 4 | 4 | 5 | 3 |
+| #162 | 3/5 | 2 | 3 | 4 | 5 | 3 |
 
 ### Médias por dimensão
 
-**Editorial** 3.05/5 · **Tom** 4.18/5 · **Diversidade** 3.62/5 · **Intro** 4.9/5 · **Reasoning** 3.15/5
+**Editorial** 3.1/5 · **Tom** 3.93/5 · **Diversidade** 3.7/5 · **Intro** 5.0/5 · **Reasoning** 3.0/5
   
-**Overall médio:** 3.3/5
+**Overall médio:** 3.17/5
 
-**Tendência:** 3.33 → 3.26 (↓ Δ -0.08)
+**Tendência:** 3.13 → 3.2 (↑ Δ 0.07)
 
 ### False negatives recorrentes (por fonte)
 
-- HackerNews: 43×
-- TechCrunch: 41×
-- SCMP Tech: 27×
-- TechNode: 18×
-- r/artificial: 16×
-- OpenAI Blog: 8×
-- HuggingFace Blog: 6×
-- Simon Willison: 5×
+- HackerNews: 29×
+- TechCrunch: 16×
+- SCMP Tech: 13×
+- r/artificial: 7×
+- TechNode: 6×
+- OpenAI Blog: 4×
+- Stratechery: 3×
+- Simon Willison: 3×
 
 ### Hipóteses de prompt recorrentes
 
-- (3×) STEP 1 (AI Gate) pode estar sendo interpretado de forma muito ampla,…
-- (2×) STEP 2 - Critérios de seleção: a regra 'precisa de pelo menos…
-- (2×) STEP 1 - AI Gate: The rule may be too strict, causing…
-- (2×) STEP 2 - Selection criteria: The requirement for at least 2 of…
-- (2×) STEP 1 - AI Gate: a regra pode estar sendo interpretada de…
-- (2×) STEP 2 - Critérios de seleção: AYA pode estar priorizando 'acionável' sobre…
+- (4×) O critério de 'sinal de mercado' pode estar sendo interpretado de forma…
+- (4×) O prompt pode não ter enfatizado suficientemente a regra de anti-signal para…
+- (2×) O prompt pode não ter priorizado corretamente o sinal de mercado sobre…
+- (2×) O prompt pode não ter enfatizado suficientemente a necessidade de aplicar o…
+- (1×) O prompt pode estar priorizando itens com alto score de tração (HackerNews)…
+- (1×) O prompt pode não estar filtrando adequadamente itens com acionabilidade fraca, como…
 
 ---
 
@@ -322,58 +221,50 @@ _Média de feedback por tema:_
 
 ### Diagnóstico determinístico
 
-- **Fontes ociosas:** 6 de 22 fontes habilitadas nunca foram selecionadas na janela (anthropic_blog, ethan_mollick, huggingface_papers, meta_ai_blog, mistral_releases, qwen_blog). Avalie se geram ruído no pre-filter ou se o peso precisa de ajuste.
-- **Repetição entre edições:** 484 par(es) de edições com sobreposição ≥2 entidades. A memória editorial barra quick_finds, mas main_finds repetidos só são logados — vale revisar se a regra precisa endurecer.
-- **Feedback × tema:** «modelos de vídeo e código aberto» tem a melhor média (2.0) e «AI para famílias» a pior (0.0). Sinal pra dobrar no que engaja e revisar o que não pega.
-- **Dimensão mais fraca:** «Editorial» tem média 3.05/5 — o ponto de maior alavancagem pra subir a qualidade geral.
-- **Cego recorrente:** «HackerNews» é a fonte mais frequente em false negatives (43×). A AYA pode estar subestimando essa fonte sistematicamente.
-- **Hipótese de prompt recorrente (3×):** “STEP 1 (AI Gate) pode estar sendo interpretado de forma muito ampla,…” — candidata forte a virar fix de prompt.
+- **Fontes ociosas:** 7 de 22 fontes habilitadas nunca foram selecionadas na janela (anthropic_blog, ethan_mollick, huggingface_papers, meta_ai_blog, mistral_releases, qwen_blog, stratechery). Avalie se geram ruído no pre-filter ou se o peso precisa de ajuste.
+- **Repetição entre edições:** 80 par(es) de edições com sobreposição ≥2 entidades. A memória editorial barra quick_finds, mas main_finds repetidos só são logados — vale revisar se a regra precisa endurecer.
+- **Feedback × tema:** «segurança de agentes» tem a melhor média (2.0) e «watermarking em IA» a pior (0.6). Sinal pra dobrar no que engaja e revisar o que não pega.
+- **Dimensão mais fraca:** «Reasoning» tem média 3.0/5 — o ponto de maior alavancagem pra subir a qualidade geral.
+- **Cego recorrente:** «HackerNews» é a fonte mais frequente em false negatives (29×). A AYA pode estar subestimando essa fonte sistematicamente.
+- **Hipótese de prompt recorrente (4×):** “O critério de 'sinal de mercado' pode estar sendo interpretado de forma…” — candidata forte a virar fix de prompt.
 
 ### Síntese editorial (DeepSeek)
 
 ## Diagnóstico Geral
 
-A AYA opera em um regime de alta cobertura (67 edições, 484 repetições) com viés forte para OpenAI (46 menções), China (37) e fontes mainstream (TechCrunch/SCMP/HN dominam 131 das 190 menções), mas o feedback "meh" (37) supera "solid" (33) e a qualidade geral caiu (-0.08). O problema central é estrutural: o prompt prioriza tração (score) e "sinal de mercado" sobre acionabilidade real, resultando em excesso de cobertura especulativa/geopolítica (7% especulativo, temas China-EUA com feedback 1.07-1.5) e subcobertura de fontes primárias de alta qualidade (anthropic_blog, ethan_mollick, mistral_releases, qwen_blog nunca usados). A diversidade (3.62) e o alinhamento editorial (3.05) são as dimensões mais fracas, coerente com a hipótese recorrente de que o STEP 2 está sendo interpretado de forma restritiva demais para itens acionáveis e permissiva demais para itens de tração.
+A AYA está com desempenho mediano (3.17/5) e estagnado (delta de +0.07), com um problema central: **o prompt está priorizando tração e volume de fontes mainstream (TechCrunch, SCMP, HackerNews) em detrimento de acionabilidade e diversidade temática**, resultando em 80 repetições e 37 "meh" — o maior grupo de feedback. O viés para regulação de IA (14 edições) e China (14 menções) está canibalizando temas com feedback superior (hardware, governo, robótica, saúde — todos com 1.75), enquanto fontes de alto valor (Stratechery, Ethan Mollick, Anthropic Blog) nunca foram usadas.
 
 ---
 
 ## Recomendações
 
-### P0 — Reescrever o critério de seleção do main_find para priorizar acionabilidade sobre tração
-
-**Alavanca:** No STEP 4, substituir a regra atual ("mais acionável OU maior sinal de mercado") por uma hierarquia explícita: `acionabilidade > novidade > tração`. Adicionar a instrução: "Se um item tem score alto (ex: HN > 500) mas não é acionável (não muda decisão de leitor), rebaixe para radar. Se um item tem acionabilidade alta (ex: lançamento de modelo, mudança de preço de API, release de ferramenta), promova a main_find mesmo com score baixo."
-
-**Por quê:** Os dados mostram 43 false negatives em HackerNews e 41 em TechCrunch, e a hipótese recorrente "O prompt pode estar priorizando tração (score) sobre critérios editoriais" aparece 3+ vezes. Temas com feedback 2.0 (Claude Code, DeepSeek V4, agentes de código) são exatamente os acionáveis, enquanto temas com feedback baixo (modelos abertos vs fechados: 0.5, agentes autônomos: 0.5, regulação de exportação: 0.5) são os especulativos/estratégicos. O prompt atual está invertendo a prioridade.
+### P0 — Rebalancear o prompt para priorizar acionabilidade sobre tração
+**Alavanca:** No STEP 2 (critérios de seleção), adicione regra explícita: *"Itens com score de tração alto (HackerNews/Reddit) devem ser rebaixados se não tiverem implicação acionável clara para o leitor; itens com implicação de mercado, produto ou política têm prioridade sobre itens virais."*
+**Por quê:** 29 false negatives do HackerNews e 7 do r/artificial indicam que o prompt está selecionando itens populares mas fracos em acionabilidade — o que explica os 37 "meh" e a hipótese recorrente "O prompt pode estar priorizando itens com alto score de tração".
 
 ---
 
-### P0 — Adicionar regra de diversidade geográfica e de fonte no STEP 2
-
-**Alavanca:** Inserir no STEP 2: "Garanta que pelo menos 1 dos 5 itens selecionados venha de fonte não-mainstream (arXiv, blogs de laboratório, fontes primárias) e que pelo menos 1 item cubra contexto fora de EUA/China (ex: Europa, Sul Global, Brasil). Se todos os candidatos forem de TechCrunch/HN/SCMP, force a inclusão do melhor item de fonte alternativa disponível."
-
-**Por quê:** A distribuição de fontes é extremamente concentrada (TechCrunch+HN+SCMP = 131 de 190 menções). Fontes primárias de alta qualidade (anthropic_blog, mistral_releases, qwen_blog, ethan_mollick) têm **zero** uso. A diversidade média é 3.62, a pior dimensão junto com alinhamento editorial. O feedback por tema mostra que temas de nicho (Claude Science: 2.0, interface cérebro-computador: 2.0, IA alternativa no Sul Global: 2.0) performam muito melhor que temas saturados (modelos de IA: 1.12, modelos de linguagem: 0.67).
+### P0 — Corrigir o viés temático: regulação de IA está super-representada
+**Alavanca:** Adicione no STEP 3 (anti-signals): *"Se um tema já apareceu em 2+ edições consecutivas, exclua itens do mesmo tema a menos que o evento tenha magnitude excepcional (ex: lei aprovada, acordo internacional)."*
+**Por quê:** Regulação de IA lidera com 14 edições, mas temas com feedback 1.75 (hardware, governo, robótica, saúde) estão sub-representados. O prompt não está incentivando diversidade geográfica/temática — hipótese recorrente confirmada pelos dados.
 
 ---
 
-### P1 — Endurecer o anti-signal de "thought-leadership" e "rehashed news"
-
-**Alavanca:** No STEP 3, adicionar: "Itens que são opinião, análise estratégica, ou thought-leadership (ex: 'o futuro da IA', 'implicações para o mercado') devem ser descartados automaticamente, **mesmo que** tenham alto score de tração. Itens que cobrem o mesmo evento já coberto nos últimos 3 dias por outra fonte são 'rehashed' e devem ser descartados, a menos que tragam dado novo quantitativo."
-
-**Por quê:** A hipótese recorrente "Anti-signal de thought-leadership pode não estar claro" e "a regra de rehashed news pode não estar sendo aplicada com rigor" aparece 5+ vezes. O epistemic_pct mostra 7% especulativo — baixo, mas os temas com pior feedback (modelos abertos vs fechados: 0.5, regulação de exportação: 0.5, competição China-EUA: 1.07) são exatamente os analíticos/estratégicos. O false negative de 4 em Stratechery (fonte de análise) sugere que a AYA está incluindo análise quando deveria excluir.
+### P1 — Ativar fontes estratégicas nunca utilizadas
+**Alavanca:** No STEP 1 (AI Gate), adicione: *"Fontes com prioridade máxima (Stratechery, Ethan Mollick, Anthropic Blog, Mistral Releases, Qwen Blog) devem ser incluídas automaticamente se o item passar no AI Gate, independentemente do score de tração."*
+**Por quê:** 6 fontes nunca foram usadas, incluindo Stratechery (3 false negatives) e Simon Willison (3 false negatives) — ambas com alto valor analítico. O prompt está ignorando fontes de profundidade em favor de fontes de volume.
 
 ---
 
-### P1 — Adicionar regra de "dado novo" para funding rounds e movimentos de mercado
-
-**Alavanca:** No STEP 3, substituir a regra atual de "funding round sem info nova" por: "Funding rounds, aquisições e parcerias só passam se revelarem: (a) valuation que muda o mercado, (b) tecnologia nova, ou (c) mudança de estratégia de player dominante. Rodadas de série A/B de startups desconhecidas são automaticamente descartadas, independente do valor."
-
-**Por quê:** A hipótese "a regra de anti-signal para funding rounds pode ter sido muito estrita" aparece 3+ vezes, mas o problema real é o oposto: temas como "financiamento de GPU" (0.0), "financiamento e IPO na Ásia" (1.0) e "avaliação de mercado de AI" (1.0) têm feedback baixo, indicando que fundings sem substância estão passando. O false negative de 8 no OpenAI Blog sugere que a AYA está priorizando cobertura de funding de startups sobre lançamentos reais de produto.
+### P1 — Endurecer a regra de "rehashed news" para reduzir repetições
+**Alavanca:** No STEP 3 (anti-signals), mude a regra para: *"Qualquer item que cubra o mesmo evento, empresa ou tema de uma edição anterior dentro de 7 dias é automaticamente excluído, a menos que contenha dado numérico novo (receita, usuários, benchmark)."*
+**Por quê:** 80 repetições em 30 edições (2.67/edição) é o principal driver de "meh". As hipóteses recorrentes confirmam que a regra de anti-signal para rehashed news não está sendo aplicada com rigor.
 
 ---
 
-### P2 — Adicionar verificação de "conexão com IA" mais rigorosa no STEP 1
-
-**Alavanca:** No STEP 1, adicionar: "A conexão com IA/ML deve ser **central** ao item, não periférica. Itens onde
+### P2 — Ajustar o critério de "sinal de mercado" para evitar especulação
+**Alavanca:** No STEP 2, adicione definição explícita: *"'Sinal de mercado' = evento com impacto mensurável em receita, valuation, adoção ou política. Funding rounds sem informação nova, especulação sobre IPOs e rumores de aquisição são anti-signals."*
+**Por quê:** A hipótese "O critério de 'sinal de mercado' pode estar sendo interpretado de forma ampla" apareceu 4 vezes. O epistemic_pct de 6% especulativo, embora baixo, concentra-se justamente nos temas de mercado (feedback 0.67 em "estratégia de empresas de IA").
 
 ---
 

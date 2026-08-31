@@ -1,0 +1,87 @@
+{
+  "edition": "162",
+  "audited_at": "2026-08-31T15:30:04.650055-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find sobre o ChatGPT enfrentando regras da UE é relevante e passa no AI Gate, mas o quick_find sobre a Z.ai é um relatório de receita sem novidade concreta de produto ou estratégia, configurando anti-signal de funding/resultados financeiros. Além disso, o main_find é baseado em um post do Reddit sem fonte primária, o que enfraquece a seleção.",
+    "issues": [
+      "Quick find 'Receita da Z.ai cresce 400%' é um relatório financeiro sem info nova de produto/estratégia, violando anti-signal de funding round sem novidade.",
+      "Main find depende de post no Reddit sem link para fonte primária (ex: comunicado da UE), reduzindo confiabilidade."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é factual e sem hype, mas há aumento de certeza no main_find: o título original do Reddit diz 'ChatGPT becomes first AI chatbot to face tougher EU rules' (afirmação direta), mas o corpo adiciona detalhes sobre o AI Act e requisitos de transparência que não estão no título, possivelmente inventados. O quick_find sobre Z.ai também afirma 'receita saltar 400%' sem qualificação, embora o título original já afirme isso.",
+    "issues": [
+      "Main find body adiciona detalhes específicos sobre AI Act e requisitos de transparência que não estão no título original, potencialmente inventados.",
+      "Quick find Z.ai usa 'saltar 400%' sem contexto de que é um relatório financeiro, mas o título original já afirma isso, então não é aumento de certeza."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são diversificadas: main_find do Reddit, quick_find do SCMP, radar do Rest of World e TechNode. As audiências são majoritariamente 'executivos de negócio', mas há variação geográfica (UE, China, EUA). Não há mais de 2 itens da mesma fonte entre main_find e quick_finds.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente a decisão da UE sobre o ChatGPT, que é o tema do main_find. É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme instrução. Portanto, não é possível avaliar a coerência. Score neutro 3, sem rebaixar o overall.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Sony and Warner just sued Anthropic for the exact same piracy Anthropic already admitted to and paid $1.5B for",
+      "source": "r/artificial",
+      "why_should_include": "Ação judicial contra empresa de IA é sinal de mercado forte e afeta diretamente o setor, com magnitude excepcional (processo de grandes gravadoras).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "MiniMax raises Alibaba Cloud spending ceiling to $1.2 billion",
+      "source": "TechNode",
+      "why_should_include": "Aumento de gasto em nuvem de uma empresa de IA é sinal de mercado relevante e acionável para quem acompanha infraestrutura de IA.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "China’s AI chip drive: MetaX and Iluvatar swing to profit, as Biren narrows losses",
+      "source": "SCMP Tech",
+      "why_should_include": "Resultados financeiros de empresas de chips de IA na China indicam tendência de mercado e são relevantes para o setor.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Receita da Z.ai cresce 400% com ganhos em nuvem",
+      "field": "quick_finds",
+      "why_should_discard": "Relatório de receita sem novidade de produto ou estratégia, apenas resultado financeiro, viola anti-signal de funding round sem info nova.",
+      "violated_rule": "Anti-signal: funding round sem info nova"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode não ter enfatizado suficientemente a regra de anti-signal para relatórios financeiros sem novidade de produto/estratégia.",
+      "evidence": "O quick_find sobre Z.ai foi incluído apesar de ser apenas um relatório de receita.",
+      "suggested_fix": "Reforçar no STEP de anti-signals que relatórios financeiros sem info nova de produto/estratégia devem ser descartados."
+    },
+    {
+      "hypothesis": "O prompt pode não ter priorizado adequadamente itens com magnitude excepcional, como processos judiciais contra empresas de IA.",
+      "evidence": "O processo da Sony/Warner contra a Anthropic não foi selecionado, apesar de ser um evento de alto impacto.",
+      "suggested_fix": "Adicionar no AI Gate a exceção de magnitude excepcional para processos judiciais significativos."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find relevante e intro adequada, mas o quick_find sobre Z.ai é um anti-signal (relatório financeiro sem novidade). Há false negatives importantes, como o processo contra a Anthropic e o aumento de gasto da MiniMax. O tom é factual, mas há possível invenção de detalhes no main_find. A diversidade é boa."
+}

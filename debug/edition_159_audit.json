@@ -1,0 +1,91 @@
+{
+  "edition": "159",
+  "audited_at": "2026-08-31T15:29:33.988252-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Tencent Hy4) e os quick_finds (GLM-5.3, DuMateBench, open-weight aquisições) passam no AI Gate e atendem aos critérios de acionabilidade e sinal de mercado. Porém, o quick_find sobre sanções dos EUA contra o Coletivo A/I é vago e não demonstra conexão clara com AI/ML, nem magnitude excepcional (não é >$1B, regulação governamental relevante ou shutdown de plataforma major). Além disso, o item 'Open-weight AI companies...' é um artigo de tendência, não um evento singular, mas ainda assim é acionável e sinal de mercado.",
+    "issues": [
+      "Sanções contra o Coletivo A/I: não há evidência de conexão com AI/ML, nem magnitude excepcional; é um item de cripto/ativismo sem relevância direta para o público de tech/AI.",
+      "O quick_find 'Open-weight AI companies...' é um roundup/tendência, não um evento singular, mas ainda atende aos critérios de sinal de mercado e acionabilidade."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom geral é factual e sem hype. Não há palavras de hype evidentes. A certeza dos títulos originais foi preservada (ex: 'may' não virou afirmação direta). Não há informação inventada nos corpos dos itens. Porém, o main_find.body afirma 'algo raro em modelos abertos' sem suporte direto no título, e o quick_find sobre sanções usa 'em_andamento' como claim_status, o que é adequado, mas o corpo especula sobre riscos legais sem base no título.",
+    "issues": [
+      "No main_find.body, a frase 'algo raro em modelos abertos' é uma inferência não suportada pelo título original.",
+      "No quick_find de sanções, a frase 'Empresas que colaboram com entidades internacionais devem monitorar listas de sanções para evitar riscos legais' é uma extrapolação não presente no título."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há diversidade de fontes: TechNode, Hacker News, TechCrunch. As audiências variam entre desenvolvedores, product managers e executivos. Porém, há 2 itens da China (Tencent, Baidu) e 2 itens dos EUA (sanções, open-weight), o que é aceitável, mas o main_find e o primeiro quick_find são ambos sobre modelos open-weight chineses, criando redundância temática.",
+    "issues": [
+      "Dois itens consecutivos (main_find e primeiro quick_find) são sobre modelos open-weight chineses, o que pode ser redundante para o leitor.",
+      "A distribuição geográfica é equilibrada, mas a diversidade de audiência é limitada: 2 de 5 itens são para desenvolvedores."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase do correspondent_intro menciona especificamente o tema do main_find: 'a corrida por modelos open-weight, com a Tencent liberando um modelo de 770 bilhões de parâmetros'. Isso é específico e não genérico.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme observado. Isso é um gap de observability, não editorial. Portanto, não é possível avaliar a coerência interna. O score é neutro, conforme instrução.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Nvidia's ~$12.9B move for Hugging Face",
+      "source": "r/artificial",
+      "why_should_include": "Aquisição de >$1B é um sinal de mercado forte e afeta workflows de desenvolvedores que usam Hugging Face.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "China’s CXMT posts massive 870% revenue surge",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado relevante para a cadeia de suprimentos de chips, com impacto em decisões de sourcing e geopolítica.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "How to sign up for a virtual power plant—and decide whether you should",
+      "source": "MIT Technology Review",
+      "why_should_include": "Acionável para consumidores e empresas, e sinal de mercado em energia distribuída, embora não seja diretamente AI.",
+      "missed_criteria": [
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Sanções dos EUA contra o Coletivo A/I",
+      "field": "quick_finds",
+      "why_should_discard": "Não há conexão clara com AI/ML, nem magnitude excepcional; é um item de ativismo/cripto sem relevância direta para o público de tech/AI.",
+      "violated_rule": "STEP 1 - AI Gate"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP 1 (AI Gate) pode estar muito permissivo, permitindo itens vagos como 'sanções contra coletivo A/I' sem exigir conexão explícita com AI/ML.",
+      "evidence": "O quick_find sobre sanções foi incluído sem evidência de conexão com AI.",
+      "suggested_fix": "Reforçar no prompt que o AI Gate exige menção explícita a AI/ML ou magnitude excepcional claramente definida."
+    },
+    {
+      "hypothesis": "O critério de 'sinal de mercado' pode estar sendo interpretado de forma ampla, permitindo artigos de tendência como 'Open-weight AI companies...' como quick_find, em vez de exigir um evento singular.",
+      "evidence": "O quick_find sobre open-weight aquisições é um roundup, não um evento específico.",
+      "suggested_fix": "Esclarecer que 'sinal de mercado' deve se referir a um movimento estratégico concreto de um player, não a uma tendência geral."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa seleção de itens acionáveis e com sinal de mercado, mas inclui um falso positivo (sanções sem conexão com AI) e tem redundância temática entre main_find e primeiro quick_find. O tom é factual, mas há pequenas extrapolações. A diversidade é razoável, e o intro é específico. O reasoning ausente é um gap de observability, não penalizado."
+}

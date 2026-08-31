@@ -1,0 +1,88 @@
+{
+  "edition": "158",
+  "audited_at": "2026-08-31T15:29:20.762622-03:00",
+  "editorial_alignment": {
+    "score": 4,
+    "rationale": "O main_find (Nvidia-Hugging Face) é um claro sinal de mercado e passa no AI Gate. Os quick_finds são majoritariamente acionáveis ou sinalizam movimentos estratégicos. No entanto, o quick_find sobre o DeepMind double-blind evaluations é borderline: é um blog corporativo de thought-leadership sem novidade concreta além do anúncio de um piloto, o que pode ser considerado anti-signal. Além disso, o quick_find sobre a MiniMax é um dado de receita, mas sem contexto de produto ou estratégia, o que o torna menos acionável.",
+    "issues": [
+      "DeepMind double-blind evaluations: blog corporativo sem novidade concreta, apenas anúncio de piloto.",
+      "MiniMax revenue jump: dado financeiro sem info nova sobre produto ou estratégia, borderline anti-signal."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom geral é factual e sem hype. O main_find preserva o caráter especulativo ('estaria em negociações') e usa 'pode' para consequências. Os quick_finds também mantêm o nível de certeza. Não há palavras de hype evidentes. Porém, no quick_find da MiniMax, a frase 'mudando o que sabíamos sobre o mercado chinês' é um exagero leve, pois um dado de receita não muda o que sabíamos de forma tão ampla.",
+    "issues": [
+      "Quick_find MiniMax: 'mudando o que sabíamos sobre o mercado chinês' é um exagero leve."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas: Business Insider, SCMP, TechNode, DeepMind blog. As audiências incluem desenvolvedores e executivos de negócio. Geograficamente, há cobertura dos EUA, China e Brasil. Porém, há dois itens da TechNode (MiniMax e Zhipu) e dois da China (Alibaba e MiniMax), o que é aceitável, mas poderia ser mais equilibrado.",
+    "issues": [
+      "Dois itens da TechNode e dois da China entre main_find + quick_finds, mas não é excessivo."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente a aquisição da Hugging Face pela Nvidia, alinhada ao main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente no output, conforme observado. Não é possível avaliar a coerência interna. Conforme instrução, score neutro 3 e não rebaixar o overall por isso.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI, Anthropic, Google, and 100 other companies call for action to defend against rogue AI",
+      "source": "TechCrunch",
+      "why_should_include": "É um sinal de mercado forte: 100+ empresas de IA pedindo ação regulatória, afeta políticas e workflows de segurança.",
+      "missed_criteria": [
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Gemini Omni 1.1 Flash lets you build with more control",
+      "source": "Google DeepMind Blog",
+      "why_should_include": "Lançamento de modelo com foco em controle para desenvolvedores, acionável e afeta workflows.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Saving 100 terabytes of memory by optimizing 1.1.1.1's DNS cache",
+      "source": "HackerNews",
+      "why_should_include": "Técnica de otimização de infraestrutura com impacto prático, acionável para engenheiros.",
+      "missed_criteria": [
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "DeepMind testa primeiras avaliações de IA duplo-cegas do mundo",
+      "field": "quick_finds",
+      "why_should_discard": "É um blog corporativo de thought-leadership sem novidade concreta além do anúncio de um piloto.",
+      "violated_rule": "Anti-signal: blog corporativo de thought-leadership sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção pode não ter sido aplicado rigorosamente para filtrar blogs corporativos de thought-leadership.",
+      "evidence": "O quick_find do DeepMind double-blind evaluations foi incluído apesar de ser um anúncio de piloto sem novidade concreta.",
+      "suggested_fix": "Reforçar no prompt que blogs de thought-leadership sem novidade concreta devem ser descartados, mesmo que sejam de empresas de IA."
+    },
+    {
+      "hypothesis": "O critério de 'sinal de mercado' pode estar sendo interpretado de forma ampla, incluindo dados financeiros sem contexto estratégico.",
+      "evidence": "O quick_find da MiniMax com salto de receita foi incluído, mas não há info sobre produto ou estratégia.",
+      "suggested_fix": "Especificar que dados financeiros só são sinal de mercado se vierem acompanhados de mudança de estratégia, produto ou posicionamento."
+    }
+  ],
+  "overall_score": 4,
+  "top_issues_summary": "A edição é sólida, com main_find forte e boa diversidade. Há um false positive (DeepMind double-blind) e um borderline (MiniMax), além de false negatives relevantes como o chamado de 100 empresas contra rogue AI. O tom é factual e o intro é específico. O reasoning ausente é um gap de observability, não editorial."
+}

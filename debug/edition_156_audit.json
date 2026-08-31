@@ -1,0 +1,107 @@
+{
+  "edition": "156",
+  "audited_at": "2026-08-31T15:28:56.509507-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (AIREP) é um paper acadêmico sem aplicação prática imediata, falhando nos critérios de acionabilidade e sinal de mercado. O quick_find sobre KVBoost é similar, sendo apenas pesquisa sem impacto direto. O quick_find sobre os Emirados Árabes é uma notícia de segurança cibernética com IA, mas não é acionável para o leitor médio e não revela um movimento estratégico claro. O quick_find sobre a SEC é relevante, mas o item sobre o GPT-5.6 é um lançamento de produto da OpenAI, que é um anti-signal (blog corporativo).",
+    "issues": [
+      "main_find (AIREP) não atende aos critérios de seleção: não é acionável, não é sinal de mercado, e não afeta workflows diretamente.",
+      "quick_find (KVBoost) é um paper acadêmico sem aplicação prática imediata, falhando nos critérios de acionabilidade e sinal de mercado.",
+      "quick_find (Emirados Árabes) é uma notícia de segurança cibernética com IA, mas não é acionável para o leitor médio e não revela um movimento estratégico claro.",
+      "quick_find (GPT-5.6) é um lançamento de produto da OpenAI, que é um anti-signal (blog corporativo)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é factual e sem hype, mas há um problema de certeza aumentada no quick_find sobre a SEC: o título original diz 'reportedly' (segundo o TechCrunch), mas o corpo afirma 'a SEC está investigando' sem condicional. Além disso, o main_find.body contém uma frase 'Isso permitiria auditar decisões individuais de modelos, algo que hoje é difícil' que é uma inferência não presente no título, mas é razoável. Não há palavras de hype.",
+    "issues": [
+      "quick_find (SEC) aumenta a certeza: o título original diz 'reportedly' (segundo o TechCrunch), mas o corpo afirma 'a SEC está investigando' sem condicional.",
+      "main_find.body contém uma inferência 'Isso permitiria auditar decisões individuais de modelos, algo que hoje é difícil' que não está no título, mas é razoável."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são variadas: arXiv, OpenAI, Rest of World, TechCrunch. As audiências são majoritariamente desenvolvedores (3 de 4), mas há um executivo de negócio. A geografia é diversa: EUA, Emirados, global. Não há concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona o tema específico do main_find (protocolo AIREP) e o contexto (governança de IA). É específica e não genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente, conforme instrução. Não é possível avaliar a coerência interna. O score é neutro.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Xiaomi: New CPU matches Apple cores single threaded, much faster multithreaded",
+      "source": "HackerNews",
+      "why_should_include": "É um sinal de mercado forte: Xiaomi lançando CPU que compete com Apple, com alta tração (832 pontos). Afeta workflows de quem desenvolve para a plataforma.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Hot Chips 2026: CUDA targets RISC-V",
+      "source": "Lobsters",
+      "why_should_include": "É um sinal de mercado importante: CUDA (NVIDIA) mirando RISC-V pode mudar o ecossistema de hardware. Afeta workflows de desenvolvedores.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "MS Paint and Photos inivisibly watermark even locally generated output with GUID",
+      "source": "HackerNews",
+      "why_should_include": "É acionável: usuários podem verificar se suas imagens locais têm marca d'água. Afeta workflows de quem gera imagens localmente.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Protocolo AIREP propõe evidências por decisão em governança de IA",
+      "field": "main_find",
+      "why_should_discard": "É um paper acadêmico sem aplicação prática imediata, não atende aos critérios de seleção (não é acionável, não é sinal de mercado, não afeta workflows).",
+      "violated_rule": "STEP 2 - Critérios de seleção"
+    },
+    {
+      "title": "KVBoost: reutilização de cache KV para inferência eficiente de LLMs",
+      "field": "quick_finds",
+      "why_should_discard": "É um paper acadêmico sem aplicação prática imediata, não atende aos critérios de seleção.",
+      "violated_rule": "STEP 2 - Critérios de seleção"
+    },
+    {
+      "title": "OpenAI lança GPT-5.6 no Kiro com melhor custo-benefício para desenvolvedores",
+      "field": "quick_finds",
+      "why_should_discard": "É um blog corporativo da OpenAI, sem novidade concreta além do lançamento de um modelo, que é um anti-signal.",
+      "violated_rule": "STEP 3 - Anti-signals"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt pode estar priorizando papers acadêmicos como main_find, sem exigir aplicação prática.",
+      "evidence": "O main_find é um paper do arXiv, e o KVBoost também, ambos sem acionabilidade.",
+      "suggested_fix": "Reforçar no STEP 2 que papers acadêmicos só devem ser selecionados se tiverem implicações práticas claras."
+    },
+    {
+      "hypothesis": "O prompt pode não estar filtrando blogs corporativos de empresas de IA como anti-signal.",
+      "evidence": "O quick_find sobre GPT-5.6 é um blog da OpenAI, que é um anti-signal.",
+      "suggested_fix": "Adicionar no STEP 3 que blogs de empresas de IA sobre lançamentos de produtos são anti-signal, a menos que tragam mudança de estratégia."
+    },
+    {
+      "hypothesis": "O prompt pode não estar incentivando a seleção de notícias de hardware com impacto em AI.",
+      "evidence": "Itens como Xiaomi CPU e CUDA RISC-V foram ignorados, apesar de serem sinais de mercado.",
+      "suggested_fix": "Incluir no STEP 2 que notícias de hardware com impacto em AI são fortes candidatas a sinal de mercado."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem problemas graves de seleção: o main_find é um paper acadêmico sem acionabilidade, e há dois anti-signals (blog da OpenAI e paper acadêmico). Faltam notícias fortes de hardware e sinal de mercado. O tom é factual, mas há um caso de certeza aumentada. A diversidade é boa, e o intro é específico."
+}
