@@ -39,6 +39,8 @@ from memory_store import (
     build_memory_record,
     append_edition,
     check_repetition,
+    find_clean_quick_find,
+    promote_quick_find_to_main,
 )
 
 # ── Logging ──────────────────────────────────────────────────────────
@@ -401,7 +403,9 @@ def curate_and_write(
             # ── Camada 1: guard determinístico de deduplicação ──
             # Não depende do LLM seguir a instrução: detecta sobreposição de entidades
             # com edições recentes. Ação: DROPA quick_finds repetidos (seguro, sobram os
-            # demais); main_find repetido é só logado (dropá-lo exigiria regenerar).
+            # demais); main_find repetido é SUBSTITUÍDO por um quick_find limpo (promovido
+            # deterministicamente via promote_quick_find_to_main — sem nova chamada de LLM).
+            # Só mantém o main_find repetido se não sobrar nenhum quick_find limpo pra promover.
             # Blindado: erro no guard nunca quebra a curadoria.
             if recent_editions:
                 try:
@@ -421,9 +425,21 @@ def curate_and_write(
                             f"— restam {len(content['quick_finds'])}"
                         )
                     if any(h["where"] == "main_find" for h in hits):
-                        logger.warning(
-                            "Dedup guard: main_find sobrepõe edição recente — mantido (revisar manualmente)"
-                        )
+                        old_title = content.get("main_find", {}).get("title", "")
+                        replacement_idx = find_clean_quick_find(content["quick_finds"], recent_editions)
+                        if replacement_idx is not None:
+                            promoted = content["quick_finds"].pop(replacement_idx)
+                            content["main_find"] = promote_quick_find_to_main(promoted)
+                            logger.warning(
+                                f"Dedup guard: main_find '{old_title[:50]}' repetia edição "
+                                f"recente — substituído por '{promoted.get('title', '')[:50]}'"
+                            )
+                        else:
+                            logger.warning(
+                                "Dedup guard: main_find sobrepõe edição recente e nenhum "
+                                "quick_find limpo disponível para substituir — mantido "
+                                "(revisar manualmente)"
+                            )
                 except Exception as guard_err:
                     logger.warning(f"Dedup guard falhou (não-bloqueante): {guard_err}")
 

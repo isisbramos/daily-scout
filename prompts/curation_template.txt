@@ -170,6 +170,13 @@ Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown 
 → step5_phrase: "Agora é possível que usuários do Sora percam créditos pagos sem reembolso"
 → SELECIONADO como quick_find — info nova sobre evento conhecido
 
+Exemplo 11c — ANTI-REDUNDÂNCIA (corpo deve aprofundar, não repetir o título):
+Input: {{ "title": "Tencent lança Hy4 preview com 770B parâmetros e contexto de 1M tokens", "source": "Hacker News", "score": 0 }}
+Output ERRADO (NÃO faça isso): "Segundo o Hacker News, a Tencent lançou o Hy4 preview, um modelo com 770 bilhões de parâmetros e contexto de 1 milhão de tokens. Isso significa que o modelo tem 770B parâmetros e contexto de 1M tokens."
+→ Por que está errado: o body só troca "770B"/"1M tokens" por extenso e repete a mesma informação do título com as mesmas palavras — o leitor que já leu o título não aprende nada novo.
+Output CORRETO: "Segundo o Hacker News, a Tencent expandiu a fronteira de contexto entre os modelos abertos — a maioria dos concorrentes chineses ainda opera na faixa de 128 a 256 mil tokens. Isso reduz a necessidade de fragmentar documentos grandes antes de processá-los. → Desenvolvedores que hoje dividem contratos ou bases de código pra caber em janelas de contexto menores podem simplificar esse pipeline."
+→ Por que está certo: usa vocabulário e informação que o título não tem (comparação com a concorrência, mecanismo prático) em vez de reformular os mesmos números.
+
 Exemplo 12 — DESCARTE CORRETO (blog pessoal, manifesto sem evento):
 Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": "koshyjohn.com", "score": 0 }}
 → AI gate: SIM (AI é o tema central)
@@ -181,7 +188,8 @@ Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": 
 - reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
 - correspondent_intro: 1-2 frases em primeira pessoa. A PRIMEIRA frase deve referenciar o achado do dia pelo tema (não pelo nome do campo). A segunda pode citar volume (X posts de Y fontes). BOM: "Hoje o destaque vai pro lançamento do Llama 4 pela Meta. Analisei 267 posts de 10 fontes." RUIM: "O dia trouxe novidades sobre a estratégia de grandes players de AI." (genérico — serve pra qualquer dia)
 - main_find.title: factual, max 15 palavras. Reformule se o original for sensacionalista.
-- main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, explique o que é e por que importa pro leitor. Termine com uma linha de implicação prática iniciada com "→".
+- ANTI-REDUNDÂNCIA título↔corpo (obrigatório): o title já entrega o fato central — main_find.body e bullets, e quick_finds[].signal, NÃO PODEM reformular o título com os mesmos números/palavras-chave. Body e signal devem aprofundar com o que o título NÃO cobre: mecanismo (como funciona na prática), comparação (com o quê concorre/se compara), contexto de mercado, ou consequência concreta. Teste rápido: se alguém já leu o título, o body precisa ensinar algo que ele ainda não sabe — não parafrasear o que ele acabou de ler. Ver Exemplo 11c.
+- main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, aprofunde (não repita o título) explicando por que importa pro leitor. Termine com uma linha de implicação prática iniciada com "→".
 - main_find.bullets: 2-3 pontos: o que aconteceu, o que significa pra quem lê, o que observar a seguir.
 - main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
 - quick_finds[].signal: OBRIGATÓRIO — NÃO omita. 2-3 frases: (1-2) o que aconteceu e por que é relevante, (última) linha de implicação prática iniciada com "→". EXEMPLO: "Benchmarks apontam que o modelo superou concorrentes diretos em tarefas de raciocínio. Se confirmado, representa mudança significativa no ranking open source. → Desenvolvedores que avaliam troca de modelo podem incluir este nos testes antes de fechar escolha." Baseie-se apenas no título/metadados. A linha com "→" é OBRIGATÓRIA em todo quick_find.

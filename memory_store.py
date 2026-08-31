@@ -127,17 +127,9 @@ def append_edition(record: dict) -> None:
     logger.info(f"memory: edição {record.get('edition')} registrada em {EDITIONS_PATH}")
 
 
-def check_repetition(content: dict, records: list[dict], min_shared: int = 2) -> list[dict]:
-    """Guard determinístico de deduplicação (não depende do LLM seguir instrução).
-
-    Compara as entidades dos achados selecionados hoje com as das edições recentes.
-    Sobreposição de >= min_shared entidades sinaliza provável repetição. min_shared=2
-    evita falso-positivo de uma entidade onipresente (ex: 'OpenAI' aparece todo dia).
-
-    Retorna lista de hits estruturados (vazia se nada repetido):
-      {where: 'main_find'|'quick_find', index: int|None, title, shared: [..], matched: label}
-    O pipeline decide a ação (logar; dropar quick_finds repetidos).
-    """
+def _covered_entities(records: list[dict]) -> list[tuple[str, set]]:
+    """Entidades de todos os achados (main_find + quick_finds) das edições recentes,
+    rotuladas pra debug. Base compartilhada por check_repetition e find_clean_quick_find."""
     covered: list[tuple[str, set]] = []
     for r in records:
         mf = r.get("main_find", {})
@@ -150,18 +142,37 @@ def check_repetition(content: dict, records: list[dict], min_shared: int = 2) ->
                 (f"ed.{r.get('edition', '?')} «{qf.get('title', '')[:40]}»",
                  {e.lower() for e in qf.get("entities", [])})
             )
+    return covered
 
-    hits: list[dict] = []
+
+def _overlap(entities: set, covered: list[tuple[str, set]], min_shared: int) -> tuple[list, str] | None:
+    if len(entities) < min_shared:
+        return None
+    for label, cset in covered:
+        shared = entities & cset
+        if len(shared) >= min_shared:
+            return sorted(shared), label
+    return None
+
+
+def check_repetition(content: dict, records: list[dict], min_shared: int = 2) -> list[dict]:
+    """Guard determinístico de deduplicação (não depende do LLM seguir instrução).
+
+    Compara as entidades dos achados selecionados hoje com as das edições recentes.
+    Sobreposição de >= min_shared entidades sinaliza provável repetição. min_shared=2
+    evita falso-positivo de uma entidade onipresente (ex: 'OpenAI' aparece todo dia).
+
+    Retorna lista de hits estruturados (vazia se nada repetido):
+      {where: 'main_find'|'quick_find', index: int|None, title, shared: [..], matched: label}
+    O pipeline decide a ação (logar; dropar quick_finds repetidos; substituir main_find
+    repetido — ver find_clean_quick_find).
+    """
+    covered = _covered_entities(records)
 
     def _match(item: dict) -> tuple[list, str] | None:
-        ents = {e.lower() for e in item.get("entities", [])}
-        if len(ents) < min_shared:
-            return None
-        for label, cset in covered:
-            shared = ents & cset
-            if len(shared) >= min_shared:
-                return sorted(shared), label
-        return None
+        return _overlap({e.lower() for e in item.get("entities", [])}, covered, min_shared)
+
+    hits: list[dict] = []
 
     mf_match = _match(content.get("main_find", {}))
     if mf_match:
@@ -176,6 +187,63 @@ def check_repetition(content: dict, records: list[dict], min_shared: int = 2) ->
                          "title": qf.get("title", ""),
                          "shared": m[0], "matched": m[1]})
     return hits
+
+
+def find_clean_quick_find(quick_finds: list[dict], records: list[dict], min_shared: int = 2) -> int | None:
+    """Acha o índice do primeiro quick_find sem sobreposição de entidades com as
+    edições recentes — candidato seguro pra promover a main_find quando o main_find
+    original repete um achado já publicado. Retorna None se todos também repetirem."""
+    covered = _covered_entities(records)
+    for i, qf in enumerate(quick_finds):
+        if _overlap({e.lower() for e in qf.get("entities", [])}, covered, min_shared) is None:
+            return i
+    return None
+
+
+def promote_quick_find_to_main(qf: dict) -> dict:
+    """Reconstrói um quick_find no formato de main_find, de forma determinística
+    (sem chamada de LLM) — usado quando o main_find original precisa ser substituído
+    por repetir uma edição recente. O `signal` do quick_find já segue a mesma lógica
+    de conteúdo (o que aconteceu + por que importa + linha "→" de implicação prática),
+    só falta o formato de main_find (body + bullets em vez de signal único)."""
+    signal = (qf.get("signal") or "").strip()
+    source = qf.get("source", "")
+    # A fonte já aparece como sujeito da frase? (ex: signal "A Mistral lançou..." com
+    # source "Mistral") — evita duplicar o nome ("Segundo Mistral, a Mistral lançou...").
+    source_first_word = source.split(" ", 1)[0].lower() if source else ""
+    subject_is_source = bool(source_first_word) and source_first_word in signal[:40].lower()
+
+    if signal and source and not subject_is_source and not signal.lower().startswith(("segundo", "de acordo com")):
+        # Só reescreve pra minúscula quando a frase abre com artigo (ex: "A Tencent
+        # lançou..." → "a Tencent lançou..."); se abre com nome próprio (ex: "Sony
+        # Music processa...") mantém a maiúscula pra não quebrar o nome.
+        first_word = signal.split(" ", 1)[0].rstrip(",")
+        if first_word.lower() in {"a", "o", "as", "os", "uma", "um"}:
+            body = f"Segundo {source}, {signal[0].lower()}{signal[1:]}"
+        else:
+            body = f"Segundo {source}, {signal}"
+    else:
+        body = signal
+
+    if "→" in signal:
+        context, implication = signal.split("→", 1)
+        bullets = [s.strip() for s in context.strip().split(". ") if s.strip()]
+        bullets.append("→ " + implication.strip())
+    else:
+        bullets = [signal] if signal else []
+
+    return {
+        "title": qf.get("title", ""),
+        "source": source,
+        "body": body,
+        "bullets": bullets[:3],
+        "url": qf.get("url", ""),
+        "display_url": qf.get("display_url", ""),
+        "primary_audience": qf.get("primary_audience", "todos"),
+        "step5_phrase": qf.get("step5_phrase", ""),
+        "claim_status": qf.get("claim_status", ""),
+        "entities": qf.get("entities", []),
+    }
 
 
 def format_memory_block(records: list[dict]) -> str:
