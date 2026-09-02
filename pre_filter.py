@@ -11,6 +11,8 @@ v5 changes:
   - RSS engagement usa mediana real das sources com dados
 """
 
+from __future__ import annotations
+
 import logging
 import math
 import random
@@ -18,9 +20,97 @@ import statistics
 import time
 from difflib import SequenceMatcher
 
+from memory_store import load_recent_editions
 from sources.base import SourceItem
 
 logger = logging.getLogger("daily-scout")
+
+# v5.3: buckets macro usados tanto pra classificar o título de items crus quanto
+# os `themes` (texto livre do LLM) registrados em memory/editions.jsonl — permite
+# cruzar item candidato com o histórico de feedback por assunto. Ver _load_theme_weights.
+_THEME_BUCKET_KEYWORDS: dict[str, list[str]] = {
+    "regulação": [
+        "regulation", "regulação", " lei ", "law", "ban", "policy", "política",
+        "gdpr", "ai act", "antitrust", "compliance", "fine", "multa", "lawsuit",
+        "processo judicial", "investigation", "investigação", "government",
+        "governo", "congress", "senate", "court", "tribunal", "ruling", "ftc",
+        "doj", "watchdog", "regulator", "regulador", "sanction", "sanção",
+        "surveillance", "vigilância",
+    ],
+    "agentes": ["agent", "agente", "autonomous", "autônomo", "copilot", "assistant", "assistente"],
+    "infraestrutura": [
+        "datacenter", "data center", "cluster", "compute", "infra",
+        "capacity", "capacidade", "power grid", "energy", "energia",
+    ],
+    "segurança": [
+        "security", "segurança", "safety", "jailbreak", "vulnerab", "exploit",
+        "breach", "hack", "malware", "red team", "guardrail",
+    ],
+    "open_source": [
+        "open source", "open-source", "open weight", "open-weight",
+        "código aberto", "apache 2.0", "mit license",
+    ],
+    "hardware": ["chip", "semiconductor", "semicondutor", "gpu", "tpu", "hardware", "asic"],
+    "robótica": ["robot", "robô", "robótica", "humanoid", "humanoide", "robotax"],
+    "saúde": ["health", "saúde", "medical", "médico", "hospital", "clinical", "clínico"],
+    "mercado_china": ["china", "chinese", "chinesa", "alibaba", "bytedance", "baidu", "tencent"],
+    "negócios": [
+        "funding", "ipo", "acquisition", "aquisição", "valuation", "avaliação",
+        "revenue", "receita", "merger", "fusão", "raises", "levanta",
+    ],
+}
+
+
+def _infer_theme_bucket(text: str) -> str | None:
+    """Classifica um texto (título de item cru OU tema de edição já publicada)
+    num bucket macro de assunto. None se não casar com nenhum — nesses casos o
+    item fica com score neutro em vez de forçar um bucket errado."""
+    t = text.lower()
+    for bucket, keywords in _THEME_BUCKET_KEYWORDS.items():
+        if any(kw in t for kw in keywords):
+            return bucket
+    return None
+
+
+def _load_theme_weights() -> dict[str, float]:
+    """
+    v5.3: tabela bucket → score [0,1] construída a partir do feedback real
+    (memory/editions.jsonl). Cada `theme` (texto livre atribuído pelo LLM na
+    curadoria) das edições já publicadas é classificado no mesmo bucket usado
+    pros items crus, e a média de feedback_score.avg (escala 0=meh, 1=solid,
+    2=fire — ver feedback_join.py) normaliza pra [0,1]. Bucket com menos de 2
+    edições avaliadas fica de fora da tabela (evita peso movido por 1 outlier).
+
+    Sem histórico suficiente (arquivo ausente, sem feedback ainda), retorna {}
+    — nesse caso todo item cai no score neutro (0.5), o comportamento de antes
+    dessa mudança. Nunca levanta exceção: falha de leitura de memória não pode
+    quebrar o pré-filtro.
+    """
+    try:
+        records = load_recent_editions(n=200)
+    except Exception:
+        logger.warning("  category_score: falha ao ler memory/editions.jsonl — usando neutro (0.5)")
+        return {}
+
+    bucket_feedback: dict[str, list[float]] = {}
+    for r in records:
+        fb = r.get("feedback_score")
+        avg = fb.get("avg") if isinstance(fb, dict) else None
+        if avg is None:
+            continue
+        for theme in r.get("themes", []) or []:
+            bucket = _infer_theme_bucket(theme)
+            if bucket:
+                bucket_feedback.setdefault(bucket, []).append(avg)
+
+    weights = {
+        bucket: min(1.0, max(0.0, (sum(vals) / len(vals)) / 2.0))
+        for bucket, vals in bucket_feedback.items()
+        if len(vals) >= 2
+    }
+    if weights:
+        logger.info(f"  category_score weights (from feedback history): {weights}")
+    return weights
 
 
 def run_pre_filter(
@@ -202,6 +292,9 @@ def _score_and_sort(
 
     now = time.time()
 
+    # ── v5.3: pesos de categoria/assunto, do histórico de feedback ──
+    theme_weights = _load_theme_weights()
+
     # ── v5: Z-score normalization cross-source ──
     # Coleta todos os raw_scores > 0 (ignora RSS-only)
     all_scores = [item.raw_score for item in items if item.raw_score > 0]
@@ -266,8 +359,10 @@ def _score_and_sort(
         # Items que aparecem em múltiplas sources ganham boost
         cross_bonus = 1.0 + (0.15 * (item.cross_source_count - 1))
 
-        # ── Category (placeholder — futuro: usar categorias reais) ──
-        category_score = 0.5
+        # ── v5.3: Category/assunto — bucket do título × feedback histórico do bucket ──
+        # Sem bucket reconhecido ou sem dado suficiente: neutro (0.5), igual antes.
+        theme_bucket = _infer_theme_bucket(item.title)
+        category_score = theme_weights.get(theme_bucket, 0.5) if theme_bucket else 0.5
 
         # ── Composite score ──
         composite = (

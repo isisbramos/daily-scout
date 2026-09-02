@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+from collections import defaultdict
 from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger("daily-scout")
@@ -246,6 +247,22 @@ def promote_quick_find_to_main(qf: dict) -> dict:
     }
 
 
+def _theme_saturation(records: list[dict], min_count: int = 2) -> list[tuple[str, int, list[str]]]:
+    """Conta quantas das edições recentes tocaram em cada tema (campo `themes`,
+    2-4 macro-temas atribuídos pelo LLM por edição). Retorna só os temas que
+    aparecem >= min_count vezes, ordenados do mais pro menos saturado — usado
+    pra dar ao prompt um sinal explícito de viés temático entre edições (antes,
+    o bloco de memória só listava entidades/títulos, não `themes`)."""
+    counts: dict[str, list[str]] = defaultdict(list)
+    for r in records:
+        ed_label = f"ed.{r.get('edition', '?')}"
+        for t in r.get("themes", []) or []:
+            counts[t].append(ed_label)
+    saturated = [(t, len(eds), eds) for t, eds in counts.items() if len(eds) >= min_count]
+    saturated.sort(key=lambda x: -x[1])
+    return saturated
+
+
 def format_memory_block(records: list[dict]) -> str:
     """Formata as edições recentes como bloco de texto para o prompt de curadoria.
 
@@ -275,4 +292,16 @@ def format_memory_block(records: list[dict]) -> str:
         if qf_titles:
             lines.append("    também cobriu: " + " | ".join(qf_titles))
     lines.append("")
+
+    saturated = _theme_saturation(records)
+    if saturated:
+        lines.append("═══ TEMAS RECENTES SATURADOS (equilíbrio editorial) ═══")
+        lines.append(
+            "Os temas abaixo já dominaram múltiplas edições recentes — ver STEP 3 "
+            "(anti-signal) pra regra de quando descartar item do mesmo tema hoje:"
+        )
+        for theme, count, eds in saturated:
+            lines.append(f"- {theme}: {count}× ({', '.join(eds)})")
+        lines.append("")
+
     return "\n".join(lines)
