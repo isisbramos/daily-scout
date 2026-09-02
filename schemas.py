@@ -55,7 +55,7 @@ class QuickFind(BaseModel):
         # [SYNC-01] sem lista hardcoded
         description="Fonte real do item — use exatamente o valor do campo 'source' no input"
     )
-    signal: str = Field(description="2-3 frases: [o que aconteceu, com informação além do título] + [por que importa pro leitor] + [linha de implicação prática iniciada com '→': o que o leitor pode fazer, revisar ou acompanhar com base nessa informação]. NÃO reformule o título com as mesmas palavras/números.")
+    signal: str = Field(description="2-3 frases: [o que aconteceu, com informação além do título] + [por que importa pro leitor] + [linha de implicação prática iniciada com '→': o que o leitor pode fazer, revisar ou acompanhar com base nessa informação]. NÃO reformule o título com as mesmas palavras/números. Baseado só em título/metadados — não invente mecanismo ou número que o título não sustenta; aprofunde conectando a um padrão do setor ou nomeando concretamente quem é afetado e como.")
     url: str = Field(description="URL original")
     display_url: str = Field(description="Versão curta da URL")
     primary_audience: str = Field(
