@@ -341,14 +341,18 @@ def curate_and_write(
             mf.setdefault("url", "")
             mf.setdefault("display_url", "")
             mf.setdefault("source", "")
+            if not mf["source"]:
+                logger.warning("DeepSeek omitiu main_find.source — 'src:' vai renderizar vazio no e-mail")
             # Camada 1: campos de memória editorial (DeepSeek pode omitir — não pode quebrar)
             mf.setdefault("entities", [])
 
-            for qf in content.get("quick_finds", []):
+            for i, qf in enumerate(content.get("quick_finds", [])):
                 qf.setdefault("signal", "")
                 qf.setdefault("url", "")
                 qf.setdefault("display_url", "")
                 qf.setdefault("source", "")
+                if not qf["source"]:
+                    logger.warning(f"DeepSeek omitiu quick_finds[{i}].source — 'src:' vai renderizar vazio no e-mail")
                 qf.setdefault("entities", [])
 
             content.setdefault("themes", [])
