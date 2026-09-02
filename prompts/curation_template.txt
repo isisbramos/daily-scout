@@ -177,6 +177,13 @@ Output ERRADO (NÃO faça isso): "Segundo o Hacker News, a Tencent lançou o Hy4
 Output CORRETO: "Segundo o Hacker News, a Tencent expandiu a fronteira de contexto entre os modelos abertos — a maioria dos concorrentes chineses ainda opera na faixa de 128 a 256 mil tokens. Isso reduz a necessidade de fragmentar documentos grandes antes de processá-los. → Desenvolvedores que hoje dividem contratos ou bases de código pra caber em janelas de contexto menores podem simplificar esse pipeline."
 → Por que está certo: usa vocabulário e informação que o título não tem (comparação com a concorrência, mecanismo prático) em vez de reformular os mesmos números.
 
+Exemplo 11d — ANTI-REDUNDÂNCIA (bullets são strings simples que acrescentam, não repetem o título):
+Input: {{ "title": "Anthropic lança Claude Fable 5.1 e Mythos 5.1 com foco empresarial", "source": "HackerNews", "score": 1200 }}
+Output ERRADO — formato (NUNCA faça isso, bullets não são objetos): [{{"label": "o que aconteceu", "content": "A Anthropic lançou dois novos modelos de IA, Fable 5.1 e Mythos 5.1, com foco em uso empresarial."}}, ...]
+→ Por que está errado: bullets é uma lista de STRINGS, não de objetos com label — isso quebra o parsing. Além disso o texto só reescreve o título com as mesmas palavras, zero informação nova.
+Output CORRETO — formato (lista de strings): ["O anúncio veio com salvaguardas específicas para ambiente corporativo — controles de acesso e auditoria que os modelos de uso geral da Anthropic não ofereciam até então.", "Empresas que hoje usam modelos genéricos ganham a opção de migrar workloads sensíveis sem depender de camadas extras de compliance próprias.", "Acompanhe se a Anthropic vai divulgar benchmarks de segurança específicos pra essa variante, ou só reaproveitar os do modelo geral."]
+→ Por que está certo: cada item é uma string pronta (sem label antes) e o primeiro bullet puxa um detalhe concreto que está no corpo da notícia mas NÃO está no título — "o que aconteceu" vira "o que aconteceu, além do óbvio", não um resumo do título.
+
 Exemplo 12 — DESCARTE CORRETO (blog pessoal, manifesto sem evento):
 Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": "koshyjohn.com", "score": 0 }}
 → AI gate: SIM (AI é o tema central)
@@ -190,7 +197,7 @@ Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": 
 - main_find.title: factual, max 15 palavras. Reformule se o original for sensacionalista.
 - ANTI-REDUNDÂNCIA título↔corpo (obrigatório): o title já entrega o fato central — main_find.body e bullets, e quick_finds[].signal, NÃO PODEM reformular o título com os mesmos números/palavras-chave. Body e signal devem aprofundar com o que o título NÃO cobre: mecanismo (como funciona na prática), comparação (com o quê concorre/se compara), contexto de mercado, ou consequência concreta. Teste rápido: se alguém já leu o título, o body precisa ensinar algo que ele ainda não sabe — não parafrasear o que ele acabou de ler. Ver Exemplo 11c.
 - main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, aprofunde (não repita o título) explicando por que importa pro leitor. Termine com uma linha de implicação prática iniciada com "→".
-- main_find.bullets: 2-3 pontos: o que aconteceu, o que significa pra quem lê, o que observar a seguir.
+- main_find.bullets: lista de 2-3 STRINGS simples (texto corrido cada uma — NUNCA um objeto/dicionário com label, ex.: {{"label": ..., "content": ...}} está ERRADO). Juntas, as strings cobrem: um detalhe específico que o título ainda NÃO cobre (não repita o "o quê" do título — acrescente um "além disso"), por que isso importa pra quem lê, e o que observar a seguir. Ver Exemplo 11d.
 - main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
 - quick_finds[].signal: OBRIGATÓRIO — NÃO omita. 2-3 frases: (1-2) o que aconteceu e por que é relevante, (última) linha de implicação prática iniciada com "→". EXEMPLO: "Benchmarks apontam que o modelo superou concorrentes diretos em tarefas de raciocínio. Se confirmado, representa mudança significativa no ranking open source. → Desenvolvedores que avaliam troca de modelo podem incluir este nos testes antes de fechar escolha." Baseie-se apenas no título/metadados. A linha com "→" é OBRIGATÓRIA em todo quick_find.
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.

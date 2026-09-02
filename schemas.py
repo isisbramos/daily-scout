@@ -30,7 +30,7 @@ class MainFind(BaseModel):
         description="Fonte real do item — use exatamente o valor do campo 'source' no input"
     )
     body: str = Field(description="3-5 frases. Comece com atribuição à fonte. NÃO reformule o título com as mesmas palavras/números — aprofunde com informação que o título não cobre (mecanismo, comparação, contexto de mercado). Termine com linha de implicação prática iniciada com '→'.")
-    bullets: list[str] = Field(description="2-3 pontos-chave que ACRESCENTAM ao título, não o repetem: o que aconteceu (com um detalhe novo), o que significa, o que observar")
+    bullets: list[str] = Field(description="Lista de 2-3 strings simples (texto corrido, NUNCA objeto/dicionário com label) que ACRESCENTAM ao título, não o repetem: um detalhe específico que o título NÃO cobre — não uma paráfrase dele —, o que isso significa, o que observar")
     url: str = Field(description="URL original do post")
     display_url: str = Field(description="Versão curta legível da URL")
     primary_audience: str = Field(
