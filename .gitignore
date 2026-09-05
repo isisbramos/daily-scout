@@ -35,3 +35,6 @@ uploads/
 # Docs exportados (binários)
 *.docx
 *.pdf
+
+# Vault bridge (Stage B) — estado local de sync, específico de cada máquina.
+.vault_sync_state.json

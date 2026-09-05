@@ -42,6 +42,7 @@ from memory_store import (
     find_clean_quick_find,
     promote_quick_find_to_main,
 )
+from vault_bridge import build_insight_note, write_to_outbox
 
 # ── Logging ──────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -694,6 +695,19 @@ def run_pipeline():
                 append_edition(record)
             except Exception as mem_err:
                 logger.warning(f"Memória editorial: falha ao registrar edição (não-bloqueante): {mem_err}")
+
+        # ── Step 6c: Gera a nota da edição pro isis-brain (Stage A da ponte pro vault) ──
+        # Escreve em vault-outbox/ (dentro do repo); o CI commita esse arquivo igual à
+        # memória editorial. A cópia pro vault de fato (Stage B) roda localmente — ver
+        # scripts/sync_to_vault.py. Isolado e não-bloqueante, mesma lógica do passo acima.
+        if not DRY_RUN:
+            try:
+                note = build_insight_note(EDITION_NUMBER, content)
+                if note:
+                    outbox_path = write_to_outbox(note)
+                    logger.info(f"Vault bridge: nota gravada em {outbox_path}")
+            except Exception as vault_err:
+                logger.warning(f"Vault bridge: falha ao gerar nota (não-bloqueante): {vault_err}")
 
         # ── Step 7: Generate social content (isolated — failures don't affect newsletter) ──
         social_success = False

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Template do launchd job pro Stage B da vault bridge (scripts/sync_to_vault.py).
+
+  Setup (ver instruções completas no artifact / scripts/README.md):
+    1. cp scripts/com.aya.vaultsync.plist.example ~/Library/LaunchAgents/com.aya.vaultsync.plist
+    2. Editar os 3 placeholders abaixo: /ABSOLUTE/PATH/TO/daily-scout,
+       /ABSOLUTE/PATH/TO/isis-brain e /usr/bin/python3 (rode `which python3`
+       pra confirmar o caminho certo, principalmente se usa pyenv/venv).
+    3. launchctl load -w ~/Library/LaunchAgents/com.aya.vaultsync.plist
+
+  Pra desativar: launchctl unload ~/Library/LaunchAgents/com.aya.vaultsync.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.aya.vaultsync</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/ABSOLUTE/PATH/TO/daily-scout/scripts/sync_to_vault.py</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>VAULT_PATH</key>
+        <string>/ABSOLUTE/PATH/TO/isis-brain</string>
+    </dict>
+
+    <key>WorkingDirectory</key>
+    <string>/ABSOLUTE/PATH/TO/daily-scout</string>
+
+    <!-- 8:10 BRT = 11:10 UTC — roda ~30min depois do cron da newsletter (06:37 UTC),
+         dando folga pro CI enviar e commitar a nota no outbox antes do pull local.
+         Ajuste StartCalendarInterval em horário UTC se seu fuso local for outro. -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>11</integer>
+        <key>Minute</key>
+        <integer>10</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/aya-vaultsync.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/aya-vaultsync.log</string>
+</dict>
+</plist>

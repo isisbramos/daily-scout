@@ -85,6 +85,24 @@ jobs:
           git pull --rebase --autostash origin main || echo "pull --rebase falhou — seguindo para push"
           git push origin HEAD:main || echo "push falhou — memória não persistida hoje (newsletter já enviada, sem impacto)"
 
+      - name: Persist vault note (Stage A — outbox pro isis-brain)
+        # Mesmo isolamento do passo de memória editorial: a newsletter já foi enviada,
+        # falha de git aqui não pode afetar o envio. A cópia real pro vault (Stage B)
+        # roda localmente — ver scripts/sync_to_vault.py.
+        if: success() && github.event.inputs.dry_run != 'true'
+        continue-on-error: true
+        run: |
+          if [ -z "$(git status --porcelain vault-outbox/)" ]; then
+            echo "Sem nota nova pro vault — nada a commitar."
+            exit 0
+          fi
+          git config user.name "aya-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add vault-outbox/
+          git commit -m "chore(vault): nota da edição ${{ steps.edition.outputs.number }} pro isis-brain" || { echo "nada a commitar"; exit 0; }
+          git pull --rebase --autostash origin main || echo "pull --rebase falhou — seguindo para push"
+          git push origin HEAD:main || echo "push falhou — nota não persistida hoje (newsletter já enviada, sem impacto)"
+
       - name: Upload output artifacts (newsletter + social)
         if: always()
         uses: actions/upload-artifact@v4
