@@ -18,6 +18,7 @@ import json
 import time
 import logging
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone, timedelta
 from jinja2 import Environment, FileSystemLoader
 
@@ -97,9 +98,17 @@ def load_config() -> dict:
     }
 
 
+MAX_FETCH_WORKERS = 10
+
+
 # ── Fetch: all sources (config-driven) ──────────────────────────────
 def fetch_all_sources(config: dict) -> list[SourceItem]:
-    """Instancia sources do config e faz fetch com graceful degradation."""
+    """Instancia sources do config e faz fetch em paralelo, com graceful degradation.
+
+    Cada source.safe_fetch() já isola exceção e tem timeout (ver sources/base.py::fetch_feed),
+    então uma fonte lenta nunca trava mais que seu próprio timeout — e em paralelo, não soma
+    esse tempo ao das outras 30 fontes.
+    """
     logger.info("=" * 50)
     logger.info("PHASE 1: FETCH — collecting from all sources")
     logger.info("=" * 50)
@@ -110,14 +119,23 @@ def fetch_all_sources(config: dict) -> list[SourceItem]:
     all_items: list[SourceItem] = []
     source_stats: dict[str, int] = {}
 
-    for source in sources:
-        items = source.safe_fetch()
-        source_stats[source.source_id] = len(items)
-        all_items.extend(items)
+    with ThreadPoolExecutor(max_workers=min(MAX_FETCH_WORKERS, len(sources) or 1)) as executor:
+        future_to_source = {executor.submit(source.safe_fetch): source for source in sources}
+        for future in as_completed(future_to_source):
+            source = future_to_source[future]
+            try:
+                items = future.result()
+            except Exception as e:
+                # safe_fetch() já não deveria deixar exceção escapar — mas se um bug
+                # futuro numa source violar esse contrato, ele não pode arrastar as outras.
+                logger.warning(f"  [{source.source_id}] safe_fetch() raised unexpectedly — {e}")
+                items = []
+            source_stats[source.source_id] = len(items)
+            all_items.extend(items)
 
     logger.info(f"Total raw items: {len(all_items)}")
-    for sid, count in source_stats.items():
-        logger.info(f"  {sid}: {count}")
+    for source in sources:
+        logger.info(f"  {source.source_id}: {source_stats.get(source.source_id, 0)}")
 
     return all_items
 
