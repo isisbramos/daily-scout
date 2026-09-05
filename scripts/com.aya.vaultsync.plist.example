@@ -6,7 +6,7 @@
   Setup (ver instruções completas no artifact / scripts/README.md):
     1. cp scripts/com.aya.vaultsync.plist.example ~/Library/LaunchAgents/com.aya.vaultsync.plist
     2. Editar os 3 placeholders abaixo: /ABSOLUTE/PATH/TO/daily-scout,
-       /ABSOLUTE/PATH/TO/isis-brain e /usr/bin/python3 (rode `which python3`
+       /ABSOLUTE/PATH/TO/vault e /usr/bin/python3 (rode `which python3`
        pra confirmar o caminho certo, principalmente se usa pyenv/venv).
     3. launchctl load -w ~/Library/LaunchAgents/com.aya.vaultsync.plist
 
@@ -26,7 +26,7 @@
     <key>EnvironmentVariables</key>
     <dict>
         <key>VAULT_PATH</key>
-        <string>/ABSOLUTE/PATH/TO/isis-brain</string>
+        <string>/ABSOLUTE/PATH/TO/vault</string>
     </dict>
 
     <key>WorkingDirectory</key>

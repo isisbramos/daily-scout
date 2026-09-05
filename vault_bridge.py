@@ -1,8 +1,8 @@
 """
 Daily Scout — Vault Bridge (Stage A)
 
-Gera, a partir de cada edição enviada, uma nota atômica no formato do isis-brain
-(vault Obsidian) e grava em vault-outbox/<pasta-do-tipo>/<manchete>.md.
+Gera, a partir de cada edição enviada, uma nota atômica no formato do vault
+Obsidian pessoal da Isis e grava em vault-outbox/<pasta-do-tipo>/<manchete>.md.
 
 Por que um "outbox" em vez de escrever direto no vault: o vault sincroniza via
 Obsidian Sync/iCloud, inacessível a partir do runner do GitHub Actions (roda na
@@ -32,7 +32,7 @@ _FOLDER_BY_TIPO = {
     "insight": "03-insights",
 }
 
-# Temas fixos do vault (ver "Prompt de captura AYA.md" > Filosofia do isis-brain).
+# Temas fixos do vault (ver "Prompt de captura AYA.md" > Filosofia do vault).
 # Cada tema recebe algumas keywords pra casar com o campo livre `themes` da
 # edição (ex: "métricas de feedback" -> Observability). Ajuste esta lista se a
 # taxonomia real do vault mudar — nunca inventamos tema novo (regra do vault),

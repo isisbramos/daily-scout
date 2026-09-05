@@ -1,7 +1,7 @@
 # Vault bridge — setup do Stage B (local)
 
-Contexto completo da arquitetura: ver o artifact "Vault Bridge — AYA → isis-brain"
-gerado na sessão que criou isso, ou o resumo abaixo.
+Contexto completo da arquitetura: ver o artifact "Vault Bridge" gerado na
+sessão que criou isso, ou o resumo abaixo.
 
 O Stage A (geração da nota + commit em `vault-outbox/`) já roda sozinho no CI,
 sem nada a fazer. Isso aqui é só o Stage B — a ponte final até o vault de
@@ -10,8 +10,8 @@ Sync/iCloud) está montado.
 
 ## Setup (uma vez)
 
-1. Confirme o caminho absoluto da raiz do seu vault isis-brain, ex:
-   `/Users/<seu-usuario>/Library/Mobile Documents/iCloud~md~obsidian/Documents/isis-brain`
+1. Confirme o caminho absoluto da raiz do seu vault, ex:
+   `/Users/<seu-usuario>/Library/Mobile Documents/iCloud~md~obsidian/Documents/<seu-vault>`
    (ou o path do Obsidian Sync, o que for).
 
 2. Teste manual primeiro, antes de automatizar:
@@ -30,7 +30,7 @@ Sync/iCloud) está montado.
    ```
    Edite o arquivo copiado e troque os 3 placeholders:
    - `/ABSOLUTE/PATH/TO/daily-scout` (2 ocorrências) → seu clone local
-   - `/ABSOLUTE/PATH/TO/isis-brain` → raiz do vault
+   - `/ABSOLUTE/PATH/TO/vault` → raiz do vault
    - `/usr/bin/python3` → rode `which python3` e confirme (importa se você usa
      pyenv/venv — o launchd não herda seu shell)
 

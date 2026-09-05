@@ -696,7 +696,7 @@ def run_pipeline():
             except Exception as mem_err:
                 logger.warning(f"Memória editorial: falha ao registrar edição (não-bloqueante): {mem_err}")
 
-        # ── Step 6c: Gera a nota da edição pro isis-brain (Stage A da ponte pro vault) ──
+        # ── Step 6c: Gera a nota da edição pro vault pessoal (Stage A da ponte) ──
         # Escreve em vault-outbox/ (dentro do repo); o CI commita esse arquivo igual à
         # memória editorial. A cópia pro vault de fato (Stage B) roda localmente — ver
         # scripts/sync_to_vault.py. Isolado e não-bloqueante, mesma lógica do passo acima.

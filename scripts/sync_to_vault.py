@@ -4,14 +4,14 @@ Daily Scout — Vault Bridge (Stage B)
 
 Roda LOCALMENTE (no seu Mac, nunca no GitHub Actions): puxa o repo, pega as
 notas novas que o CI deixou em vault-outbox/ (ver vault_bridge.py) e copia
-cada uma pro caminho correspondente dentro do vault isis-brain de verdade.
+cada uma pro caminho correspondente dentro do vault de verdade.
 
 Por que isso não roda no CI: o vault sincroniza via Obsidian Sync/iCloud —
 o runner do GitHub Actions não tem acesso a esse filesystem. Esse script é a
 metade da ponte que só faz sentido rodando onde o vault está montado.
 
 Uso:
-    export VAULT_PATH="/Users/<seu-usuario>/Documents/isis-brain"   # raiz do vault
+    export VAULT_PATH="/Users/<seu-usuario>/Documents/<seu-vault>"   # raiz do vault
     python3 scripts/sync_to_vault.py
 
 Idempotente: mantém um estado local (.vault_sync_state.json, git-ignored) com
@@ -123,7 +123,7 @@ def sync(vault_path: str) -> int:
 def main() -> None:
     vault_path = os.environ.get("VAULT_PATH")
     if not vault_path:
-        _log("ERRO: defina VAULT_PATH com o caminho absoluto da raiz do isis-brain.")
+        _log("ERRO: defina VAULT_PATH com o caminho absoluto da raiz do seu vault.")
         sys.exit(1)
     sync(os.path.expanduser(vault_path))
 
