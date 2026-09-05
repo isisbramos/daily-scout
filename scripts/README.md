@@ -11,7 +11,7 @@ Sync/iCloud) está montado.
 ## Setup (uma vez)
 
 1. Confirme o caminho absoluto da raiz do seu vault isis-brain, ex:
-   `/Users/isis/Library/Mobile Documents/iCloud~md~obsidian/Documents/isis-brain`
+   `/Users/<seu-usuario>/Library/Mobile Documents/iCloud~md~obsidian/Documents/isis-brain`
    (ou o path do Obsidian Sync, o que for).
 
 2. Teste manual primeiro, antes de automatizar:

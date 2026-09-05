@@ -11,7 +11,7 @@ o runner do GitHub Actions não tem acesso a esse filesystem. Esse script é a
 metade da ponte que só faz sentido rodando onde o vault está montado.
 
 Uso:
-    export VAULT_PATH="/Users/isis/Documents/isis-brain"   # raiz do vault
+    export VAULT_PATH="/Users/<seu-usuario>/Documents/isis-brain"   # raiz do vault
     python3 scripts/sync_to_vault.py
 
 Idempotente: mantém um estado local (.vault_sync_state.json, git-ignored) com
