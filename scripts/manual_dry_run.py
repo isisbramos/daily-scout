@@ -10,7 +10,7 @@ from jinja2 import Environment, FileSystemLoader
 
 # Add project root (este script vive em scripts/, mas importa módulos da raiz)
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline import load_config, fetch_all_sources, filter_items
+from pipeline import load_config, fetch_all_sources, filter_items, make_tracked_url
 from sources.base import SourceRegistry
 
 BRT = timezone(timedelta(hours=-3))
@@ -131,6 +131,11 @@ def test_render():
     }
 
     env = Environment(loader=FileSystemLoader("templates"))
+    # Mesmo filtro `track` que render_email() registra em pipeline.py — sem
+    # TRACK_BASE_URL setado (padrão no dry run local) é no-op e devolve a URL crua.
+    def _track(url, edition, kind, idx="", aud="", claim=""):
+        return make_tracked_url(url, edition, kind, idx, aud, claim, src="")
+    env.filters["track"] = _track
     template = env.get_template("email.html")
 
     now = datetime.now(BRT)
