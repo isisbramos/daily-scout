@@ -14,6 +14,7 @@ import requests
 from sources.base import SourceItem, fetch_feed, DEFAULT_FEED_TIMEOUT
 from sources.hackernews import HackerNewsSource, _guess_hn_category
 from sources.reddit import RedditSource, _categorize_subreddit
+from sources.lobsters import LobstersSource, _categorize_lobsters
 from sources.techcrunch import TechCrunchSource, _categorize_tc
 from sources.rss_generic import AnthropicBlogSource, _fetch_rss, _categorize_by_title
 
@@ -321,6 +322,152 @@ class TestCategorizeSub:
 
     def test_unknown_defaults_to_tech(self):
         assert _categorize_subreddit("unknownsubreddit") == "tech"
+
+
+# ── LobstersSource ──────────────────────────────────────────────────
+
+class TestLobstersSource:
+    def _make_lobsters_entry(self, title="Test Post", link="https://example.com/post",
+                              comments="https://lobste.rs/s/abc123", tags=None,
+                              published_parsed=None):
+        return MockEntry(
+            title=title,
+            link=link,
+            comments=comments,
+            tags=tags or [],
+            published_parsed=published_parsed or time.gmtime(),
+        )
+
+    def test_fetch_maps_fields(self):
+        entry = self._make_lobsters_entry(
+            title="Formalizing Fermat's Last Theorem",
+            link="https://blog.example.com/flt",
+            comments="https://lobste.rs/s/xyz789",
+            tags=[{"term": "math"}],
+        )
+        mock_feed = make_feed([entry])
+
+        with patch("sources.lobsters.fetch_feed", return_value=mock_feed) as mock_fetch:
+            source = LobstersSource({"rss_url": "https://lobste.rs/rss"})
+            items = source.fetch()
+
+        mock_fetch.assert_called_once_with("https://lobste.rs/rss")
+        assert len(items) == 1
+        item = items[0]
+        assert item.title == "Formalizing Fermat's Last Theorem"
+        assert item.url == "https://blog.example.com/flt"
+        assert item.source_id == "lobsters"
+        assert item.source_label == "Lobsters"
+        assert item.raw_score == 0
+        assert item.num_comments == 0
+
+    def test_comments_url_kept_separate_from_article_url(self):
+        """Lobsters distingue a URL do artigo (pode ser externa) da URL da
+        discussão — o template usa extra['comments_url'] pro link de discussão."""
+        entry = self._make_lobsters_entry(
+            link="https://external-blog.com/post",
+            comments="https://lobste.rs/s/abc123",
+        )
+        mock_feed = make_feed([entry])
+
+        with patch("sources.lobsters.fetch_feed", return_value=mock_feed):
+            source = LobstersSource()
+            items = source.fetch()
+
+        assert items[0].url == "https://external-blog.com/post"
+        assert items[0].extra["comments_url"] == "https://lobste.rs/s/abc123"
+
+    def test_tags_captured_in_extra(self):
+        entry = self._make_lobsters_entry(tags=[{"term": "rust"}, {"term": "compilers"}])
+        mock_feed = make_feed([entry])
+
+        with patch("sources.lobsters.fetch_feed", return_value=mock_feed):
+            source = LobstersSource()
+            items = source.fetch()
+
+        assert items[0].extra["tags"] == ["rust", "compilers"]
+
+    def test_respects_limit(self):
+        entries = [self._make_lobsters_entry(title=f"Post {i}") for i in range(10)]
+        mock_feed = make_feed(entries)
+
+        with patch("sources.lobsters.fetch_feed", return_value=mock_feed):
+            source = LobstersSource({"limit": 3})
+            items = source.fetch()
+
+        assert len(items) == 3
+
+    def test_timestamp_parsed_from_published(self):
+        ts_struct = time.strptime("2024-01-15 10:00:00", "%Y-%m-%d %H:%M:%S")
+        entry = self._make_lobsters_entry(published_parsed=ts_struct)
+        mock_feed = make_feed([entry])
+
+        with patch("sources.lobsters.fetch_feed", return_value=mock_feed):
+            source = LobstersSource()
+            items = source.fetch()
+
+        assert items[0].timestamp == calendar.timegm(ts_struct)
+
+    def test_broken_feed_raises(self):
+        """Diferente de reddit/techcrunch/rss_generic, LobstersSource.fetch()
+        levanta em vez de engolir — é safe_fetch() (BaseSource) quem degrada."""
+        broken_feed = MagicMock()
+        broken_feed.bozo = True
+        broken_feed.bozo_exception = "malformed XML"
+        broken_feed.entries = []
+
+        with patch("sources.lobsters.fetch_feed", return_value=broken_feed):
+            source = LobstersSource()
+            with pytest.raises(RuntimeError, match="Lobsters RSS parse failed"):
+                source.fetch()
+
+    def test_safe_fetch_returns_empty_on_broken_feed(self):
+        broken_feed = MagicMock()
+        broken_feed.bozo = True
+        broken_feed.bozo_exception = "malformed XML"
+        broken_feed.entries = []
+
+        with patch("sources.lobsters.fetch_feed", return_value=broken_feed):
+            source = LobstersSource()
+            items = source.safe_fetch()
+
+        assert items == []
+
+    def test_custom_rss_url_from_config(self):
+        entry = self._make_lobsters_entry()
+        mock_feed = make_feed([entry])
+
+        with patch("sources.lobsters.fetch_feed", return_value=mock_feed) as mock_fetch:
+            source = LobstersSource({"rss_url": "https://custom.example.com/rss"})
+            source.fetch()
+
+        mock_fetch.assert_called_once_with("https://custom.example.com/rss")
+
+
+class TestCategorizeLobsters:
+    def test_ai_keywords(self):
+        assert _categorize_lobsters(["machine-learning"], "some title") == "ai"
+        assert _categorize_lobsters([], "New LLM architecture released") == "ai"
+
+    def test_dev_keywords(self):
+        assert _categorize_lobsters(["rust"], "some title") == "dev"
+        # Nota: "explained" contém "ai" como substring ("expl-AI-ned") — título
+        # sem "ai" pra testar o branch "dev" isoladamente.
+        assert _categorize_lobsters([], "New compiler techniques in Python") == "dev"
+
+    def test_infra_keywords(self):
+        assert _categorize_lobsters(["linux"], "some title") == "infra"
+        assert _categorize_lobsters([], "Networking devops guide") == "infra"
+
+    def test_opensource_keywords(self):
+        assert _categorize_lobsters(["opensource"], "some title") == "opensource"
+
+    def test_default_tech(self):
+        assert _categorize_lobsters([], "Apple announces new product") == "tech"
+
+    def test_ai_takes_priority_over_dev(self):
+        # "ai" é checado antes de "rust"/"python" — tag com ambos cai em "ai"
+        assert _categorize_lobsters(["rust", "ai"], "some title") == "ai"
 
 
 # ── TechCrunchSource ──────────────────────────────────────────────────
