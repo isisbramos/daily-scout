@@ -1,9 +1,11 @@
 """
 Daily Scout — Social Content Adapter
-Uses Gemini to adapt curated newsletter content for each social platform.
+Uses DeepSeek to adapt curated newsletter content for each social platform.
 Currently supports: LinkedIn (text post).
 Future: Instagram (carousel cards), Twitter/X.
 """
+
+from __future__ import annotations
 
 import json
 import logging

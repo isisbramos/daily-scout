@@ -91,6 +91,25 @@ jobs:
 
           python social_post.py $ARGS
 
+      - name: Persist social outcome to editorial memory
+        # social_post.py já gravou o outcome em memory/editions.jsonl (record_social_outcome).
+        # Isolado: o post já foi feito no passo anterior — falha de git aqui não pode
+        # reverter isso nem quebrar o job (mesmo padrão do "Persist editorial memory"
+        # do daily-scout.yml).
+        if: steps.check.outputs.found == 'true'
+        continue-on-error: true
+        run: |
+          if [ -z "$(git status --porcelain memory/editions.jsonl)" ]; then
+            echo "Sem mudança na memória editorial — nada a commitar."
+            exit 0
+          fi
+          git config user.name "aya-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add memory/editions.jsonl
+          git commit -m "chore(memory): registra outcome social da edição ${{ steps.edition.outputs.number }}" || { echo "nada a commitar"; exit 0; }
+          git pull --rebase --autostash origin main || echo "pull --rebase falhou — seguindo para push"
+          git push origin HEAD:main || echo "push falhou — outcome social não persistido hoje (post já feito, sem impacto)"
+
       - name: Skip notification
         if: steps.check.outputs.found != 'true'
         run: |

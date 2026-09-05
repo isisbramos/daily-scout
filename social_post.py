@@ -15,6 +15,8 @@ Environment:
   EDITION_NUMBER         — Edition to post (fallback to latest artifact)
 """
 
+from __future__ import annotations
+
 import argparse
 import glob
 import json
@@ -137,6 +139,16 @@ def run_social_posting(edition: str | None = None, dry_run: bool = False,
                     )
                     logger.error(f"LinkedIn: failed — {result.get('error')}")
                     all_success = False
+
+                # Persiste o outcome (texto gerado + status) na memória editorial
+                # permanente — o artifact acima só sobrevive 30 dias no GitHub Actions.
+                # dry_run não é um outcome real, não vale a pena registrar.
+                if not dry_run:
+                    from memory_store import record_social_outcome
+                    updated = load_social_artifact(edition) or {}
+                    linkedin_outcome = updated.get("platforms", {}).get("linkedin")
+                    if linkedin_outcome:
+                        record_social_outcome(edition, "linkedin", linkedin_outcome)
 
     # Future: Instagram, Twitter/X etc.
 

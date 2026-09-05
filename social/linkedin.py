@@ -7,6 +7,8 @@ Scopes: w_member_social, openid
 Token: stored in LINKEDIN_ACCESS_TOKEN env var (GitHub Secret)
 """
 
+from __future__ import annotations
+
 import json
 import logging
 import os

@@ -117,6 +117,11 @@ def build_memory_record(edition: str, content: dict, source_index: dict | None =
         "sources_used": sources,
         # Preenchido depois pelo loop de feedback (🔥/👍/😐) — gancho de calibração.
         "feedback_score": None,
+        # Preenchido depois por social_post.py (~3h após o envio) via record_social_outcome().
+        # {"linkedin": {"status", "content" (texto gerado + hook + hashtags), "post_id",
+        #  "error", "posted_at"}} — guarda o conteúdo de verdade, não só o status, pra
+        # servir de base a uma geração automática de posts a partir do histórico.
+        "social": None,
     }
 
 
@@ -126,6 +131,64 @@ def append_edition(record: dict) -> None:
     with open(EDITIONS_PATH, "a", encoding="utf-8") as f:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
     logger.info(f"memory: edição {record.get('edition')} registrada em {EDITIONS_PATH}")
+
+
+def record_social_outcome(edition: str, platform: str, outcome: dict) -> bool:
+    """Registra o resultado de um post social (ex.: LinkedIn) na memória editorial
+    permanente — patch atômico no editions.jsonl, mesmo padrão de leitura+reescrita
+    usado por feedback_join.py::write_editions.
+
+    Necessário porque append_edition() já rodou ~3h antes (no pipeline principal, ao
+    enviar a newsletter), sem saber ainda se o post social vai funcionar — esta função
+    é chamada depois, por social_post.py, quando o resultado real existe.
+
+    `outcome` é salvo como veio (status, content, post_id, error, posted_at) — inclui
+    o texto do post gerado, não só o status, pra sobreviver além dos 30 dias de retenção
+    do artifact do GitHub Actions e servir de base a uma geração automática futura.
+
+    Nunca levanta: social posting é best-effort e um problema aqui (I/O, edição não
+    encontrada) não pode quebrar o workflow. Retorna True se encontrou e atualizou o
+    registro da edição, False caso contrário.
+    """
+    if not os.path.exists(EDITIONS_PATH):
+        logger.warning(f"memory: editions.jsonl não existe — social da edição {edition} não registrado")
+        return False
+
+    try:
+        records: list[dict] = []
+        with open(EDITIONS_PATH, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    records.append(json.loads(line))
+                except json.JSONDecodeError:
+                    logger.warning("memory: linha inválida ignorada em editions.jsonl")
+
+        found = False
+        for r in records:
+            if str(r.get("edition", "")) == str(edition):
+                social = r.get("social") or {}
+                social[platform] = outcome
+                r["social"] = social
+                found = True
+                break
+
+        if not found:
+            logger.warning(f"memory: edição {edition} não encontrada em editions.jsonl — social não registrado")
+            return False
+
+        tmp = EDITIONS_PATH + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            for r in records:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        os.replace(tmp, EDITIONS_PATH)
+        logger.info(f"memory: social[{platform}] registrado para edição {edition}")
+        return True
+    except Exception as e:
+        logger.warning(f"memory: falha ao registrar social da edição {edition} — {e}")
+        return False
 
 
 def _covered_entities(records: list[dict]) -> list[tuple[str, set]]:
