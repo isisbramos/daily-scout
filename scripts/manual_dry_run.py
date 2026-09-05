@@ -8,8 +8,8 @@ import sys
 from datetime import datetime, timedelta, timezone
 from jinja2 import Environment, FileSystemLoader
 
-# Add project root
-sys.path.insert(0, os.path.dirname(__file__))
+# Add project root (este script vive em scripts/, mas importa módulos da raiz)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline import load_config, fetch_all_sources, filter_items
 from sources.base import SourceRegistry
 

@@ -1,10 +1,10 @@
 """
 Daily Scout — Pipeline v5.3 (Multi-Source Architecture + Observability)
 Correspondente: AYA (AI-powered field correspondent)
-Stack: 10 Sources (Reddit, HN, TechCrunch, Lobsters, RSS/blogs) → Pre-Filter → Gemini 2.5 Flash → Jinja2 → Buttondown API
+Stack: Multi-source (Reddit, HN, TechCrunch, Lobsters, RSS/blogs, config-driven) → Pre-Filter → DeepSeek → Jinja2 → Buttondown API
 
 Arquitetura:
-  sources/ (pluggable modules) → pre_filter.py → Gemini curadoria → Jinja2 render → Buttondown delivery
+  sources/ (pluggable modules) → pre_filter.py → DeepSeek curadoria → Jinja2 render → Buttondown delivery
   Config-driven: sources_config.json controla tudo sem mudar código.
 """
 
@@ -132,7 +132,7 @@ def filter_items(items: list[SourceItem], config: dict) -> list[SourceItem]:
     return run_pre_filter(items, config)
 
 
-# ── Curate & Write: Gemini (structured output + anti-hallucination) ──
+# ── Curate & Write: DeepSeek (structured output + anti-hallucination) ──
 # Schemas importados de schemas.py
 
 # ── Prompts: carregados de arquivos em prompts/ ──────────────────────
@@ -214,7 +214,7 @@ def curate_and_write(
     source_breakdown: dict[str, int] | None = None,
     max_retries: int = 5,
 ) -> dict:
-    """Envia items pré-filtrados para o Gemini e recebe curadoria estruturada (v5).
+    """Envia items pré-filtrados para o DeepSeek e recebe curadoria estruturada (v5).
 
     v5 changes:
     - Shuffle dos items para remover position bias

@@ -11,7 +11,7 @@ consegue fazer sozinho — commitar o arquivo de volta ao repo, no mesmo padrão
 já usado por memory/editions.jsonl (ver memory_store.py). A ponte até o vault
 de fato (Stage B) roda localmente — ver scripts/sync_to_vault.py.
 
-Segue o formato descrito em "Prompt de captura AYA.md" > Regras obrigatórias
+Segue o formato descrito em "docs/Prompt de captura AYA.md" > Regras obrigatórias
 de cada nota: frontmatter YAML + corpo + rodapé com backlinks.
 """
 
@@ -32,7 +32,7 @@ _FOLDER_BY_TIPO = {
     "insight": "03-insights",
 }
 
-# Temas fixos do vault (ver "Prompt de captura AYA.md" > Filosofia do vault).
+# Temas fixos do vault (ver "docs/Prompt de captura AYA.md" > Filosofia do vault).
 # Cada tema recebe algumas keywords pra casar com o campo livre `themes` da
 # edição (ex: "métricas de feedback" -> Observability). Ajuste esta lista se a
 # taxonomia real do vault mudar — nunca inventamos tema novo (regra do vault),
