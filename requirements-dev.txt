@@ -1,0 +1,7 @@
+# Dependências de desenvolvimento — não usadas pelo pipeline de produção
+# (daily-scout.yml só instala requirements.txt). Necessárias para rodar
+# tests/, scripts/validate_v54_patches.py e brand-assets/make-gif.py.
+-r requirements.txt
+pytest==8.4.2
+python-dotenv==1.2.1
+pillow==11.3.0
