@@ -44,6 +44,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone, timedelta
 
 from llm_config import DEEPSEEK_MODEL, DEEPSEEK_EXTRA_BODY
+from audit_agent import AUDIT_DIMENSIONS
 
 logging.basicConfig(
     level=logging.INFO,
@@ -221,13 +222,10 @@ def aggregate_content(editions: list[dict], enabled_sources: set[str]) -> dict:
 
 
 # ── Camada 2: scorecard de qualidade (consome audits) ──────────────────
-_DIMS = [
-    ("editorial_alignment", "Editorial"),
-    ("tone_accuracy", "Tom"),
-    ("diversity", "Diversidade"),
-    ("correspondent_intro_quality", "Intro"),
-    ("reasoning_coherence", "Reasoning"),
-]
+# (campo, label curto) — derivado de AUDIT_DIMENSIONS (audit_agent.py), a fonte única
+# do schema do AuditReport. Sem isso, uma dimensão nova no audit_agent não apareceria
+# aqui até alguém lembrar de atualizar esta lista manualmente.
+_DIMS = [(key, short) for key, _long, short in AUDIT_DIMENSIONS]
 
 
 def aggregate_quality(audits: dict[str, dict]) -> dict:

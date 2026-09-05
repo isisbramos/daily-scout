@@ -134,6 +134,18 @@ class AuditReport(BaseModel):
         description="2-3 frases resumindo os principais problemas desta edição para um leitor rápido."
     )
 
+
+# Nomes canônicos das 5 dimensões de AuditReport: (campo, label longo, label curto).
+# Fonte única — content_report.py importa esta lista em vez de re-hardcodar os campos,
+# senão uma dimensão nova aqui não aparece lá sem ninguém perceber.
+AUDIT_DIMENSIONS: list[tuple[str, str, str]] = [
+    ("editorial_alignment", "Editorial Alignment", "Editorial"),
+    ("tone_accuracy", "Tom e Acurácia", "Tom"),
+    ("diversity", "Diversidade", "Diversidade"),
+    ("correspondent_intro_quality", "Correspondent Intro", "Intro"),
+    ("reasoning_coherence", "Reasoning Coherence", "Reasoning"),
+]
+
 # ── Audit System Prompt ────────────────────────────────────────────────
 AUDIT_SYSTEM = """Você é um editor sênior exigente de newsletters de tech. Seu papel é auditar as decisões editoriais da AYA — a correspondente de AI do Daily Scout.
 
@@ -400,11 +412,13 @@ def build_markdown_report(edition: str, r: AuditReport) -> str:
         f"",
         f"| Dimensão | Score | Resumo |",
         f"|---|---|---|",
-        f"| Editorial Alignment | {score_emoji(r.editorial_alignment.score)} {r.editorial_alignment.score}/5 | {r.editorial_alignment.rationale[:80]}... |",
-        f"| Tom e Acurácia | {score_emoji(r.tone_accuracy.score)} {r.tone_accuracy.score}/5 | {r.tone_accuracy.rationale[:80]}... |",
-        f"| Diversidade | {score_emoji(r.diversity.score)} {r.diversity.score}/5 | {r.diversity.rationale[:80]}... |",
-        f"| Correspondent Intro | {score_emoji(r.correspondent_intro_quality.score)} {r.correspondent_intro_quality.score}/5 | {r.correspondent_intro_quality.rationale[:80]}... |",
-        f"| Reasoning Coherence | {score_emoji(r.reasoning_coherence.score)} {r.reasoning_coherence.score}/5 | {r.reasoning_coherence.rationale[:80]}... |",
+    ]
+    for key, long_label, _short in AUDIT_DIMENSIONS:
+        dim = getattr(r, key)
+        lines.append(
+            f"| {long_label} | {score_emoji(dim.score)} {dim.score}/5 | {dim.rationale[:80]}... |"
+        )
+    lines += [
         f"",
         f"---",
         f"",
@@ -412,13 +426,8 @@ def build_markdown_report(edition: str, r: AuditReport) -> str:
         f"",
     ]
 
-    for dim_name, dim in [
-        ("Editorial Alignment", r.editorial_alignment),
-        ("Tom e Acurácia", r.tone_accuracy),
-        ("Diversidade", r.diversity),
-        ("Correspondent Intro", r.correspondent_intro_quality),
-        ("Reasoning Coherence", r.reasoning_coherence),
-    ]:
+    for dim_key, dim_name, _short in AUDIT_DIMENSIONS:
+        dim = getattr(r, dim_key)
         lines.append(f"### {score_emoji(dim.score)} {dim_name} — {dim.score}/5")
         lines.append(f"")
         lines.append(dim.rationale)
@@ -529,13 +538,8 @@ def print_summary(edition: str, report: AuditReport, verbose: bool = False):
         print(f"ISSUES DETALHADAS")
         print(f"{'─' * 60}")
 
-        for dim_name, dim in [
-            ("Editorial Alignment", report.editorial_alignment),
-            ("Tom e Acurácia", report.tone_accuracy),
-            ("Diversidade", report.diversity),
-            ("Correspondent Intro", report.correspondent_intro_quality),
-            ("Reasoning Coherence", report.reasoning_coherence),
-        ]:
+        for key, dim_name, _short in AUDIT_DIMENSIONS:
+            dim = getattr(report, key)
             if dim.issues:
                 print(f"\n[{dim_name}]")
                 for issue in dim.issues:
