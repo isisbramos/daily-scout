@@ -4,4 +4,4 @@
 -r requirements.txt
 pytest==8.4.2
 python-dotenv==1.2.1
-pillow==11.3.0
+pillow==12.3.0
