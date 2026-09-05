@@ -6,9 +6,8 @@ from __future__ import annotations
 import calendar
 import time
 import logging
-import feedparser
 
-from sources.base import BaseSource, SourceItem, SourceRegistry
+from sources.base import BaseSource, SourceItem, SourceRegistry, fetch_feed
 
 logger = logging.getLogger("daily-scout")
 
@@ -36,7 +35,7 @@ class RedditSource(BaseSource):
         for sub in self.subreddits:
             url = f"https://www.reddit.com/r/{sub}/hot.rss?limit={self.limit_per_sub}"
             try:
-                feed = feedparser.parse(url)
+                feed = fetch_feed(url)
                 if feed.bozo and not feed.entries:
                     logger.debug(f"    r/{sub}: RSS parse error")
                     continue

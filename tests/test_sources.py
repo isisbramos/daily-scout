@@ -9,8 +9,9 @@ from unittest.mock import patch, MagicMock
 from email.utils import formatdate
 
 import pytest
+import requests
 
-from sources.base import SourceItem
+from sources.base import SourceItem, fetch_feed, DEFAULT_FEED_TIMEOUT
 from sources.hackernews import HackerNewsSource, _guess_hn_category
 from sources.reddit import RedditSource, _categorize_subreddit
 from sources.techcrunch import TechCrunchSource, _categorize_tc
@@ -48,6 +49,44 @@ def make_feed(entries):
     feed.bozo = False
     feed.bozo_exception = None
     return feed
+
+
+# ── fetch_feed (helper compartilhado de sources/base.py) ──────────────
+
+class TestFetchFeed:
+    """Uma fonte lenta/fora do ar não pode travar o fetch_all_sources
+    inteiro — fetch_feed existe pra garantir timeout explícito em toda
+    chamada de RSS (feedparser.parse(url) sozinho não tem timeout)."""
+
+    def test_passes_timeout_to_requests(self):
+        with patch("sources.base.requests.get") as mock_get, \
+             patch("sources.base.feedparser.parse") as mock_parse:
+            mock_get.return_value = MagicMock(content=b"<rss></rss>")
+            fetch_feed("https://example.com/feed", timeout=7)
+
+        assert mock_get.call_args.kwargs["timeout"] == 7
+        mock_parse.assert_called_once_with(b"<rss></rss>")
+
+    def test_default_timeout_used_when_not_specified(self):
+        with patch("sources.base.requests.get") as mock_get, \
+             patch("sources.base.feedparser.parse"):
+            mock_get.return_value = MagicMock(content=b"<rss></rss>")
+            fetch_feed("https://example.com/feed")
+
+        assert mock_get.call_args.kwargs["timeout"] == DEFAULT_FEED_TIMEOUT
+
+    def test_http_error_propagates(self):
+        mock_resp = MagicMock()
+        mock_resp.raise_for_status.side_effect = requests.HTTPError("500")
+
+        with patch("sources.base.requests.get", return_value=mock_resp):
+            with pytest.raises(requests.HTTPError):
+                fetch_feed("https://example.com/feed")
+
+    def test_timeout_propagates(self):
+        with patch("sources.base.requests.get", side_effect=requests.Timeout("slow")):
+            with pytest.raises(requests.Timeout):
+                fetch_feed("https://example.com/feed")
 
 
 # ── HackerNewsSource ──────────────────────────────────────────────────
@@ -213,7 +252,7 @@ class TestRedditSource:
         ]
         mock_feed = make_feed(entries)
 
-        with patch("sources.reddit.feedparser.parse", return_value=mock_feed):
+        with patch("sources.reddit.fetch_feed", return_value=mock_feed):
             with patch("sources.reddit.time.sleep"):
                 source = RedditSource({"subreddits": ["artificial"], "limit_per_sub": 10})
                 items = source.fetch()
@@ -225,7 +264,7 @@ class TestRedditSource:
         entries = [self._make_reddit_entry("Some post", "https://reddit.com/post")]
         mock_feed = make_feed(entries)
 
-        with patch("sources.reddit.feedparser.parse", return_value=mock_feed):
+        with patch("sources.reddit.fetch_feed", return_value=mock_feed):
             with patch("sources.reddit.time.sleep"):
                 source = RedditSource({"subreddits": ["MachineLearning"], "limit_per_sub": 5})
                 items = source.fetch()
@@ -236,7 +275,7 @@ class TestRedditSource:
         entries = [self._make_reddit_entry("Test", "https://reddit.com/post")]
         mock_feed = make_feed(entries)
 
-        with patch("sources.reddit.feedparser.parse", return_value=mock_feed):
+        with patch("sources.reddit.fetch_feed", return_value=mock_feed):
             with patch("sources.reddit.time.sleep"):
                 source = RedditSource({"subreddits": ["artificial"], "limit_per_sub": 5})
                 items = source.fetch()
@@ -247,7 +286,7 @@ class TestRedditSource:
         entries = [self._make_reddit_entry("Test", "https://reddit.com/post")]
         mock_feed = make_feed(entries)
 
-        with patch("sources.reddit.feedparser.parse", return_value=mock_feed):
+        with patch("sources.reddit.fetch_feed", return_value=mock_feed):
             with patch("sources.reddit.time.sleep"):
                 source = RedditSource({"subreddits": ["artificial"], "limit_per_sub": 5})
                 items = source.fetch()
@@ -259,7 +298,7 @@ class TestRedditSource:
         broken_feed.bozo = True
         broken_feed.entries = []
 
-        with patch("sources.reddit.feedparser.parse", return_value=broken_feed):
+        with patch("sources.reddit.fetch_feed", return_value=broken_feed):
             with patch("sources.reddit.time.sleep"):
                 source = RedditSource({"subreddits": ["artificial"], "limit_per_sub": 5})
                 items = source.fetch()
@@ -297,7 +336,7 @@ class TestTechCrunchSource:
         )
         mock_feed = make_feed([entry])
 
-        with patch("sources.techcrunch.feedparser.parse", return_value=mock_feed):
+        with patch("sources.techcrunch.fetch_feed", return_value=mock_feed):
             source = TechCrunchSource({"limit": 10, "feeds": {"main": "https://techcrunch.com/feed/"}})
             items = source.fetch()
 
@@ -318,7 +357,7 @@ class TestTechCrunchSource:
         )
         mock_feed = make_feed([entry])
 
-        with patch("sources.techcrunch.feedparser.parse", return_value=mock_feed):
+        with patch("sources.techcrunch.fetch_feed", return_value=mock_feed):
             source = TechCrunchSource({"limit": 5, "feeds": {"main": "url"}})
             items = source.fetch()
 
@@ -357,7 +396,7 @@ class TestAnthropicBlogSource:
         )
         mock_feed = make_feed([entry])
 
-        with patch("sources.rss_generic.feedparser.parse", return_value=mock_feed):
+        with patch("sources.rss_generic.fetch_feed", return_value=mock_feed):
             source = AnthropicBlogSource({"limit": 5, "rss_url": "https://anthropic.com/feed"})
             items = source.fetch()
 
@@ -374,7 +413,7 @@ class TestAnthropicBlogSource:
         broken.bozo = True
         broken.entries = []
 
-        with patch("sources.rss_generic.feedparser.parse", return_value=broken):
+        with patch("sources.rss_generic.fetch_feed", return_value=broken):
             source = AnthropicBlogSource({"limit": 5})
             items = source.fetch()
 

@@ -9,9 +9,7 @@ import calendar
 import logging
 import time
 
-import feedparser
-
-from sources.base import BaseSource, SourceItem, SourceRegistry
+from sources.base import BaseSource, SourceItem, SourceRegistry, fetch_feed
 
 logger = logging.getLogger("daily-scout")
 
@@ -473,7 +471,7 @@ def _fetch_rss(
     items = []
 
     try:
-        feed = feedparser.parse(feed_url)
+        feed = fetch_feed(feed_url)
         if feed.bozo and not feed.entries:
             logger.debug(f"    {source_label}: RSS parse error — {feed.bozo_exception}")
             return []

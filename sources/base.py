@@ -11,7 +11,26 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, asdict
 from typing import Any
 
+import feedparser
+import requests
+
 logger = logging.getLogger("daily-scout")
+
+DEFAULT_FEED_TIMEOUT = 15  # segundos
+
+
+def fetch_feed(url: str, timeout: int = DEFAULT_FEED_TIMEOUT):
+    """Busca e parseia um feed RSS/Atom com timeout explícito.
+
+    feedparser.parse(url) não aceita timeout — delega o fetch HTTP pro
+    urllib interno, que sem timeout pode travar indefinidamente numa fonte
+    lenta/fora do ar e prender o pipeline inteiro (fetch_all_sources roda
+    sequencial). Buscar com requests primeiro dá controle do timeout;
+    feedparser só parseia os bytes já em mão.
+    """
+    resp = requests.get(url, timeout=timeout, headers={"User-Agent": "Mozilla/5.0 (compatible; DailyScoutBot/1.0)"})
+    resp.raise_for_status()
+    return feedparser.parse(resp.content)
 
 
 @dataclass

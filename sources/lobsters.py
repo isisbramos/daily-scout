@@ -7,9 +7,8 @@ from __future__ import annotations
 import calendar
 import time
 import logging
-import feedparser
 
-from sources.base import BaseSource, SourceItem, SourceRegistry
+from sources.base import BaseSource, SourceItem, SourceRegistry, fetch_feed
 
 logger = logging.getLogger("daily-scout")
 
@@ -29,7 +28,7 @@ class LobstersSource(BaseSource):
     def fetch(self) -> list[SourceItem]:
         items = []
 
-        feed = feedparser.parse(self.rss_url)
+        feed = fetch_feed(self.rss_url)
         if feed.bozo and not feed.entries:
             raise RuntimeError(f"Lobsters RSS parse failed: {feed.bozo_exception}")
 

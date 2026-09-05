@@ -7,9 +7,8 @@ from __future__ import annotations
 import calendar
 import time
 import logging
-import feedparser
 
-from sources.base import BaseSource, SourceItem, SourceRegistry
+from sources.base import BaseSource, SourceItem, SourceRegistry, fetch_feed
 
 logger = logging.getLogger("daily-scout")
 
@@ -33,7 +32,7 @@ class TechCrunchSource(BaseSource):
 
         for feed_name, feed_url in self.feeds.items():
             try:
-                feed = feedparser.parse(feed_url)
+                feed = fetch_feed(feed_url)
                 if feed.bozo and not feed.entries:
                     logger.debug(f"    TechCrunch/{feed_name}: RSS parse error")
                     continue
