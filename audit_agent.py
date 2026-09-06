@@ -29,7 +29,7 @@ from datetime import datetime, timezone, timedelta
 from pydantic import BaseModel, Field, ValidationError
 from typing import Optional
 
-from llm_config import DEEPSEEK_MODEL, DEEPSEEK_EXTRA_BODY
+from llm_config import AUDIT_BASE_URL, AUDIT_EXTRA_BODY, AUDIT_MODEL
 
 logging.basicConfig(
     level=logging.INFO,
@@ -39,7 +39,10 @@ logging.basicConfig(
 logger = logging.getLogger("audit-agent")
 
 # ── Config ────────────────────────────────────────────────────────────
-DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
+# AUDIT_API_KEY é opcional — só precisa setar se o judge usar um provedor diferente
+# da curadoria (AUDIT_BASE_URL apontando pra fora da DeepSeek). Por padrão reaproveita
+# a mesma chave.
+DEEPSEEK_API_KEY = os.environ.get("AUDIT_API_KEY") or os.environ.get("DEEPSEEK_API_KEY")
 DEBUG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "debug")
 
 # ── Audit Schema (structured output) ─────────────────────────────────
@@ -314,9 +317,9 @@ def run_audit(edition: str, curation_output: dict, input_items: list[dict]) -> A
     from openai import OpenAI
 
     if not DEEPSEEK_API_KEY:
-        raise ValueError("DEEPSEEK_API_KEY não configurada")
+        raise ValueError("DEEPSEEK_API_KEY (ou AUDIT_API_KEY) não configurada")
 
-    client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
+    client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=AUDIT_BASE_URL)
 
     user_prompt = build_audit_prompt(edition, curation_output, input_items)
     logger.info(f"Audit prompt: {len(user_prompt)} chars")
@@ -336,12 +339,12 @@ def run_audit(edition: str, curation_output: dict, input_items: list[dict]) -> A
     for attempt in range(max_attempts):
         logger.info(f"Calling DeepSeek (audit) — tentativa {attempt + 1}/{max_attempts}...")
         response = client.chat.completions.create(
-            model=DEEPSEEK_MODEL,
+            model=AUDIT_MODEL,
             messages=messages,
             response_format={"type": "json_object"},
             temperature=0.0,
             max_tokens=8192,
-            extra_body=DEEPSEEK_EXTRA_BODY,
+            extra_body=AUDIT_EXTRA_BODY,
         )
         finish_reason = response.choices[0].finish_reason if response.choices else None
         text = (response.choices[0].message.content or "").strip()
