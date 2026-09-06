@@ -5,6 +5,10 @@ name: Tests
 # rodar local, então um bump de dependência (ex: pytest) podia quebrar a
 # suíte sem ninguém notar. Isolado do pipeline da newsletter de propósito:
 # uma falha aqui NUNCA pode bloquear o envio diário.
+#
+# Roda também semanal (schedule): requirements.txt/requirements-dev.txt pinam
+# versão exata, mas dependências TRANSITIVAS não são pinadas — podem mudar no
+# PyPI sem ninguém tocar neste repo. Mesmo racional do security.yml/codeql.yml.
 
 on:
   push:
@@ -21,6 +25,9 @@ on:
       - 'requirements.txt'
       - 'requirements-dev.txt'
       - '.github/workflows/tests.yml'
+  schedule:
+    # Segunda-feira 08:00 UTC — depois do security.yml (06:00) e do codeql.yml (07:00)
+    - cron: '0 8 * * 1'
   workflow_dispatch:
 
 permissions:
