@@ -9,6 +9,11 @@ name: Tests
 # Roda também semanal (schedule): requirements.txt/requirements-dev.txt pinam
 # versão exata, mas dependências TRANSITIVAS não são pinadas — podem mudar no
 # PyPI sem ninguém tocar neste repo. Mesmo racional do security.yml/codeql.yml.
+#
+# Cada run registra o resultado em ci/test_runs.jsonl (histórico consumido por
+# dashboard.py) — só no push/schedule/workflow_dispatch, NUNCA em pull_request:
+# um PR roda numa branch própria, e commitar de volta em HEAD:main a partir de
+# uma run de PR empurraria conteúdo da branch pra main sem passar por merge.
 
 on:
   push:
@@ -31,7 +36,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   pytest:
@@ -51,4 +56,16 @@ jobs:
         run: pip install -r requirements-dev.txt
 
       - name: Run pytest
-        run: pytest tests/ -v
+        run: pytest tests/ -v --junitxml=pytest-results.xml
+
+      - name: Record test run (histórico pro dashboard)
+        if: always()
+        run: python scripts/record_test_run.py pytest-results.xml
+
+      - name: Persist test run history
+        # Nunca em pull_request — ver comentário no topo do arquivo. continue-on-error
+        # porque isso é telemetria: uma falha aqui não pode mascarar o resultado real
+        # dos testes acima nem quebrar o job por um motivo não relacionado a eles.
+        if: always() && github.event_name != 'pull_request'
+        continue-on-error: true
+        run: 'scripts/persist_to_git.sh ci/test_runs.jsonl "chore(ci): registra resultado de teste (${{ github.event_name }})"'

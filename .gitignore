@@ -38,3 +38,7 @@ uploads/
 
 # Vault bridge (Stage B) — estado local de sync, específico de cada máquina.
 .vault_sync_state.json
+
+# Relatório JUnit gerado por tests.yml/record_test_run.py — efêmero, o que
+# persiste é o resumo em ci/test_runs.jsonl.
+pytest-results.xml
