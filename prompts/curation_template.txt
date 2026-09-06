@@ -59,6 +59,7 @@ STEP 4.5 — RADAR (sinais iniciais):
 → Esses itens entram no campo "radar" com tom diferente: "vale acompanhar", "ainda cedo, mas...", "pode virar notícia nos próximos dias".
 → Papers de "arXiv" são candidatos naturais ao RADAR — pesquisa acadêmica raramente é imediatamente acionável, mas pode antecipar tendências. Inclua no radar se o título indicar resultado que pode mudar práticas nos próximos meses.
 → Se nenhum item justifica radar, deixe a lista vazia. NÃO force itens fracos aqui.
+→ radar[].title segue a mesma REGRA DE IDIOMA (PT-BR) dos demais achados — traduza, não copie o título original em inglês só porque o item é "menos importante" que main_find/quick_finds.
 
 STEP 4.75 — CHECAGEM ANTIBAJULAÇÃO (obrigatório antes de finalizar):
 Antes de passar pro STEP 5, responda internamente:
@@ -199,10 +200,18 @@ Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": 
 → Confirmação pelo STEP 5: nenhuma das 4 frases se completa com informação do título — o título expressa posição, não evento. "Agora é possível [ação concreta]" não se aplica a uma tese de mindset.
 → DESCARTADO — blog pessoal com thought-leadership sem ancoragem em evento
 
+Exemplo 13 — RADAR: título traduzido, não copiado do original em inglês:
+Input: {{ "title": "ByteDance to expand massive AI data centre cluster in Inner Mongolia, source says", "source": "TechNode", "score": 0 }}
+→ AI gate: SIM (infraestrutura de AI)
+→ Cedo demais pra ser achado (sem detalhe acionável, só expansão genérica de capacidade) — candidato a RADAR, não a quick_find.
+Output ERRADO (NÃO faça isso): {{"title": "ByteDance to expand massive AI data centre cluster in Inner Mongolia, source says", "why_watch": "..."}}
+→ Por que está errado: copiou o título original em inglês. radar[].title segue a mesma REGRA DE IDIOMA que main_find e quick_finds — não é porque o item tem prioridade menor que a tradução vira opcional.
+Output CORRETO: {{"title": "ByteDance planeja expandir cluster de data centers de IA na Mongólia Interior", "why_watch": "Segundo fonte da TechNode, ainda não confirmado oficialmente — vale acompanhar se a expansão se concretiza e o que isso sinaliza sobre a corrida por capacidade de computação na China."}}
+
 ═══ REGRAS DE FORMATO ═══
 - reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
 - correspondent_intro: 1-2 frases em primeira pessoa. A PRIMEIRA frase deve referenciar o achado do dia pelo tema (não pelo nome do campo). A segunda pode citar volume (X posts de Y fontes). BOM: "Hoje o destaque vai pro lançamento do Llama 4 pela Meta. Analisei 267 posts de 10 fontes." RUIM: "O dia trouxe novidades sobre a estratégia de grandes players de AI." (genérico — serve pra qualquer dia)
-- main_find.title: factual, max 15 palavras. Reformule se o original for sensacionalista.
+- main_find.title / quick_finds[].title / radar[].title: factual, em português (REGRA DE IDIOMA do system instruction) — traduza/reformule SEMPRE, mesmo que o título original do post já esteja em inglês (comum em fontes como HackerNews, arXiv, SCMP, TechNode, Rest of World). NUNCA copie o título original verbatim. main_find.title tem até 15 palavras; quick_finds[].title e radar[].title, até 10. Reformule também se o original for sensacionalista.
 - main_find.source / quick_finds[].source: campo OBRIGATÓRIO — não omita. Copie exatamente o valor de "source" do item de input correspondente, mesmo que você já cite a fonte por extenso dentro do body/signal — são dois campos separados, um não substitui o outro.
 - ANTI-REDUNDÂNCIA título↔corpo (obrigatório): o title já entrega o fato central — main_find.body e bullets, e quick_finds[].signal, NÃO PODEM reformular o título com os mesmos números/palavras-chave. main_find.body/bullets aprofundam com o que o título NÃO cobre: mecanismo (como funciona na prática), comparação (com o quê concorre/se compara), contexto de mercado, ou consequência concreta — ver Exemplo 11c e 11d. quick_finds[].signal segue o mesmo princípio mas com informação mais limitada (só título/metadados) — ver regra específica abaixo e Exemplo 11e. Teste rápido: se alguém já leu o título, o texto precisa ensinar algo que ele ainda não sabe — não parafrasear o que ele acabou de ler.
 - main_find.body: 3-5 frases. SEMPRE comece com atribuição ("Segundo [fonte]", "De acordo com [fonte]"). Depois, aprofunde (não repita o título) explicando por que importa pro leitor. Termine com uma linha de implicação prática iniciada com "→".
