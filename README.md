@@ -92,6 +92,7 @@ pytest tests/
 | `social-post.yml` | diário, 3h depois do envio | posta o resumo social da edição |
 | `security.yml` | semanal + PRs que tocam deps | `pip-audit` nas dependências |
 | `codeql.yml` | semanal + push/PR em `.py` | análise estática (CodeQL) do código Python |
+| `tests.yml` | push/PR em `.py` ou dependências | roda a suíte pytest (`tests/`) |
 
 Dependências são gerenciadas via Dependabot (`.github/dependabot.yml`), com versões pinadas em `requirements.txt`/`requirements-dev.txt` — os bumps chegam como PR em vez de silenciosos.
 
