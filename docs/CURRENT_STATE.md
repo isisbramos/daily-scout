@@ -20,7 +20,7 @@
 ## Versão atual: Pipeline v5.4
 
 **Branch:** `main`
-**Modelo:** DeepSeek V3 (`deepseek-chat` via OpenAI SDK, `https://api.deepseek.com`)
+**Modelo:** DeepSeek (`deepseek-v4-flash` via OpenAI SDK, `https://api.deepseek.com` — nome centralizado em `llm_config.py`, trocável via env var `DEEPSEEK_MODEL`)
 **Framework editorial:** v5.4 (AI Gate + filtro léxico anti-hype + filtro estrutural anti-opinion)
 
 ---
@@ -66,10 +66,10 @@
 ┌─────────────────────────────────────────────────────────────────┐
 │  CURADORIA — AYA (pipeline.py)                                  │
 │                                                                 │
-│  Model: DeepSeek V3 (deepseek-chat)                             │
+│  Model: DeepSeek (deepseek-v4-flash, ver llm_config.py)         │
 │  SDK: openai (OpenAI-compatible)                                │
 │  Temperature: 0.0                                               │
-│  Max output tokens: 16384                                       │
+│  Max output tokens: 32768                                       │
 │  Output mode: Structured (Pydantic schema)                      │
 │                                                                 │
 │  Framework editorial v5.4 — 5 steps + 2 filtros paralelos:     │
@@ -157,7 +157,7 @@ CurationOutput
 | `social-post.yml` | Cron | 14:00 UTC (11:00 BRT) | Post LinkedIn (+3h após email) | ⏸ Pausado |
 
 **Secrets configurados:**
-- `DEEPSEEK_API_KEY` — DeepSeek V3 (migrado de `GEMINI_API_KEY` em 24/04/2026)
+- `DEEPSEEK_API_KEY` — DeepSeek (migrado de `GEMINI_API_KEY` em 24/04/2026)
 - `BUTTONDOWN_API_KEY` — entrega de email
 - `FEEDBACK_BASE_URL` — URL do feedback collector
 
@@ -253,7 +253,7 @@ daily-scout-v3/
 
 | Serviço | Uso | Criticidade |
 |---------|-----|-------------|
-| DeepSeek V3 (`deepseek-chat`) | Curadoria editorial (LLM) | 🔴 P0 — pipeline falha sem ele |
+| DeepSeek (`deepseek-v4-flash`) | Curadoria editorial (LLM) | 🔴 P0 — pipeline falha sem ele |
 | Buttondown | Entrega de email | 🔴 P0 — newsletter não sai |
 | Reddit API | Coleta community | 🟡 P1 — 1 de 22 fontes |
 | GitHub Actions | Automação diária | 🔴 P0 — pipeline não dispara |

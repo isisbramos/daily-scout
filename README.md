@@ -11,7 +11,7 @@ Pipeline por trás da **AYA**, uma newsletter diária de tech & IA com curadoria
 ## Como funciona
 
 ```
-sources/ (31 fontes config-driven, 22 habilitadas)
+sources/ (22 fontes habilitadas em sources_config.json)
     │   Reddit, HackerNews, Lobsters, TechCrunch, arXiv, blogs de labs de IA (Anthropic,
     │   OpenAI, DeepMind, Meta, Mistral, Qwen, HuggingFace...), fontes geográficas (Brasil,
     │   China, Rest of World)
@@ -99,4 +99,4 @@ Dependências são gerenciadas via Dependabot (`.github/dependabot.yml`), com ve
 
 `docs/` tem o histórico completo: snapshot do estado atual (`CURRENT_STATE.md`), visão de produto (`PRODUCT.md`), evolução técnica (`DOC_PROCESSO_DAILY_SCOUT.md`), evolução editorial (`EDITORIAL_RETROSPECTIVE.md`), roadmap (`ROADMAP.md`) e o estudo de fontes (`SOURCES_STUDY.md`).
 
-> `CURRENT_STATE.md` e `PRODUCT.md` têm trechos desatualizados (contagem de fontes, nome do LLM de curadoria) — o código-fonte é sempre a referência final.
+> `CURRENT_STATE.md` e `PRODUCT.md` são snapshots mantidos manualmente e podem ficar desatualizados (status de features, datas, backlog) — o código-fonte é sempre a referência final. A contagem de fontes acima é travada por `tests/test_docs_sync.py` contra `sources_config.json` — rode `python scripts/source_stats.py` pra conferir o número real.

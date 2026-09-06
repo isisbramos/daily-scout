@@ -8,7 +8,7 @@
 
 O **AYA's Daily** é uma newsletter diária automatizada que resolve o problema de information overload no universo de tech & IA. Em vez de acompanhar dezenas de feeds, threads e newsletters, o leitor recebe um briefing editorial com o que realmente importa — curado com critério, escrito com clareza.
 
-A "correspondente" é a **Aya** — uma persona de IA com voz, ponto de vista e consistência editorial. Ela monitora 10 fontes globais por dia, filtra ruído com critérios editoriais precisos, e entrega uma edição que parece escrita por uma colunista, não por um bot.
+A "correspondente" é a **Aya** — uma persona de IA com voz, ponto de vista e consistência editorial. Ela monitora 22 fontes globais por dia, filtra ruído com critérios editoriais precisos, e entrega uma edição que parece escrita por uma colunista, não por um bot.
 
 ---
 
@@ -29,13 +29,13 @@ O AYA's Daily existe pra resolver os três.
 Um pipeline automatizado end-to-end que roda diariamente sem intervenção manual:
 
 ```
-10 fontes globais
+22 fontes globais
     │
     ▼
 Pre-filter estatístico (z-score, recency decay, wild card zone)
     │
     ▼
-Aya — Gemini Flash com framework editorial de 5 steps
+Aya — DeepSeek com framework editorial de 5 steps
     │  AI Gate → Critérios → Anti-signal → Ranking → Teste final
     │
     ▼
@@ -54,7 +54,7 @@ Três coisas que o AYA's Daily faz que a maioria das newsletters de tech/AI não
 Não é uma cobertura genérica de tech. Tudo passa pelo AI Gate: qual o ângulo AI dessa história? Se não tem, só entra se for excepcional. Isso cria foco, não filtro de bolha.
 
 **2. Perspectiva global (não-ocidental)**
-Das 10 fontes monitoradas, 3 são geográficas (SCMP Tech, Rest of World, TechNode) — cobrem Ásia, Global South e perspectivas fora do eixo US/EU que a maioria das newsletters ignora.
+Das 22 fontes monitoradas, 5 são geográficas (SCMP Tech, Rest of World, TechNode, Agência Brasil, MIT Tech Review Brasil) — cobrem Ásia, Global South e LatAm, perspectivas fora do eixo US/EU que a maioria das newsletters ignora.
 
 **3. Aya tem voz, não é um digest anônimo**
 A Aya é uma persona consistente: factual, sem hype, com ângulo editorial definido. Ela explica o que algo *é* e por que *importa* — não amplifica o que já está sendo amplificado.
@@ -111,9 +111,9 @@ A direção de longo prazo é expandir audiência e explorar modelos de monetiza
 
 | Componente | Tecnologia | Papel |
 |-----------|-----------|-------|
-| Coleta | Reddit API, HN API, RSS (10 fontes) | Fetch de conteúdo diário |
+| Coleta | Reddit API, HN API, RSS (22 fontes) | Fetch de conteúdo diário |
 | Pre-filter | Python (z-score, exponential decay) | Reduz ~300 → 40 itens candidatos |
-| Curadoria | Gemini 2.5 Flash + framework editorial v5.3 | Seleciona + escreve a edição |
+| Curadoria | DeepSeek + framework editorial v5.4 | Seleciona + escreve a edição |
 | Validação | `validate_tone()` — hype detector com retry | Garante tom factual |
 | Entrega | Jinja2 (HTML) → Buttondown API | Email para subscribers |
 | Social | LinkedIn API | Post de distribuição diário |
