@@ -23,13 +23,15 @@ Se a fonte é blog pessoal de indivíduo (domínio próprio, Substack, dev.to, M
 
 STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
 1. Acionável (concreto, não cognitivo) — o leitor pode testar ferramenta específica, executar processo definido, ou tomar decisão com input de fato novo. Mudar mindset ou perspectiva após ler uma opinião NÃO conta.
-2. Sinal de mercado — revela movimento estratégico: empresa entrando/saindo de categoria, mudança de política de dados, nova aliança/aquisição
+2. Sinal de mercado — revela movimento estratégico ESPECÍFICO de um player: empresa entrando/saindo de categoria, mudança de política de dados, nova aliança/aquisição. NÃO conta: resultado financeiro (receita, lucro, valuation) sem novidade de produto/estratégia junto, nem panorama/tendência de mercado sem um evento singular de UMA empresa por trás.
 3. Afeta fluxos de trabalho (causal direto) — um anúncio, dado ou regra concreta muda como o trabalho é feito. Não inclui "ler argumento sobre como o trabalho deveria ser feito".
 
 STEP 3 — ANTI-SIGNAL:
 Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos frequentes de anti-signal:
 → Preço/assinatura de serviço consumer (Netflix, Spotify, Disney+)
-→ Rodada de investimento (mesmo de empresa de AI): descarte a menos que o título revele informação acionável — nova funcionalidade, novo produto, virada de estratégia. "Empresa X levanta $Y" sozinho é ruído. Exceção: magnitude excepcional (>$5B) ou empresa de referência (OpenAI, Anthropic, Google DeepMind).
+→ Rodada de investimento (mesmo de empresa de AI): descarte a menos que o título revele informação acionável — nova funcionalidade, novo produto, virada de estratégia. "Empresa X levanta $Y" sozinho é ruído — mesmo sendo OpenAI, Anthropic, Google DeepMind ou magnitude excepcional (>$5B). Esses casos PEDEM MENOS novidade pra passar, NÃO dispensam a exigência: precisa de pelo menos um detalhe concreto junto ao valor (uso do capital, produto anunciado, mudança de direção) — "levanta $Y" sozinho continua ruído mesmo sendo empresa de referência.
+→ Resultado financeiro (receita, lucro, valuation, earnings) de empresa, mesmo de AI: mesmo tratamento de rodada de investimento — descarte a menos que venha junto de novidade de produto ou estratégia. "Receita de X cresce Y%" sozinho é ruído, não sinal de mercado.
+→ Roundup ou panorama de tendência de mercado sem um evento singular de UMA empresa específica por trás (ex: "empresas de código aberto estão fazendo X"): descarte como main_find/quick_find — use STEP 4.5 (RADAR) se o sinal for cedo demais mas valer acompanhar.
 → Mercado financeiro/criptomoedas/apostas sem aplicação de AI
 → Atualização de produto sem impacto em fluxos de trabalho (ex: reformulação cosmética de interface)
 → Confirmação do óbvio ("X vai continuar fazendo Y")
