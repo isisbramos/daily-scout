@@ -70,20 +70,11 @@ jobs:
       - name: Persist editorial memory
         # Isolado: a newsletter já foi enviada no passo anterior. Qualquer falha de git
         # (branch protection, detached HEAD, etc.) NÃO pode falhar o job nem afetar o envio.
+        # scripts/persist_to_git.sh faz retry do push e, se esgotar, avisa alto (step
+        # summary + exit != 0) em vez de engolir a falha em silêncio.
         if: success() && github.event.inputs.dry_run != 'true'
         continue-on-error: true
-        run: |
-          if [ -z "$(git status --porcelain memory/editions.jsonl)" ]; then
-            echo "Sem mudanças na memória editorial — nada a commitar."
-            exit 0
-          fi
-          git config user.name "aya-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add memory/editions.jsonl
-          git commit -m "chore(memory): registra edição ${{ steps.edition.outputs.number }}" || { echo "nada a commitar"; exit 0; }
-          # Atualiza antes de empurrar; nunca falha o passo (HEAD:main funciona mesmo em detached HEAD)
-          git pull --rebase --autostash origin main || echo "pull --rebase falhou — seguindo para push"
-          git push origin HEAD:main || echo "push falhou — memória não persistida hoje (newsletter já enviada, sem impacto)"
+        run: 'scripts/persist_to_git.sh memory/editions.jsonl "chore(memory): registra edição ${{ steps.edition.outputs.number }}"'
 
       - name: Persist vault note (Stage A — outbox pro vault pessoal)
         # Mesmo isolamento do passo de memória editorial: a newsletter já foi enviada,
@@ -91,17 +82,7 @@ jobs:
         # roda localmente — ver scripts/sync_to_vault.py.
         if: success() && github.event.inputs.dry_run != 'true'
         continue-on-error: true
-        run: |
-          if [ -z "$(git status --porcelain vault-outbox/)" ]; then
-            echo "Sem nota nova pro vault — nada a commitar."
-            exit 0
-          fi
-          git config user.name "aya-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add vault-outbox/
-          git commit -m "chore(vault): nota da edição ${{ steps.edition.outputs.number }}" || { echo "nada a commitar"; exit 0; }
-          git pull --rebase --autostash origin main || echo "pull --rebase falhou — seguindo para push"
-          git push origin HEAD:main || echo "push falhou — nota não persistida hoje (newsletter já enviada, sem impacto)"
+        run: 'scripts/persist_to_git.sh vault-outbox/ "chore(vault): nota da edição ${{ steps.edition.outputs.number }}"'
 
       - name: Upload output artifacts (newsletter + social)
         if: always()
