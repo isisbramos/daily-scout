@@ -20,6 +20,15 @@
     .msg-error{color:#F59E0B;font-size:14px;margin-top:12px}
     .tracking-status{color:#334155;font-size:10px;margin-top:32px;transition:color 0.3s}
     .tracking-status.ok{color:#22C55E}.tracking-status.fail{color:#F59E0B}
+    .comment-block{margin-top:20px;text-align:left;border:1px solid #334155;padding:14px;background:#111827}
+    .comment-label{color:#818CF8;font-size:11px;letter-spacing:0.5px;margin-bottom:8px}
+    .comment-input{width:100%;background:#0F172A;color:#CBD5E1;border:1px solid #334155;font-family:inherit;font-size:12px;padding:8px;resize:vertical;min-height:56px}
+    .comment-input:focus{outline:none;border-color:#22C55E}
+    .comment-actions{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .comment-submit{background:transparent;color:#22C55E;border:1px solid #22C55E;font-family:inherit;font-size:11px;padding:6px 14px;cursor:pointer;letter-spacing:0.5px}
+    .comment-submit:disabled{color:#334155;border-color:#334155;cursor:default}
+    .comment-skip{color:#475569;font-size:11px;cursor:pointer;text-decoration:underline}
+    .comment-thanks{color:#22C55E;font-size:12px}
   </style>
 </head>
 <body>
@@ -32,6 +41,14 @@
       <div class="emoji-big" id="rating-emoji"></div>
       <div class="msg-primary">Feedback recebido!</div>
       <div class="msg-secondary">AYA agradece o signal.<br>Isso ajuda a calibrar a curadoria de amanhã.</div>
+      <div class="comment-block" id="comment-block">
+        <div class="comment-label">quer contar mais? (opcional)</div>
+        <textarea id="comment-input" class="comment-input" maxlength="500" placeholder="o que valeu a pena hoje, ou o que sentiu falta?"></textarea>
+        <div class="comment-actions">
+          <button id="comment-submit" class="comment-submit" disabled>enviar</button>
+          <span id="comment-skip" class="comment-skip">pular</span>
+        </div>
+      </div>
       <div class="edition-tag" id="edition-tag"></div>
       <div class="close-hint">Pode fechar essa aba.</div>
       <div class="tracking-status" id="tracking-status">syncing...</div>
@@ -43,7 +60,7 @@
     </div>
   </div>
   <script>
-    const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyw2XEtRTCHNHw6ivJ8Bp763LxRua_rtXW9D56DrO3qDxuiHsaGjGK2hxTqRtn4zRLy/exec";
+    const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwZcWYGmKQ9sTO1ibCE2Vhs87H1f2M8tOwjo6SAVImG1NHfutUHDcovdCRhl4bkEFV5cQ/exec";
     const RATING_MAP={fire:{emoji:"🔥",label:"Loved it"},solid:{emoji:"👍",label:"Solid"},meh:{emoji:"😐",label:"Meh"}};
     const params=new URLSearchParams(window.location.search);
     const edition=params.get("edition"),rating=params.get("rating");
@@ -52,6 +69,21 @@
       document.getElementById("rating-emoji").textContent=RATING_MAP[rating].emoji;
       document.getElementById("edition-tag").textContent="edition #"+edition+" · "+RATING_MAP[rating].label;
       (async()=>{const s=document.getElementById("tracking-status");try{const r=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({edition,rating,referrer:document.referrer||"email"})});if(r.ok){s.textContent="signal: synced ✓";s.classList.add("ok")}else throw new Error()}catch{try{new Image().src=APPS_SCRIPT_URL+"?edition="+edition+"&rating="+rating+"&referrer=email-fallback";s.textContent="signal: synced (fallback) ✓";s.classList.add("ok")}catch{s.textContent="signal: offline";s.classList.add("fail")}}})();
+      const commentBlock=document.getElementById("comment-block");
+      const commentInput=document.getElementById("comment-input");
+      const commentSubmit=document.getElementById("comment-submit");
+      const commentSkip=document.getElementById("comment-skip");
+      commentInput.addEventListener("input",()=>{commentSubmit.disabled=!commentInput.value.trim()});
+      commentSkip.addEventListener("click",()=>{commentBlock.style.display="none"});
+      commentSubmit.addEventListener("click",async()=>{
+        const comment=commentInput.value.trim();
+        if(!comment)return;
+        commentSubmit.disabled=true;
+        commentSubmit.textContent="enviando...";
+        try{const r=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({type:"comment",edition,rating,comment})});if(!r.ok)throw new Error()}
+        catch{try{new Image().src=APPS_SCRIPT_URL+"?type=comment&edition="+encodeURIComponent(edition)+"&rating="+encodeURIComponent(rating)+"&comment="+encodeURIComponent(comment)}catch{}}
+        commentBlock.innerHTML='<div class="comment-thanks">obrigada 🙏 — isso ajuda mais que o clique.</div>';
+      });
     }else{document.getElementById("state-error").classList.add("active")}
   </script>
 </body>
