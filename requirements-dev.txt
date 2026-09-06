@@ -2,6 +2,6 @@
 # (daily-scout.yml só instala requirements.txt). Necessárias para rodar
 # tests/, scripts/validate_v54_patches.py e brand-assets/make-gif.py.
 -r requirements.txt
-pytest==8.4.2
+pytest==9.0.3
 python-dotenv==1.2.1
 pillow==12.3.0
