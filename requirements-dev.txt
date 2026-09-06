@@ -3,5 +3,5 @@
 # tests/, scripts/validate_v54_patches.py e brand-assets/make-gif.py.
 -r requirements.txt
 pytest==9.0.3
-python-dotenv==1.2.1
+python-dotenv==1.2.2
 pillow==12.3.0
