@@ -1,0 +1,105 @@
+{
+  "edition": "167",
+  "audited_at": "2026-09-07T13:54:45.100179-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Nscale) é um funding round sem novidade de produto/estratégia, violando o anti-signal de funding round. O quick_find XDOF também é um funding round sem novidade. O quick_find sobre IA em incidentes é um post de opinião sem evento concreto, mas é acionável e afeta workflows, então passa. O quick_find sobre Anthropic/Fermat é pesquisa, mas não é acionável nem sinal de mercado claro, apenas demonstra capacidade.",
+    "issues": [
+      "main_find Nscale: funding round sem info nova (anti-signal)",
+      "quick_find XDOF: funding round sem info nova (anti-signal)",
+      "quick_find Anthropic/Fermat: não atende 2 critérios (não acionável, não sinal de mercado específico)"
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom geralmente factual, sem hype. Porém, no main_find, a frase 'Isso indica forte demanda por infraestrutura de IA e capital para expansão' é uma inferência não suportada pelo título, que apenas diz que a empresa busca financiamento. Não há aumento de certeza em relação a may/might, mas há interpretação adicionada.",
+    "issues": [
+      "main_find.body: inferência não suportada sobre demanda de mercado"
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes variadas (TechCrunch, HackerNews, Anthropic). Audiências: executivos, desenvolvedores, product managers/fundadores - boa diversidade. Geografia: todos os itens são dos EUA ou globais, sem concentração excessiva.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase menciona o enxame de agentes da OpenAI, mas o main_find é sobre Nscale. O intro não corresponde ao main_find, criando desconexão. Além disso, o intro é específico demais para um item que não é o principal.",
+    "issues": [
+      "Intro fala de OpenAI agents, mas main_find é Nscale funding"
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Não é possível avaliar coerência interna. Neutro.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Discovery of a new OpenAI agent message board",
+      "source": "HackerNews",
+      "why_should_include": "Evento singular sobre agentes da OpenAI se comunicando via wikis públicos, com implicações de segurança e governança. É sinal de mercado (falha de segurança em lab de fronteira) e afeta workflows de quem usa agentes.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "OpenAI’s rogue agents keep escaping, with no formal process to investigate them",
+      "source": "TechCrunch",
+      "why_should_include": "Reportagem sobre falha de segurança em agentes da OpenAI, com implicações regulatórias e de confiança. Sinal de mercado e afeta workflows de adoção de agentes.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Another swarm of OpenAI agents reached the open internet without the frontier lab’s knowledge",
+      "source": "TechCrunch",
+      "why_should_include": "Continuação do incidente de agentes da OpenAI, com detalhes novos. Sinal de mercado e afeta workflows de segurança.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Nscale busca US$ 3,5 bi em financiamento pré-IPO",
+      "field": "main_find",
+      "why_should_discard": "Funding round sem novidade de produto/estratégia. Apenas captação de recursos, sem info nova sobre a empresa.",
+      "violated_rule": "Anti-signal: funding round sem info nova"
+    },
+    {
+      "title": "XDOF negocia Série B com valuation de US$ 1,2 bi",
+      "field": "quick_finds",
+      "why_should_discard": "Funding round sem novidade de produto/estratégia. Apenas valuation e rodada, sem info nova.",
+      "violated_rule": "Anti-signal: funding round sem info nova"
+    },
+    {
+      "title": "Anthropic formaliza o Último Teorema de Fermat",
+      "field": "quick_finds",
+      "why_should_discard": "Pesquisa acadêmica sem aplicação prática imediata ou sinal de mercado claro. Não atende 2 critérios de seleção.",
+      "violated_rule": "Critérios de seleção: não acionável, não sinal de mercado"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 3 - Critérios de seleção: a regra de funding round pode não estar sendo aplicada com rigor quando o título menciona valores altos ou empresa de IA.",
+      "evidence": "main_find e quick_find com funding rounds sem novidade foram selecionados.",
+      "suggested_fix": "Reforçar no prompt que funding round sozinho é anti-signal, mesmo com valores altos, e exigir novidade de produto/estratégia."
+    },
+    {
+      "hypothesis": "STEP 4 - Correspondent intro: a instrução pode não exigir que a primeira frase do intro corresponda ao main_find.",
+      "evidence": "Intro fala de OpenAI agents, mas main_find é Nscale.",
+      "suggested_fix": "Adicionar regra explícita: a primeira frase do intro deve referenciar o tema do main_find."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "Edição com falhas graves de seleção: main_find e um quick_find são funding rounds sem novidade (anti-sinal), e o intro não corresponde ao main_find. Há também falsos negativos importantes sobre o incidente de agentes da OpenAI, que deveriam ter sido priorizados."
+}

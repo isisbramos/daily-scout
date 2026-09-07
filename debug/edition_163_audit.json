@@ -1,0 +1,101 @@
+{
+  "edition": "163",
+  "audited_at": "2026-09-07T13:53:55.644464-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find sobre regulação de data centers na Califórnia é um anti-signal: é um panorama/regulação governamental sem conexão direta com AI/ML no título, e não há evidência de que a regulação seja especificamente sobre IA. Além disso, o item é um post do Reddit sem detalhes concretos, falhando nos critérios de acionabilidade e sinal de mercado. Os quick_finds incluem itens com conexão com IA (Manus, Apple/OpenAI, WeChat Pay), mas o item da Apple é um caso legal sem novidade de produto/estratégia, e o WeChat Pay é um lançamento de produto acionável, mas o título não menciona AI explicitamente, embora o contexto de agentes de IA esteja implícito.",
+    "issues": [
+      "main_find (Califórnia data centers) não passa no AI Gate: título não menciona AI/ML, e a regulação é sobre infraestrutura geral, não especificamente IA.",
+      "main_find é um anti-signal: regulação governamental sem magnitude excepcional (não é >$1B, shutdown, etc.) e sem conexão clara com AI.",
+      "quick_find 'Apple apresenta evidências' é um caso legal/segurança sem novidade de produto/estratégia, falhando nos critérios de seleção.",
+      "quick_find 'WeChat Pay expande cartão AgentPay' tem conexão com AI (agentes), mas o título original não menciona AI; ainda assim, o contexto de agentes de IA é suficiente para passar no AI Gate, mas o item é mais um lançamento de produto acionável, o que é válido."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é factual, sem palavras de hype evidentes. No entanto, há aumento de certeza em alguns itens: o main_find sobre a Califórnia usa 'decidiu regular' no step5_phrase, enquanto o título original diz 'take their big swing', que é menos definitivo. O quick_find sobre Manus afirma 'retomou operações' como confirmado, mas o título diz 'resumes solo operations', o que é consistente. O quick_find sobre WeChat Pay diz 'expandiu', mas o título diz 'expands', o que é consistente. Não há informação inventada óbvia, mas o main_find adiciona detalhes sobre 'consumo de energia, uso de água e impacto ambiental' que não estão no título original, o que pode ser inferência não verificada.",
+    "issues": [
+      "main_find.step5_phrase: 'A Califórnia decidiu regular data centers' aumenta a certeza em relação ao título original que usa 'take their big swing' (tentativa, não decisão).",
+      "main_find.body adiciona detalhes específicos (energia, água, impacto ambiental) que não estão no título original, possivelmente inventados ou inferidos sem fonte."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "As fontes são diversificadas: main_find do Reddit, quick_finds do SCMP, TechCrunch e TechNode. As audiências variam: executivos de negócio, product managers/fundadores, desenvolvedores. Geograficamente, há itens dos EUA (Califórnia, Apple) e da China (Manus, WeChat Pay), o que é equilibrado. Não há mais de 2 itens da mesma fonte entre os selecionados.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase do correspondent_intro menciona o tema específico do main_find (decisão da Califórnia de regular data centers), o que é bom. No entanto, a frase 'um movimento que pode redefinir onde a IA é construída' é especulativa e não está suportada pelo título original, que não menciona IA. Além disso, o intro é curto e não dá contexto adicional, mas atende ao requisito de mencionar o main_find.",
+    "issues": [
+      "A frase 'um movimento que pode redefinir onde a IA é construída' é uma inferência não suportada pelo título original, que não menciona IA."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O campo reasoning está ausente neste output, conforme instruções. Portanto, não é possível avaliar a coerência interna. Atribuo score 3 (neutro) e registro a ausência como issue de observability, não editorial.",
+    "issues": [
+      "Campo reasoning ausente (observability, não editorial)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "China makes mandatory L3/L4 autonomous-driving standard public",
+      "source": "TechNode",
+      "why_should_include": "Passa no AI Gate (direção autônoma envolve AI/ML), é acionável (empresas precisarão se adaptar ao padrão) e é um sinal de mercado (movimento regulatório específico da China).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Anthropic deliberately trained a bad model to prove what caused this summer's Claude sandbox breakouts",
+      "source": "r/artificial",
+      "why_should_include": "Passa no AI Gate (Anthropic, Claude, segurança de IA), é acionável (insights para práticas de segurança) e é um sinal de mercado (estratégia de pesquisa da Anthropic).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "The Hugging Face hack could indicate cultural issues at OpenAI",
+      "source": "MIT Technology Review",
+      "why_should_include": "Passa no AI Gate (Hugging Face, OpenAI), é um sinal de mercado (implicações para a cultura de empresas de IA) e afeta workflows (segurança em empresas de IA).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Califórnia propõe regulação abrangente para data centers",
+      "field": "main_find",
+      "why_should_discard": "Não passa no AI Gate (título não menciona AI/ML) e é um anti-signal (regulação governamental sem magnitude excepcional).",
+      "violated_rule": "STEP 1 - AI Gate"
+    },
+    {
+      "title": "Apple apresenta evidências contra ex-funcionário acusado de vazar dados para OpenAI",
+      "field": "quick_finds",
+      "why_should_discard": "É um caso legal/segurança sem novidade de produto/estratégia, falhando nos critérios de seleção (não é acionável para o leitor de tech, não é sinal de mercado específico de AI, não afeta workflows).",
+      "violated_rule": "Critérios de seleção (precisa de pelo menos 2 de 3)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP 1 (AI Gate) pode estar sendo interpretado de forma muito ampla, permitindo itens de regulação de infraestrutura geral como se fossem de IA.",
+      "evidence": "O main_find sobre data centers da Califórnia foi selecionado apesar de não mencionar AI/ML no título.",
+      "suggested_fix": "Reforçar no prompt que a regulação deve ser especificamente sobre IA/ML ou ter impacto direto em empresas de IA, não apenas infraestrutura."
+    },
+    {
+      "hypothesis": "A regra de anti-signal para regulação governamental pode não estar sendo aplicada corretamente, pois o main_find é um exemplo de regulação sem magnitude excepcional.",
+      "evidence": "O main_find foi selecionado como principal, mas é um anti-signal.",
+      "suggested_fix": "Adicionar exemplos explícitos de regulação que não passam (ex: regulação de data centers sem menção a IA) e os que passam (ex: regulação específica de modelos de IA)."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find que falha no AI Gate e é um anti-signal, além de um quick_find (Apple) que não atende aos critérios de seleção. Há false negatives claros (padrão L3/L4 da China, pesquisa da Anthropic, hack do Hugging Face) que deveriam ter sido incluídos. O tom é majoritariamente factual, mas há aumento de certeza no main_find. A diversidade é boa, mas a qualidade geral é comprometida pela seleção inadequada."
+}

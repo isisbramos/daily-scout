@@ -1,0 +1,90 @@
+{
+  "edition": "169",
+  "audited_at": "2026-09-07T13:55:04.988396-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Baidu) passa no AI Gate e é acionável, mas o sinal de mercado é fraco (apenas um lançamento agendado, sem detalhes de produto). O quick_find sobre SenseTime é borderline: é resultado financeiro (lucro) sem novidade de produto/estratégia específica, o que configura anti-signal. O quick_find sobre DeepSeek é especulativo (reportedly) e carece de detalhes concretos, mas ainda assim tem sinal de mercado. O quick_find sobre autores vs. Anthropic é relevante e passa nos critérios. O quick_find sobre recrutamento é pesquisa, mas não é acionável para o público-alvo.",
+    "issues": [
+      "SenseTime: resultado financeiro (lucro) sem novidade de produto/estratégia específica — viola anti-signal de 'resultado financeiro sem novidade'.",
+      "Baidu: sinal de mercado fraco, apenas anúncio de data de lançamento sem detalhes de produto — pode não satisfazer 2 critérios claramente."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é factual e sem hype. Não há palavras de exagero. O main_find sobre Baidu mantém o nível de certeza do título original (agendado). O quick_find sobre DeepSeek usa 'estaria planejando' e 'se confirmado', preservando a incerteza. Não há informações inventadas aparentes.",
+    "issues": []
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: main_find (TechNode), quick_finds (SCMP, TechNode, TechCrunch, arXiv) — TechNode aparece duas vezes, mas não é excessivo. Audiências: 'todos', 'executivos de negócio', 'product managers e fundadores' — há variedade. Geografia: dois itens da China (Baidu, SenseTime, DeepSeek) e um dos EUA (Anthropic) — razoável, mas China está super-representada (3 de 5 itens).",
+    "issues": [
+      "China super-representada: 3 de 5 itens (Baidu, SenseTime, DeepSeek) são da China."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 5,
+    "rationale": "A primeira frase menciona especificamente a Baidu e o hardware de IA, alinhada ao main_find. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning descreve descartes coerentes, mas há contradição: menciona que descartou 'blogs corporativos sem novidade acionável' e 'posts de opinião', mas não explica por que o SenseTime (resultado financeiro) foi mantido. O main_find_rationale é fraco: justifica o main_find como 'acionável e sinal de mercado', mas o sinal de mercado é questionável. A perspective_check não é explicitamente mencionada no reasoning, mas a diversidade geográfica é citada.",
+    "issues": [
+      "Contradição: reasoning diz que descartou 'resultado financeiro sem novidade', mas manteve SenseTime (lucro).",
+      "main_find_rationale não explica por que Baidu é mais forte que DeepSeek ou SenseTime."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Huawei unveils new trifold smartphone powered by Tau Scaling Law-based Kirin chip",
+      "source": "SCMP Tech",
+      "why_should_include": "Tem conexão com AI (chip baseado em Tau Scaling Law), é um lançamento de produto com sinal de mercado claro (Huawei inovando em hardware com AI) e afeta workflows de consumo de tecnologia.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "China’s Moonshot and Z.ai bring AI model subscription race to Tmall’s retail shelves",
+      "source": "SCMP Tech",
+      "why_should_include": "Evento singular de duas empresas de AI (Moonshot e Z.ai) vendendo assinaturas de modelos em varejo físico — sinal de mercado específico e acionável para consumidores.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Travis Kalanick’s Atoms might be getting into the robotaxi business",
+      "source": "TechCrunch",
+      "why_should_include": "Movimento estratégico de uma empresa (Atoms) para entrar em robotáxi, que é um domínio de AI/automação — sinal de mercado claro, mesmo com incerteza.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "SenseTime lucra com IA generativa enquanto concorrentes chineses sofrem",
+      "field": "quick_finds",
+      "why_should_discard": "É resultado financeiro (lucro) sem novidade de produto ou estratégia específica — apenas um panorama de mercado.",
+      "violated_rule": "Anti-signal: resultado financeiro sem novidade de produto/estratégia"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A regra de anti-signal para resultado financeiro pode não estar sendo aplicada com rigor quando o título menciona 'IA generativa'.",
+      "evidence": "SenseTime foi incluído apesar de ser essencialmente um resultado financeiro.",
+      "suggested_fix": "Reforçar no prompt que a menção a 'IA' não isenta o item de ter novidade de produto/estratégia."
+    },
+    {
+      "hypothesis": "O critério de 'sinal de mercado' pode estar sendo interpretado de forma ampla, aceitando anúncios de lançamento sem detalhes concretos.",
+      "evidence": "Baidu foi escolhido como main_find com base apenas em data de lançamento, sem especificações do produto.",
+      "suggested_fix": "Exigir que o sinal de mercado inclua um movimento estratégico específico (mudança de categoria, parceria, etc.), não apenas um evento agendado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem problemas de seleção: inclui um anti-signal (SenseTime) e o main_find é fraco em sinal de mercado. Há bons itens no input que foram ignorados (Huawei, Moonshot/Z.ai, Atoms). O tom e a intro estão corretos, mas a diversidade geográfica pende para a China."
+}
