@@ -164,12 +164,14 @@ AI GATE (obrigatório): o item tem conexão com AI/ML, automação inteligente, 
 
 CRITÉRIOS DE SELEÇÃO (precisa de pelo menos 2 de 3):
 1. Acionável — o leitor pode testar ferramenta, mudar processo, tomar decisão
-2. Sinal de mercado — revela movimento estratégico: player mudando de categoria, shift de política, M&A
+2. Sinal de mercado — revela movimento estratégico ESPECÍFICO de um player: mudança de categoria, shift de política, M&A. NÃO conta: resultado financeiro (receita, lucro, valuation) sem novidade de produto/estratégia junto, nem panorama/tendência de mercado sem evento singular de UMA empresa.
 3. Afeta workflows — muda como pessoas trabalham com tech/AI no dia a dia
 
 ANTI-SIGNALS (descartar):
 - Preço/assinatura consumer (Netflix, Spotify)
-- Funding round sem info nova (feature, produto, shift de estratégia) — exceto >$5B ou OpenAI/Anthropic/DeepMind
+- Funding round sem info nova (feature, produto, shift de estratégia) — mesmo sendo >$5B ou OpenAI/Anthropic/DeepMind: esses casos pedem MENOS novidade pra passar, não dispensam a exigência. "Levanta $Y" sozinho é anti-signal mesmo sendo empresa de referência.
+- Resultado financeiro (receita, lucro, valuation, earnings) sem novidade de produto/estratégia junto — mesmo tratamento de funding round.
+- Roundup ou panorama de tendência de mercado sem evento singular de UMA empresa específica por trás.
 - Crypto/apostas sem AI
 - Rehashed news (evento já reportado sem info nova)
 - Blog corporativo de thought-leadership sem novidade concreta
@@ -239,6 +241,11 @@ Leia o campo reasoning.
 
 FALSE NEGATIVES (até 3):
 Olhe os itens do INPUT que NÃO aparecem no output.
+Só conta como false negative um item que PASSARIA no AI Gate E satisfaria pelo menos 2 dos 3
+CRITÉRIOS DE SELEÇÃO E não é anti-signal — a MESMA régua da DIMENSÃO 1, aplicada ao contrário.
+Tração/score alto (Reddit, HackerNews) NÃO substitui isso: se o item não tem conexão real com
+AI/ML, ou só teria "sinal de mercado" de tech geral sem ligação com AI, NÃO é false negative,
+mesmo com tração alta ou sendo "acionável" para algo fora do escopo AI.
 Identifique até 3 que deveriam ter sido selecionados mas ficaram de fora.
 
 FALSE POSITIVES (até 3):
