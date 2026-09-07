@@ -1,11 +1,22 @@
 """
-Daily Scout — Dashboard interno v1.0
+Daily Scout — Dashboard interno v2.0
 
 Painel operacional/editorial pra uso interno (Isis). NÃO é publicado no site —
 gera um HTML único e self-contained em output/dashboard.html (fora do git,
 já ignorado). Reaproveita as camadas determinísticas do content_report.py
 (aggregate_content, aggregate_quality, deterministic_insights) em vez de
 duplicar a lógica de agregação — este arquivo só cuida da renderização.
+
+Organizado por "job to be done", não por tipo de dado:
+  ① Ação agora   — insights + recorrências com evidência (edições) e severidade
+  ② Tendência     — score de qualidade ao longo do tempo (não só um antes/depois)
+  ③ Conteúdo      — temas/entidades/fontes/epistêmico/feedback
+  ④ Operação      — cadência de publicação + saúde da suíte de testes
+  ⑤ Log           — tabelas grandes de referência, colapsadas por padrão
+
+Cor nas barras é sempre amarrada a um limiar que já existe em
+content_report.py::deterministic_insights — nunca um threshold novo inventado
+só pra visual, senão a cor vira ruído em vez de sinal.
 
 Uso:
   python dashboard.py                      # últimas 30 edições, abre no navegador
@@ -49,29 +60,43 @@ TEST_RUNS_PATH = os.path.join(ROOT, "ci", "test_runs.jsonl")
 
 FEEDBACK_EMOJI = {"fire": "🔥", "solid": "👍", "meh": "😐"}
 
+# Limiares reaproveitados de content_report.py::deterministic_insights — a cor
+# de uma barra só existe se corresponder a uma regra que já dispara um insight.
+DIM_WEAK_THRESHOLD = 3.5          # dimensão <= isso é "ponto fraco"
+CONCENTRATION_THRESHOLD = 0.5     # tema em >=50% das edições é "monotonia"
+ESPECULATIVO_THRESHOLD = 50       # >=50% especulativo dilui confiabilidade
+
 
 def _esc(s) -> str:
     return html.escape(str(s), quote=True)
 
 
-def _bar(label: str, value: float, max_value: float, display: str | None = None) -> str:
+def _bar(label: str, value: float, max_value: float, display: str | None = None, bad: bool = False) -> str:
     pct = max(0, min(100, round(100 * value / max_value))) if max_value else 0
     disp = display if display is not None else str(value)
+    fill_class = "bar-fill bad" if bad else "bar-fill"
     return (
         '<div class="bar-row">'
         f'<span class="bar-label">{_esc(label)}</span>'
-        f'<div class="bar-track"><div class="bar-fill" style="width:{pct}%"></div></div>'
+        f'<div class="bar-track"><div class="{fill_class}" style="width:{pct}%"></div></div>'
         f'<span class="bar-count">{_esc(disp)}</span>'
         "</div>"
     )
 
 
-def render_counter_bars(counter, top_n: int = 10) -> str:
+def render_counter_bars(counter, top_n: int = 10, warn_share_of: int | None = None) -> str:
+    """warn_share_of: se passado, marca a barra do topo como 'bad' quando ela
+    sozinha responde por >=CONCENTRATION_THRESHOLD do total — mesma regra de
+    'concentração temática' do deterministic_insights."""
     if not counter:
         return "<p class='empty'>sem dados</p>"
     items = counter.most_common(top_n)
     maxc = items[0][1]
-    return "".join(_bar(label, c, maxc, display=str(c)) for label, c in items)
+    bars = []
+    for i, (label, c) in enumerate(items):
+        bad = bool(i == 0 and warn_share_of and c / warn_share_of >= CONCENTRATION_THRESHOLD)
+        bars.append(_bar(label, c, maxc, display=str(c), bad=bad))
+    return "".join(bars)
 
 
 def render_dim_bars(dim_avg: dict) -> str:
@@ -80,7 +105,8 @@ def render_dim_bars(dim_avg: dict) -> str:
     rows = []
     for key, label in _DIMS:
         if key in dim_avg:
-            rows.append(_bar(label, dim_avg[key], 5, display=f"{dim_avg[key]}/5"))
+            avg = dim_avg[key]
+            rows.append(_bar(label, avg, 5, display=f"{avg}/5", bad=avg <= DIM_WEAK_THRESHOLD))
     return "".join(rows)
 
 
@@ -88,7 +114,8 @@ def render_epistemic_bars(epistemic_pct: dict) -> str:
     if not epistemic_pct:
         return "<p class='empty'>sem claim_status registrado</p>"
     rows = [
-        _bar(label, pct, 100, display=f"{pct}%")
+        _bar(label, pct, 100, display=f"{pct}%",
+             bad=(label == "especulativo" and pct >= ESPECULATIVO_THRESHOLD))
         for label, pct in sorted(epistemic_pct.items(), key=lambda kv: -kv[1])
     ]
     return "".join(rows)
@@ -195,6 +222,53 @@ def render_ci_health(runs: list[dict]) -> str:
     return summary + table
 
 
+def render_score_trend(by_edition: list) -> str:
+    """Sparkline SVG do overall_score por edição auditada — substitui o
+    antes/depois grosseiro por uma linha real, ponto a ponto, com um limiar
+    tracejado no valor que já define 'dimensão fraca' em outros painéis."""
+    if len(by_edition) < 2:
+        return "<p class='empty'>precisa de pelo menos 2 edições auditadas pra traçar tendência</p>"
+
+    scores = [a.get("overall_score", 0) for _, a in by_edition]
+    n = len(scores)
+    w, h, pad = 640, 110, 12
+
+    def x(i):
+        return pad + i * (w - 2 * pad) / (n - 1)
+
+    def y(v):
+        return pad + (5 - v) * (h - 2 * pad) / 5
+
+    def dot_color(v):
+        if v <= 2:
+            return "#ff6b6b"
+        if v == 3:
+            return "#ffb454"
+        return "#1FE070"
+
+    points = " ".join(f"{x(i):.1f},{y(s):.1f}" for i, s in enumerate(scores))
+    dots = "".join(
+        f'<circle cx="{x(i):.1f}" cy="{y(s):.1f}" r="3.2" fill="{dot_color(s)}">'
+        f"<title>ed.{_esc(by_edition[i][0])}: {s}/5</title></circle>"
+        for i, s in enumerate(scores)
+    )
+    ref_y = y(DIM_WEAK_THRESHOLD)
+    first_ed, last_ed = by_edition[0][0], by_edition[-1][0]
+
+    svg = (
+        f'<svg viewBox="0 0 {w} {h}" width="100%" height="{h}" preserveAspectRatio="none">'
+        f'<line x1="{pad}" y1="{ref_y:.1f}" x2="{w - pad}" y2="{ref_y:.1f}" '
+        f'stroke="#3a4a42" stroke-dasharray="4,4" stroke-width="1"/>'
+        f'<polyline points="{points}" fill="none" stroke="#4FAE74" stroke-width="1.5"/>'
+        f"{dots}</svg>"
+    )
+    caption = (
+        f"<p class='empty'>ed.{_esc(first_ed)} → ed.{_esc(last_ed)} · linha tracejada = limiar de "
+        f"{DIM_WEAK_THRESHOLD} · passe o mouse num ponto pra ver a edição</p>"
+    )
+    return svg + caption
+
+
 def render_quality_table(by_edition: list, date_by_edition: dict) -> str:
     if not by_edition:
         return "<p class='empty'>sem audits ainda</p>"
@@ -213,12 +287,30 @@ def render_quality_table(by_edition: list, date_by_edition: dict) -> str:
     )
 
 
-def render_recurring_table(counter, col_label: str, min_count: int = 2) -> str:
+def render_recurring_with_evidence(counter, editions_by_key: dict, col_label: str,
+                                    min_count: int = 2, max_ed: int = 6, chronic_at: int = 4) -> str:
+    """Como render_recurring_table, mas cada linha mostra EM QUAIS edições
+    aconteceu (não só a contagem) e um selo de severidade — 🔴 quando já virou
+    padrão crônico (>=chronic_at ocorrências), 🟠 quando é recorrente mas
+    ainda recente. Sem isso, 'recorrente' não dizia onde ir investigar."""
     recurring = [(k, c) for k, c in counter.most_common() if c >= min_count]
     if not recurring:
-        return "<p class='empty'>nada recorrente (≥2×) na janela</p>"
-    rows = "".join(f"<tr><td>{_esc(k)}</td><td>{c}×</td></tr>" for k, c in recurring)
-    return f"<table><thead><tr><th>{_esc(col_label)}</th><th>Freq.</th></tr></thead><tbody>{rows}</tbody></table>"
+        return f"<p class='empty'>nada recorrente (≥{min_count}×) na janela</p>"
+    rows = []
+    for k, c in recurring:
+        eds = list(dict.fromkeys(editions_by_key.get(k, [])))  # dedup preservando ordem
+        shown = ", ".join(f"#{e}" for e in eds[:max_ed])
+        if len(eds) > max_ed:
+            shown += f" +{len(eds) - max_ed}"
+        badge = "🔴" if c >= chronic_at else "🟠"
+        rows.append(
+            f"<tr><td>{badge}</td><td>{_esc(k)}</td><td>{c}×</td>"
+            f"<td class='evidence'>{_esc(shown)}</td></tr>"
+        )
+    return (
+        f"<table><thead><tr><th></th><th>{_esc(col_label)}</th><th>Freq.</th>"
+        f"<th>Edições</th></tr></thead><tbody>{''.join(rows)}</tbody></table>"
+    )
 
 
 def render_repeats(repeats: list, show_last: int = 15) -> str:
@@ -270,7 +362,6 @@ def _stat(n, label: str, hint: str) -> str:
 
 def render_insights(insights: list[str]) -> str:
     items = "".join(f"<li>{_esc(b).replace('**', '')}</li>" for b in insights)
-    # negrito simples: **texto** -> <strong>
     items = items.replace("**", "")
     return f"<ul class='insights'>{items}</ul>"
 
@@ -279,24 +370,52 @@ CSS = """
 :root {
   --bg: #0b0f0d; --panel: #121815; --border: #223028;
   --ink: #eef2ee; --mute: #8a9690; --accent: #1FE070;
-  --warn: #ffb454; --ok: #6fd08a;
+  --warn: #ffb454; --ok: #6fd08a; --bad: #ff6b6b;
   font-size: 15px;
 }
 * { box-sizing: border-box; }
 body {
-  background: var(--bg); color: var(--ink); margin: 0; padding: 32px 24px 80px;
+  background: var(--bg); color: var(--ink); margin: 0; padding: 0 24px 80px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
   max-width: 980px; margin-inline: auto;
 }
-h1 { font-size: 1.6rem; margin-bottom: 4px; }
+h1.page-title { font-size: 1.6rem; margin: 32px 0 4px; }
+.section-title {
+  font-size: .95rem; color: var(--mute); text-transform: uppercase; letter-spacing: .08em;
+  margin: 40px 0 14px; padding-top: 24px; border-top: 1px solid var(--border);
+}
+.section-title:first-of-type { border-top: none; padding-top: 0; margin-top: 8px; }
 h2 { font-size: 1.05rem; color: var(--accent); text-transform: uppercase; letter-spacing: .04em;
      margin: 0 0 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-.meta { color: var(--mute); font-size: .85rem; margin-bottom: 28px; }
+.meta { color: var(--mute); font-size: .85rem; margin-bottom: 20px; }
+nav.toc {
+  position: sticky; top: 0; background: var(--bg); padding: 12px 0; z-index: 10;
+  display: flex; gap: 18px; flex-wrap: wrap; border-bottom: 1px solid var(--border);
+}
+nav.toc a {
+  color: var(--mute); text-decoration: none; font-size: .78rem; text-transform: uppercase;
+  letter-spacing: .05em;
+}
+nav.toc a:hover { color: var(--accent); }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
 .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
          padding: 20px; margin-bottom: 20px; }
 .panel.full { grid-column: 1 / -1; }
+details.panel { padding: 0; }
+details.panel > summary {
+  cursor: pointer; padding: 20px; list-style: none; font-size: 1.05rem; color: var(--accent);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+details.panel > summary::-webkit-details-marker { display: none; }
+details.panel > summary::before { content: '▸ '; }
+details.panel[open] > summary::before { content: '▾ '; }
+details.panel > summary::after {
+  content: '(clique pra expandir)'; float: right; color: var(--mute); text-transform: none;
+  font-size: .75rem; letter-spacing: 0;
+}
+details.panel[open] > summary::after { content: ''; }
+.details-body { padding: 0 20px 20px; }
 .stat-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 4px; }
 .stat { max-width: 175px; }
 .stat .n { font-size: 1.6rem; font-weight: 600; color: var(--accent); display: block; }
@@ -307,21 +426,25 @@ h2 { font-size: 1.05rem; color: var(--accent); text-transform: uppercase; letter
 .bar-label { width: 190px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
 .bar-track { flex: 1; background: #0e1512; border-radius: 4px; height: 10px; overflow: hidden; }
 .bar-fill { background: var(--accent); height: 100%; border-radius: 4px; }
+.bar-fill.bad { background: var(--bad); }
 .bar-count { width: 48px; text-align: right; color: var(--mute); font-variant-numeric: tabular-nums; }
 table { width: 100%; border-collapse: collapse; font-size: .85rem; }
 th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
 th { color: var(--mute); font-weight: 500; text-transform: uppercase; font-size: .72rem; letter-spacing: .04em; }
 .score-cell { font-variant-numeric: tabular-nums; }
+.evidence { color: var(--mute); font-variant-numeric: tabular-nums; }
 .empty { color: var(--mute); font-style: italic; font-size: .88rem; }
 .warn { color: var(--warn); }
 .ok { color: var(--ok); }
 ul.insights { padding-left: 20px; margin: 0; }
 ul.insights li { margin-bottom: 10px; line-height: 1.45; }
-.trend-up { color: var(--ok); } .trend-down { color: #ff6b6b; }
+.trend-up { color: var(--ok); } .trend-down { color: var(--bad); }
+svg circle { cursor: default; }
 """
 
 
-def render_html(content: dict, quality: dict, insights: list[str], cadence: dict, meta: dict, test_runs: list[dict]) -> str:
+def render_html(content: dict, quality: dict, insights: list[str], cadence: dict, meta: dict,
+                 test_runs: list[dict]) -> str:
     date_by_edition = meta["date_by_edition"]
     trend = quality.get("trend")
     trend_html = ""
@@ -341,12 +464,20 @@ def render_html(content: dict, quality: dict, insights: list[str], cadence: dict
 <style>{CSS}</style>
 </head>
 <body>
-  <h1>AYA — Dashboard interno</h1>
+  <h1 class="page-title">AYA — Dashboard interno</h1>
   <p class="meta">
     Janela: {_esc(content['date_range'][0])} → {_esc(content['date_range'][1])} ·
     {content['n_editions']} edições · gerado em {meta['generated_at']} ·
     <strong>uso interno — não publicar</strong>
   </p>
+
+  <nav class="toc">
+    <a href="#acao">① Ação agora</a>
+    <a href="#tendencia">② Tendência</a>
+    <a href="#conteudo">③ Conteúdo</a>
+    <a href="#operacao">④ Operação</a>
+    <a href="#log">⑤ Log</a>
+  </nav>
 
   <div class="panel full">
     <div class="stat-row">
@@ -363,34 +494,56 @@ def render_html(content: dict, quality: dict, insights: list[str], cadence: dict
     </div>
   </div>
 
+  <h2 id="acao" class="section-title">① Ação agora</h2>
+
   <div class="panel full">
-    <h2>Insights ({len(insights)})</h2>
+    <h2>Insights</h2>
     {_hint("Recomendações determinísticas (sem LLM) — regras aplicadas sobre os dados abaixo. "
            "Só aparecem quando o sinal é forte o bastante (content_report.py::deterministic_insights).")}
     {render_insights(insights)}
   </div>
 
+  <div class="grid">
+    <div class="panel">
+      <h2>Hipóteses de prompt recorrentes</h2>
+      {_hint("🔴 já virou padrão crônico (4+ edições) · 🟠 recorrente mas ainda recente (2-3). "
+             "A coluna Edições diz exatamente onde ir olhar a evidência.")}
+      {render_recurring_with_evidence(quality.get('hypotheses', {}), quality.get('hypothesis_editions', {}), 'Hipótese')}
+    </div>
+    <div class="panel">
+      <h2>False negatives recorrentes por fonte</h2>
+      {_hint("Fontes cujos itens bons ficaram de fora da curadoria mais de uma vez — mesma leitura de "
+             "severidade: 🔴 crônico, 🟠 recorrente recente.")}
+      {render_recurring_with_evidence(quality.get('fn_by_source', {}), quality.get('fn_editions_by_source', {}), 'Fonte')}
+    </div>
+  </div>
+
+  <h2 id="tendencia" class="section-title">② Tendência de qualidade</h2>
+
   <div class="panel full">
-    <h2>Consistência de publicação</h2>
-    {_hint("Lacunas entre datas consecutivas de edição registrada. É um proxy calculado a partir do "
-           "editions.jsonl — não lê o histórico do GitHub Actions diretamente.")}
-    {render_cadence(cadence)}
+    <h2>Score por edição</h2>
+    {_hint("overall_score do audit_agent ao longo do tempo — verde ≥4, âmbar =3, vermelho ≤2. "
+           "A linha tracejada é o mesmo limiar (3.5) que marca 'dimensão fraca' abaixo.")}
+    {render_score_trend(quality.get('by_edition', []))}
   </div>
 
   <div class="panel full">
-    <h2>Saúde de CI (testes)</h2>
-    {_hint("Histórico de execuções do tests.yml (ci/test_runs.jsonl) — se a suíte passa, quanto demora, "
-           "e com qual versão do pytest. Engenharia, não editorial: útil pra notar um bump de dependência "
-           "que mudou tempo de execução ou passou a falhar.")}
-    {render_ci_health(test_runs)}
+    <h2>Dimensões</h2>
+    {_hint("Média de cada dimensão avaliada pelo audit_agent (0-5): Editorial (alinhamento com critérios "
+           "de seleção), Tom (acurácia/anti-hype), Diversidade (fontes e geografia), Intro (abertura da "
+           "correspondente), Reasoning (coerência do raciocínio da AYA). Vermelho = média ≤3.5.")}
+    {trend_html}
+    {render_dim_bars(quality.get('dim_avg', {}))}
   </div>
+
+  <h2 id="conteudo" class="section-title">③ Conteúdo editorial</h2>
 
   <div class="grid">
     <div class="panel">
       <h2>Temas mais frequentes</h2>
-      {_hint("Quantas edições trouxeram cada tema (campo themes da curadoria). Concentração alta demais "
-             "num único tema é sinal de monotonia editorial.")}
-      {render_counter_bars(content['themes'])}
+      {_hint("Quantas edições trouxeram cada tema. Vermelho no topo = um único tema domina "
+             "≥50% das edições da janela (risco de monotonia).")}
+      {render_counter_bars(content['themes'], warn_share_of=content['n_editions'])}
     </div>
     <div class="panel">
       <h2>Entidades mais citadas</h2>
@@ -406,8 +559,8 @@ def render_html(content: dict, quality: dict, insights: list[str], cadence: dict
     </div>
     <div class="panel">
       <h2>Mix epistêmico (claim_status)</h2>
-      {_hint("Proporção de itens por grau de certeza: confirmado / especulativo / em_andamento. Muito "
-             "'especulativo' dilui a confiabilidade editorial.")}
+      {_hint("Proporção de itens por grau de certeza. Vermelho = 'especulativo' em ≥50%, o "
+             "limiar que dilui confiabilidade editorial.")}
       {render_epistemic_bars(content['epistemic_pct'])}
     </div>
     <div class="panel">
@@ -424,45 +577,42 @@ def render_html(content: dict, quality: dict, insights: list[str], cadence: dict
     </div>
   </div>
 
-  <div class="panel full">
-    <h2>Scorecard de qualidade — dimensões</h2>
-    {_hint("Média de cada dimensão avaliada pelo audit_agent (0-5): Editorial (alinhamento com critérios "
-           "de seleção), Tom (acurácia/anti-hype), Diversidade (fontes e geografia), Intro (abertura da "
-           "correspondente), Reasoning (coerência do raciocínio da AYA). A linha abaixo compara a 1ª "
-           "metade com a 2ª metade das edições auditadas na janela.")}
-    {trend_html}
-    {render_dim_bars(quality.get('dim_avg', {}))}
-  </div>
-
-  <div class="panel full">
-    <h2>Scorecard por edição</h2>
-    {_hint("Score geral e resumo dos principais problemas apontados pelo audit_agent, edição por edição "
-           "— mais recente primeiro.")}
-    {render_quality_table(quality.get('by_edition', []), date_by_edition)}
-  </div>
+  <h2 id="operacao" class="section-title">④ Operação</h2>
 
   <div class="grid">
     <div class="panel">
-      <h2>False negatives recorrentes por fonte</h2>
-      {_hint("Fontes cujos itens bons ficaram de fora da curadoria mais de uma vez, segundo o audit_agent "
-             "— sinaliza fonte sistematicamente subestimada.")}
-      {render_recurring_table(quality.get('fn_by_source', {}), 'Fonte')}
+      <h2>Consistência de publicação</h2>
+      {_hint("Lacunas entre datas consecutivas de edição registrada — proxy calculado a partir do "
+             "editions.jsonl, não lê o histórico do GitHub Actions diretamente.")}
+      {render_cadence(cadence)}
     </div>
     <div class="panel">
-      <h2>Hipóteses de prompt recorrentes</h2>
-      {_hint("Hipóteses do audit_agent sobre por que a curadoria errou, agrupadas quando o texto se "
-             "repete — 2+ ocorrências é candidata forte a virar ajuste de prompt.")}
-      {render_recurring_table(quality.get('hypotheses', {}), 'Hipótese')}
+      <h2>Saúde de CI (testes)</h2>
+      {_hint("Histórico de execuções do tests.yml (ci/test_runs.jsonl) — se a suíte passa, quanto "
+             "demora, e com qual versão do pytest.")}
+      {render_ci_health(test_runs)}
     </div>
   </div>
 
-  <div class="panel full">
-    <h2>Repetição entre edições (≥2 entidades em comum)</h2>
-    {_hint("Pares de edições que compartilham 2+ entidades nos itens selecionados. Pode ser cobertura "
-           "legítima de um tema em desenvolvimento, ou sinal de que a memória editorial não está "
-           "barrando repetição o suficiente.")}
-    {render_repeats(content['repeats'])}
-  </div>
+  <h2 id="log" class="section-title">⑤ Log / referência</h2>
+
+  <details class="panel full">
+    <summary>Scorecard por edição</summary>
+    <div class="details-body">
+      {_hint("Score geral e resumo dos principais problemas apontados pelo audit_agent, edição por "
+             "edição — mais recente primeiro. É log, não conclusão — use a Tendência (②) pra isso.")}
+      {render_quality_table(quality.get('by_edition', []), date_by_edition)}
+    </div>
+  </details>
+
+  <details class="panel full">
+    <summary>Repetição entre edições (≥2 entidades em comum)</summary>
+    <div class="details-body">
+      {_hint("Pares de edições que compartilham 2+ entidades nos itens selecionados. Pode ser cobertura "
+             "legítima de um tema em desenvolvimento, ou a memória editorial não barrando o suficiente.")}
+      {render_repeats(content['repeats'])}
+    </div>
+  </details>
 
 </body>
 </html>"""

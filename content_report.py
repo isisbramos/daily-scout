@@ -238,8 +238,12 @@ def aggregate_quality(audits: dict[str, dict]) -> dict:
     overall = []
     fn_by_source = Counter()           # false negatives recorrentes por fonte
     hypotheses = Counter()             # hipóteses de prompt recorrentes (texto curto)
+    # Mesma chave dos Counters acima, mas guardando EM QUAIS edições cada uma apareceu —
+    # sem isso, "recorrente" vira uma contagem sem forma de ir direto na evidência.
+    fn_editions_by_source: dict[str, list[str]] = defaultdict(list)
+    hypothesis_editions: dict[str, list[str]] = defaultdict(list)
 
-    for _, a in by_edition:
+    for edition, a in by_edition:
         overall.append(a.get("overall_score", 0))
         for key, _label in _DIMS:
             d = a.get(key) or {}
@@ -248,11 +252,14 @@ def aggregate_quality(audits: dict[str, dict]) -> dict:
         for fn in a.get("false_negatives", []) or []:
             src = (fn.get("source") or "?").strip()
             fn_by_source[src] += 1
+            fn_editions_by_source[src].append(edition)
         for ph in a.get("prompt_hypotheses", []) or []:
             h = (ph.get("hypothesis") or "").strip()
             if h:
                 # normaliza pra agrupar hipóteses parecidas (primeiras ~12 palavras)
-                hypotheses[" ".join(h.split()[:12])] += 1
+                key = " ".join(h.split()[:12])
+                hypotheses[key] += 1
+                hypothesis_editions[key].append(edition)
 
     dim_avg = {
         key: round(sum(v) / len(v), 2) for key, v in dim_scores.items() if v
@@ -275,6 +282,8 @@ def aggregate_quality(audits: dict[str, dict]) -> dict:
         "trend": trend,
         "fn_by_source": fn_by_source,
         "hypotheses": hypotheses,
+        "fn_editions_by_source": dict(fn_editions_by_source),
+        "hypothesis_editions": dict(hypothesis_editions),
     }
 
 
