@@ -105,6 +105,26 @@
             </td>
           </tr>
 
+          {% if update_notice %}
+          <!-- ====== AVISO DE ATUALIZAÇÃO (opcional, via env var) ====== -->
+          <tr>
+            <td class="section-pad" style="padding: 16px 24px; background-color: #1C1917; border-bottom: 1px solid #334155;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding: 12px 14px; background-color: #0F2027; border: 1px solid #FBBF24; border-radius: 6px;">
+                    <div style="color: #FBBF24; font-size: 11px; letter-spacing: 1px; font-weight: bold; margin-bottom: 4px; font-family: 'Courier New', Courier, monospace;">
+                      📣 ATUALIZAÇÃO
+                    </div>
+                    <div class="body-text" style="color: #E2E8F0; font-size: 13px; line-height: 1.6; font-family: 'Courier New', Courier, monospace;">
+                      {{ update_notice }}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+
           {% if correspondent_intro %}
           <!-- ====== CORRESPONDENT INTRO ====== -->
           <tr>

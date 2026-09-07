@@ -76,6 +76,15 @@ jobs:
         continue-on-error: true
         run: 'scripts/persist_to_git.sh memory/editions.jsonl "chore(memory): registra edição ${{ steps.edition.outputs.number }}"'
 
+      - name: Persist notices (aviso ao leitor — one-shot)
+        # Mesmo isolamento dos demais passos de persistência: a newsletter já foi
+        # enviada, falha de git aqui não pode afetar o envio. notices.py já apagou
+        # o pending.json localmente no runner se ele foi usado nesta edição — esse
+        # passo só leva a limpeza (+ o log em sent_log.jsonl) de volta pro repo.
+        if: success() && github.event.inputs.dry_run != 'true'
+        continue-on-error: true
+        run: 'scripts/persist_to_git.sh notices/ "chore(notices): registra aviso da edição ${{ steps.edition.outputs.number }}"'
+
       - name: Persist vault note (Stage A — outbox pro vault pessoal)
         # Mesmo isolamento do passo de memória editorial: a newsletter já foi enviada,
         # falha de git aqui não pode afetar o envio. A cópia real pro vault (Stage B)

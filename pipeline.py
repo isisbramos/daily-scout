@@ -44,6 +44,7 @@ from memory_store import (
     promote_quick_find_to_main,
 )
 from vault_bridge import build_insight_note, write_to_outbox
+from notices import load_pending_notice, mark_notice_sent
 
 # ── Logging ──────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -585,6 +586,10 @@ def render_email(
         runtime=runtime,
         feedback_base_url=FEEDBACK_BASE_URL,
         aya_avatar_url=AYA_AVATAR_URL,
+        # notices/pending.json é o caminho normal (auto-limpa após o envio real —
+        # ver notices.py). UPDATE_NOTICE via env var continua valendo como override
+        # manual pra teste local, sem precisar criar o arquivo.
+        update_notice=os.environ.get("UPDATE_NOTICE") or load_pending_notice(),
     )
 
     logger.info(f"HTML rendered: {len(html)} chars")
@@ -726,6 +731,16 @@ def run_pipeline():
                     logger.info(f"Vault bridge: nota gravada em {outbox_path}")
             except Exception as vault_err:
                 logger.warning(f"Vault bridge: falha ao gerar nota (não-bloqueante): {vault_err}")
+
+        # ── Step 6d: Fecha o ciclo do aviso pendente (só envios reais) ──
+        # Se essa edição usou um aviso de notices/pending.json, registra em
+        # notices/sent_log.jsonl e apaga o pending — a próxima edição já sai sem
+        # ele, sem precisar lembrar de tirar nada manualmente.
+        if not DRY_RUN:
+            try:
+                mark_notice_sent(EDITION_NUMBER)
+            except Exception as notice_err:
+                logger.warning(f"Notices: falha ao registrar/limpar aviso (não-bloqueante): {notice_err}")
 
         # ── Step 7: Generate social content (isolated — failures don't affect newsletter) ──
         social_success = False
