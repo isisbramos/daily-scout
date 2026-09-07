@@ -30,6 +30,7 @@ import sources.hackernews
 import sources.techcrunch
 import sources.lobsters
 import sources.rss_generic  # v5: AI lab blogs + geographic diversity sources
+import sources.huggingface_papers  # API JSON oficial — huggingface.co/papers não tem RSS
 from pre_filter import run_pre_filter
 from schemas import Reasoning, MainFind, QuickFind, RadarItem, Meta, CurationOutput
 from delivery import send_via_buttondown, send_fallback

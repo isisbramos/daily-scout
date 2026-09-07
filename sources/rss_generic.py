@@ -305,26 +305,6 @@ class ArxivAISource(BaseSource):
         return unique[:self.limit]
 
 
-@SourceRegistry.register
-class HuggingFacePapersSource(BaseSource):
-    source_id = "huggingface_papers"
-    source_name = "HuggingFace Papers"
-
-    def __init__(self, config: dict | None = None):
-        super().__init__(config)
-        self.limit = self.config.get("limit", 20)
-        self.feed_url = self.config.get("rss_url", "https://huggingface.co/papers.rss")
-
-    def fetch(self) -> list[SourceItem]:
-        return _fetch_rss(
-            feed_url=self.feed_url,
-            source_id=self.source_id,
-            source_label="HuggingFace Papers",
-            limit=self.limit,
-            default_category="ai",
-        )
-
-
 # ── Brazil / LatAm ───────────────────────────────────────────────────
 
 # Keywords para filtrar a Agência Brasil (firehose geral → só AI/tech gov)
@@ -477,7 +457,12 @@ def _fetch_rss(
             return []
 
         for entry in feed.entries[:limit]:
-            ts = 0.0
+            # Sem published_parsed/updated_parsed (feed sem data reconhecível pelo
+            # feedparser — ex: research.facebook.com), assume "agora" em vez de
+            # timestamp 0.0. O filtro de recência em pre_filter.py descarta tudo
+            # que não seja das últimas 24h — timestamp 0.0 (epoch 1970) reprova
+            # SEMPRE, mesmo que o post seja de hoje, excluindo a fonte pra sempre.
+            ts = time.time()
             if entry.get("published_parsed"):
                 ts = calendar.timegm(entry["published_parsed"])
             elif entry.get("updated_parsed"):

@@ -49,11 +49,11 @@
     },
     "huggingface_papers": {
       "enabled": true,
-      "_comment": "Papers em trending na comunidade HuggingFace — já pré-filtrados por tração da comunidade de ML. Feed confirmado e habilitado em 2026-04-19.",
+      "_comment": "Atualizado 2026-09-06: papers.rss nunca existiu de fato (404, issue aberta há anos no repo huggingface/blog sem resolução) — fonte estava 100% morta desde sempre. Trocado pra API JSON oficial /api/daily_papers (sources/huggingface_papers.py), mesmo endpoint que a própria página usa.",
       "weight": 1.3,
       "tier": "T1",
       "limit": 20,
-      "rss_url": "https://huggingface.co/papers.rss"
+      "api_url": "https://huggingface.co/api/daily_papers"
     },
 
     "_comment_ai_labs": "AI Lab Blogs — weight 0.8 (abaixo de community sources; blogs oficiais são marketing-heavy)",
@@ -83,13 +83,13 @@
       "rss_url": "https://research.facebook.com/feed/"
     },
 
-    "_comment_europe": "Europe primary — fecha Gap 1 do SOURCES_STUDY. Mistral não tem blog RSS oficial; usamos releases do repo mistral-inference como proxy de release cadence. Sinal técnico, não editorial — peso baixo até validar.",
+    "_comment_europe": "Europe primary — fecha Gap 1 do SOURCES_STUDY.",
     "mistral_releases": {
       "enabled": true,
-      "_comment": "Adicionado Onda 2. Mistral releases via GitHub (proxy — blog oficial sem RSS). Revisar após 7d se densidade AI justifica manter.",
+      "_comment": "Atualizado 2026-09-06: Mistral agora tem RSS oficial em mistral.ai/news/rss (achado via <link rel=alternate> na página de news). A config anterior apontava pro changelog de um repo GitHub (mistral-inference) que a Mistral não usa mais pra releases — feed morto há 500+ dias, zero itens chegavam no pipeline.",
       "weight": 0.7,
       "limit": 10,
-      "rss_url": "https://github.com/mistralai/mistral-inference/releases.atom"
+      "rss_url": "https://mistral.ai/news/rss"
     },
 
     "_comment_china_primary": "China primary — fecha Gap 2 do SOURCES_STUDY. Labs chineses em primeira mão (complementa SCMP/TechNode que são cobertura *sobre* China). Sem 'region' pois são papers/research em inglês — não carregam lente editorial asiática que o cap geographic tenta balancear.",
