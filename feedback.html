@@ -20,6 +20,9 @@
     .msg-error{color:#F59E0B;font-size:14px;margin-top:12px}
     .tracking-status{color:#334155;font-size:10px;margin-top:32px;transition:color 0.3s}
     .tracking-status.ok{color:#22C55E}.tracking-status.fail{color:#F59E0B}
+    .confirm-btn{background:transparent;color:#22C55E;border:1px solid #22C55E;font-family:inherit;font-size:13px;padding:10px 22px;margin-top:24px;cursor:pointer;letter-spacing:0.5px}
+    .confirm-btn:disabled{color:#334155;border-color:#334155;cursor:default}
+    .confirm-hint{color:#475569;font-size:11px;margin-top:10px}
     .comment-block{margin-top:20px;text-align:left;border:1px solid #334155;padding:14px;background:#111827}
     .comment-label{color:#818CF8;font-size:11px;letter-spacing:0.5px;margin-bottom:8px}
     .comment-input{width:100%;background:#0F172A;color:#CBD5E1;border:1px solid #334155;font-family:inherit;font-size:12px;padding:8px;resize:vertical;min-height:56px}
@@ -37,6 +40,13 @@
     <div class="title">DAILY SCOUT</div>
     <div class="subtitle">feedback terminal</div>
     <div class="bar" style="margin-top:8px">========================================</div>
+    <div id="state-confirm" class="state">
+      <div class="emoji-big" id="confirm-emoji"></div>
+      <div class="msg-primary" id="confirm-label"></div>
+      <div class="edition-tag" id="confirm-edition-tag"></div>
+      <button id="confirm-btn" class="confirm-btn">confirmar voto</button>
+      <div class="confirm-hint">Um clique seu vale mais que um scanner de segurança curioso.</div>
+    </div>
     <div id="state-success" class="state">
       <div class="emoji-big" id="rating-emoji"></div>
       <div class="msg-primary">Feedback recebido!</div>
@@ -65,10 +75,24 @@
     const params=new URLSearchParams(window.location.search);
     const edition=params.get("edition"),rating=params.get("rating");
     if(edition&&rating&&RATING_MAP[rating]){
-      document.getElementById("state-success").classList.add("active");
-      document.getElementById("rating-emoji").textContent=RATING_MAP[rating].emoji;
-      document.getElementById("edition-tag").textContent="edition #"+edition+" · "+RATING_MAP[rating].label;
-      (async()=>{const s=document.getElementById("tracking-status");try{const r=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({edition,rating,referrer:document.referrer||"email"})});if(r.ok){s.textContent="signal: synced ✓";s.classList.add("ok")}else throw new Error()}catch{try{new Image().src=APPS_SCRIPT_URL+"?edition="+edition+"&rating="+rating+"&referrer=email-fallback";s.textContent="signal: synced (fallback) ✓";s.classList.add("ok")}catch{s.textContent="signal: offline";s.classList.add("fail")}}})();
+      // Voto só é gravado depois de um clique real neste botão — nunca no carregamento
+      // da página. Scanners de segurança de email (Safe Links, Proofpoint etc.) pré-visitam
+      // este link sozinhos para checar phishing/malware; se o POST disparasse no onload,
+      // cada pré-visita virava um voto fantasma (confirmado em memory/editions.jsonl: rajadas
+      // de fire+solid+meh do mesmo edition em <20s, impossível para um humano clicar 3 links
+      // mutuamente exclusivos tão rápido).
+      document.getElementById("state-confirm").classList.add("active");
+      document.getElementById("confirm-emoji").textContent=RATING_MAP[rating].emoji;
+      document.getElementById("confirm-label").textContent="Confirmar: "+RATING_MAP[rating].label+"?";
+      document.getElementById("confirm-edition-tag").textContent="edition #"+edition;
+      document.getElementById("confirm-btn").addEventListener("click",function(){this.disabled=true;this.textContent="enviando...";submitVote()},{once:true});
+      function submitVote(){
+        document.getElementById("state-confirm").classList.remove("active");
+        document.getElementById("state-success").classList.add("active");
+        document.getElementById("rating-emoji").textContent=RATING_MAP[rating].emoji;
+        document.getElementById("edition-tag").textContent="edition #"+edition+" · "+RATING_MAP[rating].label;
+        (async()=>{const s=document.getElementById("tracking-status");try{const r=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({edition,rating,referrer:document.referrer||"email"})});if(r.ok){s.textContent="signal: synced ✓";s.classList.add("ok")}else throw new Error()}catch{try{new Image().src=APPS_SCRIPT_URL+"?edition="+edition+"&rating="+rating+"&referrer=email-fallback";s.textContent="signal: synced (fallback) ✓";s.classList.add("ok")}catch{s.textContent="signal: offline";s.classList.add("fail")}}})();
+      }
       const commentBlock=document.getElementById("comment-block");
       const commentInput=document.getElementById("comment-input");
       const commentSubmit=document.getElementById("comment-submit");

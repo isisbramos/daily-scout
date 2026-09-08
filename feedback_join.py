@@ -27,6 +27,13 @@ Uso:
 
 O SHEET_ID está em apps-script/Code.gs. A URL de export pública tem a forma:
   https://docs.google.com/spreadsheets/d/<SHEET_ID>/gviz/tq?tqx=out:csv&sheet=feedback
+
+CAVEAT (2026-09-07): até essa data, feedback.html disparava o POST de voto sozinho no
+carregamento da página (sem exigir clique), o que scanners de segurança de email
+(Safe Links, Proofpoint etc.) pré-visitando o link transformavam em votos fantasma.
+Confirmado via rajadas de fire+solid+meh do mesmo edition em <20s (impossível pra um
+humano) nas edições 145–164. O fix passou a exigir clique humano real antes do POST;
+ratings de edições anteriores a essa data devem ser tratados como baixa confiança.
 """
 
 from __future__ import annotations

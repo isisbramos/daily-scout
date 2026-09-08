@@ -146,6 +146,14 @@ def aggregate_content(editions: list[dict], enabled_sources: set[str]) -> dict:
 
     # feedback_score preenchido pelo feedback_join.py é um dict {fire,solid,meh,n,avg}.
     # Mantemos tolerância a um escalar legado (emoji/label) só por robustez.
+    #
+    # CAVEAT (2026-09-07): feedback_score de edições anteriores a 169 pode conter votos
+    # de scanners de segurança de email (Safe Links/Proofpoint), que pré-visitavam
+    # feedback.html e disparavam o POST sozinhos antes do fix que exige clique humano
+    # (ver feedback.html). Confirmado por rajadas de fire+solid+meh do mesmo edition em
+    # <20s nas edições 145–164 — não dá pra saber quais linhas eram humanas, então os
+    # números dessas edições (e possivelmente vizinhas) são tratados como baixa confiança,
+    # não corrigidos retroativamente.
     fb_map = {"🔥": 2, "fire": 2, "👍": 1, "solid": 1, "up": 1, "😐": 0, "meh": 0}
 
     for ed in editions:
