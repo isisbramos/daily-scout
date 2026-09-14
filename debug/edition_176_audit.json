@@ -1,0 +1,112 @@
+{
+  "edition": "176",
+  "audited_at": "2026-09-14T14:18:45.044691-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (China rejeita 'pacing' em IA) passa no AI Gate por exceção de regulação governamental e tem sinal de mercado claro. Porém, dois quick_finds violam regras explícitas: 'Lyft entra na disputa de robotáxis' é roundup de mobilidade (TechCrunch Mobility) sem evento singular de UMA empresa, e 'commit-rewriter 0.1' é lançamento de ferramenta de dev sem conexão com AI/ML no título — o texto atribui uso de IA sem evidência no input. 'Benchmark Radar' é paper acadêmico com acionabilidade marginal.",
+    "issues": [
+      "quick_find 'Lyft entra na disputa de robotáxis' — anti-signal de roundup/panorama sem evento singular de uma empresa; título original é 'TechCrunch Mobility: Lyft has entered the robotaxi chat', formato de newsletter/compilação.",
+      "quick_find 'commit-rewriter 0.1' — AI Gate não comprovado: o input só traz 'commit-rewriter 0.1' sem menção a IA; o signal afirma 'usando IA' sem base no título/fonte fornecidos.",
+      "quick_find 'Benchmark Radar' — paper acadêmico (HuggingFace Papers) com acionabilidade fraca; não muda workflow de leitor de newsletter, é insumo de pesquisa."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido, sem hype explícito ('revolucionário', 'game-changer'). Porém há duas falhas: (1) o step5_phrase do Benchmark Radar — 'muda o que sabíamos sobre avaliação de modelos de IA' — é afirmação forte não sustentada pelo título do paper; (2) o signal do commit-rewriter afirma 'usando IA' sem que o input traga essa informação, o que é detalhe inventado.",
+    "issues": [
+      "step5_phrase do Benchmark Radar: 'muda o que sabíamos sobre avaliação de modelos de IA' — eleva um paper de banco de dados de benchmarks a mudança de paradigma, sem base no título.",
+      "signal do commit-rewriter: 'permite reescrever mensagens de commit usando IA' — o input não menciona IA; detalhe inferido/inventado.",
+      "main_find.body: 'A posição contrasta com propostas recentes de desaceleração vindas de executivos e pesquisadores do setor' — contexto adicionado que não está no título nem no input fornecido."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes são razoavelmente variadas (SCMP, TechNode, HuggingFace, Simon Willison, TechCrunch) sem repetição. Audiência tem 'executivos de negócio' e 'desenvolvedores', cumprindo o mínimo. Geografia, porém, concentra-se em China (SCMP, TechNode) e EUA (TechCrunch, Simon Willison), com apenas um item chinês no main_find e um no quick_finds — dentro do limite, mas sem representação de outras regiões.",
+    "issues": [
+      "Nenhuma fonte fora de China/EUA entre main_find e quick_finds; ausência de Europa, Índia, América Latina ou África."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('recusa da China em desacelerar o desenvolvimento de IA'), cumprindo o requisito. A segunda frase ('Analisei 302 posts de 20 fontes') é genérica, mas funcional como transparência de método.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente no output (observability, não editorial). Score neutro conforme instrução.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Perplexity trusts GPT-6 Astra with end-to-end systems",
+      "source": "OpenAI Blog",
+      "why_should_include": "Evento singular de uma empresa (Perplexity) adotando modelo específico (GPT-6 Astra) em sistemas end-to-end — sinal de mercado claro de shift de arquitetura e decisão de produto, com implicação direta para workflows de quem constrói com LLMs.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "What a time to be alive – rogue AI agents attack RubyGems.org",
+      "source": "HackerNews",
+      "why_should_include": "Incidente concreto de agentes de IA atacando infraestrutura de pacotes (RubyGems) — evento singular, acionável para devs (segurança de supply chain) e afeta workflows de quem publica/consome gems.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Cloudy with a chance of Big Macs: McDonald’s and Meituan launch drone route in Shanghai",
+      "source": "SCMP Tech",
+      "why_should_include": "Lançamento operacional concreto (rota de drone McDonald's + Meituan em Xangai) — automação logística com evento singular de duas empresas, acionável para quem acompanha automação de delivery.",
+      "missed_criteria": [
+        "AI Gate (automação)",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Lyft entra na disputa de robotáxis",
+      "field": "quick_finds",
+      "why_should_discard": "É roundup de mobilidade (TechCrunch Mobility) sem evento singular de uma empresa; viola anti-signal de panorama sem evento específico.",
+      "violated_rule": "Anti-signal: roundup/panorama sem evento singular de UMA empresa"
+    },
+    {
+      "title": "commit-rewriter 0.1: ferramenta para reescrever commits com IA",
+      "field": "quick_finds",
+      "why_should_discard": "AI Gate não comprovado — o input não menciona IA; o texto inventa 'usando IA' para justificar inclusão.",
+      "violated_rule": "STEP 1 - AI Gate (conexão com AI/ML não demonstrada)"
+    },
+    {
+      "title": "Benchmark Radar: banco de dados vivo para benchmarks de IA",
+      "field": "quick_finds",
+      "why_should_discard": "Paper acadêmico com acionabilidade marginal para leitor de newsletter; não muda workflow nem revela movimento estratégico de player.",
+      "violated_rule": "Critério 1 (Acionável) e Critério 2 (Sinal de mercado) não satisfeitos"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de AI Gate pode estar sendo aplicado de forma frouxa quando o item vem de fonte 'tech' conhecida (Simon Willison, TechCrunch), assumindo conexão com IA sem verificar o título.",
+      "evidence": "commit-rewriter 0.1 entrou como quick_find com signal afirmando 'usando IA' sem base no input; Lyft robotaxi entrou como quick_find sem evento singular.",
+      "suggested_fix": "Reforçar no STEP 1 que a conexão com AI/ML deve estar explícita no título ou no conteúdo do input, não inferida pela fonte."
+    },
+    {
+      "hypothesis": "Regra de anti-signal para roundup/panorama não está sendo aplicada a formatos de newsletter (ex: 'TechCrunch Mobility: ...'), que parecem notícia mas são compilação.",
+      "evidence": "quick_find 'Lyft entra na disputa de robotáxis' veio de 'TechCrunch Mobility: Lyft has entered the robotaxi chat', formato de roundup.",
+      "suggested_fix": "Adicionar few-shot explícito de roundup de newsletter como anti-signal, citando 'TechCrunch Mobility' e similares."
+    },
+    {
+      "hypothesis": "Critério 'Acionável' está sendo interpretado como 'existe ferramenta/paper', permitindo inclusão de papers acadêmicos sem mudança real de workflow.",
+      "evidence": "Benchmark Radar (paper HuggingFace) entrou como quick_find com step5_phrase exagerado ('muda o que sabíamos').",
+      "suggested_fix": "Definir 'Acionável' como ação concreta do leitor em <1 semana (testar, adotar, decidir), excluindo papers sem aplicação imediata."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find defensável (China/pacing), mas três quick_finds violam regras explícitas: Lyft robotaxi é roundup, commit-rewriter não tem AI Gate comprovado, e Benchmark Radar é paper acadêmico com acionabilidade marginal. Há ainda invenção de detalhe ('usando IA') e exagero em step5_phrase. False negatives relevantes (Perplexity/GPT-6 Astra, rogue AI agents atacando RubyGems) ficaram de fora."
+}

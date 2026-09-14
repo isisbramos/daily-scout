@@ -1,0 +1,115 @@
+{
+  "edition": "174",
+  "audited_at": "2026-09-14T14:18:17.645408-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Cognition/Devin + GPT-6 Astra) passa no AI Gate e é acionável, mas é essencialmente um case study de blog corporativo da OpenAI — thought-leadership com depoimento de cliente, sem evento singular de mercado. O quick_find da Mecka AI é um funding round puro ('nears $500M valuation in Sequoia-led deal'), que é anti-signal explícito segundo as regras, e a Aya ainda o justifica dizendo 'o detalhe acionável não é o valor em si' — racionalização que contorna a regra em vez de aplicá-la.",
+    "issues": [
+      "Mecka AI: 'nears $500M valuation in Sequoia-led deal' é funding round sem feature/produto/shift de estratégia — anti-signal explícito. A Aya tentou salvar o item reenquadrando-o como 'categoria de dados de treino para robótica', mas isso é exatamente o 'panorama/tendência de mercado sem evento singular' que também é anti-signal.",
+      "Cognition/Devin + GPT-6 Astra: é post de blog corporativo da OpenAI (openai.com/index/...) descrevendo uso de cliente. Não há evento singular de mercado — é case study de marketing. Passa no AI Gate, mas falha no critério 2 (sinal de mercado) e tangencia o anti-signal 'blog corporativo de thought-leadership sem novidade concreta'.",
+      "Perplexity + GPT-6 Astra aparece no epistemic_distribution como 'produto/lançamento' mas não foi selecionado para nenhum slot — inconsistência entre o que o reasoning lista como aprovado e o que efetivamente entrou."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido e sem hype vocabular (nenhum 'revolucionário', 'massivo', 'game-changer'). Porém há dois problemas de acurácia: o step5_phrase do quick_find do RubyGems afirma 'OpenAI decidiu não divulgar publicamente o incidente' — informação que NÃO está no título nem no signal, é inferência inventada. E o signal do UK lawmakers diz 'banimento de superinteligência artificial' quando o título fala de 'ban on superintelligent AI' — aceitável, mas o step5_phrase 'decidiram pressionar' transforma 'urge' (pedido) em decisão consumada.",
+    "issues": [
+      "Quick_find RubyGems: step5_phrase 'OpenAI decidiu não divulgar publicamente o incidente dos agentes no RubyGems até agora' — a informação sobre não-divulgação não está no título nem no signal. É detalhe inventado.",
+      "Quick_find UK lawmakers: título original usa 'urge' (exortam/pedem); step5_phrase usa 'decidiram pressionar', aumentando o nível de certeza de um pedido para uma decisão.",
+      "Main_find body: 'A implicação é que a etapa de verificação... começa a ser automatizada' — afirmação categórica sobre tendência geral a partir de um único case study de blog. O título original não sustenta essa generalização."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há diversidade razoável de fontes (OpenAI Blog, TechCrunch, r/artificial, Simon Willison) e de audiência (desenvolvedores, executivos, product managers). Porém dois quick_finds vêm de r/artificial (Alibaba/Cambricon e UK lawmakers), o que já atinge o limite de 2 do mesmo source. Geograficamente há concentração: 3 itens envolvem EUA/OpenAI (Cognition, RubyGems, Garry Tan) e 2 envolvem China (Alibaba/Cambricon, e implicitamente o contexto de Garry Tan sobre labs chineses).",
+    "issues": [
+      "Dois quick_finds do mesmo source (r/artificial): Alibaba/Cambricon e UK lawmakers — no limite, mas vale sinalizar.",
+      "Três itens giram em torno da OpenAI (Cognition/Devin, RubyGems, e o contexto de Garry Tan) — concentração temática excessiva em um único player.",
+      "Nenhum item da Europa continental ou de outra região além de EUA/China/UK."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Cognition usando GPT-6 Astra para o Devin testar o próprio código), o que é bom. A segunda frase ('Analisei 302 posts de 20 fontes') é boilerplate, mas aceitável. O intro cumpre a função de ancorar o leitor no destaque do dia.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista itens como 'PASSARAM' que depois não aparecem no output (Perplexity + GPT-6 Astra, papers arXiv, Rune, OpenRouter) sem explicar por que foram cortados. Pior: o reasoning afirma que o FCC/transceptores ópticos foi 'DESCARTADO por memória editorial' — mas essa é uma decisão editorial que deveria estar refletida no output, não apenas no reasoning. E o main_find_rationale não explica por que Cognition/Devin venceu Perplexity + GPT-6 Astra, que também é OpenAI Blog e também é uso concreto.",
+    "issues": [
+      "Reasoning lista 'Perplexity + GPT-6 Astra' como aprovado no AI Gate e no epistemic_distribution, mas o item não aparece em nenhum slot do output — contradição direta.",
+      "Reasoning não justifica por que Cognition/Devin foi escolhido como main_find em vez de Perplexity + GPT-6 Astra, ambos do mesmo source e mesma natureza (case study OpenAI).",
+      "Reasoning menciona 'memória editorial' (FCC já coberto na ed.173) como critério de descarte — mecanismo que não está nos critérios fornecidos e que não pode ser auditado externamente.",
+      "Reasoning afirma que o main_find 'revela movimento estratégico específico (OpenAI posicionando Astra como modelo para agentes de código)' — mas isso é interpretação, não evento de mercado verificável."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Retrospectively Reverse-Engineering Apple's Neural Engine",
+      "source": "HackerNews",
+      "why_should_include": "Score 102 no HN, conexão direta com AI/ML (Neural Engine é hardware de inferência da Apple), acionável para devs que trabalham com ML em dispositivos Apple e revela detalhes de arquitetura de um player específico.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "I spent $220 on Google app ads and 60% of the installs were robots",
+      "source": "HackerNews",
+      "why_should_include": "Score 561 no HN, conexão com automação inteligente/bot farms (AI Gate tangencial mas real), altamente acionável para quem compra tráfego pago e revela falha concreta de detecção de bots em plataforma major.",
+      "missed_criteria": [
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "O que a mais recente controvérsia da OpenAI nos diz sobre o futuro da matemática",
+      "source": "MIT Tech Review Brasil",
+      "why_should_include": "Conexão direta com AI (controvérsia OpenAI sobre matemática), análise de caso singular com implicações para pesquisa, e traz perspectiva não-anglófona que o output carece.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Mecka AI nears $500M valuation in Sequoia-led deal amid rush for robot training data",
+      "field": "quick_finds",
+      "why_should_discard": "Funding round puro sem feature, produto ou shift de estratégia anunciado. O 'rush for robot training data' é panorama de mercado, não evento singular. Anti-signal explícito.",
+      "violated_rule": "Anti-signal: funding round sem info nova + panorama de tendência sem evento singular"
+    },
+    {
+      "title": "Cognition helps Devin test its own work with GPT-6 Astra",
+      "field": "main_find",
+      "why_should_discard": "É post de blog corporativo da OpenAI descrevendo uso de cliente — case study de marketing, não evento singular de mercado. Não satisfaz o critério 2 (sinal de mercado) de forma verificável e tangencia o anti-signal de blog corporativo.",
+      "violated_rule": "Anti-signal: blog corporativo de thought-leadership sem novidade concreta; falha no critério 2 (sinal de mercado)"
+    },
+    {
+      "title": "Garry Tan, do Y Combinator, quer que labs americanos de pesos abertos também façam distill de modelos de fronteira",
+      "field": "quick_finds",
+      "why_should_discard": "É posicionamento/opinião de uma figura do setor, não evento singular de uma empresa. Não há mudança de categoria, M&A ou shift de política concreta — apenas uma declaração de preferência.",
+      "violated_rule": "Anti-signal: blog/declaração de thought-leadership sem novidade concreta; falha no critério 2 (sinal de mercado)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A regra de anti-signal para funding rounds pode estar sendo lida como 'só descarta se for >$5B ou OpenAI/Anthropic/DeepMind', deixando passar rounds menores como o da Mecka AI ($500M).",
+      "evidence": "Mecka AI entrou como quick_find com racionalização explícita ('o detalhe acionável não é o valor em si, mas a categoria'), contornando a regra em vez de aplicá-la.",
+      "suggested_fix": "Reforçar no STEP de anti-signals que QUALQUER funding round sem feature/produto/shift de estratégia é descarte, independente do valor, e que reenquadrar como 'categoria' não salva o item."
+    },
+    {
+      "hypothesis": "O critério 2 (sinal de mercado) está sendo interpretado de forma frouxa, aceitando case studies de blog corporativo como 'movimento estratégico específico'.",
+      "evidence": "Cognition/Devin + GPT-6 Astra foi escolhido como main_find apesar de ser post de blog da OpenAI descrevendo uso de cliente, sem evento de mercado verificável.",
+      "suggested_fix": "Adicionar ao critério 2 exemplos negativos explícitos: 'case study de cliente em blog corporativo NÃO conta como sinal de mercado'."
+    },
+    {
+      "hypothesis": "O reasoning está sendo usado como espaço de justificativa post-hoc em vez de registro de decisão, permitindo listar itens como 'aprovados' que depois somem sem explicação.",
+      "evidence": "Perplexity + GPT-6 Astra aparece como aprovado no reasoning e no epistemic_distribution, mas não está em nenhum slot do output.",
+      "suggested_fix": "Exigir que o reasoning liste explicitamente, para cada item aprovado no AI Gate, se ele entrou no output ou por que foi cortado — sem cortes silenciosos."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem dois problemas centrais: o main_find é um case study de blog corporativo da OpenAI (não evento de mercado) e um quick_find é funding round puro (Mecka AI), ambos violando anti-signals explícitos. O reasoning lista itens como aprovados que não aparecem no output (Perplexity + GPT-6 Astra) e usa 'memória editorial' como critério não auditável. O tom é contido, mas há informação inventada no step5_phrase do RubyGems e aumento de certeza no item de UK lawmakers."
+}

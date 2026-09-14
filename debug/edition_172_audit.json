@@ -1,0 +1,118 @@
+{
+  "edition": "172",
+  "audited_at": "2026-09-14T14:17:49.050957-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (DeepSeek v4.1 Flash) passa no AI Gate e é acionável, mas o critério 'sinal de mercado' é fraco: 'empresa afirma superar concorrente em benchmark' é claim de marketing, não movimento estratégico específico. Pior: o quick_find da Moonshot AI IPO duplo é explicitamente um anti-signal (movimento financeiro/captação de capital sem novidade de produto ou estratégia de AI), e o quick_find do OpenAI board doomer é mudança de governança sem impacto em produto/workflow — ambos deveriam ter sido descartados.",
+    "issues": [
+      "quick_find 'Moonshot AI explora IPO duplo' viola anti-signal de movimento financeiro/captação de capital sem novidade de produto ou estratégia de AI — é essencialmente um funding/IPO sem info nova.",
+      "quick_find 'OpenAI adiciona crítico de IA ao conselho' é mudança de governança corporativa sem conexão com produto, workflow ou decisão de empresa de AI que afete o leitor — passa no AI Gate por ser OpenAI, mas não satisfaz 2 dos 3 critérios de seleção.",
+      "main_find: 'DeepSeek diz superar Kimi K3 em benchmarks' é claim da própria empresa, não evento verificado — o critério 'sinal de mercado' exige movimento estratégico específico, e 'lançar modelo incremental' com claim de benchmark é borderline.",
+      "O reasoning lista 'iPhone Duo (HackerNews/Stratechery)' como tendo passado no AI Gate, mas o item não aparece no output — inconsistência entre reasoning e seleção."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido e sem hype explícito, mas há dois problemas: (1) o main_find.body afirma 'a empresa afirma superar' — correto — mas o título do main_find omite o 'diz' e apresenta como fato ('DeepSeek lança v4.1 Flash e diz superar' — ok, mantém 'diz'); (2) o quick_find do Google Earth inventa detalhe: 'O caso envolve deepfakes relacionados ao conflito no Irã' — o título original só diz 'deepfake-iran-war' na URL, não confirma que o experimento em si envolvia deepfakes do Irã; é inferência apresentada como fato.",
+    "issues": [
+      "quick_find Google Earth: 'O caso envolve deepfakes relacionados ao conflito no Irã' — detalhe inferido da URL, não do título; informação não confirmada apresentada como fato.",
+      "quick_find OpenAI board: 'a empresa enfrenta escrutínio sobre segurança e transparência' — contexto adicionado que não está no título nem é atribuído a fonte.",
+      "main_find.body: 'A disputa entre as duas empresas define o ritmo de lançamentos do ecossistema chinês de AI, que hoje é o segundo maior do mundo' — afirmação de panorama sem fonte, apresentada como fato."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Boa diversidade de fontes (Rest of World, TechCrunch, HuggingFace, Mistral, SCMP) e de audiência (desenvolvedores, PMs, executivos). Porém, geograficamente concentrado: DeepSeek (China), Moonshot (China), IBM (EUA), Mistral (França), Google (EUA), OpenAI (EUA) — 2 itens chineses no main+quick, aceitável, mas o main_find e um quick_find são ambos sobre o mesmo duopólio DeepSeek/Moonshot, o que reduz diversidade temática.",
+    "issues": [
+      "main_find (DeepSeek) e quick_find (Moonshot) cobrem o mesmo eixo competitivo China-modelos-abertos, ocupando 2 dos 6 slots com o mesmo tema.",
+      "Nenhum item da América Latina, África ou Sudeste Asiático apesar de fontes como Rest of World e MIT Tech Review Brasil estarem no input."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (DeepSeek v4.1 Flash e a comparação com Kimi K3), o que é bom. O número '302 posts de 20 fontes' é específico. Pequeno problema: 'Analisei 302 posts' é claim de processo que não pode ser verificado e o input tem 40 itens, não 302 — se 302 é o total bruto antes do filtro, deveria ser dito.",
+    "issues": [
+      "'Analisei 302 posts de 20 fontes' — o input fornecido tem 40 itens; se 302 é o total pré-filtro, a formulação confunde."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é detalhado mas contém contradições: lista 'iPhone Duo' como tendo passado no AI Gate e não o inclui no output; lista 'Paul Christiano OpenAI Foundation Board' como passou e não aparece; lista 'Mathematicians vs OpenAI' como passou e só aparece no radar. Além disso, o reasoning não explica por que DeepSeek v4.1 Flash venceu IBM Granite ou Mistral legacy code — apenas afirma que é 'acionável' e tem 'tração cross-source', usando score como justificativa principal, o que viola a regra de que tração é tiebreaker, nunca critério principal.",
+    "issues": [
+      "reasoning lista itens como 'PASSARAM' (iPhone Duo, Paul Christiano, Mathematicians) que não aparecem no output — contradição direta.",
+      "main_find_rationale usa 'tração cross-source (SCMP + HackerNews 458 pts)' como justificativa central, violando a regra de que tração é tiebreaker e não critério principal.",
+      "reasoning não explica por que DeepSeek venceu IBM Granite Time Series (modelo SOTA com licença comercial, mais claramente acionável para devs) ou Mistral legacy code modernization.",
+      "reasoning afirma 'Diversidade geográfica: China = 2 itens, ok' — mas não menciona que ambos os itens chineses são sobre o mesmo duopólio competitivo."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Modernizing complex legacy code with AI agents.",
+      "source": "Mistral Releases",
+      "why_should_include": "Produto de AI da Mistral para modernização de código legado — acionável para devs, afeta workflow de engenharia, sinal de mercado (Mistral entrando em categoria de agentes de código).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Subagents vs Agent Skills: Executing Reusable Knowledge for Long-Horizon Agentic Tasks",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Pesquisa diretamente sobre arquitetura de agentes — afeta como devs constroem sistemas agênticos, tema central de workflow de AI em 2026.",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Rebuilding AUTOMATIC1111 with Gradio Workflow",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Tutorial/produto concreto para devs que usam Stable Diffusion — acionável e afeta workflow de geração de imagem.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Moonshot AI, criadora do Kimi, explora IPO duplo em Hong Kong e Xangai",
+      "field": "quick_finds",
+      "why_should_discard": "Movimento de captação de capital (IPO) sem novidade de produto ou estratégia de AI — anti-signal explícito de funding/IPO sem info nova.",
+      "violated_rule": "Anti-signal: funding round / movimento financeiro sem info nova de produto ou estratégia"
+    },
+    {
+      "title": "OpenAI adiciona crítico de IA ao conselho de administração",
+      "field": "quick_finds",
+      "why_should_discard": "Mudança de governança corporativa sem impacto em produto, workflow ou decisão de empresa de AI que afete o leitor — não satisfaz 2 dos 3 critérios de seleção.",
+      "violated_rule": "Critérios de seleção: não é acionável, não afeta workflow, sinal de mercado fraco (governança ≠ movimento estratégico de produto)"
+    },
+    {
+      "title": "DeepSeek lança v4.1 Flash e diz superar Kimi K3 em benchmarks de cyber e coding",
+      "field": "main_find",
+      "why_should_discard": "Claim de benchmark da própria empresa sem verificação independente — 'sinal de mercado' exige movimento estratégico específico, não anúncio de marketing. Borderline, mas como main_find é fraco.",
+      "violated_rule": "Critério 2 (sinal de mercado): claim de benchmark não é movimento estratégico verificável"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A regra de anti-signal para funding/IPO pode estar sendo lida como aplicável apenas a 'funding round' literal, não a movimentos de captação como IPO — o reasoning não menciona IPO como anti-signal.",
+      "evidence": "Moonshot AI IPO duplo entrou como quick_find sem qualquer nota no reasoning sobre ser anti-signal.",
+      "suggested_fix": "Explicitar no anti-signal: 'IPO, abertura de capital, movimento de captação — mesmo tratamento de funding round'."
+    },
+    {
+      "hypothesis": "O AI Gate está sendo aplicado como suficiente para seleção, sem checagem subsequente dos 2-de-3 critérios — itens como OpenAI board passam só por serem 'de empresa de AI'.",
+      "evidence": "OpenAI board doomer e Moonshot IPO entraram no output sem satisfazer 2 dos 3 critérios de seleção.",
+      "suggested_fix": "Adicionar STEP explícito: 'após AI Gate, verificar 2-de-3 critérios; se falhar, descartar mesmo sendo OpenAI/Anthropic/DeepMind'."
+    },
+    {
+      "hypothesis": "O reasoning está sendo gerado como lista de 'o que passou no gate' sem reconciliação com o output final, permitindo contradições (itens listados como PASSARAM mas ausentes do output).",
+      "evidence": "iPhone Duo, Paul Christiano e Mathematicians listados como PASSARAM no reasoning mas ausentes ou só no radar.",
+      "suggested_fix": "Exigir que o reasoning liste explicitamente os itens SELECIONADOS no output, não os que passaram no gate."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem dois false positives claros (Moonshot IPO e OpenAI board) que violam anti-signals e critérios de seleção, e o main_find é um claim de benchmark da própria empresa sem verificação — sinal de mercado fraco. O reasoning é incoerente com o output (lista itens como PASSARAM que não aparecem) e usa tração como justificativa principal do main_find, violando a regra de tiebreaker. Tom é contido, mas há detalhes inventados (deepfakes do Irã no Google Earth) e afirmações de panorama sem fonte."
+}

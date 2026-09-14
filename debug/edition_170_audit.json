@@ -1,0 +1,108 @@
+{
+  "edition": "170",
+  "audited_at": "2026-09-14T14:17:24.402674-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find é um blog de engenharia de 2023 sobre Buck2, sem novidade concreta e sem conexão com AI/ML — falha no AI Gate e é anti-signal (blog corporativo sem novidade). O quick_find da Mistral é um funding round puro (€3B) sem feature/produto/shift específico, o que é anti-signal explícito. Os demais quick_finds (China compute, Xpeng, FlowBalance) passam, mas a seleção principal está comprometida.",
+    "issues": [
+      "main_find 'Meta libera Buck2' é blog de engenharia de 2023, sem novidade concreta e sem conexão com AI/ML — viola AI Gate e é anti-signal (blog corporativo de thought-leadership/infra sem novidade).",
+      "quick_find 'Mistral levanta €3 bi' é funding round sem info nova de produto/estratégia — anti-signal explícito, mesmo sendo empresa de referência.",
+      "main_find não é sobre evento singular recente; é rehash de post de 2023, violando o requisito de novidade."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "Não há palavras de hype explícitas (revolucionário, bombástico, etc.) e o tom é contido. Porém, o main_find afirma 'A Meta já usa o Buck2 em produção' e 'promete builds mais rápidos e determinísticos' — detalhes não presentes no título original e que soam como fato confirmado sem fonte no input. O quick_find da Mistral transforma 'raises €3B' em 'está investindo €3 bi para tornar IA soberana... a fronteira tecnológica', aumentando a certeza do claim.",
+    "issues": [
+      "main_find.body adiciona detalhes ('escrito em Rust', 'usado em produção', 'builds mais rápidos e determinísticos') que não estavam no título e não têm fonte verificável no input.",
+      "quick_find Mistral: título original 'raises €3B' vira afirmação de que 'está investindo €3 bi para tornar IA soberana e de peso aberto a fronteira tecnológica' — aumenta certeza e escopo do claim."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find é Meta AI Research; quick_finds são SCMP, Mistral, TechNode e HuggingFace — sem repetição excessiva. Audiência: 3 dos 4 quick_finds são 'executivos de negócio' e o main_find é 'desenvolvedores', então há variação mínima. Geografia: 2 itens da China (SCMP + TechNode) e 1 da França (Mistral), o que está no limite aceitável.",
+    "issues": [
+      "Audiência pouco diversa: 3 de 4 quick_finds marcados como 'executivos de negócio', com apenas 1 'desenvolvedores' no main_find.",
+      "Dois itens da China (SCMP e TechNode) entre os quick_finds — no limite, mas não ultrapassa o threshold de 3+."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Buck2/Meta), então não é totalmente genérica. Porém, o main_find é um item fraco (blog de 2023, sem AI), e o intro o apresenta como 'o destaque' sem qualquer ressalva — o que amplifica o erro editorial. Além disso, o intro não menciona nenhum dos outros temas da edição.",
+    "issues": [
+      "Intro destaca Buck2 como principal, mas o item é anti-signal (blog de 2023, sem AI) — o intro reforça uma escolha editorial equivocada.",
+      "Intro não contextualiza os demais temas (China compute, Mistral, robótica), ficando restrito a um item fraco."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Score neutro conforme instrução. Não é possível avaliar coerência entre ai_gate_passed, main_find_rationale e perspective_check.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Unlocking Lossless Speedups in LLMs via Discrete Diffusion",
+      "source": "HuggingFace Papers",
+      "why_should_include": "Paper de pesquisa em LLMs com potencial de acionabilidade para engenheiros de ML (speedups sem perda) e sinal de pesquisa concreta — passaria no AI Gate e nos critérios de acionável + afeta workflows.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "This AI entrepreneur is developing agents that can plan ahead for the unexpected",
+      "source": "MIT Technology Review",
+      "why_should_include": "Conexão direta com AI (agentes), sinal de mercado específico (desenvolvimento de agentes com planejamento) e potencial de afetar workflows de automação.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "ByteDance is reportedly developing a real-time spatial video model under Zhang Yiming",
+      "source": "TechNode",
+      "why_should_include": "Item aparece no radar, mas não como quick_find — tem conexão com AI (modelo de vídeo espacial), sinal de mercado específico (ByteDance) e potencial de afetar workflows de mídia/AR.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Meta libera Buck2, sistema de build open source",
+      "field": "main_find",
+      "why_should_discard": "Blog de engenharia de 2023, sem novidade concreta e sem conexão com AI/ML — viola AI Gate e é anti-signal (blog corporativo sem novidade).",
+      "violated_rule": "STEP 1 - AI Gate + anti-signal (blog corporativo sem novidade)"
+    },
+    {
+      "title": "Mistral levanta €3 bi para tornar IA soberana e de peso aberto a fronteira tecnológica",
+      "field": "quick_finds",
+      "why_should_discard": "Funding round puro (€3B) sem info nova de produto/feature/shift específico — anti-signal explícito, mesmo sendo empresa de referência.",
+      "violated_rule": "Anti-signal - funding round sem info nova"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) pode estar sendo aplicado de forma frouxa para itens de fontes 'prestigiadas' (Meta AI Research), permitindo blog de engenharia sem conexão com AI.",
+      "evidence": "main_find é 'Meta libera Buck2', blog de engenharia de 2023 sem AI/ML — passou como se fosse relevante por vir de Meta AI Research.",
+      "suggested_fix": "Reforçar no STEP 1 que a fonte não substitui o AI Gate; blog de engenharia sem AI/ML deve ser descartado independentemente da empresa."
+    },
+    {
+      "hypothesis": "A regra de anti-signal para funding round pode estar sendo ignorada quando a empresa é 'de referência' (Mistral), tratando o valor alto como suficiente.",
+      "evidence": "quick_find Mistral €3B sem feature/produto/shift específico foi incluído.",
+      "suggested_fix": "Adicionar few-shot explícito de funding round de empresa de referência (ex: Mistral, OpenAI) sendo descartado por falta de info nova."
+    },
+    {
+      "hypothesis": "O critério de 'sinal de mercado' pode estar sendo confundido com 'empresa conhecida' em vez de 'movimento estratégico específico'.",
+      "evidence": "Buck2 (Meta) e Mistral €3B foram tratados como sinal de mercado apesar de não haver shift de categoria/política/M&A específico.",
+      "suggested_fix": "Reforçar no STEP 2 que sinal de mercado exige evento singular e específico (mudança de categoria, shift de política, M&A), não apenas menção a empresa conhecida."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "O main_find é um blog de engenharia de 2023 sem conexão com AI/ML, violando o AI Gate e sendo anti-signal. Um quick_find é funding round puro (Mistral €3B), também anti-signal. A seleção principal compromete a edição, apesar de alguns quick_finds válidos (China compute, Xpeng, FlowBalance)."
+}

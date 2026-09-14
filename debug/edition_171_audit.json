@@ -1,0 +1,109 @@
+{
+  "edition": "171",
+  "audited_at": "2026-09-14T14:17:36.802661-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Meta Muse) passa no AI Gate e tem sinal de mercado claro, mas o corpo inventa detalhes não presentes no título (assinaturas de IA, integração com WhatsApp/Instagram/Facebook) e o bullet 3 é pura especulação apresentada como orientação. Entre os quick_finds, o DeepSeek IPO é anti-signal clássico (movimento financeiro sem novidade de produto/estratégia) e o AlphaGenome Atlas é pesquisa científica sem acionabilidade prática para o leitor de tech.",
+    "issues": [
+      "main_find 'Meta lança Muse': o body afirma 'a Meta busca diversificar receita além de publicidade, explorando assinaturas de IA' — informação não presente no título nem no input, é inferência inventada.",
+      "main_find bullet 2: 'A integração com WhatsApp, Instagram e Facebook pode dar ao Muse uma vantagem de distribuição' — detalhe de produto não confirmado no input.",
+      "quick_find 'DeepSeek contrata CITIC para IPO': viola anti-signal de resultado/movimento financeiro sem novidade de produto ou estratégia. 'Contratar banco para IPO' é evento financeiro puro.",
+      "quick_find 'AlfaGenome Atlas': é publicação de pesquisa do DeepMind, sem acionabilidade para o leitor (não pode testar ferramenta, não muda workflow de tech/AI no dia a dia). Só satisfaz 'sinal de mercado' de forma fraca.",
+      "quick_find 'XPeng inicia produção de robô humanoide': passa no AI Gate (robótica/automação), mas o signal diz 'empresas que acompanham automação industrial devem observar' — acionabilidade vaga, sem decisão concreta."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 2,
+    "rationale": "O main_find.body e os bullets introduzem informação não presente no input (assinaturas, integração com apps Meta) e transformam especulação em orientação prática. O quick_find do DeepSeek preserva 'estaria contratando' (condicional correto), mas o step5_phrase afirma 'está se preparando para um IPO' — aumento de certeza indevido. Não há palavras de hype explícitas, mas há invenção factual.",
+    "issues": [
+      "main_find.body: 'A empresa já vinha investindo em modelos abertos (como a família Llama) e agora aposta em um produto de consumo direto' — contexto não presente no input, adicionado como se fosse fato.",
+      "main_find.bullets[0]: 'A Meta busca diversificar receita além de publicidade, explorando assinaturas de IA' — especulação sobre modelo de negócio apresentada como fato.",
+      "quick_find DeepSeek: claim_status 'especulativo' está correto, mas step5_phrase 'DeepSeek está se preparando para um IPO' afirma como certeza o que o título diz 'reportedly hires'.",
+      "quick_find AlphaGenome: step5_phrase 'muda o que sabíamos sobre o impacto de mutações' é afirmação forte para uma publicação de atlas preditivo, sem confirmação de impacto real."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há diversidade razoável de fontes (HackerNews, SCMP, TechNode, DeepMind Blog) e de audiências (todos, executivos de negócio, pesquisadores). Porém, 2 dos 4 quick_finds são da TechNode e 2 são sobre empresas chinesas (DeepSeek, XPeng), além do Alibaba — 3 de 5 itens do output são China. Geograficamente desequilibrado.",
+    "issues": [
+      "3 dos 5 itens do output (Alibaba, DeepSeek, XPeng) são sobre empresas chinesas — concentração geográfica excessiva.",
+      "2 dos 4 quick_finds vêm da mesma fonte (TechNode)."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Meta Muse), o que é correto. A segunda frase ('Analisei 302 posts de 20 fontes') é genérica mas factual. O intro cumpre a função sem ser genérico.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Score neutro conforme instrução.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI says AI solved a Millennium Prize math problem, but experts haven’t signed off",
+      "source": "r/artificial",
+      "why_should_include": "Evento singular com conexão direta a AI (OpenAI), sinal de mercado forte (alegação de breakthrough em matemática) e acionabilidade para pesquisadores. A controvérsia sobre validação é exatamente o tipo de 'sinal de mercado' que a newsletter deveria cobrir.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "How GPT-5.6 Sol helps run quantum computing experiments",
+      "source": "OpenAI Blog",
+      "why_should_include": "Caso concreto de uso de modelo de fronteira em workflow científico (computação quântica). Acionável para pesquisadores e sinal de mercado sobre aplicação de LLMs em domínios técnicos.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Mistral raises €3B to make sovereign, open-weight AI the technology frontier",
+      "source": "Mistral Releases",
+      "why_should_include": "Funding round com tese estratégica explícita (soberania de IA, open-weight) — não é 'levanta $Y' puro, tem shift de posicionamento de mercado. Passa no AI Gate e tem sinal de mercado.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "DeepSeek contrata CITIC para IPO na China",
+      "field": "quick_finds",
+      "why_should_discard": "Movimento financeiro (contratação de banco para IPO) sem novidade de produto, feature ou shift de estratégia. É anti-signal explícito: 'resultado financeiro sem novidade de produto/estratégia junto'.",
+      "violated_rule": "Anti-signal: funding/IPO sem info nova de produto ou estratégia"
+    },
+    {
+      "title": "AlfaGenome Atlas mapeia mutações do DNA humano",
+      "field": "quick_finds",
+      "why_should_discard": "Publicação de pesquisa científica do DeepMind sem acionabilidade prática para o leitor de tech/AI. Não muda workflow de tech no dia a dia nem oferece ferramenta testável. Só satisfaz 'sinal de mercado' de forma marginal.",
+      "violated_rule": "Critérios de seleção: precisa de pelo menos 2 de 3 (Acionável, Sinal de mercado, Afeta workflows)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção pode estar tratando 'empresa de AI' como passe livre para qualquer notícia sobre ela, incluindo movimentos financeiros como IPO.",
+      "evidence": "DeepSeek IPO entrou como quick_find apesar de ser anti-signal explícito de movimento financeiro sem novidade de produto.",
+      "suggested_fix": "Reforçar no prompt que IPO/funding de empresa de AI continua sendo anti-signal se não houver feature, produto ou shift estratégico junto."
+    },
+    {
+      "hypothesis": "STEP de seleção pode estar confundindo 'publicação de pesquisa de laboratório de AI' com 'notícia acionável de AI'.",
+      "evidence": "AlphaGenome Atlas entrou como quick_find apesar de ser paper de genômica sem acionabilidade para o leitor de tech.",
+      "suggested_fix": "Adicionar regra explícita: papers de pesquisa só entram se tiverem aplicação prática imediata ou ferramenta testável."
+    },
+    {
+      "hypothesis": "STEP de geração de body/bullets pode estar autorizando o modelo a 'enriquecer' com contexto de conhecimento geral, gerando informação não presente no input.",
+      "evidence": "main_find.body e bullets contêm detalhes sobre assinaturas de IA e integração com WhatsApp/Instagram/Facebook que não estão no título nem no input.",
+      "suggested_fix": "Instruir explicitamente: 'Não adicione informação que não esteja no título ou no input. Se não está no input, não escreva.'"
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem dois false positives claros (DeepSeek IPO e AlphaGenome Atlas) que violam anti-signals e critérios de seleção. O main_find inventa detalhes não presentes no input (assinaturas, integração com apps Meta) e transforma especulação em orientação. A diversidade geográfica está desequilibrada (3 de 5 itens sobre China) e há false negatives relevantes (OpenAI matemática, GPT-5.6 quantum, Mistral €3B)."
+}
