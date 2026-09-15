@@ -1,4 +1,4 @@
-# Editorial Retrospective — Daily Scout v4 → v5.2
+# Editorial Retrospective — Daily Scout v4 → v5.4
 
 *De "tração alta = notícia boa" até pipeline editorial com 10 sources, radar section e geographic diversity cap.*
 
@@ -188,17 +188,83 @@ Reddit em 24h frequentemente tem discussões incipientes — cedo demais pra ser
 
 ---
 
+## Capítulo 6 — Tom de Voz: soltando a fórmula sem reabrir a ferida da alucinação (08-15/09/2026, v5.4)
+
+### Gatilho
+
+Li uma newsletter de terceiros (AI enthusiasts, início de setembro) e a abertura tinha uma voz animada de verdade — saudação direta, contraste narrativo entre dois achados do dia, personalidade. Comparado a isso, a AYA soava correta mas monótona. Motivo de abrir essa frente: nenhuma régua de acurácia parecia estar em jogo, só ritmo.
+
+### Por que isso é perigoso neste projeto especificamente
+
+Esse mesmo caminho já foi tentado e já quebrou. [`blueprint/archive-internal/PROMPT_FIX_TOM_AYA_V3.md`](../blueprint/archive-internal/PROMPT_FIX_TOM_AYA_V3.md) documenta que, na v1→v2, dar mais "voz" ao modelo (adjetivos de intensidade, contexto narrativo) fez o Gemini Flash **alucinar** contexto que não estava no título — ex.: o caso real do Sora, em que o modelo inventou um parágrafo inteiro de contexto emocional a partir de um título de 8 palavras. O fix na época foi bloquear adjetivos de intensidade e forçar `"Segundo [fonte], ..."` como abertura obrigatória de todo achado. Isso resolveu a alucinação, mas como efeito colateral matou qualquer variação de ritmo — toda edição, todo item, mesma cadência.
+
+### Diagnóstico
+
+Decompus o que a newsletter de referência fazia em técnicas concretas e classifiquei cada uma por risco de reabrir o bug de 2026 (ver conversa completa para a tabela cheia):
+
+| Técnica | Risco de alucinação |
+|---|---|
+| Saudação / endereçamento direto ao leitor | Nenhum — não é claim factual |
+| Arco narrativo entre 2+ achados do próprio dia | Médio — seguro só se usar fatos já selecionados hoje, nunca contexto externo |
+| Metáfora/cor sobre a empresa ("prova que ainda tem pulso") | Alto — pressupõe conhecimento de fundo fora do título, exatamente o padrão do bug do Sora |
+| Variar a posição da atribuição na frase | Nenhum — é regra de formato, não de acurácia |
+
+O achado mais concreto: a regra `"main_find.body: SEMPRE comece com atribuição"` sozinha já achatava o texto, independente de qualquer adjetivo — 3 edições reais seguidas (168, 169, 170) abriam literalmente com `"Segundo [fonte], ..."` ou `"De acordo com [fonte], ..."`.
+
+### O que foi mudado — só em `prompts/curation_template.txt`, nada em `system_instruction.txt`
+
+Nenhuma guardrail de acurácia, certeza epistêmica ou banimento de adjetivo de intensidade foi tocada. Duas regras de formato foram reescritas:
+
+**1. `correspondent_intro`** — de "referencie o tema + cite volume" pra: pode se dirigir ao leitor diretamente ("você"/"a gente"), varia o formato de abertura entre edições (gancho direto / constatação / contraste), nunca repete a mesma fórmula em edições consecutivas.
+
+**2. `main_find.body` e `quick_finds[].signal`** — a atribuição à fonte continua OBRIGATÓRIA, mas não precisa mais ser a primeira palavra; pode vir no fim ou embutida no meio da frase, variando entre os itens da mesma edição.
+
+Proposta C (conectar 2+ achados do dia numa frase, só com fatos já selecionados hoje — nunca contexto externo sobre a empresa) foi desenhada mas **não implementada** — fica pra próxima rodada.
+
+### Testes — 6 dry runs com DeepSeek real (`DRY_RUN=true DEBUG_SAVE=true python3 pipeline.py`), 08 e 15/09
+
+| Run | O que apareceu | Ação |
+|---|---|---|
+| 1 | Variação de atribuição funcionou. Mas `correspondent_intro` terminava em frase cortada: *"Separei 5 posts de 5 fontes pra você não precisar."* (não precisar DE QUÊ?) | Regra reescrita: frase pessoal precisa ser completa, exemplo de erro adicionado |
+| 2 e 3 | Frase corrigida. Mas o item "matemático da NYU acusa a OpenAI" perdeu a atribuição ao TechCrunch **por completo** nos dois runs — o modelo tratou nomear o ator da notícia (o matemático) como se já fosse a atribuição | Regra reescrita: nomear um ator dentro da notícia não substitui citar a fonte que reportou; os dois podem coexistir na mesma frase |
+| 4 | Mesmo item, pós-fix: *"Um matemático da... NYU acusou a OpenAI... **segundo o TechCrunch**."* Atribuição de volta, sem perder o jeito natural de citar o ator | Nenhuma |
+| 5 e 6 | 0 ocorrências de `"Segundo [fonte],"` abrindo frase (era 100% antes). `validate_tone()` sem nenhum warning de hype nos 6 runs. Atribuição nunca mais sumiu. Padrão residual: o modelo convergiu quase todo item pra uma única variação ("[fato], segundo [fonte], [complemento]") em vez de alternar de verdade entre início/meio/fim | Nenhuma ação ainda — próximo passo natural é um few-shot mostrando 3 itens de uma edição com posição de atribuição genuinamente diferente cada um |
+
+### Antes vs. Depois (dados reais)
+
+**Abertura de achado — edição real #177 (15/09, prompt antigo, produção):**
+> "Segundo o TechCrunch, Salesforce e Nvidia lançaram juntas um novo modelo de raciocínio..."
+
+**Mesmo tipo de achado — dry run com o prompt novo (15/09):**
+> "O Google anunciou o Gemini 3.8 Live e o Gemini 3.8 Live Extended Thinking, segundo post com 202 pontos no HackerNews — a notícia também apareceu no blog do DeepMind."
+
+**`correspondent_intro` — regra antiga (reconstrução fiel ao formato vigente):**
+> "Hoje o destaque vai pro Buck2, sistema de build open source liberado pela Meta. Analisei posts de 5 fontes."
+
+**`correspondent_intro` — dry run com o prompt novo:**
+> "Hoje tem lançamento de modelo do Google disputando espaço com um engenheiro da DeepSeek atacando publicamente Anthropic e OpenAI — dois lados da mesma moeda sobre quem define o ritmo da IA. Garimpei 40 posts de 21 fontes pra você não precisar vasculhar tudo isso sozinho."
+
+### Status ao fechar este capítulo
+
+- Mudanças estão **só no working tree local** (`prompts/curation_template.txt` modificado, não commitado, não deployado). Produção (edições 171-177) ainda roda o prompt antigo.
+- Proposta C (conexão entre achados) desenhada, não implementada.
+- Refinamento pendente: few-shot explícito de variação de posição de atribuição, pra reduzir a convergência residual observada nos runs 5-6.
+- Decisão de commitar/deployar ainda não tomada — pendente de mais validação ou aceite do estado atual.
+
+---
+
 ## Resumo da Evolução Técnica
 
-| Aspecto | v3 (pré-intervenção) | v4 (editorial) | v5.0 (scale) | v5.2 (balance) |
-|---------|---------------------|----------------|--------------|----------------|
-| Sources | 4 | 4 | 10 | 10 |
-| Critério | Tração/Impacto/Novidade | AI Gate + 5 steps | AI Gate + 5 steps + bias check | + geographic cap |
-| Few-shots | 3 (só tom) | 5 (seleção + descarte) | 10 (+ geographic + cross-source) | 10 |
-| Pre-filter | Dedup + recency | Dedup + recency | Z-score + decay + wild card | = |
-| Observability | Nenhuma | Nenhuma | Reasoning schema | + Radar section |
-| Geographic | Nenhuma | Nenhuma | 3 fontes não-ocidentais | + region cap |
-| Prompt score | ~5.6/10 | 8.8/10 | 8.8/10 (+ sync fixes) | = |
+| Aspecto | v3 (pré-intervenção) | v4 (editorial) | v5.0 (scale) | v5.2 (balance) | v5.4 (tom, Cap. 6) |
+|---------|---------------------|----------------|--------------|----------------|---------------------|
+| Sources | 4 | 4 | 10 | 10 | 22 (evolução separada, ver `docs/SOURCES_STUDY.md`) |
+| Critério | Tração/Impacto/Novidade | AI Gate + 5 steps | AI Gate + 5 steps + bias check | + geographic cap | = |
+| Few-shots | 3 (só tom) | 5 (seleção + descarte) | 10 (+ geographic + cross-source) | 10 | 13+ (+ anti-redundância título↔corpo) |
+| Pre-filter | Dedup + recency | Dedup + recency | Z-score + decay + wild card | = | = |
+| Observability | Nenhuma | Nenhuma | Reasoning schema | + Radar section | = |
+| Geographic | Nenhuma | Nenhuma | 3 fontes não-ocidentais | + region cap | = |
+| Voz/ritmo | — | — | — | Atribuição fixa no início de todo item | Atribuição obrigatória, posição variável; intro com endereçamento direto (**local, não deployado**) |
+| Prompt score | ~5.6/10 | 8.8/10 | 8.8/10 (+ sync fixes) | = | não re-auditado |
 
 ---
 
@@ -216,6 +282,9 @@ Reddit em 24h frequentemente tem discussões incipientes — cedo demais pra ser
 7. **Tração é context, não criteria.** Esse shift conceitual mudou todo o framework.
 8. **Sync prompt ↔ pipeline é P0.** O prompt audit v5 encontrou que o schema listava 4 sources enquanto o pipeline tinha 10 — bug silencioso.
 9. **Reasoning schema = observability.** Ver O QUE a AYA decidiu E POR QUÊ mudou a qualidade do debug.
+13. **Nem toda regra "de tom" é uma regra de acurácia.** A fórmula fixa de abertura (`"Segundo X, sempre"`, Capítulo 6) nasceu pra resolver alucinação, mas na prática era só formatação — dava pra soltar sem tocar em nenhuma guardrail real. Vale sempre separar as duas coisas antes de decidir o que é seguro mexer.
+14. **"Nomear alguém" ≠ "citar a fonte".** Quando a notícia já tem um ator humano nela (um pesquisador, um crítico), o modelo tende a achar que nomear esse ator já cumpre a exigência de atribuição — precisa de regra explícita distinguindo sujeito-do-fato de fonte-que-reportou (Capítulo 6).
+15. **Regra descritiva de variação não garante variação de verdade.** Pedir "varie a posição" em texto fez o modelo trocar UM padrão fixo por OUTRO padrão quase tão fixo (atribuição no fim, quase sempre). Pra variação de verdade, few-shot mostrando 3 formas diferentes lado a lado provavelmente funciona melhor que descrição em prosa (Capítulo 6).
 
 ### De operação
 10. **Config-driven > hardcoded.** `sources_config.json` permite ligar/desligar sources sem deploy.
@@ -236,7 +305,12 @@ Reddit em 24h frequentemente tem discussões incipientes — cedo demais pra ser
 - [ ] Dry run v5.2 — validar radar + geographic cap em prod
 - [ ] [JC-03] Editorial memory block — sprint futura
 - [ ] Calibração de pesos via feedback loop — futuro
+- [ ] Cap. 6 (tom de voz): commitar/deployar `curation_template.txt` — ainda só local
+- [ ] Cap. 6: few-shot de variação de posição de atribuição (reduzir convergência residual)
+- [ ] Cap. 6: Proposta C (conexão entre achados do dia) — desenhada, não implementada
+
+> Nota: as seções "Status Técnico" e "Sources" acima refletem o snapshot de 27/03/2026 (v5.2). Para o estado atual de fontes e arquitetura, ver [`docs/CURRENT_STATE.md`](CURRENT_STATE.md).
 
 ---
 
-*Documentado em 27/03/2026. Este é um documento vivo que será atualizado conforme o pipeline evolui.*
+*Documentado em 27/03/2026. Capítulo 6 adicionado em 15/09/2026. Este é um documento vivo que será atualizado conforme o pipeline evolui.*
