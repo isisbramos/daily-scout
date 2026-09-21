@@ -1,0 +1,107 @@
+{
+  "edition": "182",
+  "audited_at": "2026-09-21T14:30:08.850396-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Microsoft portando Copilot runtime para Rust com agentes) passa no AI Gate e é acionável, mas o quick_find da Flock é um anti-signal claro: reestruturação de workforce sem novidade de produto/estratégia e sem conexão real com AI além de ser 'empresa de vigilância'. O quick_find da Vals é um funding round disfarçado de 'posicionamento de mercado' — o título original é literalmente 'backed by Andreessen Horowitz', ou seja, o eixo da notícia é o investimento, não um produto ou shift específico.",
+    "issues": [
+      "Flock buyouts: anti-signal de reestruturação de workforce sem novidade de produto/estratégia; conexão com AI é indireta (empresa de câmeras com leitura de placas).",
+      "Vals: título original centrado em 'backed by Andreessen Horowitz' — funding round sem feature/produto/shift concreto descrito no signal.",
+      "Trump 'AI Force': declaração sem escopo, orçamento ou função — não é evento singular de empresa nem regulação concreta; passa apenas por magnitude percebida, não por critério real.",
+      "CXMT aparece no reasoning como aprovado e na epistemic_distribution como 'regulação/crítica', mas não está em main_find nem quick_finds — inconsistência entre reasoning e output."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O main_find.body é contido e factual, sem hype explícito. Porém há dois problemas de certeza: o título da Flock no output ('Flock tenta reduzir quadro') preserva 'reportedly' via 'segundo relatos', mas o step5_phrase afirma categoricamente 'A Flock está movendo para reduzir quadro com buyouts' — perda do condicional. O quick_find do Gemini afirma 'é o mais recente modelo a invadir sistemas' como fato, quando o título original usa 'is the latest to hack' com contexto de alegação não verificada.",
+    "issues": [
+      "step5_phrase da Flock remove o 'reportedly' do título original e afirma como fato.",
+      "Quick_find do Gemini trata 'hack other companies' como fato consumado sem hedge, apesar de ser alegação em disputa (há post no input 'AI models are not hacking autonomously' contradizendo).",
+      "Bullet do main_find afirma 'O caso é um dos primeiros relatos públicos de uma big tech usando agentes autônomos para reescrever código de produção em larga escala' — generalização não sustentada pelo título original."
+    ]
+  },
+  "diversity": {
+    "score": 2,
+    "rationale": "Três dos cinco itens (main_find + quick_finds) vêm de TechCrunch, violando o limite de 2 por fonte. Audiência é razoavelmente diversa (desenvolvedores, executivos de negócio, product managers). Geografia concentrada nos EUA — CXMT (China) foi aprovado no reasoning mas não aparece no output, então a diversidade geográfica prometida no reasoning não se materializa.",
+    "issues": [
+      "3 itens de TechCrunch (Gemini, Trump, Vals, Flock — na verdade 4) entre main_find + quick_finds.",
+      "Reasoning afirma 'apenas CXMT é China — dentro do limite de 2', mas CXMT não está no output; a diversidade geográfica real é 100% EUA.",
+      "Radar também concentrado em HackerNews (2 itens)."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Microsoft reescrevendo runtime do Copilot em Rust com agentes) e a segunda cita o benchmark de StarCraft. Cumpre o requisito de não ser genérica. O número '277 posts' é consistente com meta.total_analyzed.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista CXMT como aprovado no AI Gate e o coloca na epistemic_distribution como 'regulação/crítica', mas CXMT não aparece em main_find, quick_finds nem radar — contradição direta entre reasoning e output. Também lista 'datasette-auth-github 1.0' e 'Petlibro feeder' como aprovados, mas nenhum dos dois aparece no output. O main_find_rationale justifica a escolha do Microsoft Rust, mas não explica por que ele venceu Brood War Bench (274 pts) ou Exfiltrate Your Weights (460 pts), que foram relegados ao radar.",
+    "issues": [
+      "CXMT aprovado no reasoning mas ausente do output.",
+      "datasette-auth-github 1.0 e Petlibro feeder listados como aprovados no reasoning mas ausentes do output.",
+      "main_find_rationale não compara com os candidatos de maior tração (Exfiltrate Your Weights 460 pts, Brood War Bench 274 pts) que foram para radar.",
+      "Reasoning afirma 'Diversidade geográfica: apenas CXMT é China' — mas CXMT não está no output, tornando a afirmação falsa em relação ao entregue."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Spain Orders Blocks on Archive.today and Its Mirrors",
+      "source": "HackerNews",
+      "why_should_include": "Regulação governamental concreta (bloqueio estatal de plataforma) com 161 pts e 127 comentários — atende à exceção de magnitude excepcional do AI Gate e é acionável para quem depende de arquivamento web.",
+      "missed_criteria": [
+        "AI Gate (exceção: regulação governamental)",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "China's CXMT touts new chip manufacturing platform as close to 'world's most advanced'",
+      "source": "SCMP Tech",
+      "why_should_include": "Movimento estratégico específico de um player (CXMT) em semicondutores, com implicação direta para capacidade de treino de AI — o próprio reasoning da Aya o aprovou, mas ele não foi entregue.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Flock reportedly tries to shrink workforce with employee buyouts",
+      "field": "quick_finds",
+      "why_should_discard": "Reestruturação de workforce sem novidade de produto/estratégia; conexão com AI é indireta (empresa de câmeras). Não satisfaz 2 dos 3 critérios.",
+      "violated_rule": "Anti-signal: resultado/reestruturação corporativa sem novidade de produto ou estratégia"
+    },
+    {
+      "title": "Vals, backed by Andreessen Horowitz, is looking to become the gold standard for AI benchmarking",
+      "field": "quick_finds",
+      "why_should_discard": "Título centrado em funding round ('backed by a16z') sem feature, produto ou shift concreto descrito — anti-signal explícito.",
+      "violated_rule": "Anti-signal: funding round sem info nova"
+    },
+    {
+      "title": "Trump says it's time to rebrand AI with a new name — and he's also creating an AI Force",
+      "field": "quick_finds",
+      "why_should_discard": "Declaração sem escopo, orçamento ou função definida — não é regulação concreta nem evento singular de empresa; é ruído político sem ação verificável.",
+      "violated_rule": "Critério 2 (sinal de mercado) exige movimento estratégico ESPECÍFICO, não declaração vaga"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A regra de anti-signal para funding round pode estar sendo lida como 'só descarta se for puramente financeiro', permitindo passar itens onde o funding é o enquadramento principal do título.",
+      "evidence": "Vals entrou como quick_find apesar do título ser 'backed by Andreessen Horowitz' — o eixo é o investidor, não o produto.",
+      "suggested_fix": "Reforçar que se o título original tem 'backed by', 'raises', 'valuation' como sujeito principal, é anti-signal mesmo com narrativa de posicionamento."
+    },
+    {
+      "hypothesis": "O STEP de seleção não exige que o item entregue no output esteja listado no reasoning — permitindo que o reasoning 'aprove' itens (CXMT, datasette, Petlibro) que depois somem sem justificativa.",
+      "evidence": "CXMT, datasette-auth-github 1.0 e Petlibro feeder aparecem como aprovados no reasoning mas não no output.",
+      "suggested_fix": "Adicionar validação: todo item listado como aprovado no reasoning deve aparecer em main_find, quick_finds ou radar, ou ter justificativa explícita de corte."
+    },
+    {
+      "hypothesis": "A regra de diversidade de fonte (máx 2 por source) não está sendo aplicada no momento de montar quick_finds, apenas mencionada no reasoning.",
+      "evidence": "4 itens de TechCrunch no output (Gemini, Trump, Vals, Flock) — reasoning não menciona o excesso.",
+      "suggested_fix": "Incluir checagem obrigatória de contagem por source antes de finalizar o output, com corte automático do excedente."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find sólido, mas três dos quatro quick_finds violam anti-signals explícitos (Flock, Vals, Trump) e o reasoning lista itens aprovados (CXMT, datasette, Petlibro) que não foram entregues — contradição direta. A diversidade de fonte está quebrada com 4 itens de TechCrunch, e a diversidade geográfica prometida no reasoning (CXMT/China) não se materializa no output."
+}

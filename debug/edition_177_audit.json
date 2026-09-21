@@ -1,0 +1,121 @@
+{
+  "edition": "177",
+  "audited_at": "2026-09-21T14:29:15.314020-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Salesforce + Nvidia) passa no AI Gate e tem sinal de mercado real, mas o título do TechCrunch é explicitamente opinativo ('is everything the AI labs should fear') e o corpo da Aya inventa detalhes não presentes no título (CRM, atendimento, vendas, 'camada de aplicação corporativa'). O quick_find do Stratechery mistura três eventos distintos (OpenAI Ads, Amazon Ads, Walmart/Apple Pay) — é roundup, não evento singular, e o Walmart/Apple Pay não tem relação com AI. O quick_find do MIT Tech Review Brasil também empacota dois temas (código IA + planilhas/cibersegurança) sem evento singular claro.",
+    "issues": [
+      "main_find: título original é opinativo/analítico ('is everything the AI labs should fear'), não um anúncio factual — a Aya trata como lançamento confirmado sem verificar se o modelo foi de fato lançado.",
+      "quick_find 'OpenAI Ads e Amazon Ads chegam ao ChatGPT' (Stratechery): roundup de três eventos (OpenAI Ads, Amazon Ads, Walmart/Apple Pay) — viola a regra de main_find/quick_find sobre evento singular; Walmart/Apple Pay não passa no AI Gate.",
+      "quick_find 'Código gerado por IA...' (MIT Tech Review Brasil): empacota dois temas (código IA + planilhas de cibersegurança) sem evento singular; o segundo tema não tem conexão clara com AI.",
+      "quick_find 'Agentes de AI delataram colegas' (MIT Tech Review): título original é 'AI agents blew the whistle on their cheating colleagues' — a Aya transforma em 'diz MIT Tech Review' como se fosse reportagem factual, mas o título sugere experimento/estudo; falta clareza sobre a natureza da fonte."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 2,
+    "rationale": "O main_find.body inventa informação não presente no título: 'CRM, atendimento, vendas', 'camada de aplicação corporativa', 'infraestrutura de computação que hoje sustenta a maioria dos modelos de ponta'. Nada disso está no título do TechCrunch. O bullet 'Isso muda a equação para labs que vendem modelos genéricos' é análise especulativa apresentada como consequência factual. Não há palavras de hype explícitas, mas há inflação de certeza e detalhes fabricados.",
+    "issues": [
+      "main_find.body: 'a Salesforce traz a camada de aplicação corporativa — CRM, atendimento, vendas' — detalhe inventado, não está no título nem no snippet.",
+      "main_find.body: 'a Nvidia traz a infraestrutura de computação que hoje sustenta a maioria dos modelos de ponta' — afirmação de mercado não verificada no input.",
+      "main_find.bullets: 'Isso muda a equação para labs que vendem modelos genéricos' — análise especulativa apresentada como fato.",
+      "main_find.step5_phrase: 'Salesforce e Nvidia estão investindo em modelos de raciocínio próprios' — 'investindo' não está no título; o título fala de 'new reasoning model', não de investimento.",
+      "quick_find 'OpenAI Ads': step5_phrase 'OpenAI está movendo o ChatGPT para um modelo com anúncios' — o título diz 'OpenAI Ads, Amazon Ads in ChatGPT', não necessariamente que a OpenAI está mudando o modelo de negócio do ChatGPT (pode ser anúncio da Amazon dentro do ChatGPT)."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: HuggingFace Papers aparece 1x em quick_finds e 2x em radar (3 itens no total), mas entre main_find + quick_finds só 1x — dentro do limite. Audiência: há 'executivos de negócio' (2x), 'desenvolvedores' (3x), 'product managers e fundadores' (1x) — diversidade razoável. Geografia: 2 itens da China (SCMP tokens, ZGCM-1 — mas ZGCM-1 não é explicitamente chinês no título, a Aya assume), resto EUA/Brasil. O problema é que a Aya atribui geografia a ZGCM-1 sem evidência no título.",
+    "issues": [
+      "A Aya classifica ZGCM-1 como item 'China' no reasoning sem evidência no título — o paper não indica origem chinesa.",
+      "MIT Tech Review Brasil aparece 1x em quick_finds, mas o item é fraco (dois temas empacotados) — a diversidade geográfica foi comprada com um item de qualidade duvidosa."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Salesforce + Nvidia reasoning model) e o enquadramento ('pressiona os labs de AI estabelecidos'). Não é genérica. O único problema é que 'Analisei 302 posts de 20 fontes' não bate com o input (40 itens listados) — mas isso pode ser o total real da edição, não apenas o input filtrado.",
+    "issues": [
+      "Número '302 posts de 20 fontes' não é verificável contra o input (40 itens) — pode ser correto se o input é só a amostra filtrada, mas não há como confirmar."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista descartes coerentes na maioria, mas há contradições: (1) descarta 'Jensen Huang took a call from Trump' por 'título vago sem informação concreta' — mas o main_find escolhido também tem título opinativo/vago ('is everything the AI labs should fear'); (2) descarta 'Cornelis raises $205M' por ser funding sem detalhe, mas o main_find é essencialmente um anúncio de produto sem detalhes técnicos no título; (3) o reasoning não explica por que o main_find é mais acionável que ZGCM-1 (que tem score 226 e cross-source 2x) — a justificativa 'sinal de mercado forte' é genérica.",
+    "issues": [
+      "Contradição: descarta Jensen Huang por 'título vago', mas seleciona main_find com título igualmente opinativo/vago.",
+      "Contradição: descarta Cornelis por 'funding sem detalhe de produto', mas o main_find também não tem detalhe de produto no título.",
+      "main_find_rationale ausente: o reasoning não explica por que Salesforce+Nvidia vence ZGCM-1 (score 226, cross-source 2x) como main_find.",
+      "O reasoning afirma 'Diversidade geográfica: 2 itens China (SCMP tokens, ZGCM-1)' — ZGCM-1 não tem origem chinesa indicada no título."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Governing at Machine Speed: An Adaptive Intelligence Architecture for Real-Time AI Policy Enforcement",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Paper sobre enforcement de política de AI em tempo real — acionável para quem implementa governança de AI e afeta workflows de compliance. Passa no AI Gate e satisfaz acionável + afeta workflows.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "LabAgent: Customize Any Research Hubs for Scientific Discoveries Using AI Agents",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Ferramenta de agentes de AI para descoberta científica — acionável para pesquisadores e afeta workflows de P&D. Passa no AI Gate e satisfaz acionável + afeta workflows.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Grouped Value Attention: Efficient KV Caching via On-Demand Key Reconstruction",
+      "source": "HuggingFace Papers",
+      "why_should_include": "Técnica de eficiência de KV caching com score 46 no HuggingFace Papers — acionável para desenvolvedores que otimizam inferência e afeta workflows de engenharia de ML. Passa no AI Gate e satisfaz acionável + afeta workflows.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "OpenAI Ads, Amazon Ads in ChatGPT, Walmart to Accept Apple Pay",
+      "field": "quick_finds",
+      "why_should_discard": "Roundup de três eventos distintos (OpenAI Ads, Amazon Ads, Walmart/Apple Pay) — viola a regra de evento singular. Walmart/Apple Pay não passa no AI Gate.",
+      "violated_rule": "Regra de evento singular + AI Gate (Walmart/Apple Pay)"
+    },
+    {
+      "title": "Código gerado por IA acelera entregas mas amplia instabilidade, aponta MIT Tech Review Brasil",
+      "field": "quick_finds",
+      "why_should_discard": "Empacota dois temas (código IA + planilhas de cibersegurança) sem evento singular; o segundo tema não tem conexão clara com AI.",
+      "violated_rule": "Regra de evento singular + AI Gate (planilhas/cibersegurança)"
+    },
+    {
+      "title": "Salesforce e Nvidia lançam modelo de raciocínio que pressiona labs de AI",
+      "field": "main_find",
+      "why_should_discard": "Título original é opinativo/analítico ('is everything the AI labs should fear'), não anúncio factual. A Aya inventa detalhes (CRM, atendimento, vendas) não presentes no título. Deveria ter sido verificado antes de virar main_find.",
+      "violated_rule": "Tom e acurácia — informação inventada + inflação de certeza"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção de main_find prioriza 'sinal de mercado' sem exigir verificação factual do título — títulos opinativos/analíticos passam como se fossem anúncios.",
+      "evidence": "main_find escolhido é 'Salesforce and Nvidia's new reasoning model is everything the AI labs should fear' — título opinativo tratado como lançamento confirmado.",
+      "suggested_fix": "Adicionar regra: títulos com juízo de valor ('is everything X should fear', 'the end of Y') exigem verificação de anúncio factual antes de virar main_find."
+    },
+    {
+      "hypothesis": "Regra de 'evento singular' não está sendo aplicada a quick_finds — itens que empacotam múltiplos eventos passam.",
+      "evidence": "quick_finds 'OpenAI Ads, Amazon Ads in ChatGPT, Walmart to Accept Apple Pay' e 'Código IA... planilhas cibersegurança' empacotam 2-3 eventos cada.",
+      "suggested_fix": "Estender a regra de evento singular explicitamente a quick_finds no prompt."
+    },
+    {
+      "hypothesis": "STEP de diversidade geográfica incentiva atribuir geografia a itens sem evidência no título para 'fechar' a cota.",
+      "evidence": "reasoning classifica ZGCM-1 como 'China' sem qualquer indicação de origem no título ou snippet.",
+      "suggested_fix": "Adicionar regra: geografia só pode ser atribuída se explícita no título/fonte; caso contrário, classificar como 'não especificada'."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "O main_find é um título opinativo do TechCrunch tratado como anúncio factual, com detalhes inventados (CRM, atendimento, vendas) que não estão no input. Dois quick_finds empacotam múltiplos eventos (Stratechery, MIT Tech Review Brasil), violando a regra de evento singular. O reasoning tem contradições internas (descarta Jensen Huang por 'título vago' mas seleciona main_find igualmente vago) e não justifica por que Salesforce+Nvidia vence ZGCM-1 (score 226, cross-source 2x)."
+}

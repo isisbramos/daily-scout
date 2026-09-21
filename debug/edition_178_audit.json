@@ -1,0 +1,107 @@
+{
+  "edition": "178",
+  "audited_at": "2026-09-21T14:29:28.178036-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Alexa+ na Índia) passa no AI Gate e é acionável, mas o critério 'sinal de mercado' é fraco: é expansão geográfica de produto, não shift estratégico singular. O quick_find sobre Jensen Huang é declaração de opinião sem evento concreto — thought-leadership puro, anti-signal. O item do r/artificial sobre gasto de trabalhadores britânicos é dado de pesquisa sem evento singular de uma empresa, também borderline anti-signal.",
+    "issues": [
+      "quick_find 'Jensen Huang diz que regulação de IA não é necessária' — declaração de opinião/thought-leadership sem novidade concreta de produto, política ou M&A. Viola anti-signal explícito.",
+      "quick_find 'Trabalhadores britânicos gastam quase £1 bi...' — dado de pesquisa agregada sem evento singular de UMA empresa. Viola anti-signal de panorama/tendência sem evento específico.",
+      "main_find 'Alexa+ na Índia' — expansão geográfica de produto existente; sinal de mercado fraco (não é mudança de categoria, shift de política ou M&A)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype explícito (nenhuma ocorrência de 'revolucion*', 'massiv*', 'game-changer'). Porém há adição de informação não presente no título original: 'primeira grande expansão da Alexa+ para um mercado não-anglófono' e 'testa a capacidade do modelo de operar em idiomas com menos dados' são inferências não verificadas no input.",
+    "issues": [
+      "main_find.body adiciona 'É a primeira grande expansão da Alexa+ para um mercado não-anglófono' — afirmação não presente no título nem no input fornecido.",
+      "main_find.body adiciona 'testa a capacidade do modelo de operar em idiomas com menos dados de treinamento disponíveis' — inferência editorial não sustentada pelo input."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes razoavelmente distribuídas (TechCrunch aparece 2x entre main_find e quick_finds, o que é aceitável). Audiência tem variação (product managers, desenvolvedores, executivos de negócio). Geografia concentra-se em Índia, Reino Unido, EUA e China — sem excesso de uma única região.",
+    "issues": [
+      "TechCrunch aparece 2 vezes (main_find + quick_find Jensen Huang) — no limite, mas não viola a regra de 'mais de 2'."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase menciona 'queda de braço entre EUA e China sobre destilação' — tema que NÃO é o main_find (Alexa+ na Índia). O main_find é mencionado apenas na segunda frase, como item secundário. A intro não ancora no achado principal.",
+    "issues": [
+      "Primeira frase da intro destaca 'destilação EUA-China', tema que não é o main_find selecionado.",
+      "O main_find (Alexa+ Índia) aparece apenas como menção secundária na segunda frase, invertendo a hierarquia editorial."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Score neutro conforme instrução.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Introducing System One Models and Jev",
+      "source": "HackerNews",
+      "why_should_include": "Lançamento de modelos de IA com 1486 pontos no HN — evento singular de uma empresa, acionável para desenvolvedores e com sinal de mercado claro (novo player/modelo).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Salesforce AI Force, Agents as UI, The Race to Headless",
+      "source": "Stratechery",
+      "why_should_include": "Análise de shift estratégico da Salesforce em agentes como UI — sinal de mercado específico de um player, com implicações para workflows de produto.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "ByteDance's AI-enhanced short-drama app eclipses China's Netflix rivals combined",
+      "source": "SCMP Tech",
+      "why_should_include": "Evento singular de uma empresa (ByteDance) com IA aplicada a produto de mídia, revelando shift de categoria e tração de mercado mensurável.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Jensen Huang diz que regulação de IA não é necessária",
+      "field": "quick_finds",
+      "why_should_discard": "Declaração de opinião/thought-leadership sem evento concreto (sem nova política, produto ou M&A). Anti-signal explícito.",
+      "violated_rule": "Anti-signal: blog corporativo de thought-leadership sem novidade concreta"
+    },
+    {
+      "title": "Trabalhadores britânicos gastam quase £1 bi do próprio bolso em ferramentas de IA",
+      "field": "quick_finds",
+      "why_should_discard": "Dado de pesquisa agregada sem evento singular de UMA empresa. Viola anti-signal de panorama/tendência sem evento específico.",
+      "violated_rule": "Anti-signal: roundup/panorama de tendência sem evento singular de UMA empresa"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção pode estar tratando 'declaração de executivo de empresa de AI' como sinal de mercado suficiente, sem exigir evento concreto (produto, política, M&A).",
+      "evidence": "quick_find sobre Jensen Huang entrou apesar de ser apenas opinião sem novidade factual.",
+      "suggested_fix": "Adicionar regra explícita: declarações/opiniões de executivos só contam se acompanhadas de ação concreta (lançamento, mudança de política, M&A)."
+    },
+    {
+      "hypothesis": "STEP de seleção pode estar aceitando dados de pesquisa agregada como 'sinal de mercado' quando envolvem IA, sem exigir evento singular de uma empresa.",
+      "evidence": "quick_find sobre gasto de trabalhadores britânicos entrou apesar de ser dado agregado sem evento específico.",
+      "suggested_fix": "Reforçar no prompt que dados de pesquisa/panorama só passam se ancorados em evento singular de UMA empresa."
+    },
+    {
+      "hypothesis": "STEP de geração do correspondent_intro pode estar priorizando o tema de maior 'peso geopolítico' em vez do main_find selecionado.",
+      "evidence": "Intro abre com 'destilação EUA-China', tema que não é o main_find (Alexa+ Índia).",
+      "suggested_fix": "Instruir explicitamente que a primeira frase da intro deve mencionar o main_find."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem dois false positives claros (opinião de Jensen Huang e dado agregado sobre trabalhadores britânicos) que violam anti-signals explícitos. O main_find é fraco em sinal de mercado (expansão geográfica, não shift estratégico) e a intro não ancora no main_find. O tom é contido, mas há inferências não sustentadas no body do main_find."
+}

@@ -1,0 +1,101 @@
+{
+  "edition": "180",
+  "audited_at": "2026-09-21T14:29:47.603521-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find passa no AI Gate e é acionável, mas o quick_find sobre drones autônomos é um post de Reddit sem score, sem comentários e sem fonte primária — não satisfaz 2 dos 3 critérios de forma verificável. O quick_find do ZCode também é frágil: 46 pontos no HN e um guia de terceiros, tratado como 'especulativo' mas ainda assim selecionado. O item do DeepSeek é um paper de compressão de KV cache, não um release de modelo — o reasoning o classifica como 'release de modelo', o que é impreciso.",
+    "issues": [
+      "Quick_find 'Small AI models let drones autonomously identify and attack battlefield targets' (r/artificial, score 0, comments 0) — sem fonte primária, sem tração, sem evento singular verificável. Não passa em 'sinal de mercado' nem em 'acionável' de forma concreta.",
+      "Quick_find 'ZCode silently uploads your Git history' — claim_status 'especulativo' e fonte é um guia de terceiros (tokenstead.ai), não reportagem ou análise primária. Deveria estar no RADAR, não em quick_finds.",
+      "Reasoning classifica DeepSeek-V4.1-Flash como 'release de modelo', mas o item é um paper do HuggingFace Papers sobre compressão de KV cache — não há evidência de release de modelo no input."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido e factual, sem hype explícito. Porém há dois problemas de certeza: o quick_find do ZCode afirma 'faz upload silencioso' no título e depois marca claim_status 'especulativo' — a afirmação direta contradiz o status. O quick_find dos drones afirma 'já são suficientes' e 'muda o cálculo', aumentando a certeza de um post de Reddit sem fonte.",
+    "issues": [
+      "ZCode: título afirma 'envia histórico do Git do usuário sem avisar' como fato, mas claim_status é 'especulativo' — inconsistência entre título e status de certeza.",
+      "Drones: 'modelos pequenos de AI já são suficientes para drones identificarem e atacarem alvos de forma autônoma' — afirmação direta baseada em post de Reddit sem fonte primária; deveria ser condicional.",
+      "Main_find body: 'O caso ilustra um padrão recorrente' — generalização não sustentada pelo título original, que descreve um caso específico."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há diversidade de fontes (HackerNews, HuggingFace, Reddit, TechCrunch) e de audiência (desenvolvedores e executivos de negócio). Porém a geografia é concentrada: OpenAI, Zoox/Amazon, Bend e ZCode (GLM/Zhipu, China) — três itens ligados aos EUA e dois à China, sem Europa ou outras regiões. O reasoning afirma 'Máximo 2 asiáticos: DeepSeek + ZCode' mas não há regra explícita de máximo por região nos critérios fornecidos.",
+    "issues": [
+      "Concentração geográfica: 3 itens dos EUA (OpenAI, Zoox, Bend) e 2 da China (DeepSeek, ZCode/GLM) — nenhuma outra região representada.",
+      "Reasoning menciona 'Máximo 2 asiáticos' como se fosse regra, mas essa restrição não está nos critérios fornecidos — possível regra inventada ou não documentada."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (vulnerabilidade em infraestrutura da OpenAI) e o segundo item (linguagem que bloqueia erros de AI). Não é genérica. O número '302 posts de 20 fontes' é específico, embora não verificável a partir do input (que lista 40 itens).",
+    "issues": [
+      "O número '302 posts de 20 fontes' não é verificável a partir do input fornecido (40 itens listados) — pode ser impreciso ou inventado."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente os descartes e justifica o main_find, mas há contradições: classifica DeepSeek como 'release de modelo' quando é paper; afirma 'Máximo 2 asiáticos' como regra inexistente; e inclui 'AndroidLife (radar)' na distribuição epistêmica de 'pesquisa/dado' quando o item não aparece no radar do output. O main_find_rationale explica por que aquele item, mas não compara com alternativas de tração similar (Bend tinha 497 pts vs 369 do OpenAI).",
+    "issues": [
+      "Reasoning diz 'DeepSeek-V4.1-Flash — release de modelo com técnica de compressão', mas o item é um paper do HuggingFace Papers, não um release.",
+      "Reasoning afirma 'Máximo 2 asiáticos' como se fosse regra editorial — não consta nos critérios fornecidos.",
+      "meta.epistemic_distribution inclui 'AndroidLife (radar)', mas AndroidLife não aparece no campo radar do output — contradição entre reasoning e output.",
+      "Main_find escolhido (369 pts) sobre Bend (497 pts) — reasoning justifica por acionabilidade, mas não reconhece explicitamente que Bend tinha mais tração."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Self-generated prompt injections in compaction summaries",
+      "source": "Simon Willison",
+      "why_should_include": "Pesquisa original de fonte primária (Simon Willison) sobre vetor de ataque emergente em agentes que resumem contexto — acionável para devs que constroem agentes e sinal de mercado sobre segurança de agentes. Foi para o RADAR, mas tem mais concretude que o quick_find dos drones.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "The specter of AI-enabled bioweapons is a wake-up call for biotech",
+      "source": "MIT Technology Review",
+      "why_should_include": "Reportagem de fonte primária sobre risco regulatório concreto de AI em biotech — sinal de mercado (regulação) e afeta workflows de pesquisa. Foi descartado sem justificativa explícita no reasoning.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Small AI models let drones autonomously identify and attack battlefield targets",
+      "field": "quick_finds",
+      "why_should_discard": "Post de Reddit sem score, sem comentários e sem fonte primária — não satisfaz 2 dos 3 critérios de forma verificável. É discussão/opinião, não evento singular.",
+      "violated_rule": "STEP 3 - critérios de seleção (precisa de 2 de 3); anti-signal de discussão sem evento"
+    },
+    {
+      "title": "ZCode, the GLM coding agent, silently uploads your Git history",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte é um guia de terceiros (tokenstead.ai), claim_status 'especulativo', 46 pts no HN — deveria estar no RADAR como item em observação, não em quick_finds como achado.",
+      "violated_rule": "STEP 3 - sinal de mercado exige evento específico verificável; claim especulativo não sustenta quick_find"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 3 (critérios de seleção) não exige fonte primária ou tração mínima para quick_finds — permite que posts de Reddit sem score entrem como se fossem achados.",
+      "evidence": "Quick_find dos drones (r/artificial, score 0, comments 0) foi selecionado sem fonte primária nem tração.",
+      "suggested_fix": "Adicionar regra: quick_finds exigem fonte primária OU tração mínima (ex: >30 pts no HN) OU corroboração cross-source."
+    },
+    {
+      "hypothesis": "O prompt não define critério de 'release de modelo' vs 'paper' — o reasoning confunde os dois ao classificar DeepSeek-V4.1-Flash.",
+      "evidence": "Reasoning chama DeepSeek de 'release de modelo' quando o input é um paper do HuggingFace Papers.",
+      "suggested_fix": "Adicionar definição explícita: paper de pesquisa ≠ release de produto; classificar separadamente."
+    },
+    {
+      "hypothesis": "O prompt não especifica regra de diversidade geográfica, mas o reasoning inventa 'Máximo 2 asiáticos' — falta de instrução leva a regras ad hoc.",
+      "evidence": "Reasoning afirma 'Máximo 2 asiáticos: DeepSeek + ZCode' sem que essa regra conste nos critérios fornecidos.",
+      "suggested_fix": "Definir explicitamente limite geográfico (ex: máximo 2 itens da mesma região) ou remover a menção."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem dois false positives claros (drones e ZCode) que não satisfazem os critérios de seleção de forma verificável, e o reasoning contém contradições (DeepSeek classificado como release, AndroidLife no radar sem estar no output, regra 'máximo 2 asiáticos' inventada). O main_find é sólido e o tom é contido, mas a coerência entre reasoning e output está comprometida."
+}
