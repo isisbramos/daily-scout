@@ -1,0 +1,113 @@
+{
+  "edition": "184",
+  "audited_at": "2026-09-28T15:59:12.016538-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (JetBrains Air) passa no AI Gate e satisfaz acionável + sinal de mercado + workflows, sendo uma escolha defensável. Porém, dois quick_finds violam regras explícitas: 'Mercado chinês de MLCC se divide em dois' é panorama de mercado sem evento singular de UMA empresa (anti-signal explícito) e 'Jev System One' é análise de blog sobre proposta sem produto lançado, com claim_status 'especulativo' — não deveria entrar como quick_find.",
+    "issues": [
+      "quick_find 'Mercado chinês de MLCC se divide em dois' (SCMP) viola o anti-signal 'Roundup ou panorama de tendência de mercado sem evento singular de UMA empresa específica por trás' — é literalmente uma análise de segmentação de mercado, não um evento de uma empresa.",
+      "quick_find 'Jev propõe novo formato de LLM' tem claim_status 'especulativo' e é análise de terceiro (Simon Willison) sobre uma proposta — não é lançamento, produto ou shift de player estabelecido; deveria estar no radar, não em quick_finds.",
+      "quick_find 'SenseTime SenseNova U1 Pro' é lançamento de produto, mas o critério 'sinal de mercado' exige movimento estratégico ESPECÍFICO (mudança de categoria, shift de política, M&A) — lançamento de modelo de imagem com resolução maior é feature incremental, não shift de categoria."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype explícito ('revolucionário', 'game-changer', etc.) e os verbos são factuais. Há um leve excesso de inferência no main_find ao afirmar que a JetBrains 'não quer ficar restrita a edição de código' — isso é interpretação editorial não presente no título original, mas é razoável dado o contexto.",
+    "issues": [
+      "main_find.body afirma 'a entrada nessa categoria sinaliza que ela não quer ficar restrita a edição de código enquanto concorrentes como Cursor e GitHub Copilot expandem para orquestração de agentes' — inferência estratégica não sustentada pelo título original ('JetBrains Air: A System of Products for Agentic Software Development').",
+      "main_find.body diz 'A empresa já domina o mercado de IDEs pagas para Java, Kotlin e Python' — afirmação de domínio de mercado não verificada no input."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa diversidade de fontes (HackerNews, HuggingFace Blog, TechNode, SCMP, Simon Willison) e geográfica (Europa/JetBrains, China/SenseTime+MLCC, EUA/Jev, global/HuggingFace). Audiência inclui 'desenvolvedores', 'todos' e 'executivos de negócio' — não é monocultura. Nenhuma fonte aparece mais de uma vez entre main_find + quick_finds.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (JetBrains entrando em ferramentas de desenvolvimento agêntico) e adiciona um segundo eixo (China/componentes). Não é genérica. O número '292 posts de 19 fontes' é específico, embora o input liste apenas 40 itens — possível inconsistência com o meta.total_analyzed.",
+    "issues": [
+      "Intro afirma 'Garimpei 292 posts de 19 fontes' mas o input fornecido contém 40 itens — se 292 é o total real analisado, ok; se não, é número inflado. Não é verificável pelo input, mas merece checagem."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning é detalhado e lista descartes coerentes com os anti-signals. Porém há contradições: (1) descarta 'Amazon Blocks Muse' como 'análise sem evento singular' mas mantém 'Jev System One' que é igualmente análise; (2) descarta 'Don't be fooled by this summer of AI hype' como panorama sem evento singular, mas mantém 'MLCC market splits in 2' que é exatamente panorama de mercado; (3) o reasoning não explica por que SenseTime (feature incremental) passou enquanto outros lançamentos foram descartados.",
+    "issues": [
+      "Contradição: reasoning descarta 'Amazon Blocks Muse' por ser 'análise sem evento singular', mas mantém 'Jev System One' (Simon Willison) que é análise de terceiro sobre proposta especulativa.",
+      "Contradição: reasoning descarta 'Don't be fooled by this summer of AI hype' por ser 'panorama de tendência sem evento singular', mas mantém 'MLCC market splits in 2' que é panorama de mercado sem evento singular de uma empresa.",
+      "reasoning não justifica a inclusão de SenseTime SenseNova U1 Pro — não explica por que um lançamento de modelo de imagem com resolução maior passa nos critérios de seleção.",
+      "reasoning menciona 'STEP 1.5' e 'STEP 3' como se fossem etapas nomeadas do prompt, mas o prompt fornecido não define esses steps com esses nomes — possível alucinação de estrutura interna."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Alibaba unveils Zhenwu V900 AI chip as it targets 20GW of cloud data centers by 2032",
+      "source": "TechNode",
+      "why_should_include": "Lançamento de chip de AI por player específico (Alibaba) com meta estratégica concreta (20GW até 2032) — é evento singular de uma empresa, com sinal de mercado claro e relevância para infraestrutura de AI. Foi descartado por 'memória editorial' (tema chips chineses saturado), mas saturação temática não é anti-signal previsto no prompt.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Xiaomi open-sources MiMo-V2.6 models after scaling reinforcement learning",
+      "source": "TechNode",
+      "why_should_include": "Open-source de modelos por player específico (Xiaomi) com detalhe técnico (scaling de RL) — é evento singular, acionável para devs que podem baixar os modelos, e sinal de mercado (Xiaomi entrando em open-source de LLM). Descartado por 'memória editorial' (coberto na ed.179), mas o prompt não define janela de memória editorial como critério de descarte.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Can Agents Design Better Chips with a Higher Level Abstraction?",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Paper de pesquisa sobre agentes aplicados a design de chips — conexão direta com AI/ML e potencialmente acionável para engenheiros de hardware/ML. Não é anti-signal (não é roundup nem resultado financeiro).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Mercado chinês de MLCC se divide em dois com demanda de servidores de AI",
+      "field": "quick_finds",
+      "why_should_discard": "É panorama de tendência de mercado sem evento singular de UMA empresa específica — viola anti-signal explícito. O reasoning da própria Aya descarta outros itens pelo mesmo motivo, mas manteve este.",
+      "violated_rule": "Anti-signal: 'Roundup ou panorama de tendência de mercado sem evento singular de UMA empresa específica por trás'"
+    },
+    {
+      "title": "Jev propõe novo formato de LLM: System One, ou Decision Models",
+      "field": "quick_finds",
+      "why_should_discard": "Análise de terceiro (Simon Willison) sobre proposta especulativa de formato de LLM — não é lançamento, produto ou shift de player estabelecido. claim_status 'especulativo' confirma que não há evento concreto. Deveria estar no radar, não em quick_finds.",
+      "violated_rule": "Critério de seleção 2 (sinal de mercado exige movimento estratégico ESPECÍFICO de um player) + anti-signal de análise sem evento singular"
+    },
+    {
+      "title": "SenseTime lança SenseNova U1 Pro com saída de até 8K",
+      "field": "quick_finds",
+      "why_should_discard": "Lançamento de modelo de imagem com resolução maior é feature incremental, não mudança de categoria ou shift estratégico. Não satisfaz claramente 2 dos 3 critérios — 'acionável' é fraco (poucos leitores vão trocar de modelo por 8K) e 'sinal de mercado' exige movimento estratégico específico, não upgrade de spec.",
+      "violated_rule": "Critério de seleção 2 (sinal de mercado exige mudança de categoria/shift de política/M&A, não feature incremental)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt não define explicitamente que 'memória editorial' (itens já cobertos em edições anteriores) NÃO é critério válido de descarte — a Aya usou isso para descartar Alibaba Zhenwu V900 e Xiaomi MiMo-V2.6, que passariam nos critérios.",
+      "evidence": "reasoning diz 'DESCARTADOS por memória editorial: Xiaomi open-sources MiMo-V2.6... Alibaba unveils Zhenwu V900... Huawei já foi principal na ed.179' — nenhum desses descartes se baseia em anti-signal do prompt.",
+      "suggested_fix": "Adicionar regra explícita: 'Memória editorial não é critério de descarte — se o item passa nos critérios, deve ser selecionado mesmo que o player já tenha aparecido recentemente.'"
+    },
+    {
+      "hypothesis": "O prompt lista anti-signals mas não enfatiza que 'panorama de tendência de mercado sem evento singular' se aplica também a análises de cadeia de suprimentos/segmentação de mercado — a Aya aplicou o anti-signal a ensaios geopolíticos mas não a análises de mercado setorial.",
+      "evidence": "reasoning descarta 'Don't be fooled by this summer of AI hype' como 'panorama de tendência sem evento singular', mas mantém 'MLCC market splits in 2' que é o mesmo tipo de conteúdo.",
+      "suggested_fix": "Adicionar exemplo no anti-signal: 'Análise de segmentação de mercado setorial (ex: mercado X se divide em dois) também é panorama sem evento singular.'"
+    },
+    {
+      "hypothesis": "O prompt não define claramente a fronteira entre quick_finds e radar para itens especulativos ou análises de terceiros — a Aya colocou 'Jev System One' (especulativo) em quick_finds quando deveria ir para radar.",
+      "evidence": "quick_find 'Jev propõe novo formato de LLM' tem claim_status 'especulativo' e é análise de Simon Willison, não evento do player Jev.",
+      "suggested_fix": "Adicionar regra: 'Itens com claim_status especulativo ou que sejam análise de terceiro sobre proposta não-lançada vão para radar, não quick_finds.'"
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find defensável (JetBrains Air) e boa diversidade, mas inclui três quick_finds problemáticos: um panorama de mercado sem evento singular (MLCC), uma análise especulativa de terceiro (Jev) e um lançamento incremental (SenseTime). O reasoning é detalhado mas contém contradições internas — descarta itens por regras que depois viola ao selecionar outros. Além disso, usou 'memória editorial' como critério de descarte não previsto no prompt, deixando de fora itens que passariam (Alibaba Zhenwu V900, Xiaomi MiMo-V2.6)."
+}

@@ -1,0 +1,105 @@
+{
+  "edition": "189",
+  "audited_at": "2026-09-28T16:00:09.379203-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find escolhido ('Insurers claim AI is already increasing healthcare costs') é um item de sinal fraco: é uma alegação de seguradoras, sem evento singular de uma empresa de AI, sem produto, sem mudança de política — passa no AI Gate por tangência, mas falha o critério de 'sinal de mercado' (não é movimento estratégico de um player) e é borderline em 'acionável'. Pior: o reasoning lista 'OpenAI Feared Optics' como candidato com 'maior sinal de mercado' e alta tração, mas o main_find efetivamente escolhido é outro — contradição direta entre justificativa e output. O quick_find do Splash fork é um post de Reddit sobre um fork de ferramenta, sem confirmação, tratado como achado.",
+    "issues": [
+      "main_find ('Insurers claim AI is already increasing healthcare costs') não é evento singular de uma empresa de AI: é alegação de um setor (seguradoras) sobre custos, sem produto, sem política, sem M&A — falha o critério 2 (sinal de mercado) e é fraco no critério 1 (acionável).",
+      "O reasoning afirma explicitamente que 'OpenAI Feared Optics' tem 'maior sinal de mercado' e alta tração, mas o main_find escolhido é 'Insurers' — contradição entre rationale e output.",
+      "quick_find 'Splash fork optimised for M5 Max' é post de Reddit sobre fork não verificado, sem cobertura cruzada, tratado como achado acionável.",
+      "quick_find 'US and Russia cut human review of AI targets from UN draft' tem fonte única (r/artificial) e claim_status 'em_andamento' sem confirmação — borderline para seleção."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido, sem hype explícito. Porém há problemas de acurácia: o main_find.body repete a mesma frase do bullet 1 quase literalmente (redundância), e o quick_find do Splash fork eleva certeza — o título original diz '~1.5× faster (1.25× single request)' com til, e o signal afirma 'ganho de cerca de 1,5×' como se fosse medido, quando é alegação de post de Reddit. Há também um typo visível ('Qu Quem trabalha com governança').",
+    "issues": [
+      "main_find.body e bullet 1 são quase idênticos — repetição de conteúdo, não acrescenta informação.",
+      "quick_find Splash: título original usa '~1.5×' (aproximação), signal trata como ganho estabelecido ('com ganho de cerca de 1,5×') sem qualificar que é alegação de post de Reddit.",
+      "Typo no quick_find 'US and Russia': '→ Qu Quem trabalha com governança de AI...' — erro de digitação visível no output.",
+      "main_find.body começa com 'Segundo TechCrunch, Seguradoras...' e o bullet 1 repete 'segundo o TechCrunch' — atribuição duplicada e desajeitada."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa diversidade de fontes (TechCrunch, HackerNews, r/artificial, r/LocalLLaMA) e de audiência (executivos de negócio e desenvolvedores). Geografia razoável (EUA, China via DeepSeek, Índia via Google/Flipkart no reasoning). O problema é que o main_find e um quick_find são ambos de temática 'regulação/crítica' com fonte única de Reddit, e o reasoning menciona Google/Flipkart (Índia) como candidato mas o item não aparece no output — diversidade geográfica prometida no reasoning não se concretiza.",
+    "issues": [
+      "Reasoning cita 'Google tests buying from Flipkart' (Índia) como candidato selecionado, mas o item não aparece em main_find nem quick_finds — diversidade geográfica prometida não entregue.",
+      "Dois dos três quick_finds vêm de fontes Reddit (r/artificial, r/LocalLLaMA), reduzindo a variedade efetiva de fontes no output."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('seguradoras americanas dizendo que AI já está encarecendo o plano de saúde'), o que é correto. A segunda frase menciona o processo da OpenAI, que não está no output como item — cria expectativa de um achado que o leitor não encontra. O número '297 posts' é consistente com total_analyzed.",
+    "issues": [
+      "A intro menciona 'processo judicial expondo o que executivos da OpenAI sabiam sobre pirataria' como se fosse um dos achados, mas esse item não aparece em main_find nem quick_finds — o leitor é levado a procurar algo que não está lá.",
+      "A intro promete '5 achados de 5 fontes diferentes', mas o output tem 4 itens (1 main + 3 quick) de 4 fontes distintas — contagem inconsistente."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é detalhado, mas contém contradições diretas com o output. Ele afirma que 'OpenAI Feared Optics' foi escolhido como main_find ('MAIN_FIND escolhido: OpenAI Feared Optics'), mas o main_find no output é 'Insurers claim AI is already increasing healthcare costs'. Também lista 'Google tests buying from Flipkart' como candidato que passou, mas o item não aparece no output. A justificativa do main_find não explica por que 'Insurers' venceu 'OpenAI Feared Optics', que o próprio reasoning diz ter maior sinal de mercado.",
+    "issues": [
+      "Contradição direta: reasoning diz 'MAIN_FIND escolhido: OpenAI Feared Optics', mas o output tem 'Insurers claim AI is already increasing healthcare costs' como main_find.",
+      "Reasoning lista 'Google tests buying from Flipkart' como candidato que passou, mas o item não está no output.",
+      "Reasoning não justifica por que 'Insurers' foi escolhido sobre 'OpenAI Feared Optics', apesar de atribuir a este último 'maior sinal de mercado' e alta tração.",
+      "Reasoning afirma 'Diversidade epistêmica garantida: produto (Google/Flipkart)' — mas Google/Flipkart não está no output, então a garantia é falsa."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI Feared \"Optics\" of what might appear on Hacker News",
+      "source": "HackerNews",
+      "why_should_include": "Revelação de processo legal (Authors Guild v. OpenAI) sobre executivos que sabiam de pirataria em massa — evento singular, sinal de mercado/regulação, alta tração (306 pts, 257 comments). O próprio reasoning o identificou como tendo 'maior sinal de mercado', mas foi excluído do output.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Google tests buying from Walmart-owned Flipkart through Gemini and AI Mode in India",
+      "source": "TechCrunch",
+      "why_should_include": "Movimento estratégico específico de um player (Google) em comércio agêntico, com produto concreto (Gemini/AI Mode) e mercado específico (Índia) — passa em sinal de mercado e acionável. O reasoning o listou como candidato selecionado, mas ele não aparece no output.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Seguradoras dizem que AI já está encarecendo o plano de saúde nos EUA",
+      "field": "main_find",
+      "why_should_discard": "Não é evento singular de uma empresa de AI: é alegação de um setor (seguradoras) sobre custos, sem produto, sem política, sem M&A. Falha o critério 2 (sinal de mercado) e é fraco no critério 1 (acionável). Deveria ser no máximo quick_find, não main_find.",
+      "violated_rule": "Critério 2 (sinal de mercado exige movimento estratégico específico de um player) + ranking (main_find deve ser o mais acionável ou maior sinal de mercado)"
+    },
+    {
+      "title": "Fork do Splash otimizado para M5 Max promete 1,5× mais velocidade",
+      "field": "quick_finds",
+      "why_should_discard": "Post de Reddit sobre fork não verificado, sem cobertura cruzada, sem confirmação de terceiros. É alegação de usuário, não evento de mercado. Borderline anti-signal de 'blog pessoal/experiência individual'.",
+      "violated_rule": "Anti-signal (conteúdo de usuário sem evento singular) + falta de verificação"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de ranking (main_find = mais acionável OU maior sinal de mercado) pode estar sendo interpretado como 'mais impactante para o leitor' em vez de 'evento singular de um player', levando a escolher um item de impacto amplo (custos de saúde) sobre um evento específico (processo OpenAI).",
+      "evidence": "main_find escolhido é 'Insurers claim AI is already increasing healthcare costs' (alegação setorial) em vez de 'OpenAI Feared Optics' (evento singular de um player), apesar do reasoning atribuir a este último 'maior sinal de mercado'.",
+      "suggested_fix": "Reforçar no STEP de ranking que main_find deve ser sobre UM evento singular de UMA empresa/player, e que alegações setoriais sem evento específico não qualificam."
+    },
+    {
+      "hypothesis": "O reasoning pode estar sendo gerado antes da seleção final e não sendo reconciliado com o output — o modelo descreve uma seleção diferente da que efetivamente produz.",
+      "evidence": "Reasoning diz 'MAIN_FIND escolhido: OpenAI Feared Optics' e lista Google/Flipkart como candidato, mas o output tem 'Insurers' como main_find e não inclui Google/Flipkart.",
+      "suggested_fix": "Adicionar verificação de consistência entre reasoning e output antes de finalizar, ou gerar o reasoning a partir do output final."
+    },
+    {
+      "hypothesis": "O critério de 'diversidade epistêmica' pode estar sendo satisfeito por contagem de categorias no reasoning, sem verificar se os itens correspondentes realmente aparecem no output.",
+      "evidence": "Reasoning afirma 'Diversidade epistêmica garantida: produto (Google/Flipkart)' mas Google/Flipkart não está no output; a categoria 'produto_lancamento' no meta tem apenas 1 item (que é o próprio main_find de saúde, mal categorizado).",
+      "suggested_fix": "Exigir que a diversidade epistêmica seja verificada sobre os itens efetivamente no output, não sobre candidatos descartados."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem uma contradição grave entre reasoning e output: o reasoning afirma que 'OpenAI Feared Optics' foi escolhido como main_find e lista Google/Flipkart como candidato, mas o output traz 'Insurers claim AI is already increasing healthcare costs' como main_find e omite Google/Flipkart. O main_find escolhido é um item de sinal fraco (alegação setorial, não evento singular de um player), enquanto o item com maior sinal de mercado foi deixado de fora. Há ainda um quick_find de post de Reddit não verificado e um typo visível no output."
+}

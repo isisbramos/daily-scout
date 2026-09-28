@@ -1,0 +1,100 @@
+{
+  "edition": "187",
+  "audited_at": "2026-09-28T15:59:46.794826-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Gemini 3.8 Live) passa no AI Gate e é acionável, mas o reasoning admite ter descartado Lightspeed India fund por anti-signal de funding round — correto — enquanto manteve itens que também beiram anti-signal. O quick_find do governo holandês/NixOS não tem conexão com AI/ML: é soberania digital e open source, sem automação inteligente nem decisão de empresa de AI, e não se enquadra na exceção de magnitude excepcional. O item Feather é uma startup sem produto lançado, apenas posicionamento ('quer ser o Android da robótica'), o que enfraquece o critério de sinal de mercado específico.",
+    "issues": [
+      "Quick_find 'Governo holandês constrói alternativa ao Microsoft baseada em NixOS' não passa no AI Gate: é infraestrutura/open source, sem AI/ML, automação inteligente ou decisão de empresa de AI.",
+      "Quick_find 'Feather quer ser o Android da robótica' é posicionamento de startup sem produto concreto nem evento singular verificável — sinal de mercado fraco.",
+      "O reasoning afirma ter descartado JIYI SOON por ser 'tangencial', mas manteve Feather, que tem o mesmo problema de tangencialidade com AI."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido e factual, sem hype explícito. Porém há acréscimos de informação não presentes nos títulos originais: o body do main_find afirma que o modelo 'processa áudio e vídeo continuamente' e que 'não espera o usuário terminar de falar', detalhes técnicos não verificáveis a partir do título 'Introducing Gemini 3.8 Live with Live Avatar'. O quick_find do Pentágono adiciona contexto sobre 'evidência científica contestada' que não estava no título.",
+    "issues": [
+      "main_find.body e bullets afirmam comportamento técnico específico (processamento contínuo de áudio/vídeo, latência) que não consta no título original nem é atribuído a fonte.",
+      "quick_find do Pentágono insere juízo sobre 'evidência científica historicamente contestada' sem base no título — é opinião editorial apresentada como fato.",
+      "step5_phrase do main_find ('Agora é possível usar...') eleva certeza: o título anuncia o produto, mas não confirma disponibilidade geral."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes estão razoavelmente distribuídas (DeepMind, MIT Tech Review, HackerNews, TechCrunch x2). TechCrunch aparece duas vezes entre os quick_finds, o que é aceitável mas no limite. Audiência tem variedade: dois 'desenvolvedores' e dois 'executivos de negócio'. Geografia é diversa (EUA, Holanda, China via PrismML/Qualcomm).",
+    "issues": [
+      "TechCrunch aparece 2x entre quick_finds (PrismML e Feather) — dentro do limite, mas sem folga.",
+      "Nenhum item da América Latina ou África apesar de fontes disponíveis (MIT Tech Review Brasil) — não é falha grave dado o gate de AI."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Google empurrando avatar em tempo real no Gemini) e contrasta com o item do Pentágono, criando tensão editorial real. A segunda frase é genérica ('garimpei 312 posts'), mas funcional.",
+    "issues": [
+      "Segunda frase ('garimpei 312 posts de 20 fontes') é fórmula genérica que poderia servir a qualquer edição."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente os descartes por AI Gate, mas há contradições: afirma ter descartado JIYI SOON por ser 'tangencial' e manteve Feather com o mesmo problema; afirma ter descartado Lightspeed por anti-signal de funding round, o que é correto, mas não justifica por que o item NixOS (sem AI) passou. O main_find_rationale ('produto concreto, acionável, sinal de mercado') não compara com alternativas mais fortes como o paper de Object Permanence (cross-source em 2 fontes) ou o Pentágono (regulação governamental).",
+    "issues": [
+      "Contradição: descarta JIYI SOON por tangencialidade mas mantém Feather, que tem o mesmo perfil.",
+      "Não explica por que Gemini 3.8 Live venceu Object Permanence (cross-source 2x) ou o item do Pentágono (regulação governamental, exceção de magnitude).",
+      "Não há campo perspective_check explícito — o reasoning não demonstra verificação de perspectiva sobre o main_find."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "The Pentagon wants $30 million to build an AI-powered lie detector",
+      "source": "MIT Technology Review",
+      "why_should_include": "Já está no output como quick_find, mas tem força de main_find: é regulação/governo (exceção de magnitude), acionável para empresas de AI no setor público, e afeta workflows de validação de AI em defesa.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Training Object Permanence in World Models",
+      "source": "HuggingFace Papers",
+      "why_should_include": "Cross-source em 2 fontes (HuggingFace + arXiv), pesquisa original com aplicação direta em robótica e simulação — passa no AI Gate e é acionável para pesquisadores e devs de world models.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Dutch governments builds alternative for Microsoft based on NixOS",
+      "field": "quick_finds",
+      "why_should_discard": "Não tem conexão com AI/ML, automação inteligente ou decisão de empresa de AI. É infraestrutura/open source e soberania digital — fora do escopo do AI Gate.",
+      "violated_rule": "STEP 1 - AI Gate"
+    },
+    {
+      "title": "Meet Feather, the startup building the 'Android of robotics' for developers",
+      "field": "quick_finds",
+      "why_should_discard": "Startup sem produto lançado, apenas posicionamento aspiracional ('quer ser o Android da robótica'). Não há evento singular verificável nem shift de categoria concreto — sinal de mercado fraco.",
+      "violated_rule": "Critério 2 - Sinal de mercado (exige movimento estratégico ESPECÍFICO)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O AI Gate pode estar sendo aplicado de forma frouxa para itens de 'soberania digital' ou 'open source', tratando-os como adjacentes a AI sem exigir conexão real.",
+      "evidence": "O item NixOS/Microsoft entrou como quick_find apesar de não ter AI/ML, automação ou decisão de empresa de AI.",
+      "suggested_fix": "Reforçar no STEP 1 que infraestrutura/open source sem componente de AI/ML não passa, mesmo com tração alta no HackerNews."
+    },
+    {
+      "hypothesis": "O critério de 'sinal de mercado' está sendo aceito para posicionamento aspiracional de startups, não apenas para movimentos estratégicos concretos.",
+      "evidence": "Feather entrou como quick_find com base em 'quer ser o Android da robótica', sem produto ou evento singular.",
+      "suggested_fix": "Explicitar no STEP 2 que 'sinal de mercado' exige evento singular verificável (lançamento, M&A, mudança de política), não posicionamento declarado."
+    },
+    {
+      "hypothesis": "O reasoning não é obrigado a comparar o main_find com alternativas mais fortes, permitindo escolha por familiaridade de marca (Google) em vez de força editorial.",
+      "evidence": "Gemini 3.8 Live foi escolhido como main_find sem justificativa comparativa contra Object Permanence (cross-source 2x) ou Pentágono (regulação).",
+      "suggested_fix": "Adicionar campo obrigatório no reasoning que compare o main_find escolhido com pelo menos 2 alternativas descartadas."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem dois false positives claros: o item NixOS/Microsoft não passa no AI Gate e o Feather é posicionamento aspiracional sem evento singular. O reasoning é internamente contraditório (descarta JIYI SOON por tangencialidade mas mantém Feather) e não justifica a escolha do main_find contra alternativas mais fortes. O tom é contido, mas o body do main_find adiciona detalhes técnicos não verificáveis a partir do título original."
+}

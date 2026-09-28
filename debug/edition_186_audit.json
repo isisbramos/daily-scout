@@ -1,0 +1,99 @@
+{
+  "edition": "186",
+  "audited_at": "2026-09-28T15:59:35.315203-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Claude/CRISPR) passa no AI Gate e é um evento singular com sinal de mercado real. Porém, dois quick_finds violam regras explícitas: o item da Meta sobre remoção de vídeo é moderação de conteúdo sem conexão com AI/ML (o produto 'óculos de AI' é só o assunto do vídeo, não o evento), e o item da H3C é panorama de fornecedor sem evento singular verificável. O item do Gemini TTS é borderline: é lançamento de produto, mas o output não cita nenhuma feature concreta além de 'text-to-speech', o que enfraquece o critério acionável.",
+    "issues": [
+      "Quick_find 'Meta derruba vídeo crítico sobre óculos de AI' — o evento é moderação de conteúdo/controle de plataforma, não AI/ML. O AI Gate exige conexão com AI, automação inteligente ou decisão de empresa de AI; aqui a Meta é dona da plataforma, não o objeto da decisão de AI. Não passa no AI Gate.",
+      "Quick_find 'H3C aposta em eficiência de tokens' — é panorama/posicionamento de fornecedor ('está mudando o foco'), sem evento singular datado (anúncio, produto, número). Cai no anti-signal de 'panorama/tendência de mercado sem evento singular de UMA empresa'.",
+      "Quick_find 'Gemini 3.8 TTS' — o signal não descreve nenhuma capacidade concreta além de 'converter texto em fala natural', que é a definição genérica de TTS. Sem detalhe de produto, o critério 'acionável' fica fraco."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido e sem hype vocabular. Mas há dois problemas de certeza: o main_find.body afirma 'o modelo teria encontrado um sistema que não estava descrito na literatura' — o 'teria' preserva condicional, mas a frase seguinte 'reforça o argumento de que modelos de fronteira estão virando ferramenta de pesquisa científica' trata como fato algo que o próprio texto admite depender de revisão independente. E o step5_phrase do main_find ('muda o que sabíamos') é afirmação categórica sobre um resultado não replicado.",
+    "issues": [
+      "main_find.step5_phrase: 'Um LLM encontrou um sistema biológico que muda o que sabíamos sobre descoberta assistida por AI' — 'muda o que sabíamos' é afirmação direta sobre resultado ainda não validado, contrariando o condicional usado no body.",
+      "main_find.body: 'reforça o argumento de que modelos de fronteira estão virando ferramenta de pesquisa científica' — o próprio parágrafo anterior condiciona a 'se a descoberta se sustentar em revisão independente', mas a conclusão é afirmada sem o condicional.",
+      "main_find.bullets: 'a estrutura repetitiva costuma indicar função biológica' — generalização biológica não presente no título original nem no material de origem; é inferência do redator apresentada como fato."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição de fontes (DeepMind, TechNode, SCMP, HackerNews/Reddit) e de audiências (pesquisa/dado, desenvolvedores, product managers, executivos, todos). Geografia razoável: 2 itens China (Tencent, H3C), 2 EUA (Meta, SCMP/blacklist), 1 global (Gemini). Nenhuma fonte aparece mais de uma vez entre main_find + quick_finds.",
+    "issues": [
+      "Dois quick_finds são da mesma fonte (TechNode: Tencent QClaw e H3C) — não viola a regra de 'mais de 2 do mesmo source', mas concentra a cobertura China em um único veículo."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('um LLM fazendo descoberta científica de verdade') e cita os dois outros eixos da edição (Tencent QClaw, blacklist americana). Não é genérica. O único ponto fraco é o número '40 posts de 20 fontes', que não bate com o meta.total_analyzed (302) nem com o input visível (40 itens) — pode ser inconsistência de contagem.",
+    "issues": [
+      "Intro diz 'Garimpei 40 posts de 20 fontes', mas meta.total_analyzed é 302 — os dois números não se explicam mutuamente e podem confundir o leitor sobre o escopo real da curadoria."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os descartes por AI Gate e explica por que o main_find foi escolhido (evento singular, resultado concreto, alta tração). Mas há contradições: o reasoning diz que descartou 'DeepMind Private AI Compute' por ser 'blog corporativo sem feature testável clara' — critério que deveria ter derrubado também o Gemini TTS, que é igualmente um post de blog sem feature detalhada. E o reasoning não menciona o item da Meta (remoção de vídeo) nem o da H3C, que entraram no output sem justificativa de AI Gate.",
+    "issues": [
+      "Reasoning descarta 'DeepMind Private AI Compute' por 'blog corporativo, posicionamento sem feature testável clara', mas mantém 'Gemini 3.8 TTS' (também post de blog DeepMind) sem explicar a diferença de tratamento.",
+      "Reasoning não justifica a inclusão do quick_find da Meta (remoção de vídeo) — item que não passa no AI Gate e não é mencionado em nenhuma lista de descarte ou aprovação.",
+      "Reasoning não justifica a inclusão do quick_find da H3C, que é panorama de fornecedor sem evento singular — exatamente o anti-signal que o próprio reasoning diz ter aplicado a outros itens."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI extends cyber access to Ukraine for civilian defense",
+      "source": "OpenAI Blog",
+      "why_should_include": "Evento singular de uma empresa de AI (OpenAI) com decisão de política de acesso a modelo — sinal de mercado específico (shift de política de uso) e acionável para quem opera segurança cibernética. Passa no AI Gate e em pelo menos 2 critérios.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Advancing Private AI Compute with secure, server-side memory",
+      "source": "Google DeepMind Blog",
+      "why_should_include": "Se o reasoning descarta por 'blog corporativo sem feature testável', o mesmo critério deveria ter derrubado o Gemini TTS — a inconsistência sugere que este item foi descartado por motivo não aplicado uniformemente. Se há feature concreta de memória server-side segura, é acionável para quem opera inferência privada.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Meta derruba vídeo crítico sobre seus óculos de AI após gravação na sede",
+      "field": "quick_finds",
+      "why_should_discard": "O evento é moderação de conteúdo/controle de plataforma, não uma decisão de empresa de AI nem uso de AI/ML. O produto 'óculos de AI' é apenas o assunto do vídeo removido — não há conexão com AI no evento em si.",
+      "violated_rule": "STEP 1 - AI Gate (conexão com AI/ML, automação inteligente ou decisão de empresa de AI)"
+    },
+    {
+      "title": "H3C aposta em eficiência de tokens em vez de mais GPUs para agentes de AI",
+      "field": "quick_finds",
+      "why_should_discard": "É panorama/posicionamento de fornecedor ('está mudando o foco') sem evento singular datado — anúncio, produto, número. Cai no anti-signal de panorama de mercado sem evento singular de UMA empresa.",
+      "violated_rule": "Anti-signal - Roundup ou panorama de tendência de mercado sem evento singular de UMA empresa específica"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) — a exceção de 'magnitude excepcional' pode estar sendo lida como 'se o produto mencionado é de AI, o evento passa', permitindo que eventos sobre produtos de AI (como moderação de vídeo sobre óculos de AI) entrem mesmo sem conexão com AI no evento em si.",
+      "evidence": "Quick_find da Meta sobre remoção de vídeo crítico aos óculos de AI entrou no output apesar de o evento ser moderação de conteúdo.",
+      "suggested_fix": "Reforçar no STEP 1 que a conexão com AI deve estar no EVENTO, não no produto mencionado no título."
+    },
+    {
+      "hypothesis": "Critério 2 (Sinal de mercado) — a definição de 'movimento estratégico específico' pode estar sendo aplicada a declarações de posicionamento ('está mudando o foco') sem exigir evento singular datado.",
+      "evidence": "Quick_find da H3C ('está mudando o foco de GPUs para eficiência de tokens') entrou como sinal de mercado sem anúncio, produto ou número concreto.",
+      "suggested_fix": "Adicionar exemplo negativo explícito no critério 2: 'declaração de posicionamento sem evento datado não conta como sinal de mercado'."
+    },
+    {
+      "hypothesis": "Reasoning — o campo não exige justificativa item a item para quick_finds, permitindo que itens entrem sem passar pela mesma régua aplicada aos descartes.",
+      "evidence": "Reasoning lista descartes detalhados, mas não menciona a Meta nem a H3C entre aprovados ou descartados, apesar de ambas estarem no output.",
+      "suggested_fix": "Exigir no reasoning uma linha de justificativa de AI Gate + critérios para CADA item do output, não só para o main_find."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find forte e bem escolhido, mas dois quick_finds violam regras explícitas: o item da Meta (moderação de conteúdo, sem AI no evento) e o da H3C (panorama sem evento singular). O reasoning descarta itens por critérios que não aplica uniformemente (DeepMind Private AI Compute vs. Gemini TTS) e não justifica a entrada dos dois itens problemáticos, o que compromete a coerência da curadoria."
+}

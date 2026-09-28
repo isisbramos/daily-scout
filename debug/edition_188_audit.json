@@ -1,0 +1,104 @@
+{
+  "edition": "188",
+  "audited_at": "2026-09-28T15:59:56.392785-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find passa no AI Gate e é acionável, mas o cluster de 'agentes OpenAI' foi tratado como um único evento quando na verdade são três eventos distintos (postagem de imagens, hack do Hugging Face, tentativa de acesso a sites do governo) — o body funde os três sem deixar claro que são incidentes separados, o que compromete a precisão editorial. Além disso, o quick_find do Ollaya é uma ferramenta de decisão open source sem evidência de conexão com AI/ML no título, e o item da China sobre talento em AI foi listado no reasoning como aprovado mas não aparece em nenhum lugar do output.",
+    "issues": [
+      "main_find funde três eventos distintos (TechCrunch 53 imagens, HN hack Hugging Face, Reddit acesso a sites do governo) em um único 'padrão', tratando-os como o mesmo incidente sem evidência de que sejam.",
+      "Ollaya (quick_find) — 'Ollama for open-source, Jev-style decision models' não tem conexão clara com AI/ML no título; 'decision models' pode ser sistema de decisão genérico, não modelo de AI. Passou no AI Gate por associação com Ollama, não por evidência.",
+      "'China overtakes US as top workplace for elite AI researchers' foi listado no reasoning como aprovado (item 5) mas não aparece em main_find, quick_finds nem radar — item aprovado e descartado sem justificativa.",
+      "Crusoe/Boom (quick_find) é decisão de infraestrutura de energia para data centers de AI — passa no AI Gate por tangência, mas o critério 'sinal de mercado' exige movimento estratégico específico de um player de AI; Crusoe é fornecedor de infraestrutura, não player de AI, e o abandono de plano de turbinas é decisão de energia, não de AI."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido e factual, sem hype explícito. Porém há dois problemas: (1) o main_find.body afirma 'O padrão que emerge é o de agentes operando fora do perímetro de controle esperado' — uma generalização que o input não sustenta, já que os três relatos podem ser incidentes independentes; (2) o step5_phrase 'Agora é possível que agentes de AI publiquem conteúdo de usuários sem que o laboratório responsável saiba' transforma um incidente reportado em capacidade geral, aumentando o nível de certeza além do que as fontes permitem.",
+    "issues": [
+      "main_find.body: 'O padrão que emerge é o de agentes operando fora do perímetro de controle esperado — não um incidente isolado, mas um comportamento replicado em ambientes diferentes' — inferência não sustentada pelo input, que apenas lista três relatos sem estabelecer relação causal entre eles.",
+      "main_find.step5_phrase: 'Agora é possível que agentes de AI publiquem conteúdo de usuários sem que o laboratório responsável saiba' — generaliza um incidente específico (53 imagens) para uma capacidade geral dos agentes, aumentando certeza.",
+      "main_find.bullets: 'O fato de a OpenAI não ter conhecimento do ocorrido sugere que os mecanismos de auditoria de agentes em produção não capturaram a ação antes que ela acontecesse' — especulação sobre mecanismos internos da OpenAI sem base no input."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes estão razoavelmente distribuídas (TechCrunch, SCMP, MIT Tech Review Brasil, HackerNews), sem mais de 2 itens do mesmo source entre main_find + quick_finds. Audiência tem variedade (desenvolvedores, executivos de negócio, product managers). Porém a geografia concentra 2 itens da China (Alibaba, China talento — este último nem aparece no output) e o restante é majoritariamente EUA, sem item da Europa, América Latina ou África.",
+    "issues": [
+      "Concentração geográfica: 2 dos 5 itens são da China (Alibaba, e o item de talento que foi aprovado mas não publicado), sem representação de outras regiões além dos EUA.",
+      "O item 'China overtakes US as top workplace for elite AI researchers' foi aprovado no reasoning mas não aparece no output — se tivesse sido incluído, a diversidade geográfica seria ainda mais concentrada."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('Agentes de AI da OpenAI apareceram em três fontes diferentes hoje'), o que é bom. A segunda frase cobre Crusoe e China, antecipando quick_finds. O problema é que a intro promete '5 achados de 5 fontes' mas o output tem 1 main_find + 4 quick_finds = 5 itens, porém o item da China (mencionado na intro) não está no output — a intro anuncia um item que não foi entregue.",
+    "issues": [
+      "A intro menciona 'a China passou os EUA como destino preferido de pesquisadores de elite em AI', mas esse item não aparece em main_find, quick_finds nem radar — a intro promete conteúdo que não foi entregue.",
+      "A frase 'Separei 5 achados de 5 fontes' é imprecisa: são 5 itens, mas as fontes são TechCrunch (2x), SCMP, MIT Tech Review Brasil e HackerNews — 4 fontes distintas, não 5."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista 10 itens como aprovados no AI Gate, mas apenas 5 aparecem no output (1 main_find + 4 quick_finds). Itens como 'China overtakes US as top workplace for elite AI researchers' e 'The Download: Pentagon AI lie detector' foram aprovados mas não publicados (o Pentágono aparece só no radar). Há contradição direta entre o que o reasoning descreve como aprovado e o que foi efetivamente selecionado. Além disso, o reasoning não explica por que o cluster OpenAI foi escolhido como main_find em vez de, por exemplo, o item da China sobre talento — apenas afirma que tem corroboração em 3 fontes, o que é verdade, mas não compara com alternativas.",
+    "issues": [
+      "Reasoning lista 10 itens como aprovados no AI Gate, mas apenas 5 aparecem no output — 5 itens aprovados foram descartados sem justificativa (China talento, Pentágono, e outros).",
+      "O item 'China overtakes US as top workplace for elite AI researchers' é explicitamente listado como aprovado (item 5) mas não aparece em nenhum campo do output.",
+      "O reasoning não explica por que o cluster OpenAI foi escolhido como main_find em vez de outros itens aprovados — apenas afirma que tem corroboração em 3 fontes, sem comparar com alternativas.",
+      "O reasoning afirma 'Diversidade epistêmica garantida' mas o output tem 2 itens de produto (Ollaya, Alibaba), 1 de pesquisa (OpenAI biologia), 1 de regulação (Facebook liable no radar) — a distribuição não é tão equilibrada quanto o reasoning sugere."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "China overtakes US as top workplace for elite AI researchers, study finds",
+      "source": "SCMP Tech",
+      "why_should_include": "Item explicitamente aprovado no reasoning da Aya (item 5) mas não publicado. Tem conexão direta com AI (talento em AI), é sinal de mercado específico (shift de geografia de talento) e afeta workflows de contratação em empresas de AI.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "The Download: the Pentagon’s AI-powered lie detector and young organ limits",
+      "source": "MIT Technology Review",
+      "why_should_include": "Item aprovado no reasoning (item 10) e colocado no radar, mas tem magnitude excepcional (regulação governamental + AI) que justificaria quick_find. É acionável para quem trabalha com AI em contextos de segurança e defesa.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Ollaya – Ollama for open-source, Jev-style decision models",
+      "field": "quick_finds",
+      "why_should_discard": "O título não estabelece conexão com AI/ML — 'decision models' pode ser sistema de decisão genérico, não modelo de AI. Passou no AI Gate por associação com Ollama (runtime de LLM), mas o item em si não descreve uma ferramenta de AI. Além disso, é um lançamento de ferramenta open source sem evidência de adoção além de pontos no HackerNews.",
+      "violated_rule": "STEP 1 - AI Gate: conexão com AI/ML não estabelecida no título; associação com Ollama não é suficiente."
+    },
+    {
+      "title": "Crusoe abandons $1.25B plan to use Boom turbines at AI data centers",
+      "field": "quick_finds",
+      "why_should_discard": "Crusoe é fornecedor de infraestrutura de energia, não player de AI. O abandono de um plano de turbinas é decisão de energia, não movimento estratégico de AI. Passa no AI Gate por tangência (data centers de AI), mas não satisfaz o critério 'sinal de mercado' que exige movimento estratégico específico de um player de AI.",
+      "violated_rule": "STEP 2 - Critério 2 (Sinal de mercado): exige movimento estratégico de player de AI, não de fornecedor de infraestrutura."
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) pode estar sendo aplicado de forma permissiva, aceitando itens por associação temática (Ollama → Ollaya, data centers de AI → Crusoe) em vez de exigir conexão direta com AI/ML no item em si.",
+      "evidence": "Ollaya e Crusoe foram selecionados apesar de não serem, respectivamente, ferramenta de AI e player de AI — passaram por associação com termos adjacentes.",
+      "suggested_fix": "Reforçar no STEP 1 que a conexão com AI/ML deve estar no item em si, não em termos adjacentes (runtime, data center, infraestrutura)."
+    },
+    {
+      "hypothesis": "O reasoning não tem um passo obrigatório de reconciliação entre itens aprovados no AI Gate e itens efetivamente publicados, permitindo que itens aprovados desapareçam sem justificativa.",
+      "evidence": "China talento e Pentágono foram listados como aprovados no reasoning mas não aparecem no output (Pentágono só no radar).",
+      "suggested_fix": "Adicionar STEP obrigatório: para cada item aprovado no AI Gate, registrar explicitamente se foi publicado ou descartado, e por quê."
+    },
+    {
+      "hypothesis": "O prompt não exige que o main_find seja sobre UM evento singular — o cluster OpenAI foi tratado como um evento único quando são três incidentes distintos, e o body os funde sem distinção.",
+      "evidence": "main_find.body afirma 'O padrão que emerge é o de agentes operando fora do perímetro de controle esperado' fundindo TechCrunch, HackerNews e Reddit como se fossem o mesmo incidente.",
+      "suggested_fix": "Reforçar no prompt que main_find deve ser sobre UM evento singular, e que corroboração em múltiplas fontes não autoriza fundir eventos distintos em um só."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem problemas graves de coerência: o reasoning aprova 10 itens mas publica 5, sem justificar os descartes; o main_find funde três incidentes distintos (OpenAI agents) em um único evento; e dois quick_finds (Ollaya, Crusoe) não passam no AI Gate de forma rigorosa. O tom é contido, mas há generalizações não sustentadas no main_find e a intro promete um item (China talento) que não foi entregue."
+}

@@ -1,0 +1,100 @@
+{
+  "edition": "185",
+  "audited_at": "2026-09-28T15:59:24.806690-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Claude Opus 5.5) passa no AI Gate e é um evento singular com tração real, mas o corpo do texto inventa detalhes ('segundo post no HackerNews', 'um dos maiores picos do ano') e trata a 'guerra de preços' como fato estabelecido a partir de um post de blog. Os quick_finds são majoritariamente coerentes, mas 'Qualcomm lança dois chips' é borderline: é lançamento de hardware com 'ênfase em IA' sem detalhe concreto de capacidade ou adoção, e o sinal de mercado é genérico.",
+    "issues": [
+      "Qualcomm chips: 'ênfase em IA' é vago — não há feature específica, benchmark ou adoção que sustente 'sinal de mercado' ou 'afeta workflows'.",
+      "ByteDance/Doubao: o título original diz 'reportedly cuts' — o output afirma 'cortou' sem condicional, e o sinal de mercado é inferido ('possivelmente migrando esforços') sem evidência.",
+      "Smart glasses na Índia: passa no AI Gate por tangência (câmera + IA embutida), mas o item é sobre impacto social/regulatório, não sobre decisão de empresa de AI — o critério 'afeta workflows' é forçado."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 2,
+    "rationale": "Há invenção factual clara no main_find: 'segundo post no HackerNews' (o item é o post original da Anthropic, não um 'segundo post'), 'um dos maiores picos de discussão do ano' (não verificável a partir do input) e 'a guerra de preços sinaliza que a competição migrou da capacidade bruta para o custo por token' (interpretação apresentada como fato). O título original 'Claude Opus 5.5' é neutro; o output adiciona 'em meio a nova guerra de preços' como se fosse parte do evento.",
+    "issues": [
+      "main_find.body: 'segundo post no HackerNews' — o URL é anthropic.com, não um post do HN; o HN é a fonte de submissão, não o conteúdo.",
+      "'um dos maiores picos de discussão do ano na plataforma' — dado inventado, não presente no input.",
+      "'A guerra de preços sinaliza que a competição... migrou da capacidade bruta para o custo por token' — afirmação categórica derivada de um post de blog (Simon Willison), não de fato verificado.",
+      "ByteDance: título original 'reportedly cuts' virou 'cortou' no signal — perda do condicional."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição geográfica (EUA, China, Índia) e de audiência (desenvolvedores, product managers, todos). Fontes variadas entre main_find e quick_finds (HackerNews, OpenAI Blog, TechNode, MIT Tech Review, TechCrunch, arXiv). Nenhuma fonte repetida mais de uma vez no output principal.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 3,
+    "rationale": "A primeira frase menciona 'nova geração de modelos da Anthropic e da OpenAI' e 'corte de equipe na ByteDance' — cobre o main_find e um quick_find, então não é totalmente genérica. Mas 'três movimentos que mostram para onde o dinheiro e o talento estão indo' é moldura genérica de newsletter, e 'Garimpei 302 posts de 20 fontes' é meta-comentário que não ajuda o leitor.",
+    "issues": [
+      "Frase de abertura poderia servir para quase qualquer edição sobre modelos + layoffs.",
+      "'Garimpei 302 posts de 20 fontes pra separar o que realmente muda sua semana' — auto-elogio de processo, não informação."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente os descartes por AI Gate, mas comete erros: chama 'Ema raises $77M' de anti-signal por 'rodada sem detalhe de produto/estratégia no título' — correto — mas o mesmo raciocínio deveria ter sido aplicado a 'Claude Opus 5.5' se o título fosse apenas 'lançamento'. Mais grave: o reasoning afirma que o main_find tem 'cross-source (HackerNews + Simon Willison)', mas o main_find usa apenas o URL da Anthropic; o post de Simon Willison é um item separado no input, não uma confirmação do mesmo evento. O reasoning também diz que 'Smart glasses' é 'regulação/crítica' — mas o item é reportagem, não decisão regulatória.",
+    "issues": [
+      "reasoning afirma cross-source para o main_find, mas o output só cita o URL da Anthropic — o post de Simon Willison é um item distinto no input.",
+      "reasoning classifica 'Smart glasses' como 'regulação/crítica' sem que haja decisão regulatória no item.",
+      "reasoning não explica por que 'Qualcomm chips' passou nos critérios, apesar de ser borderline.",
+      "reasoning diz que 'Ema raises $77M' foi descartado por anti-signal, mas não menciona que o título sugere 'AI eating into enterprise software' — que poderia ser sinal de mercado se houvesse detalhe."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Claude Opus 5.5, GPT-6 Sol, GPT-6 Luna, and a new price war",
+      "source": "Simon Willison",
+      "why_should_include": "É o item que efetivamente contém a informação sobre a guerra de preços citada no main_find — deveria estar no output como quick_find ou como parte do main_find, não apenas referenciado no corpo.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "T-Head unveils Zhenwu V900 AI chip in Alibaba’s push to expand its AI infrastructure stack",
+      "source": "TechNode",
+      "why_should_include": "Lançamento de chip de IA por braço da Alibaba é evento singular de uma empresa específica, com sinal de mercado claro (expansão de stack de infraestrutura) e acionável para quem acompanha hardware de IA.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Qualcomm launches two new smartphone chips with emphasis on AI",
+      "field": "quick_finds",
+      "why_should_discard": "Lançamento de hardware com 'ênfase em IA' sem feature concreta, benchmark ou adoção — não satisfaz 'sinal de mercado' (movimento estratégico específico) nem 'afeta workflows' de forma demonstrável.",
+      "violated_rule": "Critérios de seleção — precisa de 2 de 3; aqui só há 'acionável' genérico"
+    },
+    {
+      "title": "Smart glasses are already causing havoc in India",
+      "field": "quick_finds",
+      "why_should_discard": "Item é sobre impacto social/regulatório de óculos inteligentes, não sobre decisão de empresa de AI ou mudança de workflow de tech/AI. AI Gate é tangencial (câmera + IA embutida).",
+      "violated_rule": "AI Gate — conexão indireta; critério 'afeta workflows' forçado"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção não exige verificação de que o corpo do texto se atenha ao título original — o modelo preenche lacunas com inferências.",
+      "evidence": "main_find.body inventa 'segundo post no HackerNews' e 'um dos maiores picos do ano', que não estão no input.",
+      "suggested_fix": "Adicionar regra explícita: 'não adicione fatos, números ou qualificadores que não estejam no título ou URL do item'."
+    },
+    {
+      "hypothesis": "Regra de cross-source não distingue 'mesmo evento em fontes diferentes' de 'itens relacionados no mesmo input'.",
+      "evidence": "reasoning afirma cross-source (HackerNews + Simon Willison) para o main_find, mas o output só usa o URL da Anthropic.",
+      "suggested_fix": "Definir cross-source como 'mesmo evento com URLs distintos no input' e exigir que ambos os URLs apareçam no output."
+    },
+    {
+      "hypothesis": "Critério 'sinal de mercado' está sendo aplicado de forma frouxa para lançamentos de hardware com menção a IA.",
+      "evidence": "Qualcomm chips passou como quick_find apesar de 'ênfase em IA' ser vago.",
+      "suggested_fix": "Exigir feature concreta (nome de tecnologia, benchmark, adoção) para que lançamento de hardware conte como sinal de mercado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "O main_find tem tração real, mas o corpo inventa fatos ('segundo post no HackerNews', 'maiores picos do ano') e trata a guerra de preços como fato estabelecido a partir de um post de blog. Dois quick_finds são borderline (Qualcomm, smart glasses) e o reasoning afirma cross-source que não se sustenta no output. A diversidade é boa, mas a coerência entre reasoning e seleção falha."
+}

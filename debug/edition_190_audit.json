@@ -1,0 +1,111 @@
+{
+  "edition": "190",
+  "audited_at": "2026-09-28T16:00:21.574475-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find é o item mais fraco da edição: a única fonte é um post de Reddit (r/artificial) sem link para o anúncio oficial da Nvidia, sem detalhes de produto, sem confirmação de fonte primária. É essencialmente um rumor de fórum elevado a manchete. Além disso, o quick_find 'China respondeu por 59% das instalações globais de robôs industriais' é um dado de panorama de mercado sem evento singular de UMA empresa — viola o anti-signal de 'panorama/tendência sem evento singular'. O quick_find do MIT Tech Review sobre responsabilidade legal é análise/thought-leadership sem evento concreto, também limítrofe.",
+    "issues": [
+      "main_find: 'Nvidia lança ferramenta...' tem como única fonte um post de Reddit sem link para anúncio oficial, sem nome do produto, sem detalhes técnicos — não é verificável e não deveria ser manchete.",
+      "quick_find 'China respondeu por 59% das instalações globais de robôs industriais em 2025' é dado de panorama de mercado sem evento singular de uma empresa — viola anti-signal explícito.",
+      "quick_find 'Quem é responsável quando agentes de AI causam dano?' é análise jurídica/thought-leadership sem evento concreto (nenhum caso, nenhuma decisão, nenhuma empresa) — viola anti-signal de blog/análise sem novidade concreta.",
+      "O reasoning afirma que descartou 'panorama/roundup sem evento singular' mas manteve o dado de robôs industriais da China, que é exatamente isso."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype explícito, o que é positivo. Porém há aumento de certeza: o título original é 'Nvidia launches new tool to keep AI agents from going rogue' (post de Reddit, sem confirmação), e o body trata como fato consumado ('a Nvidia lançou uma ferramenta'). Também há informação inferida não presente no título: 'A Nvidia domina o mercado de GPUs usadas para treinar e rodar modelos de AI' é contexto adicionado, não reportado na fonte.",
+    "issues": [
+      "main_find.body afirma 'a Nvidia lançou uma ferramenta' como fato, mas a fonte é um post de Reddit sem link para anúncio oficial — nível de certeza elevado sem base.",
+      "main_find.body adiciona 'A Nvidia domina o mercado de GPUs usadas para treinar e rodar modelos de AI' — informação não presente no título nem na fonte citada.",
+      "main_find.body afirma 'O anúncio chega no mesmo dia em que a MIT Technology Review publicou uma análise' — a coincidência temporal é inferida, não verificada."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa diversidade de fontes (r/artificial, MIT Tech Review, arXiv, HuggingFace Blog, TechNode) e de audiência (desenvolvedores e executivos de negócio). Geografia razoável: China aparece em 1 item, EUA em outros. Nenhum source repetido entre main_find + quick_finds.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Nvidia e agentes fora de controle) e conecta com o quick_find do MIT Tech Review. A segunda frase é funcional. Não é genérica.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é detalhado mas contém contradições. Afirma ter descartado 'panorama/roundup sem evento singular' e ainda assim manteve o dado de robôs industriais da China (que é panorama). Afirma ter descartado 'thought-leadership sem evento concreto' e manteve o MIT Tech Review sobre responsabilidade legal (que é análise sem evento). Além disso, o reasoning não explica por que o post de Reddit sobre Nvidia foi escolhido como main_find em vez de, por exemplo, o item do MIT Tech Review sobre o mesmo tema — que teria fonte mais confiável.",
+    "issues": [
+      "Contradição: reasoning diz que descartou panorama sem evento singular, mas manteve 'China 59% das instalações de robôs industriais'.",
+      "Contradição: reasoning diz que descartou thought-leadership sem novidade concreta, mas manteve o MIT Tech Review sobre responsabilidade legal de agentes.",
+      "main_find_rationale não explica por que o post de Reddit (fonte fraca) foi escolhido em vez do artigo do MIT Tech Review sobre o mesmo tema (fonte mais confiável).",
+      "O reasoning menciona 'STEP 1.5' e 'memória editorial' sem que esses conceitos estejam definidos no prompt auditado — possível alucinação de processo."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Anthropic’s CEO is about to have dinner with President Trump",
+      "source": "TechCrunch",
+      "why_should_include": "Evento singular envolvendo player de AI de referência (Anthropic) e governo dos EUA — sinal de mercado sobre relação entre indústria de AI e regulação. Passa no AI Gate e tem sinal de mercado específico.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "ByteDance grabs one-fifth of China’s data centre capacity as AI drives infrastructure boom",
+      "source": "SCMP Tech",
+      "why_should_include": "Movimento estratégico específico de uma empresa (ByteDance) com dado concreto (1/5 da capacidade de data center da China) — sinal de mercado claro e afeta infraestrutura de AI.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "China’s first AI-produced theatrical film sets October 23 release",
+      "source": "TechNode",
+      "why_should_include": "Evento singular e concreto (primeiro filme teatral produzido por AI na China com data de lançamento) — sinal de mercado sobre adoção de AI em produção criativa.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Nvidia launches new tool to keep AI agents from going rogue",
+      "field": "main_find",
+      "why_should_discard": "Fonte única é um post de Reddit sem link para anúncio oficial, sem nome de produto, sem detalhes técnicos. Não é verificável e não deveria ser manchete de newsletter.",
+      "violated_rule": "Critério de seleção — falta de fonte primária e verificabilidade; item não satisfaz 'acionável' nem 'sinal de mercado' com base em evidência concreta."
+    },
+    {
+      "title": "China accounted for 59% of global industrial-robot installations in 2025",
+      "field": "quick_finds",
+      "why_should_discard": "Dado de panorama de mercado sem evento singular de uma empresa específica — viola anti-signal explícito de 'panorama/tendência de mercado sem evento singular'.",
+      "violated_rule": "Anti-signal — panorama de mercado sem evento singular"
+    },
+    {
+      "title": "Who’s liable when AI agents go rogue?",
+      "field": "quick_finds",
+      "why_should_discard": "Análise jurídica/thought-leadership sem evento concreto (nenhum caso, decisão ou empresa) — viola anti-signal de blog/análise sem novidade concreta.",
+      "violated_rule": "Anti-signal — thought-leadership sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt não exige fonte primária ou verificabilidade para o main_find — permite que posts de Reddit sem link para anúncio oficial sejam elevados a manchete.",
+      "evidence": "main_find é um post de r/artificial sem link para anúncio da Nvidia, sem nome de produto, sem detalhes técnicos.",
+      "suggested_fix": "Adicionar regra: main_find deve ter fonte primária verificável (anúncio oficial, reportagem de veículo estabelecido) — posts de fórum só entram como radar."
+    },
+    {
+      "hypothesis": "O anti-signal de 'panorama/tendência de mercado sem evento singular' não está sendo aplicado a dados estatísticos agregados (ex: 'X% do mercado global').",
+      "evidence": "quick_find 'China respondeu por 59% das instalações globais de robôs industriais' é exatamente panorama sem evento singular, mas foi mantido.",
+      "suggested_fix": "Explicitar no anti-signal que dados agregados de mercado (percentuais, rankings, totais) sem evento corporativo específico são descartados."
+    },
+    {
+      "hypothesis": "O prompt não distingue 'análise/opinião publicada' de 'evento noticioso' — permite que artigos de análise (MIT Tech Review sobre responsabilidade) entrem como quick_find.",
+      "evidence": "quick_find 'Quem é responsável quando agentes de AI causam dano?' é análise sem evento concreto, mas foi incluído.",
+      "suggested_fix": "Adicionar regra: quick_find deve reportar evento (lançamento, decisão, dado novo), não análise ou opinião publicada."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find fraco baseado em post de Reddit sem fonte primária, e dois quick_finds que violam anti-signals explícitos (panorama de mercado e análise sem evento concreto). O reasoning é detalhado mas contraditório — afirma ter descartado exatamente os tipos de item que manteve. A diversidade de fontes e o tom contido são os pontos positivos."
+}
