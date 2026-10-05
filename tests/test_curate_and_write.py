@@ -175,3 +175,31 @@ class TestMissingFields:
         with patch("openai.OpenAI", _fake_openai([_response(no_qf_key)])):
             content = pipeline.curate_and_write(SOME_ITEMS, max_retries=1)
         assert content["quick_finds"] == []
+
+
+class TestMainFindBarIntegration:
+    """Rec. 2: main_find de Reddit sem corroboração é trocado por quick_find elegível."""
+
+    ITEMS = [
+        SourceItem(title="post reddit", url="https://reddit.com/r/x/1", source_id="reddit", source_label="r/x"),
+        SourceItem(title="matéria", url="https://tc.com/a", source_id="techcrunch", source_label="TechCrunch"),
+    ]
+
+    def _content(self, main_url):
+        return {
+            "main_find": {"title": "Main", "url": main_url, "body": "b", "bullets": ["b1"]},
+            "quick_finds": [{"title": "QF TechCrunch", "url": "https://tc.com/a", "source": "TechCrunch",
+                             "signal": "Algo aconteceu. → Importa.", "entities": ["Foo"]}],
+            "correspondent_intro": "intro",
+        }
+
+    def test_reddit_main_is_replaced(self):
+        with patch("openai.OpenAI", _fake_openai([_response(self._content("https://reddit.com/r/x/1"))])):
+            content = pipeline.curate_and_write(self.ITEMS)
+        assert content["main_find"]["title"] == "QF TechCrunch"
+        assert content["quick_finds"] == []
+
+    def test_non_reddit_main_is_untouched(self):
+        with patch("openai.OpenAI", _fake_openai([_response(self._content("https://tc.com/a"))])):
+            content = pipeline.curate_and_write(self.ITEMS)
+        assert content["main_find"]["title"] == "Main"
