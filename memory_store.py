@@ -274,6 +274,41 @@ def find_clean_quick_find(quick_finds: list[dict], records: list[dict], min_shar
     return None
 
 
+# Fontes cujo item NÃO pode ser main_find sem corroboração de outra fonte. Reddit: o link do
+# item é sempre o permalink do próprio Reddit (sem fonte primária) e o RSS não traz score,
+# então "tração" não é verificável. Auditoria: 6 de 105 edições com main_find fraco desse tipo.
+LOW_TRUST_MAIN_SOURCES = frozenset({"reddit"})
+
+
+def main_find_below_bar(item: dict, items_by_url: dict, low_trust=LOW_TRUST_MAIN_SOURCES) -> str | None:
+    """Barra mínima do destaque: retorna o MOTIVO se o item não pode ser main_find, senão None.
+
+    Regra: item de fonte de baixa confiança só vale como main_find se outra fonte
+    independente também cobriu o assunto (cross_source_count >= 2). `items_by_url` mapeia
+    url -> SourceItem (do pre-filter); item desconhecido nunca é bloqueado (falha aberta).
+    """
+    src_item = items_by_url.get((item or {}).get("url", ""))
+    if src_item is None:
+        return None
+    if src_item.source_id in low_trust and src_item.cross_source_count <= 1:
+        return f"{src_item.source_id} sem corroboração de outra fonte"
+    return None
+
+
+def find_eligible_quick_find(quick_finds: list[dict], items_by_url: dict, records: list[dict] | None = None,
+                             min_shared: int = 2, low_trust=LOW_TRUST_MAIN_SOURCES) -> int | None:
+    """Índice do primeiro quick_find que passa na barra do main_find E (se `records` vier)
+    não repete edição recente. None se não houver candidato."""
+    covered = _covered_entities(records) if records else []
+    for i, qf in enumerate(quick_finds):
+        if main_find_below_bar(qf, items_by_url, low_trust):
+            continue
+        if covered and _overlap({e.lower() for e in qf.get("entities", [])}, covered, min_shared) is not None:
+            continue
+        return i
+    return None
+
+
 def promote_quick_find_to_main(qf: dict) -> dict:
     """Reconstrói um quick_find no formato de main_find, de forma determinística
     (sem chamada de LLM) — usado quando o main_find original precisa ser substituído

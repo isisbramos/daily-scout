@@ -25,7 +25,7 @@ Mais fortes: Diversidade 3.33, Tom 3.17, Intro 3.60.
 |---|---|---|---|---|
 | 4 | Registrar a fonte de cada item e validar o "juiz" contra o feedback do leitor | ✅ Implementada (branch `claude/editorial-improvement-plan`) | Baixo | Baixo |
 | 5 | Investigar por que 4 fontes nunca entram | ✅ Investigada; visibilidade corrigida (PR empilhado). Falta decidir fix de cada fonte | Baixo | Baixo |
-| 2 | Barra mínima para o destaque principal (main_find) | ⏳ Planejada | Baixo | Baixo |
+| 2 | Barra mínima para o destaque principal (main_find) | ✅ Implementada (PR aberto) | Baixo | Baixo |
 | 3 | Barrar funding/panorama por código (pre_filter) | ⏳ Planejada | Baixo | Médio (excluir funding relevante) |
 | 1 | "Revisor final": comparar o que a AYA disse com o que publicou | ⏳ Planejada | Médio | Médio (custo extra) |
 
@@ -82,11 +82,21 @@ Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
 - **Próximo passo de dados:** gravar no `editions.jsonl` (ou num artifact permanente) quantos itens cada
   fonte teve em cada etapa do funil, para parar de depender de logs de 30 dias.
 
-### Rec. 2 — Barra mínima para o main_find
-- **O que é:** o destaque não pode ser post de Reddit/fórum sem fonte primária ou corroboração.
-- **Por quê:** é a manchete; na #196 foi um post anônimo com score 0, na #195 uma alegação de um
-  lado só. Um erro aqui pesa muito mais que num quick_find.
-- **Impacto:** protege a credibilidade; sem candidato forte, escolhe-se o melhor item verificável.
+### Rec. 2 — Barra mínima para o main_find  ✅
+- **O que é:** o destaque não pode ser um item do Reddit sem corroboração de outra fonte. Se for, a
+  edição troca automaticamente pelo primeiro quick_find elegível (que também não repita edição recente).
+- **Por quê:** o main_find é a manchete; em 6 dos 105 audits (#111, #113, #140, #190, #195, #196) o destaque
+  foi um post do Reddit sem fonte primária. O link do item é sempre o próprio Reddit e o RSS não traz
+  score, então "tração" não é verificável: a única barra objetiva é "outra fonte também cobriu".
+- **Como funciona:** guard determinístico no pipeline (`pipeline.py`, depois do guard de repetição), sem
+  nova chamada de LLM. Funções em `memory_store.py` (`main_find_below_bar`, `find_eligible_quick_find`).
+  Fontes cobertas: lista `LOW_TRUST_MAIN_SOURCES` (hoje só `reddit`). Item desconhecido nunca é
+  bloqueado; sem candidato à troca, mantém e avisa no log ("Main-find bar: … revisar manualmente").
+- **Impacto esperado:** protege a credibilidade da manchete. Não resolve quick_finds do Reddit nem
+  panoramas (Recs. 3 e 1).
+- **Limites:** o prompt não foi alterado (a regra é só de código); o item rebaixado é descartado, não
+  vira quick_find. Se o log mostrar o guard disparando muito, vale pôr a regra também no prompt.
+- **Como acompanhar:** `grep "Main-find bar"` nos logs do pipeline.
 
 ### Rec. 3 — Barrar funding/panorama por código
 - **O que é:** o `pre_filter.py` rebaixa títulos óbvios ("levanta US$ X", "Série B", "valuation").

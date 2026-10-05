@@ -42,6 +42,8 @@ from memory_store import (
     append_edition,
     check_repetition,
     find_clean_quick_find,
+    find_eligible_quick_find,
+    main_find_below_bar,
     promote_quick_find_to_main,
 )
 from vault_bridge import build_insight_note, write_to_outbox
@@ -467,6 +469,34 @@ def curate_and_write(
                             )
                 except Exception as guard_err:
                     logger.warning(f"Dedup guard falhou (não-bloqueante): {guard_err}")
+
+            # ── Barra mínima do main_find (Rec. 2) ──
+            # Destaque vindo de fonte de baixa confiança (Reddit) sem corroboração é trocado,
+            # de forma determinística, pelo primeiro quick_find elegível (e que não repita
+            # edição recente). Roda DEPOIS do dedup guard pra validar o main_find final.
+            # Sem candidato: mantém e avisa. Blindado: erro aqui nunca quebra a curadoria.
+            try:
+                items_by_url = {it.url: it for it in filtered_items}
+                reason = main_find_below_bar(content.get("main_find", {}), items_by_url)
+                if reason:
+                    old_title = content["main_find"].get("title", "")
+                    idx = find_eligible_quick_find(
+                        content.get("quick_finds", []), items_by_url, recent_editions
+                    )
+                    if idx is not None:
+                        promoted = content["quick_finds"].pop(idx)
+                        content["main_find"] = promote_quick_find_to_main(promoted)
+                        logger.warning(
+                            f"Main-find bar: '{old_title[:50]}' ({reason}) — substituído por "
+                            f"'{promoted.get('title', '')[:50]}'"
+                        )
+                    else:
+                        logger.warning(
+                            f"Main-find bar: '{old_title[:50]}' ({reason}) e nenhum quick_find "
+                            "elegível para substituir — mantido (revisar manualmente)"
+                        )
+            except Exception as bar_err:
+                logger.warning(f"Main-find bar falhou (não-bloqueante): {bar_err}")
 
             logger.info(f"Curation OK: '{content['main_find']['title']}'")
             logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")

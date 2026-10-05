@@ -118,3 +118,33 @@ class TestSourcePerItem:
             "197", {"main_find": {"title": "m", "url": "https://a/1"}, "quick_finds": []}
         )
         assert record["main_find"]["source"] == ""
+
+
+class TestMainFindBar:
+    def _items(self, **kw):
+        from sources.base import SourceItem
+        return {u: SourceItem(title=u, url=u, source_id=sid, source_label=sid, cross_source_count=n)
+                for u, (sid, n) in kw.items()}
+
+    def test_uncorroborated_reddit_is_below_bar(self):
+        items = self._items(r=("reddit", 1))
+        assert "reddit" in memory_store.main_find_below_bar({"url": "r"}, items)
+
+    def test_corroborated_reddit_passes(self):
+        items = self._items(r=("reddit", 2))
+        assert memory_store.main_find_below_bar({"url": "r"}, items) is None
+
+    def test_other_sources_and_unknown_urls_pass(self):
+        items = self._items(t=("techcrunch", 1))
+        assert memory_store.main_find_below_bar({"url": "t"}, items) is None
+        assert memory_store.main_find_below_bar({"url": "desconhecida"}, items) is None
+
+    def test_eligible_quick_find_skips_reddit_and_repeats(self):
+        items = self._items(a=("reddit", 1), b=("techcrunch", 1), c=("scmp_tech", 1))
+        qfs = [{"url": "a", "entities": ["X"]},
+               {"url": "b", "entities": ["OpenAI", "Nvidia"]},   # repete edição recente
+               {"url": "c", "entities": ["Mistral"]}]
+        recent = [{"edition": "196", "main_find": {"title": "m", "entities": ["OpenAI", "Nvidia"]},
+                   "quick_finds": []}]
+        assert memory_store.find_eligible_quick_find(qfs, items, recent) == 2
+        assert memory_store.find_eligible_quick_find(qfs[:1], items, recent) is None
