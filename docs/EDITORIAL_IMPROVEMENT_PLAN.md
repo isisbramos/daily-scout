@@ -25,8 +25,8 @@ Mais fortes: Diversidade 3.33, Tom 3.17, Intro 3.60.
 |---|---|---|---|---|
 | 4 | Registrar a fonte de cada item e validar o "juiz" contra o feedback do leitor | ✅ Implementada (branch `claude/editorial-improvement-plan`) | Baixo | Baixo |
 | 5 | Investigar por que 4 fontes nunca entram | ✅ Investigada; visibilidade corrigida (PR empilhado). Falta decidir fix de cada fonte | Baixo | Baixo |
-| 2 | Barra mínima para o destaque principal (main_find) | ✅ Implementada (PR aberto) | Baixo | Baixo |
-| 3 | Barrar funding/panorama por código (pre_filter) | ⏳ Planejada | Baixo | Médio (excluir funding relevante) |
+| 2 | Barra mínima para o destaque principal (main_find) | ✅ No `main` (PR #38) | Baixo | Baixo |
+| 3 | Rebaixar funding/valuation/IPO por código (pre_filter) | ✅ Implementada (PR aberto). Panorama/roundup fica para a Rec. 1 | Baixo | Baixo (rebaixa, não exclui) |
 | 1 | "Revisor final": comparar o que a AYA disse com o que publicou | ⏳ Planejada | Médio | Médio (custo extra) |
 
 Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
@@ -98,12 +98,25 @@ Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
   vira quick_find. Se o log mostrar o guard disparando muito, vale pôr a regra também no prompt.
 - **Como acompanhar:** `grep "Main-find bar"` nos logs do pipeline.
 
-### Rec. 3 — Barrar funding/panorama por código
-- **O que é:** o `pre_filter.py` rebaixa títulos óbvios ("levanta US$ X", "Série B", "valuation").
-- **Por quê:** regra mecânica é mais confiável em código que em texto de prompt. Falsos positivos
-  recorrentes: Nscale, XDOF, Anthropic S-1.
-- **Impacto:** zero funding por descuido e menos conflito no reasoning. **Rebaixar, não excluir**,
-  porque alguns rounds são relevantes. Pendência: checar o que o pre_filter já faz hoje.
+### Rec. 3 — Rebaixar funding/valuation/IPO por código  ✅
+- **O que é:** o `pre_filter.py` multiplica o score de títulos de rodada, valuation ou IPO por 0.5
+  (`scoring.funding_penalty` no `sources_config.json`; 1.0 desliga). O item **não é excluído**: só desce no
+  ranking, então chega ao LLM apenas se sobrar espaço nos 40 melhores ou for muito forte.
+- **Por quê:** o prompt (STEP 3) já manda descartar "empresa X levanta $Y" sem novidade de produto, mas o
+  modelo não cumpre de forma confiável. Nos dados: **14 dos 140 falsos positivos dos audits (10%)** e
+  **19 dos 478 itens publicados (4%)** são desse tipo (Nscale, XDOF, Mistral €3 bi, Anthropic S-1…).
+  Regra mecânica funciona melhor em código do que em texto de prompt.
+- **O que conta como funding:** "Série A–F", "seed round", "rodada de investimento", pré-IPO/IPO, S-1,
+  valuation, "avaliada em", ou "levanta/raises" + valor em dinheiro.
+- **O que NÃO é rebaixado:** título com lançamento/produto ("OpenAI lança X e levanta $Y") ou M&A
+  ("Nvidia compra Hugging Face por US$ 12,9B"), e "raises concerns" sem dinheiro. Validei o padrão contra
+  os 478 títulos publicados: todos os 19 pegos são funding/IPO/valuation de fato.
+- **Impacto esperado:** menos funding ocupando vaga de quick_find e menos conflito no reasoning (o modelo
+  nem chega a ver boa parte desses itens). Não toca panoramas/roundups (isso é a Rec. 1).
+- **Risco:** um round realmente relevante pode ser rebaixado. Mitigação: ele ainda pode entrar se for muito
+  forte (ex.: cross-source), e basta pôr `funding_penalty` em 1.0 para desligar.
+- **Como acompanhar:** `grep "Funding demotion"` nos logs do pipeline (lista os títulos rebaixados), e a
+  taxa de falsos positivos de funding nos próximos Content Reports.
 
 ### Rec. 1 — "Revisor final" (maior alavanca)
 - **O que é:** após montar a edição, um passo extra confere se cada item "aprovado" entrou e se

@@ -205,6 +205,8 @@
     "recency_weight": 0.3,
     "source_diversity_weight": 0.2,
     "category_weight": 0.1,
+    "funding_penalty": 0.5,
+    "_comment_funding_penalty": "Rec. 3: multiplica o score de títulos de rodada/valuation/IPO (sem lançamento de produto nem M&A). 1.0 desliga; 0.5 = metade do score. Rebaixa, nunca exclui.",
     "_comment_changes_v5": "recency_decay_hours substituído por recency_decay_constant (exponential)"
   }
 }

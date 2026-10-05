@@ -451,3 +451,49 @@ class TestPerSourceRecency:
         from pre_filter import _filter_recency
         items = [self._item("qwen_blog", 50), self._item("techcrunch", 5)]
         assert [i.source_id for i in _filter_recency(items, 24, 0)] == ["techcrunch"]
+
+
+class TestFundingDemotion:
+    """Rec. 3: rodada/valuation/IPO é rebaixado no ranking, nunca excluído."""
+
+    @pytest.mark.parametrize("title", [
+        "Mistral levanta €3 bi para tornar IA soberana",
+        "XDOF negocia Série B com valuation de US$ 1,2 bi",
+        "DeepSeek se aproxima de rodada pré-IPO com estreia em 2027",
+        "Startup raises $50M seed round to build AI agents",
+        "Anthropic's confidential S-1 reveals financing",
+    ])
+    def test_detects_funding_titles(self, title):
+        from pre_filter import _is_funding_news
+        assert _is_funding_news(title)
+
+    @pytest.mark.parametrize("title", [
+        "OpenAI lança GPT-6 e levanta US$ 10 bi",          # produto junto: não rebaixa
+        "Nvidia compra Hugging Face por US$ 12,9B",        # M&A não é funding
+        "Model raises concerns about safety",              # 'raises' sem dinheiro
+        "Congresso aprova lei de IA",
+        "Cloudflare lança API de busca na web para agentes",
+    ])
+    def test_ignores_non_funding_titles(self, title):
+        from pre_filter import _is_funding_news
+        assert not _is_funding_news(title)
+
+    def _items(self):
+        import time
+        from sources.base import SourceItem
+        now = time.time()
+        mk = lambda t: SourceItem(title=t, url=f"https://x/{t}", source_id="techcrunch",
+                                  source_label="TC", timestamp=now - 3600, raw_score=100)
+        return [mk("Startup X levanta US$ 50M em Série B"), mk("Equipe Y publica novo benchmark de agentes")]
+
+    def test_funding_item_ranks_lower_but_is_kept(self):
+        cfg = {**CONFIG, "scoring": {**CONFIG.get("scoring", {}), "funding_penalty": 0.5}}
+        result = _score_and_sort(self._items(), cfg)
+        assert len(result) == 2
+        assert "benchmark" in result[0].title and "Série B" in result[1].title
+
+    def test_penalty_1_0_disables(self):
+        cfg = {**CONFIG, "scoring": {**CONFIG.get("scoring", {}), "funding_penalty": 1.0}}
+        items = self._items()
+        assert [i.title for i in _score_and_sort(items, cfg)] == \
+               [i.title for i in _score_and_sort(items, {**CONFIG})]

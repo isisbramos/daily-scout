@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import logging
 import math
+import re
 import random
 import statistics
 import time
@@ -287,6 +288,35 @@ def _filter_recency(
     return recent
 
 
+# ── Funding / valuation / IPO: demoção determinística (Rec. 3) ─────────
+# O prompt (STEP 3) já manda descartar "empresa X levanta $Y" sem novidade de produto, mas o
+# modelo não cumpre de forma confiável: ~14% dos falsos positivos dos audits e ~4% dos itens
+# publicados são desse tipo. Aqui a regra mecânica vira código: o item é REBAIXADO no ranking
+# (nunca excluído), então só chega ao LLM quando sobra espaço nos top N ou é muito forte.
+_FUNDING_STRONG = re.compile(
+    r"\b(series [a-f]|série [a-f]|seed round|funding rounds?"
+    r"|rodadas? de (?:investimento|financiamento|capta[cç][aã]o)"
+    r"|pre-?ipo|pré-?ipo|ipo|s-1|valuations?|term sheet|avaliad[ao]s? em)\b",
+    re.IGNORECASE,
+)
+_FUNDING_VERB = re.compile(r"\b(raises?|raised|raising|levanta(?:m|r)?|capta(?:m|r)?)\b", re.IGNORECASE)
+_MONEY = re.compile(r"(?:us\$|r\$|hk\$|\$|€|£)\s?\d", re.IGNORECASE)
+# Título que traz produto/lançamento ou é M&A não é "só funding" — não rebaixa.
+_FUNDING_EXEMPT = re.compile(
+    r"\b(lan[cç]a(?:m|r)?|lan[cç]ou|launch(?:es|ed)?|announc(?:es|ed)|anuncia(?:m)?|unveil(?:s|ed)?"
+    r"|releases?|new model|novo modelo|open[- ]source|ships?"
+    r"|compra(?:m|r)?|adquire|acquir(?:es|ed|ing)|acquisition|aquisi[cç][aã]o|merger|fus[aã]o)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_funding_news(title: str) -> bool:
+    """Título de rodada/valuation/IPO sem sinal de produto ou M&A."""
+    if _FUNDING_EXEMPT.search(title):
+        return False
+    return bool(_FUNDING_STRONG.search(title) or (_FUNDING_VERB.search(title) and _MONEY.search(title)))
+
+
 def _score_and_sort(
     items: list[SourceItem], config: dict
 ) -> list[SourceItem]:
@@ -350,6 +380,9 @@ def _score_and_sort(
     total_items = len(items)
 
     scored_items: list[tuple[float, SourceItem]] = []
+    # 1.0 = desligado. Configurável em scoring.funding_penalty (sources_config.json).
+    funding_penalty = scoring.get("funding_penalty", 1.0)
+    demoted: list[str] = []
 
     for item in items:
         # ── Engagement: z-score → sigmoid [0, 1] ──
@@ -387,7 +420,17 @@ def _score_and_sort(
             + category_score * category_w
         ) * source_weight * cross_bonus
 
+        if funding_penalty < 1.0 and _is_funding_news(item.title):
+            composite *= funding_penalty
+            demoted.append(item.title)
+
         scored_items.append((composite, item))
+
+    if demoted:
+        logger.info(
+            f"  Funding demotion: {len(demoted)} item(s) rebaixado(s) (x{funding_penalty}): "
+            + " | ".join(t[:50] for t in demoted[:5])
+        )
 
     scored_items.sort(key=lambda x: x[0], reverse=True)
     return [item for _, item in scored_items]
