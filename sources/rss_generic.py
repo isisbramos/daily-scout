@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import calendar
 import logging
+import re
 import time
 
 from sources.base import BaseSource, SourceItem, SourceRegistry, fetch_feed
@@ -309,14 +310,24 @@ class ArxivAISource(BaseSource):
 
 # Keywords para filtrar a Agência Brasil (firehose geral → só AI/tech gov)
 _AGENCIA_BRASIL_KEYWORDS = [
-    "inteligência artificial", "inteligencia artificial",
+    "inteligência artificial", "inteligencia artificial", "ia", "ia generativa",
+    "chatgpt", "openai", "big techs", "big tech",
     "mcti", "serpro", "anatel",
     "governo digital", "transformação digital", "digitalização do estado",
     "cibersegurança", "segurança cibernética",
-    "plano brasileiro de ia", "estratégia nacional",
+    "plano brasileiro de ia", "estratégia nacional", "marco legal da ia", "pl 2338",
     "dados pessoais", "lgpd", "anpd",
-    "reconhecimento facial", "algoritmo governamental",
+    "reconhecimento facial", "algoritmo governamental", "algoritmos",
+    "deepfake", "deepfakes", "data center", "data centers", "datacenter", "semicondutores",
+    "supercomputador", "soberania digital", "plataformas digitais",
 ]
+
+
+def _matches_keywords(title: str, keywords: list[str]) -> bool:
+    """Palavra inteira, não substring: "ia" não pode casar dentro de "polícia"."""
+    t = title.lower()
+    return any(re.search(rf"(?<!\w){re.escape(kw)}(?!\w)", t) for kw in keywords)
+
 
 @SourceRegistry.register
 class AgenciaBrasilSource(BaseSource):
@@ -340,10 +351,7 @@ class AgenciaBrasilSource(BaseSource):
             limit=self.limit,
             default_category="regulacao",
         )
-        filtered = [
-            item for item in raw
-            if any(kw in item.title.lower() for kw in self.keywords)
-        ]
+        filtered = [item for item in raw if _matches_keywords(item.title, self.keywords)]
         logger.info(f"  [{self.source_id}] {len(raw)} raw → {len(filtered)} após filtro de keywords")
         return filtered
 

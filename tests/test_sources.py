@@ -606,3 +606,12 @@ class TestFeedFailuresAreVisible:
         with caplog.at_level(logging.WARNING, logger="daily-scout"):
             assert _fetch_rss("https://x/feed", "anthropic_blog", "Anthropic Blog") == []
         assert any("anthropic_blog" in r.message and "404" in r.message for r in caplog.records)
+
+
+class TestAgenciaBrasilKeywords:
+    def test_whole_word_match_not_substring(self):
+        from sources.rss_generic import _matches_keywords, _AGENCIA_BRASIL_KEYWORDS as K
+        assert _matches_keywords("Governo lança plano de IA para o SUS", K)
+        assert _matches_keywords("Big techs devem seguir marco legal", K)
+        assert not _matches_keywords("Polícia prende suspeito em operação", K)   # 'ia' dentro de palavra
+        assert not _matches_keywords("Seleção vence amistoso", K)
