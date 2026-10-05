@@ -56,22 +56,29 @@ Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
 |---|---|---|---|
 | `anthropic_blog` | **Coleta**: 0 itens | `anthropic.com/feed` responde **404** (testado). O log dizia "OK — 0 items" porque `_fetch_rss` engolia o erro em nível DEBUG | **Bug**: fonte morta desde sempre, sem alarme |
 | `agencia_brasil` | **Filtro de keywords da própria fonte**: 30 → 0 | Log: "OK — 0 items". Pega as 30 últimas notícias gerais e só mantém as que citam termos de IA; em geral nenhuma cita | Provável excesso de rigor (cobertura é "eventual" por desenho) |
-| `qwen_blog` | **Recência (24h)** + critério editorial | Coleta 15 itens, mas só entram posts das últimas 24h; Qwen publica de tempos em tempos, e quando publica ainda passa pelo STEP 1.5 (blog corporativo) | Esperado pelo desenho; não é bug |
-| `ethan_mollick` | **Recência (24h)** + critério editorial | Idem, com cadência semanal; ensaio/opinião tende a cair no descarte de "blog pessoal" do STEP 1.5 | Esperado pelo desenho; não é bug |
+| `qwen_blog` | **Ranking/critério**, com **uma única chance** (janela de 24h) | Coleta 15 itens. Com o pipeline diário, cada post é elegível em exatamente 1 execução; se perder o ranking naquele dia (RSS não tem engajamento) ou cair no STEP 1.5, não volta | Esperado pelo desenho; janela ajustada (abaixo) |
+| `ethan_mollick` | Idem | Cadência semanal; ensaio/opinião tende a cair no descarte de "blog pessoal" do STEP 1.5 | Esperado pelo desenho; janela ajustada (abaixo) |
 
 - **Confirmado vs. hipótese:** o 404 da Anthropic e os "0 items" de Anthropic/Agência Brasil estão
   confirmados no log. Para Qwen e Mollick, falta ver o histórico: os arquivos `debug/edition_N_items.json`
   não são commitados (só ficam 30 dias como artifact do Actions).
 - **Corrigido (PR empilhado):** falhas de feed agora geram `WARNING` ("fetch error — 404…",
   "feed respondeu mas sem posts"), e a Agência Brasil loga "N raw → M após filtro". Não muda a seleção.
-- **Decisões que ficam com você** (não mexi, não consegui validar feeds daqui):
+- **Aplicado (PR de ajuste):** (2) Agência Brasil: palavras-chave ampliadas (IA, IA generativa, big techs,
+  data center, deepfake, marco legal da IA…) com casamento por palavra inteira ("ia" não casa em
+  "polícia") e limite 30→60. (3) Qwen e Mollick: `recency_hours: 72` por fonte (novo campo opcional no
+  `sources_config.json`); demais fontes seguem em 24h. Risco: um post aceito pode reaparecer em até 3
+  edições; a guarda de repetição da memória editorial (entidades em comum) deve barrar, mas vale
+  observar. Medir: quantas vezes Qwen/Mollick/Agência Brasil entram nas próximas 4 semanas.
+- **Pendente de decisão:**
   1. **Anthropic:** não há RSS oficial na URL atual. Opções: feed da comunidade, scraping de
      `anthropic.com/news`, ou desligar a fonte e cobrir via secundárias. Ganho: a Anthropic é a 2ª
      entidade mais citada (11×) e hoje só aparece por reportagem de terceiros.
-  2. **Agência Brasil:** ampliar keywords, subir o `limit` (30 é poucas horas de notícias) ou aceitar
-     que é fonte eventual.
-  3. **Qwen/Mollick:** considerar uma janela de recência maior só para fontes de baixa cadência
-     (ex.: 72h), em vez de 24h para todas. Mudança de comportamento: testar antes.
+     **Recomendação:** adotar o feed da comunidade `Olshansk/rss-feeds` (`feed_anthropic_news.xml`).
+     Testado em 05/10: responde 200, 265 posts, último de 02/10. Prós: custo mínimo, só trocar a URL.
+     Contras: depende de um repositório de terceiros (se parar de atualizar, volta a ficar mudo, mas o
+     WARNING novo avisa) e seus títulos entram no prompt da curadoria, então é um canal externo não
+     controlado (risco baixo, mas real). Alternativa mais robusta, mais trabalhosa: ler `anthropic.com/news`.
 - **Próximo passo de dados:** gravar no `editions.jsonl` (ou num artifact permanente) quantos itens cada
   fonte teve em cada etapa do funil, para parar de depender de logs de 30 dias.
 

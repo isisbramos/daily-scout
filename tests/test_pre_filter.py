@@ -431,3 +431,23 @@ class TestRunPreFilter:
     def test_empty_input(self):
         result = run_pre_filter([], FULL_CONFIG)
         assert result == []
+
+
+class TestPerSourceRecency:
+    def _item(self, sid, hours_ago):
+        import time
+        from sources.base import SourceItem
+        return SourceItem(title=sid, url=f"https://x/{sid}", source_id=sid,
+                          source_label=sid, timestamp=time.time() - hours_ago * 3600)
+
+    def test_slow_source_gets_longer_window(self):
+        from pre_filter import _filter_recency
+        items = [self._item("qwen_blog", 50), self._item("techcrunch", 50), self._item("techcrunch", 5)]
+        out = _filter_recency(items, 24, 0, {"qwen_blog": 72})
+        assert sorted(i.source_id for i in out) == ["qwen_blog", "techcrunch"]
+        assert all(not (i.source_id == "techcrunch" and i.timestamp < items[2].timestamp - 3600) for i in out)
+
+    def test_default_behavior_unchanged_without_override(self):
+        from pre_filter import _filter_recency
+        items = [self._item("qwen_blog", 50), self._item("techcrunch", 5)]
+        assert [i.source_id for i in _filter_recency(items, 24, 0)] == ["techcrunch"]

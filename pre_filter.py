@@ -142,7 +142,12 @@ def run_pre_filter(
     # Step 3: Recency filter
     recency_hours = pf_config.get("recency_hours", 24)
     fallback_min = pf_config.get("recency_fallback_min_items", 10)
-    items = _filter_recency(items, recency_hours, fallback_min)
+    per_source_hours = {
+        sid: cfg["recency_hours"]
+        for sid, cfg in config.get("sources", {}).items()
+        if isinstance(cfg, dict) and cfg.get("recency_hours")
+    }
+    items = _filter_recency(items, recency_hours, fallback_min, per_source_hours)
     logger.info(f"  After recency filter: {len(items)}")
 
     # Step 4: Score and sort (v5: z-score + exponential decay)
@@ -258,11 +263,21 @@ def _dedup_by_title_with_cross_source(
 
 
 def _filter_recency(
-    items: list[SourceItem], hours: int, fallback_min: int
+    items: list[SourceItem], hours: int, fallback_min: int,
+    per_source_hours: dict[str, int] | None = None,
 ) -> list[SourceItem]:
-    """Filtra por recência. Se ficar com poucos, usa tudo."""
-    cutoff = time.time() - (hours * 3600)
-    recent = [i for i in items if i.timestamp > cutoff]
+    """Filtra por recência. Se ficar com poucos, usa tudo.
+
+    `per_source_hours` ({source_id: horas}) dá uma janela maior a fontes de baixa
+    cadência (ex: blog que publica 1x/semana): com 24h o post tem UMA chance — se
+    perder o ranking naquele dia, nunca mais volta. Fontes sem override usam `hours`.
+    """
+    now = time.time()
+    per_source_hours = per_source_hours or {}
+    recent = [
+        i for i in items
+        if i.timestamp > now - (per_source_hours.get(i.source_id, hours) * 3600)
+    ]
 
     if len(recent) < fallback_min:
         logger.info(
