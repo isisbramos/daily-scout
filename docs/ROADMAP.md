@@ -1,7 +1,7 @@
 # AYA's Daily — Roadmap
 
 > Framework: **Now / Next / Later**
-> Última atualização: 22/06/2026
+> Última atualização: 05/10/2026
 
 ---
 
@@ -111,6 +111,16 @@
 ---
 
 ## 🔜 Next — Próximas iterações (backlog priorizado)
+
+### P1 — Plano de melhoria editorial (out/2026) — 🛠 Em execução
+
+Plano de 5 recomendações nascido do Content Report de 05/10 (nota 2.23/5; gargalos: Editorial e
+Reasoning). Detalhe, motivo e impacto de cada uma em [`EDITORIAL_IMPROVEMENT_PLAN.md`](EDITORIAL_IMPROVEMENT_PLAN.md).
+Uma mudança por vez, medindo no relatório semanal: **Rec. 4** (fonte por item + validar o juiz) ✅ →
+**Rec. 5** (investigar fontes ociosas) → **Rec. 2** (barra do main_find) → **Rec. 3** (funding no
+pre_filter) → **Rec. 1** (revisor final).
+
+---
 
 ### P1 — Welcome email + analytics (pronto pra executar)
 

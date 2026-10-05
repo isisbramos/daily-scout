@@ -93,6 +93,14 @@ def build_memory_record(edition: str, content: dict, source_index: dict | None =
 
     sources = _resolve_sources_used(content, source_index)
 
+    def _source(d: dict) -> str:
+        """source_id canônico do item (via URL), "" se não der pra resolver.
+
+        Registrado POR ITEM (não só a lista dedupada em sources_used) pra permitir
+        medir concentração de fonte numa edição — ver content_report.py.
+        """
+        return (source_index or {}).get((d or {}).get("url", ""), "")
+
     def _entities(d: dict) -> list:
         ents = d.get("entities") or []
         return ents if isinstance(ents, list) else []
@@ -103,6 +111,7 @@ def build_memory_record(edition: str, content: dict, source_index: dict | None =
         "main_find": {
             "title": mf.get("title", ""),
             "entities": _entities(mf),
+            "source": _source(mf),
             # claim_status pode vir None/ausente — normaliza pra string.
             "claim_status": mf.get("claim_status") or "",
         },
@@ -110,6 +119,7 @@ def build_memory_record(edition: str, content: dict, source_index: dict | None =
             {
                 "title": qf.get("title", ""),
                 "entities": _entities(qf),
+                "source": _source(qf),
             }
             for qf in content.get("quick_finds", [])
         ],

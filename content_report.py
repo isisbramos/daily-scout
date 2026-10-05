@@ -143,6 +143,11 @@ def aggregate_content(editions: list[dict], enabled_sources: set[str]) -> dict:
     feedback = Counter()                                   # distribuição total fire/solid/meh
     feedback_by_theme: dict[str, list[float]] = defaultdict(list)
     n_rated = 0
+    # Fonte POR ITEM (campo `source` gravado a partir da ed.197). Edições antigas só têm
+    # sources_used (lista dedupada), então ficam de fora desta métrica.
+    item_sources = Counter()
+    source_concentration: list[dict] = []   # edições com ≥3 itens da mesma fonte
+    n_with_item_source = 0
 
     # feedback_score preenchido pelo feedback_join.py é um dict {fire,solid,meh,n,avg}.
     # Mantemos tolerância a um escalar legado (emoji/label) só por robustez.
@@ -167,6 +172,16 @@ def aggregate_content(editions: list[dict], enabled_sources: set[str]) -> dict:
                 claim_status[cs] += 1
         for s in ed.get("sources_used", []) or []:
             sources[s] += 1
+
+        per_item = [it.get("source") for it in _all_items(ed) if it.get("source")]
+        if per_item:
+            n_with_item_source += 1
+            item_sources.update(per_item)
+            for src, n in Counter(per_item).items():
+                if n >= 3:
+                    source_concentration.append(
+                        {"edition": ed.get("edition", "?"), "source": src, "items": n}
+                    )
 
         fb = ed.get("feedback_score")
         ed_avg = None
@@ -226,6 +241,51 @@ def aggregate_content(editions: list[dict], enabled_sources: set[str]) -> dict:
         "repeats": repeats,
         "never_used_sources": never_used,
         "n_enabled_sources": len(enabled_sources),
+        "item_sources": item_sources,
+        "source_concentration": source_concentration,
+        "n_with_item_source": n_with_item_source,
+    }
+
+
+def judge_vs_feedback(editions: list[dict], audits: dict[str, dict]) -> dict:
+    """Pareia a nota do audit_agent (juiz LLM) com o feedback dos leitores, por edição.
+
+    Pergunta: a nota do juiz prevê o que o leitor sente? Se não, otimizar a nota não
+    melhora a newsletter. Só entram edições com audit E feedback_score dict com n>0.
+    Edições < 169 ficam de fora (votos de scanners de email — ver caveat em
+    aggregate_content). Com poucos pares a leitura é indicativa, não conclusiva.
+    """
+    pairs: list[tuple[int, float, int]] = []   # (nota do juiz, avg do leitor, n votos)
+    for ed in editions:
+        num = str(ed.get("edition", ""))
+        if not num.isdigit() or int(num) < 169:
+            continue
+        a, fb = audits.get(num), ed.get("feedback_score")
+        if not a or not isinstance(fb, dict) or not fb.get("n") or fb.get("avg") is None:
+            continue
+        score = a.get("overall_score")
+        if isinstance(score, (int, float)):
+            pairs.append((score, float(fb["avg"]), int(fb["n"])))
+
+    by_score: dict[int, list[float]] = defaultdict(list)
+    for score, avg, _n in pairs:
+        by_score[int(score)].append(avg)
+
+    corr = None
+    if len(pairs) >= 5:
+        xs, ys = [p[0] for p in pairs], [p[1] for p in pairs]
+        mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
+        sx = sum((x - mx) ** 2 for x in xs) ** 0.5
+        sy = sum((y - my) ** 2 for y in ys) ** 0.5
+        if sx and sy:
+            corr = round(sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / (sx * sy), 2)
+
+    return {
+        "n_pairs": len(pairs),
+        "total_votes": sum(p[2] for p in pairs),
+        "avg_feedback_by_score": {k: round(sum(v) / len(v), 2) for k, v in sorted(by_score.items())},
+        "editions_by_score": {k: len(v) for k, v in sorted(by_score.items())},
+        "correlation": corr,
     }
 
 
@@ -468,7 +528,8 @@ def _bar(count: int, maxc: int, width: int = 16) -> str:
     return "█" * filled + "·" * (width - filled)
 
 
-def build_markdown(content: dict, quality: dict, det_insights: list[str], llm_text: str | None) -> str:
+def build_markdown(content: dict, quality: dict, det_insights: list[str], llm_text: str | None,
+                   judge: dict | None = None) -> str:
     now = datetime.now(_BRT)
     d0, d1 = content["date_range"]
     L: list[str] = [
@@ -515,6 +576,20 @@ def build_markdown(content: dict, quality: dict, det_insights: list[str], llm_te
             + ", ".join(f"`{s}`" for s in content["never_used_sources"]),
             "",
         ]
+
+    # Concentração de fonte por edição (só edições que já gravam `source` por item)
+    if content.get("n_with_item_source"):
+        n = content["n_with_item_source"]
+        conc = content["source_concentration"]
+        L += ["### Concentração de fonte por edição", "",
+              f"Base: {n} edições com fonte registrada por item. "
+              + (f"**{len(conc)} caso(s)** com ≥3 itens da mesma fonte: "
+                 + "; ".join(f"ed.{c['edition']} {c['source']} ×{c['items']}" for c in conc)
+                 if conc else "Nenhuma edição com ≥3 itens da mesma fonte."),
+              ""]
+    else:
+        L += ["_Concentração de fonte por edição: aguardando edições com `source` por item "
+              "(passa a ser gravado a partir da ed.197)._", ""]
 
     # Mix epistêmico
     if content["epistemic_pct"]:
@@ -576,6 +651,21 @@ def build_markdown(content: dict, quality: dict, det_insights: list[str], llm_te
             t = quality["trend"]
             arrow = "↑" if t["delta"] > 0 else ("↓" if t["delta"] < 0 else "→")
             L += [f"**Tendência:** {t['first']} → {t['second']} ({arrow} Δ {t['delta']})", ""]
+
+        # Juiz × leitor
+        if judge and judge["n_pairs"]:
+            L += ["### Juiz × leitor (nota do audit vs feedback)", "",
+                  f"Base: {judge['n_pairs']} edições com audit e feedback "
+                  f"({judge['total_votes']} votos; ed. ≥169). Amostra pequena: leitura indicativa.",
+                  "", "| Nota do juiz | Edições | Feedback médio do leitor (0–2) |", "|---|---|---|"]
+            for sc, avg in judge["avg_feedback_by_score"].items():
+                L.append(f"| {sc}/5 | {judge['editions_by_score'][sc]} | {avg} |")
+            L.append("")
+            if judge["correlation"] is not None:
+                L += [f"**Correlação (Pearson):** {judge['correlation']} "
+                      "(perto de 0 = a nota do juiz não prevê o que o leitor sente)", ""]
+            else:
+                L += ["_Correlação não calculada (menos de 5 pares ou sem variação)._", ""]
 
         # Padrões recorrentes
         if quality["fn_by_source"]:
@@ -656,7 +746,8 @@ def main():
     det = deterministic_insights(content, quality)
     llm_text = None if args.no_llm else llm_insights(content, quality)
 
-    md = build_markdown(content, quality, det, llm_text)
+    judge = judge_vs_feedback(editions, audits)
+    md = build_markdown(content, quality, det, llm_text, judge)
     os.makedirs(REPORTS_DIR, exist_ok=True)
     fname = f"content_report_{datetime.now(_BRT).strftime('%Y%m%d')}.md"
     out_path = os.path.join(REPORTS_DIR, fname)
