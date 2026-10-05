@@ -12,6 +12,7 @@ output/
 # persistem — são a fonte do Scorecard de Qualidade no content_report.
 debug/*
 !debug/*_audit.json
+!debug/*_review.json
 
 # OS
 .DS_Store

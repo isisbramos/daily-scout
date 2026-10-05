@@ -26,8 +26,8 @@ Mais fortes: Diversidade 3.33, Tom 3.17, Intro 3.60.
 | 4 | Registrar a fonte de cada item e validar o "juiz" contra o feedback do leitor | ✅ Implementada (branch `claude/editorial-improvement-plan`) | Baixo | Baixo |
 | 5 | Investigar por que 4 fontes nunca entram | ✅ Investigada; visibilidade corrigida (PR empilhado). Falta decidir fix de cada fonte | Baixo | Baixo |
 | 2 | Barra mínima para o destaque principal (main_find) | ✅ No `main` (PR #38) | Baixo | Baixo |
-| 3 | Rebaixar funding/valuation/IPO por código (pre_filter) | ✅ Implementada (PR aberto). Panorama/roundup fica para a Rec. 1 | Baixo | Baixo (rebaixa, não exclui) |
-| 1 | "Revisor final": comparar o que a AYA disse com o que publicou | ⏳ Planejada | Médio | Médio (custo extra) |
+| 3 | Rebaixar funding/valuation/IPO por código (pre_filter) | ✅ No `main` (PR #39). Panorama/roundup fica para a Rec. 1 | Baixo | Baixo (rebaixa, não exclui) |
+| 1 | "Revisor final": conferir cada item publicado contra as regras | ✅ Implementada em modo **shadow** (PR aberto); `enforce` depende de medição | Médio | Médio (custo extra) |
 
 Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
 
@@ -118,12 +118,35 @@ Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
 - **Como acompanhar:** `grep "Funding demotion"` nos logs do pipeline (lista os títulos rebaixados), e a
   taxa de falsos positivos de funding nos próximos Content Reports.
 
-### Rec. 1 — "Revisor final" (maior alavanca)
-- **O que é:** após montar a edição, um passo extra confere se cada item "aprovado" entrou e se
-  cada item publicado passa nas regras; se não bater, corrige antes de enviar.
-- **Por quê:** é a causa raiz de Editorial e Reasoning, os eixos mais fracos (#195: 10+ itens
-  aprovados sumiram sem explicação).
-- **Impacto:** esperado nos dois eixos mais fracos; custo: uma chamada extra de LLM por edição.
+### Rec. 1 — Revisor final  ✅ (modo shadow)
+- **O que é:** depois que a curadoria monta a edição, uma segunda chamada de LLM (curta, só títulos e
+  resumos) confere **cada item publicado** contra as regras editoriais (funding sem produto, panorama sem
+  evento, opinião, post não verificado, notícia requentada, fora de escopo) e aponta até 2 candidatos fortes
+  que ficaram de fora. Código em `final_reviewer.py`, prompt em `prompts/final_review_prompt.txt`.
+- **Por quê:** é a causa raiz de Editorial (2.17) e Reasoning (2.27), os eixos mais fracos: a curadoria
+  conhece as regras e não as cumpre (#195: 10+ itens aprovados sumiram; #196: itens fortes aprovados e
+  ignorados, panoramas publicados). As Recs. 2 e 3 cobrem os casos mecânicos; o revisor cobre o resto.
+- **Três modos** (`final_review.mode` em `sources_config.json`):
+  - `off`: desligado (default do código).
+  - **`shadow` (ligado hoje):** roda o revisor e **só registra** o veredito em
+    `debug/edition_N_review.json`. A edição **não muda**.
+  - `enforce`: remove os itens reprovados. Guardrails: mantém no mínimo 3 quick_finds, no máximo 2
+    remoções; destaque reprovado é trocado por um quick_find aprovado que passe a barra da Rec. 2 e não
+    repita edição recente; sem substituto, mantém e registra.
+- **Por que entrou em shadow:** é a mudança de maior risco do plano (um LLM revisando outro pode errar, e
+  em `enforce` removeria itens bons). Primeiro medimos se o revisor concorda com o `audit_agent`.
+- **Checagem extra, sem LLM:** detecta item publicado que o próprio reasoning listou como rejeitado
+  (`ai_gate_rejected_sample`), ou seja, a contradição "disse que descartou, publicou".
+- **Falha aberta:** qualquer erro (API fora, JSON inválido) vira warning e a edição segue como veio.
+- **Custo:** 1 chamada extra de LLM por edição, com ~40 títulos de entrada.
+- **Como medir:** o Content Report semanal ganhou a seção "Revisor final × audit": quantos itens o revisor
+  reprovou, quantos o audit aponta como falso positivo e quantos coincidem.
+- **Critério proposto para promover a `enforce`** (≥ 10 edições com review): ≥ 60% dos itens reprovados
+  também são falsos positivos do audit, taxa de erro do revisor < 10%, e leitura manual de uma amostra dos
+  reprovados confirmando que são de fato violações. Mudar `mode` para `enforce` é uma linha no JSON.
+- **Limites da v1:** o revisor **não gera texto novo**: ele remove ou promove. Os "candidatos omitidos" só
+  são registrados. Se os dados mostrarem que vale, a v2 pode pedir uma regeneração da curadoria com o
+  feedback do revisor.
 
 ## O que NÃO vamos fazer (por ora)
 

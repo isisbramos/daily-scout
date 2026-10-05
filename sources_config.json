@@ -187,6 +187,13 @@
     }
   },
 
+  "final_review": {
+    "mode": "shadow",
+    "min_quick_finds": 3,
+    "max_removals": 2,
+    "_comment": "Rec. 1 — revisor final (final_reviewer.py). off = desligado; shadow = só registra o veredito em debug/edition_N_review.json sem alterar a edição; enforce = remove itens reprovados (mantém >= min_quick_finds, no máximo max_removals). Promover de shadow para enforce só depois de medir a concordância com o audit_agent."
+  },
+
   "pre_filter": {
     "recency_hours": 24,
     "recency_fallback_min_items": 10,
