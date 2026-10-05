@@ -1,7 +1,7 @@
 # AYA — Relatório de Conteúdo
 
-**Gerado:** 2026-10-05 11:51 BRT  
-**Janela:** 30 edições (2026-09-05 → 2026-10-04)
+**Gerado:** 2026-10-05 17:03 BRT  
+**Janela:** 30 edições (2026-09-06 → 2026-10-05)
 
 > Avaliação editorial da AYA *através das edições*: o que cobre, com qual diversidade, como o feedback responde e como a qualidade evolui.
 
@@ -13,11 +13,11 @@
 
 | Tema | Edições | |
 |---|---|---|
-| modelos de fronteira | 4 | `████████████████` |
-| infraestrutura de IA | 4 | `████████████████` |
+| agentes de AI | 4 | `████████████████` |
 | infraestrutura de AI | 4 | `████████████████` |
+| modelos de fronteira | 3 | `████████████····` |
+| infraestrutura de IA | 3 | `████████████····` |
 | agentes autônomos | 3 | `████████████····` |
-| agentes de AI | 3 | `████████████····` |
 | infraestrutura de AI na China | 3 | `████████████····` |
 | regulação de IA | 2 | `████████········` |
 | modelos de linguagem | 2 | `████████········` |
@@ -26,23 +26,23 @@
 
 ### Entidades mais citadas
 
-`OpenAI (17)` · `Anthropic (11)` · `SCMP Tech (11)` · `TechCrunch (11)` · `Nvidia (7)` · `Meta (6)` · `Google DeepMind (6)` · `DeepSeek (5)` · `China (5)` · `Google (5)` · `MIT Technology Review (5)` · `Amazon (5)`
+`OpenAI (17)` · `SCMP Tech (11)` · `TechCrunch (11)` · `Anthropic (10)` · `Nvidia (7)` · `Meta (6)` · `Google DeepMind (6)` · `DeepSeek (5)` · `China (5)` · `Google (5)` · `MIT Technology Review (5)` · `Amazon (5)`
 
 ### Distribuição de fontes
 
 | Fonte | Usos | |
 |---|---|---|
 | techcrunch | 20 | `████████████████` |
-| scmp_tech | 19 | `███████████████·` |
+| scmp_tech | 20 | `████████████████` |
 | hackernews | 18 | `██████████████··` |
 | reddit | 11 | `█████████·······` |
 | technode | 11 | `█████████·······` |
 | huggingface_papers | 6 | `█████···········` |
 | huggingface_blog | 6 | `█████···········` |
 | rest_of_world | 5 | `████············` |
+| mit_tech_review_brasil | 5 | `████············` |
 | mit_tech_review | 5 | `████············` |
 | deepmind_blog | 4 | `███·············` |
-| mit_tech_review_brasil | 4 | `███·············` |
 | arxiv_ai | 3 | `██··············` |
 | mistral_releases | 3 | `██··············` |
 | simon_willison | 3 | `██··············` |
@@ -55,11 +55,11 @@
 
 ### Mix epistêmico (claim_status)
 
-**confirmado** 80% · **especulativo** 10% · **em_andamento** 10%
+**confirmado** 82% · **especulativo** 9% · **em_andamento** 9%
 
 ### Feedback coletado
 
-🔥 9 · 👍 6 · 😐 7  (12 edições com rating)
+🔥 7 · 😐 6 · 👍 5  (11 edições com rating)
 
 
 _Média de feedback por tema:_
@@ -73,13 +73,11 @@ _Média de feedback por tema:_
 - IA em dispositivos: **2.0**
 - pesquisa em comportamento de LLMs: **2.0**
 - segurança de IA: **1.5**
-- infraestrutura de IA: **1.36**
+- infraestrutura de IA: **1.42**
 - hardware de IA: **1.33**
 - modelos de linguagem: **1.33**
 - regulação de direitos autorais: **1.33**
-- segurança de agentes de IA: **1.25**
 - modelos de fronteira: **1.25**
-- pesquisa acadêmica: **1.25**
 - agentes de IA: **1.0**
 - robótica: **1.0**
 - pesquisa em IA: **1.0**
@@ -123,7 +121,6 @@ _Média de feedback por tema:_
 
 | Edição | Overall | Editorial | Tom | Diversidade | Intro | Reasoning |
 |---|---|---|---|---|---|---|
-| #167 | 2/5 | 2 | 4 | 4 | 2 | 3 |
 | #168 | 2/5 | 2 | 4 | 3 | 2 | 3 |
 | #169 | 3/5 | 3 | 4 | 4 | 5 | 3 |
 | #170 | 2/5 | 2 | 3 | 3 | 2 | 3 |
@@ -153,10 +150,11 @@ _Média de feedback por tema:_
 | #194 | 3/5 | 3 | 4 | 4 | 4 | 3 |
 | #195 | 2/5 | 2 | 3 | 4 | 4 | 2 |
 | #196 | 2/5 | 2 | 3 | 3 | 4 | 2 |
+| #197 | 2/5 | 2 | 3 | 4 | 2 | 1 |
 
 ### Médias por dimensão
 
-**Editorial** 2.17/5 · **Tom** 3.17/5 · **Diversidade** 3.33/5 · **Intro** 3.6/5 · **Reasoning** 2.27/5
+**Editorial** 2.17/5 · **Tom** 3.13/5 · **Diversidade** 3.33/5 · **Intro** 3.6/5 · **Reasoning** 2.2/5
   
 **Overall médio:** 2.23/5
 
@@ -164,23 +162,23 @@ _Média de feedback por tema:_
 
 ### False negatives recorrentes (por fonte)
 
-- TechCrunch: 12×
-- HackerNews: 10×
+- TechCrunch: 11×
 - SCMP Tech: 10×
+- HackerNews: 9×
 - TechNode: 8×
 - Simon Willison: 6×
-- OpenAI Blog: 5×
+- OpenAI Blog: 6×
 - r/artificial: 4×
 - MIT Technology Review: 4×
 
 ### Hipóteses de prompt recorrentes
 
 - (2×) O STEP de AI Gate não exige que o item tenha evento…
-- (1×) STEP 3 - Critérios de seleção: a regra de funding round pode…
-- (1×) STEP 4 - Correspondent intro: a instrução pode não exigir que a…
 - (1×) O prompt pode não ter enfatizado suficientemente a necessidade de evento singular…
 - (1×) O prompt pode não ter exigido que o correspondent_intro mencione o tema…
 - (1×) O prompt pode não ter priorizado corretamente itens com alto sinal de…
+- (1×) A regra de anti-signal para resultado financeiro pode não estar sendo aplicada…
+- (1×) O critério de 'sinal de mercado' pode estar sendo interpretado de forma…
 
 ---
 
@@ -192,36 +190,37 @@ _Média de feedback por tema:_
 - **Repetição entre edições:** 60 par(es) de edições com sobreposição ≥2 entidades. A memória editorial barra quick_finds, mas main_finds repetidos só são logados — vale revisar se a regra precisa endurecer.
 - **Feedback × tema:** «governança de AI» tem a melhor média (2.0) e «destilação de modelos» a pior (0.0). Sinal pra dobrar no que engaja e revisar o que não pega.
 - **Dimensão mais fraca:** «Editorial» tem média 2.17/5 — o ponto de maior alavancagem pra subir a qualidade geral.
-- **Cego recorrente:** «TechCrunch» é a fonte mais frequente em false negatives (12×). A AYA pode estar subestimando essa fonte sistematicamente.
+- **Cego recorrente:** «TechCrunch» é a fonte mais frequente em false negatives (11×). A AYA pode estar subestimando essa fonte sistematicamente.
 - **Hipótese de prompt recorrente (2×):** “O STEP de AI Gate não exige que o item tenha evento…” — candidata forte a virar fix de prompt.
 
 ### Síntese editorial (DeepSeek)
 
-## Diagnóstico
+# Diagnóstico editorial — AYA (30 edições)
 
-A AYA está presa num platô de qualidade (2,23/5, delta de apenas +0,20 entre metades) com **editorial_alignment (2,17) e reasoning_coherence (2,27) como gargalos**, enquanto diversidade (3,33) e tom (3,17) estão saudáveis — ou seja, o problema não é o que entra, é o que o modelo decide e como justifica. O feedback confirma: 7 "meh" contra 9 "fire", e temas de alto valor editorial (governança, agentes autônomos, lançamento de modelos) pontuam 2,0 enquanto temas fracos (regulação de IA, infraestrutura de AI na China) puxam para baixo — sinal de que o ranking não está calibrado com o que o leitor valoriza. As 60 hipóteses recorrentes de prompt convergem para **um único defeito estrutural: o AI Gate e o "sinal de mercado" estão sendo aplicados de forma frouxa e o reasoning é gerado como justificativa post-hoc, não como filtro**.
+## 1. Diagnóstico
 
-## Recomendações priorizadas
+A qualidade média está em **2.23/5**, com `editorial_alignment` (2.17) e `reasoning_coherence` (2.20) como os dois piores eixos — ou seja, o problema não é tom nem diversidade (3.13/3.33), é **seleção e justificativa**: o pipeline aprova itens que não deveriam passar e o reasoning não fecha a conta. Isso é consistente com **60 repetições** de hipóteses de prompt quase todas apontando para o mesmo vetor: AI Gate frouxo, "sinal de mercado" interpretado como "empresa de AI mencionada", e reasoning usado como justificativa post-hoc em vez de verificação. O feedback confirma o custo: **6 "meh" vs 7 "fire"** (razão ruim para uma newsletter diária), e temas com nota 0.0 (destilação, agentes em pagamentos, formatos alternativos de LLM) coexistem com temas 2.0 (governança, agentes autônomos, soberania) — sinal de que o mix tem aposta errada, não só execução.
 
-### P0 — Reescrever o STEP 1 (AI Gate) como gate binário com evento singular obrigatório
-**Alavanca:** prompt (STEP 1 e STEP 3).
-**Por quê:** ~25 das 60 hipóteses recorrentes apontam o AI Gate como permissivo ("aplicado de forma frouxa", "aceitando panorama", "sem exigir evento"). Combinado com editorial_alignment 2,17 (o pior eixo), isso indica que itens sem evento noticioso singular estão passando. **Mudança concreta:** exigir que cada item aprovado responda explicitamente a três perguntas no reasoning — (a) qual é o evento singular datado, (b) qual a fonte primária, (c) qual o delta vs. estado anterior. Se qualquer uma falhar, o item é rejeitado, não "marcado como especulativo".
+## 2. Recomendações priorizadas
 
-### P0 — Separar reasoning de justificativa: gerar reasoning ANTES da seleção final e usá-lo como filtro
-**Alavanca:** ordem de execução do prompt + regra de memória.
-**Por quê:** hipóteses como "reasoning é usado como espaço de justificativa post-hoc", "não é validado contra o output final" e "não é forçado a justificar cada quick_find" explicam diretamente reasoning_coherence = 2,27. **Mudança concreta:** inverter a ordem — o modelo produz um `candidate_reasoning` com veredito PASS/FAIL por item *antes* de montar o output; o output só pode conter itens com PASS explícito, e o reasoning final é o log dessa filtragem, não uma narrativa posterior.
+### P0 — Endurecer o AI Gate com exigência de **evento singular verificável**
+**Alavanca:** reescrever STEP 1 para exigir, por item, um campo obrigatório `singular_event: {actor, action, date, primary_source}` — e reprovar automaticamente se `primary_source` for blog corporativo, roundup ou opinião. **Por quê:** 2 hipóteses recorrentes citam explicitamente "AI Gate aplicado de forma frouxa" e "não exige evento singular"; `editorial_alignment=2.17` é o pior eixo e é exatamente o que essa regra ataca. Sem isso, nenhuma outra correção se sustenta.
 
-### P1 — Recalibrar pesos de ranking usando feedback_by_theme como ground truth
-**Alavanca:** pesos de seleção + regra de memória.
-**Por quê:** temas com score 2,0 (governança de AI, agentes autônomos, lançamento de modelos, guerra de preços) deveriam dominar, mas top_themes mostra "infraestrutura de AI" empatado em 4 com "modelos de fronteira" — e "infraestrutura de AI na China" (score 0,5) aparece 3×. Há inversão clara. **Mudança concreta:** criar tabela de pesos explícita no prompt (ex.: temas ≥1,5 = peso 3; 1,0–1,4 = peso 2; <1,0 = peso 0,5) e aplicar no STEP de ranking, com o reasoning obrigado a citar o peso do tema escolhido para o main_find.
+### P0 — Separar "sinal de mercado" de "empresa de AI mencionada"
+**Alavanca:** no STEP 3, substituir o critério atual por uma definição operacional: *sinal de mercado = movimento estratégico específico com número, contraparte ou data (ex.: aquisição, preço, capacidade, parceria nomeada)*. Proibir explicitamente posicionamento aspiracional, "reportedly" sem fonte primária e declaração de executivo. **Por quê:** ~10 hipóteses distintas apontam para essa confusão; é a causa-raiz mais citada e explica por que `reasoning_coherence` está em 2.20 — o modelo justifica o que já decidiu incluir.
 
-### P1 — Corrigir diversidade de fonte e ativar fontes nunca usadas
-**Alavanca:** fontes + regra de diversidade.
-**Por quê:** TechCrunch (20), SCMP (19) e HN (18) dominam enquanto `anthropic_blog`, `qwen_blog`, `ethan_mollick` e `agencia_brasil` nunca foram usados — e Anthropic é a 2ª entidade mais citada (11×) sem que seu blog primário apareça. Isso força a AYA a cobrir Anthropic via secundárias, o que corrói editorial_alignment. **Mudança concreta:** (a) adicionar as 4 fontes nunca usadas ao pool com prioridade em temas onde são primárias (Anthropic→segurança/agentes; Qwen→China/modelos abertos; Mollick→adoção corporativa; Agência Brasil→regulação BR); (b) aplicar teto rígido de 2 itens por fonte por edição, hoje violado por TechCrunch/SCMP/HN.
+### P1 — Tornar o reasoning **verificável contra o output**, não narrativo
+**Alavanca:** exigir mapeamento 1:1 entre itens `PASSARAM` no reasoning e itens no output final, com campo `discard_reason` obrigatório para todo item que passou no gate mas não entrou. Adicionar passo de reconciliação no fim. **Por quê:** múltiplas hipóteses ("reasoning como justificativa post-hoc", "não valida contra output", "não justifica descartes") + `reasoning_coherence=2.20`. Hoje o reasoning é decorativo; precisa ser auditável.
 
-### P2 — Aplicar anti-signal de funding/roundup também a quick_finds e radar
-**Alavanca:** prompt (STEP 3) + few-shot.
-**Por quê:** hipóteses explícitas ("anti-signal de roundup aplicado apenas ao main_find", "few-shot de quick_finds premiando artigos de opinião", "regra de evento singular não aplicada a quick_finds") indicam que a cauda da edição está contaminada por itens que seriam rejeitados no topo. Isso explica parte dos 7 "meh". **Mudança concreta:** replicar o bloco de anti-signals (funding sem produto, panorama sem evento, opinião de veículo) para todos os slots, e revisar o few-shot de quick_finds removendo exemplos que sejam artigos de análise/opinião.
+### P1 — Corrigir o desequilíbrio de fontes e falsos negativos
+**Alavanca:** (a) ativar `anthropic_blog` e `qwen_blog` (nunca usados, apesar de Anthropic=10 e DeepSeek=5 em entidades); (b) aplicar teto rígido de 2 itens por fonte — TechCrunch e SCMP somam 40 de ~130 menções; (c) revisar o filtro que gera **11 falsos negativos em TechCrunch e 10 em SCMP** vs 1 em Stratechery/Lobsters. **Por quê:** o teto de diversidade de fonte está no prompt mas não está sendo aplicado (hipótese explícita), e os falsos negativos concentrados nas duas fontes mais usadas sugerem que o gate está rejeitando o que depois se revela relevante — provável efeito do critério frouxo do P0.
+
+### P2 — Rebalancear o mix temático com base no feedback, não na frequência
+**Alavanca:** no STEP de seleção, adicionar peso por tema derivado de `feedback_by_theme`: penalizar temas com score ≤1.0 (agentes de IA genérico, infraestrutura de AI na China=0.5) e priorizar 2.0 (governança, agentes autônomos, soberania, guerra de preços, IA em dispositivos). **Por quê:** "agentes de AI" e "infraestrutura de AI" dominam `top_themes` (4+4) mas têm feedback 1.0; temas com 2.0 aparecem pouco. A newsletter está otimizando volume de cobertura, não valor percebido — e isso explica a razão 6 meh / 7 fire.
+
+---
+
+**Nota de execução:** P0 e P1 compartilham a mesma raiz (gate frouxo → reasoning compensatório). Se só uma mudança for possível, faça o `singular_event` obrigatório — é a alavanca de maior alcance e a mais barata de instrumentar.
 
 ---
 

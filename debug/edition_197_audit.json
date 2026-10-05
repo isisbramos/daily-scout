@@ -1,0 +1,100 @@
+{
+  "edition": "197",
+  "audited_at": "2026-10-05T17:02:48.793372-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Cloudflare Web Search API) passa no AI Gate e é acionável, mas o reasoning declara explicitamente que o main_find escolhido foi 'Researchers are tracking a Chinese AI agent fleet' — e o output entrega outro item. Além disso, o quick_find de Huawei/Qualcomm é um acordo de patentes sem novidade de produto/estratégia clara e sem mudança de workflow, beirando anti-signal de 'sinal de mercado' genérico.",
+    "issues": [
+      "main_find declarado no reasoning ('Researchers are tracking a Chinese AI agent fleet') não é o main_find entregue (Cloudflare Web Search API) — contradição direta entre decisão e output.",
+      "quick_find 'Huawei e Qualcomm fecham acordo plurianual de patentes em 5G e AI': acordo de licenciamento cruzado sem novidade de produto, sem mudança de categoria e sem impacto direto em workflow — satisfaz no máximo 1 critério (sinal de mercado fraco/genérico).",
+      "quick_find 'Lola Vision Systems': título original diz 'is trying to make it easier' — não há produto lançado, cliente ou métrica; o critério 'acionável' fica no condicional, e o texto trata como se fosse oferta disponível ('têm mais um fornecedor para avaliar').",
+      "reasoning lista como 'PASSARAM' itens que não entraram no output (OpenAI ads, China AI Safety Money Problem, papers arXiv) sem explicar por que foram cortados depois — o gate declarado não corresponde à seleção final."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "Não há hype explícito (revolucionário, game-changer, etc.) e o main_find preserva o nível de certeza. Porém há duas falhas de acurácia: o quick_find de Lola Vision Systems transforma 'is trying to' em afirmação de capacidade, e o quick_find de Huawei/Qualcomm inventa consequência ('destravam uso cruzado de tecnologia') que não está no título.",
+    "issues": [
+      "quick_find Lola Vision Systems: título original 'is trying to make it easier' (tentativa) virou 'está desenvolvendo uma forma de simplificar' + 'têm mais um fornecedor para avaliar' — eleva certeza e trata como produto disponível.",
+      "quick_find Huawei/Qualcomm: 'destravam uso cruzado de tecnologia entre duas das maiores detentoras de patentes' é inferência não presente no título — informação adicionada.",
+      "main_find.body repete o mesmo trecho do bullet 1 quase literalmente ('segundo o changelog da própria empresa destacado no HackerNews (171 pontos, 93 comentários)'), gerando redundância entre body e bullets."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa diversidade de fontes (HackerNews, SCMP, TechCrunch, MIT Tech Review Brasil) e de audiências (desenvolvedores, executivos de negócio, product managers). Geografia também variada (EUA, China, Brasil). Único ponto fraco: dois dos três quick_finds são de fontes asiáticas (SCMP + MIT Brasil não conta), mas não chega a violar a regra de 3+ da mesma região.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase menciona 'frota de agentes de AI chineses sendo rastreada' — que é o main_find declarado no reasoning, mas NÃO é o main_find entregue (Cloudflare Web Search API). O intro fica desconectado do output real, o que é uma falha grave de coerência.",
+    "issues": [
+      "correspondent_intro abre com 'frota de agentes de AI chineses sendo rastreada por pesquisadores', mas o main_find entregue é a Cloudflare Web Search API — o intro promete um tema que não é o destaque da edição.",
+      "Segunda metade do intro ('primeiro formato de anúncio do ChatGPT') também não corresponde a nenhum item do output — OpenAI ads foi listado como 'PASSARAM' no reasoning mas não aparece em main_find nem quick_finds."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 1,
+    "rationale": "O reasoning é internamente contraditório: declara main_find = 'Researchers are tracking a Chinese AI agent fleet', mas o output entrega Cloudflare Web Search API como main_find. Também lista como aprovados no AI Gate itens que não aparecem no output (OpenAI ads, China AI Safety Money Problem, papers arXiv) sem explicar o corte. O campo 'perspective_check' mencionado nas instruções não existe no reasoning.",
+    "issues": [
+      "Contradição direta: reasoning diz 'MAIN_FIND escolhido: Researchers are tracking a Chinese AI agent fleet' — output entrega Cloudflare Web Search API.",
+      "reasoning afirma que OpenAI ads, China AI Safety Money Problem e papers arXiv 'PASSARAM' no gate, mas nenhum aparece no output — sem justificativa de corte.",
+      "reasoning não contém campo 'perspective_check' nem 'main_find_rationale' explícito — a justificativa de por que Cloudflare e não outro item não existe.",
+      "reasoning cita '302 posts de 20 fontes' no intro, mas o INPUT fornecido tem 40 itens — número não verificável a partir do material auditado."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Building advertising for the way people use AI",
+      "source": "OpenAI Blog",
+      "why_should_include": "Novo formato de anúncio no ChatGPT é lançamento de produto concreto de um player central, com impacto direto em monetização e em como usuários interagem com AI — passa no AI Gate e satisfaz acionável + sinal de mercado.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Researchers are tracking a Chinese AI 'agent fleet'",
+      "source": "TechCrunch",
+      "why_should_include": "O próprio reasoning da AYA declarou este como main_find escolhido, mas ele não aparece em nenhum campo do output — é o false negative mais grave da edição.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Huawei e Qualcomm fecham acordo plurianual de patentes em 5G e AI",
+      "field": "quick_finds",
+      "why_should_discard": "Acordo de licenciamento cruzado sem novidade de produto, sem mudança de categoria e sem impacto direto em workflow — satisfaz no máximo 1 critério de seleção.",
+      "violated_rule": "STEP 2 - Critérios de seleção (precisa de 2 de 3)"
+    },
+    {
+      "title": "Lola Vision Systems quer facilitar rodar modelos de AI em chips",
+      "field": "quick_finds",
+      "why_should_discard": "Título original é 'is trying to' — não há produto lançado, cliente ou métrica; o texto eleva a tentativa a oferta disponível, violando preservação de certeza.",
+      "violated_rule": "STEP 3 - Tom e acurácia (preservar nível de certeza do título)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP que define main_find não exige que o item escolhido no reasoning seja o mesmo entregue no campo main_find — falta validação cruzada entre reasoning e output.",
+      "evidence": "reasoning declara 'MAIN_FIND escolhido: Researchers are tracking a Chinese AI agent fleet' mas main_find entregue é Cloudflare Web Search API.",
+      "suggested_fix": "Adicionar regra explícita: o título do main_find no output DEVE ser idêntico ao declarado em reasoning.main_find_rationale."
+    },
+    {
+      "hypothesis": "O STEP de AI Gate trata 'componente de AI' como suficiente para passar, sem exigir novidade de produto/estratégia — isso permite que acordos de patentes e 'is trying to' entrem.",
+      "evidence": "Huawei/Qualcomm (patentes com 'AI' no título) e Lola Vision Systems ('is trying to') foram selecionados.",
+      "suggested_fix": "Reforçar no gate: menção a AI no título não basta; exige evento singular com novidade concreta (produto, mudança de política, M&A)."
+    },
+    {
+      "hypothesis": "O STEP de tom não tem regra explícita sobre preservar verbos de tentativa ('is trying to', 'may', 'could') em quick_finds — só em main_find.",
+      "evidence": "Lola Vision Systems: 'is trying to make it easier' virou 'está desenvolvendo uma forma de simplificar' + 'têm mais um fornecedor para avaliar'.",
+      "suggested_fix": "Estender a regra de preservação de certeza a TODOS os campos (main_find, quick_finds, radar), não só ao main_find."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem uma contradição grave: o reasoning declara um main_find (agent fleet chinês) que não é o entregue (Cloudflare Web Search API), e o correspondent_intro abre com o tema do main_find declarado — output, intro e reasoning não conversam entre si. Além disso, dois quick_finds violam critérios: Huawei/Qualcomm é acordo de patentes sem novidade de produto, e Lola Vision Systems eleva 'is trying to' a oferta disponível. O reasoning também lista itens como aprovados no gate que não aparecem no output, sem justificar o corte."
+}
