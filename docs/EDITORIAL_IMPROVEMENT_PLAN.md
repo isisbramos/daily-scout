@@ -24,7 +24,7 @@ Mais fortes: Diversidade 3.33, Tom 3.17, Intro 3.60.
 | # | Recomendação | Status | Esforço | Risco |
 |---|---|---|---|---|
 | 4 | Registrar a fonte de cada item e validar o "juiz" contra o feedback do leitor | ✅ Implementada (branch `claude/editorial-improvement-plan`) | Baixo | Baixo |
-| 5 | Investigar por que 4 fontes nunca entram | ⏳ Próxima | Baixo | Baixo |
+| 5 | Investigar por que 4 fontes nunca entram | ✅ Investigada; visibilidade corrigida (PR empilhado). Falta decidir fix de cada fonte | Baixo | Baixo |
 | 2 | Barra mínima para o destaque principal (main_find) | ⏳ Planejada | Baixo | Baixo |
 | 3 | Barrar funding/panorama por código (pre_filter) | ⏳ Planejada | Baixo | Médio (excluir funding relevante) |
 | 1 | "Revisor final": comparar o que a AYA disse com o que publicou | ⏳ Planejada | Médio | Médio (custo extra) |
@@ -47,13 +47,33 @@ Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
   incluía edições antigas com votos contaminados por scanners de email.)* Reavaliar quando houver ~30 pares.
 - **Como acompanhar:** seção "Concentração de fonte" só fica populada após algumas edições novas.
 
-### Rec. 5 — Investigar as 4 fontes que nunca entram
-- **O que é:** descobrir onde `anthropic_blog`, `qwen_blog`, `ethan_mollick` e `agencia_brasil`
-  morrem no funil (coleta, pre-filter, STEP 1.5, ranking), antes de "ativar" qualquer coisa.
-- **Por quê:** a Anthropic é a 2ª entidade mais citada (11×) mas o blog dela nunca é a fonte.
-  Hipótese (não verificada): o STEP 1.5, que desconfia de blogs corporativos, os descarta.
-- **Impacto:** se for excesso de rigor, a AYA passa a cobrir a Anthropic na fonte primária; se for
-  proposital, evitamos mexer à toa.
+### Rec. 5 — Investigar as 4 fontes que nunca entram  ✅ (investigação)
+- **Método:** log do pipeline de 05/10 (edição #197, run #238) + leitura do código de coleta e do
+  pre-filter + teste direto do feed da Anthropic.
+- **Resultado — cada fonte morre num ponto diferente do funil:**
+
+| Fonte | Onde morre | Evidência | Natureza |
+|---|---|---|---|
+| `anthropic_blog` | **Coleta**: 0 itens | `anthropic.com/feed` responde **404** (testado). O log dizia "OK — 0 items" porque `_fetch_rss` engolia o erro em nível DEBUG | **Bug**: fonte morta desde sempre, sem alarme |
+| `agencia_brasil` | **Filtro de keywords da própria fonte**: 30 → 0 | Log: "OK — 0 items". Pega as 30 últimas notícias gerais e só mantém as que citam termos de IA; em geral nenhuma cita | Provável excesso de rigor (cobertura é "eventual" por desenho) |
+| `qwen_blog` | **Recência (24h)** + critério editorial | Coleta 15 itens, mas só entram posts das últimas 24h; Qwen publica de tempos em tempos, e quando publica ainda passa pelo STEP 1.5 (blog corporativo) | Esperado pelo desenho; não é bug |
+| `ethan_mollick` | **Recência (24h)** + critério editorial | Idem, com cadência semanal; ensaio/opinião tende a cair no descarte de "blog pessoal" do STEP 1.5 | Esperado pelo desenho; não é bug |
+
+- **Confirmado vs. hipótese:** o 404 da Anthropic e os "0 items" de Anthropic/Agência Brasil estão
+  confirmados no log. Para Qwen e Mollick, falta ver o histórico: os arquivos `debug/edition_N_items.json`
+  não são commitados (só ficam 30 dias como artifact do Actions).
+- **Corrigido (PR empilhado):** falhas de feed agora geram `WARNING` ("fetch error — 404…",
+  "feed respondeu mas sem posts"), e a Agência Brasil loga "N raw → M após filtro". Não muda a seleção.
+- **Decisões que ficam com você** (não mexi, não consegui validar feeds daqui):
+  1. **Anthropic:** não há RSS oficial na URL atual. Opções: feed da comunidade, scraping de
+     `anthropic.com/news`, ou desligar a fonte e cobrir via secundárias. Ganho: a Anthropic é a 2ª
+     entidade mais citada (11×) e hoje só aparece por reportagem de terceiros.
+  2. **Agência Brasil:** ampliar keywords, subir o `limit` (30 é poucas horas de notícias) ou aceitar
+     que é fonte eventual.
+  3. **Qwen/Mollick:** considerar uma janela de recência maior só para fontes de baixa cadência
+     (ex.: 72h), em vez de 24h para todas. Mudança de comportamento: testar antes.
+- **Próximo passo de dados:** gravar no `editions.jsonl` (ou num artifact permanente) quantos itens cada
+  fonte teve em cada etapa do funil, para parar de depender de logs de 30 dias.
 
 ### Rec. 2 — Barra mínima para o main_find
 - **O que é:** o destaque não pode ser post de Reddit/fórum sem fonte primária ou corroboração.

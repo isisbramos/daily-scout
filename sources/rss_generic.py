@@ -344,7 +344,7 @@ class AgenciaBrasilSource(BaseSource):
             item for item in raw
             if any(kw in item.title.lower() for kw in self.keywords)
         ]
-        logger.debug(f"    Agência Brasil: {len(raw)} raw → {len(filtered)} after keyword filter")
+        logger.info(f"  [{self.source_id}] {len(raw)} raw → {len(filtered)} após filtro de keywords")
         return filtered
 
 
@@ -453,7 +453,7 @@ def _fetch_rss(
     try:
         feed = fetch_feed(feed_url)
         if feed.bozo and not feed.entries:
-            logger.debug(f"    {source_label}: RSS parse error — {feed.bozo_exception}")
+            logger.warning(f"  [{source_id}] feed ilegível — {feed.bozo_exception}")
             return []
 
         for entry in feed.entries[:limit]:
@@ -490,10 +490,14 @@ def _fetch_rss(
                 extra={"rss_categories": categories},
             ))
 
+        if not items:
+            logger.warning(f"  [{source_id}] feed respondeu mas sem posts — confira a URL: {feed_url}")
         logger.debug(f"    {source_label}: {len(items)} posts fetched")
 
     except Exception as e:
-        logger.debug(f"    {source_label}: fetch error — {e}")
+        # WARNING (não debug): sem isso um 404/timeout vira "OK — 0 items" no log do
+        # pipeline e a fonte morre calada — foi o caso do anthropic_blog (URL 404).
+        logger.warning(f"  [{source_id}] fetch error — {e}")
 
     return items
 
