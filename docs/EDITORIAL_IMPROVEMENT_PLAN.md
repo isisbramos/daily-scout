@@ -74,10 +74,11 @@ Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
   1. **Anthropic:** não há RSS oficial na URL atual. Opções: feed da comunidade, scraping de
      `anthropic.com/news`, ou desligar a fonte e cobrir via secundárias. Ganho: a Anthropic é a 2ª
      entidade mais citada (11×) e hoje só aparece por reportagem de terceiros.
-  2. **Agência Brasil:** ampliar keywords, subir o `limit` (30 é poucas horas de notícias) ou aceitar
-     que é fonte eventual.
-  3. **Qwen/Mollick:** considerar uma janela de recência maior só para fontes de baixa cadência
-     (ex.: 72h), em vez de 24h para todas. Mudança de comportamento: testar antes.
+     **Recomendação:** adotar o feed da comunidade `Olshansk/rss-feeds` (`feed_anthropic_news.xml`).
+     Testado em 05/10: responde 200, 265 posts, último de 02/10. Prós: custo mínimo, só trocar a URL.
+     Contras: depende de um repositório de terceiros (se parar de atualizar, volta a ficar mudo, mas o
+     WARNING novo avisa) e seus títulos entram no prompt da curadoria, então é um canal externo não
+     controlado (risco baixo, mas real). Alternativa mais robusta, mais trabalhosa: ler `anthropic.com/news`.
 - **Próximo passo de dados:** gravar no `editions.jsonl` (ou num artifact permanente) quantos itens cada
   fonte teve em cada etapa do funil, para parar de depender de logs de 30 dias.
 
