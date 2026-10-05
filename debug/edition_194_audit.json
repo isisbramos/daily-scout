@@ -1,0 +1,107 @@
+{
+  "edition": "194",
+  "audited_at": "2026-10-05T11:51:13.254991-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Clef/Cloudflare) passa no AI Gate e satisfaz acionável + sinal de mercado, sendo escolha defensável. Porém, dois quick_finds são fracos: 'Líderes africanos na ONU' é panorama geopolítico sem evento singular de uma empresa e sem acionabilidade concreta, e 'MIT Tech Review: LLMs don't reason' é peça de opinião/thought-leadership sem novidade concreta — ambos beiram anti-signal. O item de Hong Kong (Anthropic VPN) é borderline: é shift de política de uma empresa de AI, mas o impacto é regional e não muda workflow de forma ampla.",
+    "issues": [
+      "quick_find 'Líderes africanos querem voz na definição de segurança de AI na ONU' — panorama/advocacy sem evento singular de uma empresa; não é claramente acionável nem sinal de mercado específico. Viola o critério 2 (sinal de mercado exige movimento estratégico de UM player).",
+      "quick_find 'MIT Technology Review questiona se LLMs realmente raciocinam' — peça de opinião/thought-leadership sem novidade concreta; encaixa no anti-signal 'blog corporativo de thought-leadership sem novidade concreta' (aqui, editorial de opinião).",
+      "quick_find 'Anthropic restringe acesso ao Claude via VPN em Hong Kong' — borderline: é shift de política, mas o impacto é restrito a uma região e não muda workflow de forma ampla; poderia ser RADAR em vez de quick_find."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype explícito ('revolucionário', 'game-changer', etc.) e as frases são curtas e factuais. Há, porém, uma inferência não sustentada pelo título no main_find: 'A entrada da Cloudflare nesse espaço sinaliza que a empresa quer oferecer não só infraestrutura de rede, mas também a camada de inteligência que decide o que trafega por ela' — isso é interpretação estratégica não presente no título original. Também há leve aumento de certeza em 'A plataforma de RL fine-tuning permite que empresas ajustem os modelos' (o título não confirma capacidade de ajuste com dados próprios).",
+    "issues": [
+      "main_find.body: frase 'sinaliza que a empresa quer oferecer não só infraestrutura de rede, mas também a camada de inteligência que decide o que trafega por ela' — inferência estratégica não sustentada pelo título/URL.",
+      "main_find.bullets: 'permite que empresas ajustem os modelos de decisão com seus próprios dados de operação' — detalhe não confirmado pelo título original.",
+      "quick_find 'Físico de Harvard': 'publicou 36 artigos com o Claude listado como autor' — o título diz 'drops 36 papers authored with Claude', o que é ambíguo (co-autoria? assistência?); a Aya afirma 'listado como autor' sem confirmação."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa diversidade de fontes (HackerNews, SCMP, Rest of World, HuggingFace, MIT Tech Review) e de audiências (desenvolvedores, todos, executivos de negócio, product managers). Geografia razoável (EUA, Hong Kong, África). Nenhuma fonte aparece mais de uma vez entre main_find + quick_finds.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Cloudflare/Clef) e um segundo item (físico de Harvard), o que ancora a edição. A segunda frase ('Garimpei 302 posts de 20 fontes') é genérica e poderia servir para qualquer edição, mas não compromete.",
+    "issues": [
+      "Segunda frase ('Garimpei 302 posts de 20 fontes pra separar o que realmente muda sua rotina') é boilerplate reutilizável."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning explica bem o main_find (Clef) e lista descartes coerentes. Porém, há contradições: o reasoning afirma ter descartado 'The Download' e 'O que está em jogo' por serem compilações/panoramas, mas manteve 'Líderes africanos na ONU' (também panorama) e 'LLMs don't reason' (opinião) como quick_finds. Além disso, o reasoning diz ter descartado papers arXiv 'excessivamente técnicos' — mas 'Heavy-Tailed Memory Traces' aparece em epistemic_distribution como 'pesquisa/dado' e no RADAR, o que é consistente, mas o critério de descarte não é uniforme.",
+    "issues": [
+      "Contradição: reasoning descarta 'panoramas' e 'thought-leadership', mas mantém 'Líderes africanos na ONU' (panorama) e 'LLMs don't reason' (opinião) como quick_finds.",
+      "reasoning não justifica por que 'Anthropic VPN Hong Kong' entrou como quick_find em vez de RADAR, dado o impacto regional.",
+      "reasoning menciona 'diversidade epistêmica garantida' mas não explica o critério de corte entre quick_find e RADAR para itens borderline."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Robotaxi operators will face fines for blocking first responders",
+      "source": "TechCrunch",
+      "why_should_include": "Regulação governamental sobre operadores de robotaxi (automação inteligente) com impacto direto em workflows de empresas de autonomia — passa no AI Gate e satisfaz sinal de mercado (shift regulatório) + afeta workflows.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "AutoSynthData: Generating Training Data for Enterprise Agents",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Ferramenta concreta para gerar dados de treino para agentes empresariais — acionável para devs e afeta workflows de ML; passa no AI Gate.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Beyond the Drone: How XAG Is Betting on Autonomous Farming",
+      "source": "TechNode",
+      "why_should_include": "Movimento estratégico específico de uma empresa (XAG) em automação agrícola — sinal de mercado singular + afeta workflows do setor.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Who gets to decide if AI is safe? Africa wants a say",
+      "field": "quick_finds",
+      "why_should_discard": "Panorama/advocacy geopolítico sem evento singular de uma empresa; não é claramente acionável nem sinal de mercado específico.",
+      "violated_rule": "Critério 2 — sinal de mercado exige movimento estratégico de UM player; anti-signal de panorama sem evento singular."
+    },
+    {
+      "title": "Don't be fooled—LLMs don't reason",
+      "field": "quick_finds",
+      "why_should_discard": "Peça de opinião/thought-leadership sem novidade concreta; não muda workflow nem é acionável.",
+      "violated_rule": "Anti-signal — thought-leadership sem novidade concreta."
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção não distingue claramente 'panorama geopolítico' de 'evento singular de empresa' quando o tema é regulação de AI.",
+      "evidence": "'Líderes africanos na ONU' entrou como quick_find apesar de ser panorama sem evento singular.",
+      "suggested_fix": "Adicionar regra explícita: itens de regulação só entram se houver decisão/ação concreta de um órgão ou empresa específica, não advocacy ou posicionamento."
+    },
+    {
+      "hypothesis": "O few-shot de quick_finds pode estar premiando 'artigos de opinião de veículos respeitados' (MIT Tech Review) como se fossem sinal de mercado.",
+      "evidence": "'LLMs don't reason' entrou como quick_find apesar de ser editorial de opinião.",
+      "suggested_fix": "Reforçar no prompt que peças de opinião/análise de veículos de mídia não contam como sinal de mercado nem como acionável."
+    },
+    {
+      "hypothesis": "O reasoning não é forçado a justificar cada quick_find individualmente, permitindo contradições entre descartes declarados e seleções efetivas.",
+      "evidence": "reasoning descarta 'panoramas' mas mantém 'Líderes africanos na ONU'.",
+      "suggested_fix": "Exigir que o reasoning liste, para cada quick_find, qual dos 3 critérios foi satisfeito."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "O main_find (Clef/Cloudflare) é sólido e bem escolhido, mas dois quick_finds violam critérios de seleção (panorama geopolítico e peça de opinião). Há inferências estratégicas não sustentadas pelo título no main_find e uma contradição entre o reasoning (que descarta panoramas) e as seleções efetivas. Diversidade e intro estão adequadas."
+}

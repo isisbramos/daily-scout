@@ -1,0 +1,106 @@
+{
+  "edition": "195",
+  "audited_at": "2026-10-05T11:51:23.752803-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (PewDiePie/Ajax) passa no AI Gate e é acionável, mas o sinal de mercado é fraco: a fonte é um post de Reddit sem confirmação, e o 'ban da OpenAI' é alegação unilateral do criador. Entre os quick_finds, o item do Pentágono é um pedido orçamentário sem decisão concreta, e o item da Stability AI é um pivot estratégico reportado sem detalhes de produto — ambos no limite do aceitável. O item dos bancos chineses é explicitamente um panorama de analistas ('more banks likely to adopt'), o que é anti-signal de roundup/tendência sem evento singular.",
+    "issues": [
+      "Quick find 'Bancos chineses devem adotar regras de AI após movimento da Ping An' é panorama de analistas ('more banks likely to adopt') — viola o anti-signal de 'panorama/tendência de mercado sem evento singular de UMA empresa'.",
+      "Quick find 'Pentágono quer US$ 30 milhões para detector de mentiras com IA' é pedido orçamentário, não decisão ou produto — acionabilidade baixa e sinal de mercado difuso.",
+      "Main_find baseado em post de Reddit sem confirmação de fonte primária (OpenAI não se pronunciou) — o 'ban' é alegação unilateral tratada como fato no corpo."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido, sem hype explícito. Porém há um caso claro de aumento de certeza: o título original diz 'reportedly encouraged Trump to capture Venezuela's president' (Grok), mas esse item não entrou no output — o problema está no main_find, onde 'Ele afirma ter sido banido' é preservado corretamente, mas o step5_phrase transforma 'segundo o criador' em 'Agora é possível rodar um modelo de AI sem censura em PC doméstico', removendo o hedge. Além disso, o corpo do main_find afirma 'técnica em que um modelo menor é treinado a partir das respostas de um modelo maior' como definição factual, o que é correto, mas o vínculo causal com o ban é apresentado sem hedge.",
+    "issues": [
+      "step5_phrase do main_find remove o hedge do título original ('reportedly'/'afirma') e apresenta como fato consumado: 'Agora é possível rodar um modelo de AI sem censura em PC doméstico'.",
+      "Corpo do main_find trata o ban da OpenAI como fato ('Ele afirma ter sido banido duas vezes') mas o bullet seguinte já assume que a distilação 'costuma violar termos de uso' — inferência não confirmada pela fonte."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa diversidade de fontes (Reddit, HuggingFace, SCMP, MIT TR Brasil, TechCrunch) e de audiências (desenvolvedores, executivos de negócio, product managers). Geografia razoável: EUA, China, Brasil. Nenhuma fonte aparece mais de uma vez entre main_find + quick_finds. O único ponto fraco é que 3 dos 5 quick_finds são de fontes anglófonas dos EUA, mas não chega a ser concentração problemática.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (youtuber/modelos locais/ban da OpenAI) e a segunda contextualiza o Gemini. Não é genérica. O único problema é que a segunda frase ('Garimpei 40 posts de 19 fontes') contradiz o meta.total_analyzed=287 — inconsistência numérica entre intro e meta.",
+    "issues": [
+      "Intro diz 'Garimpei 40 posts de 19 fontes' mas meta.total_analyzed=287 — números inconsistentes entre campos do próprio output."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista itens em ai_gate_passed que NÃO aparecem no output final (Grok/Trump/Venezuela, guia GPT-6, Meta Muse gadget, Circuit Breaker Labs, Sanders bill, Epic, China/ASML, Trump rebrand, Redefining enterprise intelligence, The Download) sem explicar por que foram descartados após passar no gate. Também não há campo main_find_rationale explícito nem perspective_check — o reasoning menciona 'Memória editorial' mas não justifica por que PewDiePie venceu Gemini ou Stability AI. Há contradição: o reasoning diz que 'Stratechery Dots and Question Marks' foi descartado por ser roundup, mas o item dos bancos chineses (também panorama) foi selecionado.",
+    "issues": [
+      "Reasoning lista 10+ itens como 'PASSARAM' no AI Gate que não aparecem no output, sem explicar o descarte posterior — quebra a rastreabilidade.",
+      "Não há main_find_rationale explícito comparando PewDiePie/Ajax com alternativas mais fortes (Gemini, Stability AI).",
+      "Contradição: reasoning descarta Stratechery por 'roundup sem evento singular', mas seleciona bancos chineses que é panorama de analistas sem evento singular.",
+      "Ausência de perspective_check — o campo não existe no output."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Musk's AI chatbot Grok reportedly encouraged Trump to capture Venezuela's president",
+      "source": "r/artificial",
+      "why_should_include": "Evento singular envolvendo um modelo de AI de player major (xAI/Grok) com implicação geopolítica concreta — passa no AI Gate e tem sinal de mercado forte (comportamento de modelo em contexto de política externa).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Sanders introduces bill to ban the federal government from using Flock",
+      "source": "TechCrunch",
+      "why_should_include": "Regulação governamental concreta (bill no Congresso) afetando vigilância com AI — exceção de magnitude excepcional prevista no AI Gate e acionável para quem opera em compliance/governo.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Medical records giant Epic pauses product development to fix security bugs that risk patients' data",
+      "source": "TechCrunch",
+      "why_should_include": "Shutdown/pausa de desenvolvimento em plataforma major de saúde com dados de pacientes — exceção de magnitude excepcional e afeta workflows de times de saúde/tech.",
+      "missed_criteria": [
+        "AI Gate (exceção magnitude)",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Bancos chineses devem adotar regras de AI após movimento da Ping An",
+      "field": "quick_finds",
+      "why_should_discard": "É panorama de analistas ('more banks likely to adopt') sem evento singular de uma empresa — viola o anti-signal de roundup/tendência de mercado.",
+      "violated_rule": "Anti-signal: panorama/tendência de mercado sem evento singular de UMA empresa"
+    },
+    {
+      "title": "Pentágono quer US$ 30 milhões para detector de mentiras com IA",
+      "field": "quick_finds",
+      "why_should_discard": "Pedido orçamentário sem decisão concreta, produto ou shift estratégico — acionabilidade baixa e sinal de mercado difuso.",
+      "violated_rule": "Critério 2 (Sinal de mercado) — não revela movimento estratégico específico de um player"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de AI Gate não exige que o item tenha evento singular confirmado — apenas 'conexão com AI/ML'. Isso permite que panoramas de analistas (bancos chineses) e pedidos orçamentários (Pentágono) passem como se fossem eventos.",
+      "evidence": "Quick finds 'Bancos chineses' e 'Pentágono' foram selecionados apesar de serem panorama e pedido orçamentário, respectivamente.",
+      "suggested_fix": "Adicionar ao AI Gate a exigência de 'evento singular identificável (decisão, lançamento, mudança de política) — não panorama, não pedido, não opinião'."
+    },
+    {
+      "hypothesis": "O reasoning não tem campo obrigatório para justificar descartes pós-gate, então itens que 'PASSARAM' no AI Gate somem sem rastro — o LLM lista tudo que passou e depois seleciona sem explicar a diferença.",
+      "evidence": "Reasoning lista 10+ itens como PASSARAM que não aparecem no output (Grok, GPT-6, Meta Muse, Circuit Breaker, Sanders, Epic, China/ASML, Trump rebrand, Redefining enterprise, The Download).",
+      "suggested_fix": "Exigir no reasoning um campo 'gate_passed_but_discarded' com justificativa item a item."
+    },
+    {
+      "hypothesis": "O prompt não define claramente que 'reportedly'/'afirma' deve ser preservado no step5_phrase — o few-shot pode mostrar step5_phrase como afirmação direta, ensinando o modelo a remover hedges.",
+      "evidence": "step5_phrase do main_find: 'Agora é possível rodar um modelo de AI sem censura em PC doméstico' — remove o 'segundo o criador' do título original.",
+      "suggested_fix": "Adicionar regra explícita: 'step5_phrase deve preservar o nível de certeza do título original (may/might/reportedly/afirma → condicional)'."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem problemas de alinhamento editorial (dois quick finds que são anti-signals: panorama de analistas e pedido orçamentário) e de coerência do reasoning (lista 10+ itens como aprovados no gate que somem sem explicação, além de contradição sobre roundups). O main_find é defensável mas fraco (fonte Reddit, alegação unilateral), e o step5_phrase remove hedge do título original. Diversidade e intro são os pontos fortes."
+}

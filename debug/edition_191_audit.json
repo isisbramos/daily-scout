@@ -1,0 +1,107 @@
+{
+  "edition": "191",
+  "audited_at": "2026-10-05T11:50:40.601058-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (AMD/Li Fei-Fei) passa no AI Gate e é um evento singular com sinal de mercado forte. Porém, o quick_find 'China 700M usuários de IA generativa' é um dado de panorama sem evento singular de UMA empresa — viola o anti-signal de 'panorama/tendência de mercado sem evento singular'. O quick_find do Meta Muse tem fonte fraca (r/artificial, post de Reddit) sem confirmação, o que compromete a verificação.",
+    "issues": [
+      "quick_find 'China 700M usuários' — dado de mercado agregado sem evento singular de uma empresa; viola anti-signal de panorama/tendência.",
+      "quick_find 'Meta Muse vaza endereço' — fonte é post de r/artificial, sem confirmação de fonte primária; risco de rehashed/unverified.",
+      "reasoning lista 20 itens como 'PASSARAM' no AI Gate, mas apenas 5 foram selecionados — a lista de aprovados é inflada e não corresponde ao output."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e factual, sem hype explícito. Porém há adição de informação não presente no título original: o main_find afirma que 'a AMD não está apostando só em hardware: está comprando também o conhecimento de quem entende de modelos' — inferência editorial não sustentada pelo título. O quick_find do Meta Muse afirma 'a informação chegou a um comprador, que foi até a casa da pessoa', detalhe que pode não estar confirmado.",
+    "issues": [
+      "main_find.body adiciona interpretação ('não está apostando só em hardware') não presente no título/fonte.",
+      "quick_find Meta Muse afirma detalhe factual ('comprador foi até a casa') sem confirmação de fonte primária.",
+      "step5_phrase do main_find ('AMD está investindo em IA com a aquisição...') é redundante e não captura o sinal de mercado real (disputa com Nvidia)."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: SCMP Tech aparece 2x (main_find + quick_find China 700M) — dentro do limite de 2, mas no limite. Audiência: há diversidade (executivos de negócio, product managers, desenvolvedores). Geografia: 2 itens da China (AMD/Li Fei-Fei via SCMP e China 700M) — no limite, mas o main_find é sobre AMD (EUA) reportado por fonte chinesa, o que confunde a contagem.",
+    "issues": [
+      "SCMP Tech é fonte de 2 dos 4 itens principais (main_find + quick_find China 700M).",
+      "Dois itens com foco geográfico chinês (China 700M e, indiretamente, o main_find via SCMP)."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (AMD comprando startup de IA para disputar com Nvidia) e o segundo item (OpenAI pedindo desculpas). Não é genérica. O número '302 posts de 20 fontes' é específico, embora o input tenha apenas 40 itens — possível inconsistência com o total_analyzed.",
+    "issues": [
+      "Intro menciona '302 posts de 20 fontes', mas o input tem 40 itens — possível inconsistência entre intro e meta.total_analyzed."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista ~20 itens como 'PASSARAM' no AI Gate, mas apenas 5 foram selecionados — a lista de aprovados não corresponde ao output e não explica por que os outros 15 foram descartados após passar. O main_find_rationale é curto ('evento singular, sinal de mercado forte') e não compara com alternativas como OpenAI/Austrália ou Claude Sonnet 5.5. Há contradição: 'Peak XV' aparece tanto em PASSARAM quanto em DESCARTADOS.",
+    "issues": [
+      "Lista de 'PASSARAM' no reasoning (~20 itens) não corresponde aos 5 selecionados — falta explicação do descarte pós-gate.",
+      "Contradição: 'Peak XV' aparece em PASSARAM e em DESCARTADOS no mesmo reasoning.",
+      "main_find_rationale não justifica por que AMD/Li Fei-Fei vence OpenAI/Austrália ou Claude Sonnet 5.5.",
+      "reasoning menciona 'perspective_check' que não existe no output."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Claude Sonnet 5.5",
+      "source": "Simon Willison",
+      "why_should_include": "Release de modelo de linguagem de um player de referência (Anthropic), com análise de fonte respeitada — acionável para desenvolvedores e sinal de produto claro.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "OpenAI apologizes to Australia after its AI agents breached government sites",
+      "source": "TechCrunch",
+      "why_should_include": "Já está no output como quick_find — não é false negative. (Item listado apenas para contraste; ver false_positives.)",
+      "missed_criteria": []
+    },
+    {
+      "title": "Towards safety cases for frontier AI training",
+      "source": "OpenAI Blog",
+      "why_should_include": "Publicação de política de segurança de fronteira da OpenAI — sinal de mercado/regulação com evento concreto (documento publicado), não thought-leadership genérico.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Base de usuários de IA generativa na China passa de 700 milhões",
+      "field": "quick_finds",
+      "why_should_discard": "Dado agregado de mercado sem evento singular de uma empresa — viola anti-signal de panorama/tendência.",
+      "violated_rule": "Anti-signal: panorama/tendência de mercado sem evento singular"
+    },
+    {
+      "title": "Agente Muse, da Meta, vaza endereço residencial de usuário",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte é post de r/artificial sem confirmação de fonte primária — risco de informação não verificada.",
+      "violated_rule": "Verificação de fonte / rehashed news"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de AI Gate não exige que o item tenha evento singular de UMA empresa — apenas conexão com AI/ML. Isso permite que dados agregados de mercado (China 700M) passem.",
+      "evidence": "quick_find 'China 700M usuários' foi selecionado apesar de ser panorama sem evento singular.",
+      "suggested_fix": "Adicionar ao AI Gate a exigência de evento singular de uma empresa para itens de 'sinal de mercado'."
+    },
+    {
+      "hypothesis": "O prompt não instrui a Aya a verificar a qualidade/primariedade da fonte antes de selecionar — posts de Reddit podem entrar como se fossem reportagem.",
+      "evidence": "quick_find 'Meta Muse' usa r/artificial como fonte sem confirmação.",
+      "suggested_fix": "Adicionar regra: itens de fontes secundárias (Reddit, HN) só entram se houver confirmação em fonte primária."
+    },
+    {
+      "hypothesis": "O reasoning não é obrigado a mapear 1:1 os itens 'PASSARAM' com os selecionados, permitindo listas infladas que não explicam o descarte.",
+      "evidence": "reasoning lista ~20 itens como PASSARAM mas só 5 foram selecionados, sem explicar os 15 descartes.",
+      "suggested_fix": "Exigir que o reasoning explique explicitamente por que cada item aprovado no gate foi ou não selecionado."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find sólido (AMD/Li Fei-Fei), mas inclui um quick_find que viola o anti-signal de panorama de mercado (China 700M) e outro com fonte fraca (Meta Muse via Reddit). O reasoning é incoerente: lista ~20 itens como aprovados no AI Gate mas só 5 foram selecionados, sem explicar os descartes, e contém contradição (Peak XV em PASSARAM e DESCARTADOS)."
+}

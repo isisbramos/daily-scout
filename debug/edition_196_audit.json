@@ -1,0 +1,107 @@
+{
+  "edition": "196",
+  "audited_at": "2026-10-05T11:51:36.309372-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find escolhido (ARC-AGI-3 no Kaggle) é um post de Reddit r/singularity com score 0 e zero comentários, sem URL primária verificável — é um dado de leaderboard sem fonte confirmada, o que viola o requisito de 'evento singular' com lastro. Além disso, o reasoning descarta 'Religious scholars met with Anthropic' e 'OpenAI safety employee resigns' como candidatos fortes mas escolhe um post anônimo de Reddit como main_find, contradizendo a própria lógica de 'sinal de mercado'. O quick_find de microdramas chineses é panorama de mercado sem evento singular de uma empresa, o que é anti-signal explícito.",
+    "issues": [
+      "main_find: 'Top ARC-AGI-3 scores on Kaggle just went from 7% to 56%' é post de r/singularity com score 0, comments 0, sem fonte primária — não é evento verificável, é alegação anônima de leaderboard",
+      "quick_find 'China's AI microdrama producers battle viewer fatigue' é panorama de mercado sem evento singular de UMA empresa — anti-signal explícito ('Roundup ou panorama de tendência de mercado sem evento singular')",
+      "quick_find 'All the AI agents that can live in your text messages' é compilação/roundup, não evento singular — o próprio reasoning admite 'compilação, não serve como main_find mas pode ser quick_find', mas a regra de anti-signal vale para qualquer posição",
+      "reasoning lista 'Religious scholars met with Anthropic' (NYT, 98 pts, 231 comments) como 'evento concreto, passa' mas o item não aparece em nenhum campo do output — contradição entre reasoning e seleção"
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido, sem hype explícito. Porém o main_find adiciona contexto não presente no título original ('benchmark criado para medir raciocínio abstrato em tarefas que modelos de linguagem costumam errar') como se fosse fato estabelecido, e o bullet repete o body quase literalmente. O uso de 'se confirmado' preserva a incerteza, o que é correto, mas o step5_phrase afirma categoricamente 'muda o que sabíamos' sem o mesmo condicional.",
+    "issues": [
+      "main_find.bullets[0] e main_find.body são quase idênticos — bullets deveriam adicionar informação, não repetir o body",
+      "step5_phrase do main_find ('Resultado do ARC-AGI-3 muda o que sabíamos sobre capacidade de raciocínio abstrato') afirma mudança categórica enquanto o body usa 'se confirmado' — inconsistência de nível de certeza",
+      "main_find.body introduz definição do ARC-AGI ('benchmark criado para medir raciocínio abstrato') que não estava no título nem é atribuída a fonte — informação adicionada sem lastro"
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes razoavelmente distribuídas (TechCrunch x2, SCMP, HuggingFace, Reddit), sem violar o limite de 2 por source. Audiência tem variedade (desenvolvedores, executivos de negócio, product managers). Geografia inclui China (SCMP) e EUA, sem concentração excessiva. Mas o main_find vem de Reddit r/singularity, fonte de baixa confiabilidade, enquanto fontes mais fortes (NYT via HN, TechCrunch) ficaram em quick_finds ou fora.",
+    "issues": [
+      "main_find vem de r/singularity (Reddit, score 0) enquanto fontes mais robustas como NYT/TechCrunch foram relegadas ou descartadas — desequilíbrio de credibilidade entre main_find e quick_finds"
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona especificamente os dois temas do main_find e do quick_find de maior destaque (demissão na OpenAI e salto do ARC-AGI-3), não é genérica. O número '297 posts de 19 fontes' é concreto. Pequeno problema: menciona a demissão da OpenAI como se fosse destaque, mas ela não aparece em nenhum campo do output — o leitor é levado a um item que não existe na edição.",
+    "issues": [
+      "Intro menciona 'uma demissão na área de segurança da OpenAI' como destaque, mas esse item não aparece em main_find, quick_finds nem radar — promessa não cumprida ao leitor"
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é detalhado mas contém contradições diretas com o output. Ele afirma que 'Religious scholars met with Anthropic' passa e é evento concreto, mas o item não foi selecionado. Ele classifica 'All the AI agents that can live in your text messages' como compilação que 'não serve como main_find mas pode ser quick_find', ignorando que a regra de anti-signal de roundup vale para qualquer posição. E escolhe como main_find um post de Reddit com score 0 sem explicar por que supera o NYT/TechCrunch descartados.",
+    "issues": [
+      "reasoning diz 'Religious scholars met with Anthropic — evento concreto, passa' mas o item não aparece no output",
+      "reasoning admite que 'All the AI agents...' é compilação mas o inclui como quick_find, contrariando a regra de anti-signal de roundup",
+      "reasoning não justifica por que ARC-AGI-3 (Reddit, score 0) é main_find em vez de 'OpenAI safety employee resigns' (TechCrunch, evento singular com sinal de mercado claro)",
+      "reasoning afirma 'Diversidade epistêmica: produto/lançamento (agentes em SMS), pesquisa/dado (ARC-AGI-3), regulação/crítica (OpenAI resign, Amazon NDAs, Anthropic religious scholars)' — mas OpenAI resign e Anthropic religious scholars não estão no output, então a diversidade declarada não corresponde à entregue"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Religious scholars met with Anthropic",
+      "source": "HackerNews (NYT)",
+      "why_should_include": "Evento singular (encontro entre Anthropic e estudiosos religiosos sobre moral do Claude), 98 pontos e 231 comentários no HN, sinal de mercado sobre posicionamento de política de AI. O próprio reasoning admite que 'passa'.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "OpenAI safety employee resigns, claiming the company's 'culture is broken'",
+      "source": "TechCrunch",
+      "why_should_include": "Evento singular, sinal de mercado forte sobre governança interna da OpenAI, acionável para quem acompanha política de AI. O reasoning o classifica como 'evento concreto, passa' e a intro o menciona como destaque — mas ele não aparece em nenhum campo do output.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Top ARC-ΑGI-3 scores on Kaggle just went from 7% to 56% [N]",
+      "field": "main_find",
+      "why_should_discard": "Post de r/singularity com score 0 e zero comentários, sem fonte primária verificável — é alegação anônima de leaderboard, não evento singular confirmado. Não satisfaz 'sinal de mercado' (não é movimento de player específico) nem 'acionável' (não há ferramenta ou decisão a tomar).",
+      "violated_rule": "STEP 1 - AI Gate / critério 'Sinal de mercado' exige evento singular de UMA empresa; post anônimo de Reddit sem lastro não qualifica"
+    },
+    {
+      "title": "Quality over quantity: China's AI microdrama producers battle viewer fatigue",
+      "field": "quick_finds",
+      "why_should_discard": "Panorama de mercado sobre setor inteiro ('produtores chineses de microdramas') sem evento singular de UMA empresa — anti-signal explícito de roundup/tendência.",
+      "violated_rule": "Anti-signal: 'Roundup ou panorama de tendência de mercado sem evento singular de UMA empresa específica por trás'"
+    },
+    {
+      "title": "All the AI agents that can live in your text messages",
+      "field": "quick_finds",
+      "why_should_discard": "Compilação de múltiplos agentes, não evento singular. O próprio reasoning admite que é compilação. Anti-signal de roundup.",
+      "violated_rule": "Anti-signal: 'Roundup ou panorama de tendência de mercado sem evento singular de UMA empresa específica por trás'"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt não exige verificação de fonte primária para main_find — permite que posts de Reddit com score 0 sejam promovidos a main_find se o título parecer 'dado concreto'.",
+      "evidence": "main_find é post de r/singularity com score 0 e comments 0, escolhido sobre itens de TechCrunch/NYT com tração real.",
+      "suggested_fix": "Adicionar regra: main_find deve vir de fonte com URL primária verificável (não post de fórum/Reddit sem link externo) ou exigir cross_source_count >= 2."
+    },
+    {
+      "hypothesis": "A regra de anti-signal de 'roundup/panorama' está sendo aplicada apenas ao main_find, não a quick_finds — o reasoning explicitamente diz 'não serve como main_find mas pode ser quick_find'.",
+      "evidence": "Dois quick_finds são compilações/panoramas ('All the AI agents...', 'China's AI microdrama producers...') que violam o anti-signal de roundup.",
+      "suggested_fix": "Esclarecer no prompt que anti-signals de roundup/panorama valem para TODAS as posições do output, não só main_find."
+    },
+    {
+      "hypothesis": "O reasoning não é validado contra o output final — itens declarados como 'passa' no reasoning podem ser silenciosamente descartados sem justificativa.",
+      "evidence": "reasoning afirma que 'Religious scholars met with Anthropic' e 'OpenAI safety employee resigns' passam, mas nenhum dos dois aparece no output; a intro até menciona a demissão da OpenAI como destaque.",
+      "suggested_fix": "Adicionar step de consistência: todo item marcado como 'passa' no reasoning deve aparecer em algum campo do output, ou o reasoning deve registrar explicitamente por que foi cortado depois."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem falhas graves de seleção: o main_find é um post anônimo de Reddit com score 0 sem fonte primária, e dois quick_finds violam o anti-signal de roundup/panorama. O reasoning contradiz o output — declara que dois itens fortes (Anthropic/religious scholars e OpenAI safety resign) 'passam', mas nenhum aparece na edição, e a intro ainda promete a demissão da OpenAI como destaque. O tom é contido, mas o main_find adiciona contexto não atribuído e o step5_phrase eleva a certeza além do que o body sustenta."
+}
