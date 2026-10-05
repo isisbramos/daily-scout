@@ -71,7 +71,7 @@ Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
   edições; a guarda de repetição da memória editorial (entidades em comum) deve barrar, mas vale
   observar. Medir: quantas vezes Qwen/Mollick/Agência Brasil entram nas próximas 4 semanas.
 - **Pendente de decisão:**
-  1. **Anthropic:** não há RSS oficial na URL atual. Opções: feed da comunidade, scraping de
+  1. **Anthropic (✅ aplicado: feed da comunidade):** não há RSS oficial na URL atual. Opções: feed da comunidade, scraping de
      `anthropic.com/news`, ou desligar a fonte e cobrir via secundárias. Ganho: a Anthropic é a 2ª
      entidade mais citada (11×) e hoje só aparece por reportagem de terceiros.
      **Recomendação:** adotar o feed da comunidade `Olshansk/rss-feeds` (`feed_anthropic_news.xml`).
