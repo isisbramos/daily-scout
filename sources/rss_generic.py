@@ -26,7 +26,7 @@ class AnthropicBlogSource(BaseSource):
         super().__init__(config)
         self.limit = self.config.get("limit", 15)
         self.feed_url = self.config.get(
-            "rss_url", "https://www.anthropic.com/feed"
+            "rss_url", "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml"
         )
 
     def fetch(self) -> list[SourceItem]:

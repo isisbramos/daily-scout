@@ -59,9 +59,10 @@
     "_comment_ai_labs": "AI Lab Blogs — weight 0.8 (abaixo de community sources; blogs oficiais são marketing-heavy)",
     "anthropic_blog": {
       "enabled": true,
+      "_comment": "anthropic.com/feed retorna 404 (sem RSS oficial). Feed da comunidade (Olshansk/rss-feeds), validado 2026-10-05: 265 posts, mais recente 02/10. Terceiro não controlado: se parar de atualizar, o WARNING 'feed respondeu mas sem posts' avisa. Alternativa mais robusta: ler anthropic.com/news direto.",
       "weight": 0.8,
       "limit": 15,
-      "rss_url": "https://www.anthropic.com/feed"
+      "rss_url": "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml"
     },
     "openai_blog": {
       "enabled": true,
