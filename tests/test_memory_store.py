@@ -100,3 +100,21 @@ class TestRecordSocialOutcome:
         memory_store.record_social_outcome("100", "linkedin", {"status": "posted"})
 
         assert not (tmp_path / "editions.jsonl.tmp").exists()
+
+
+class TestSourcePerItem:
+    def test_records_source_for_main_and_quick_finds(self):
+        content = {
+            "main_find": {"title": "m", "url": "https://a/1"},
+            "quick_finds": [{"title": "q1", "url": "https://b/2"}, {"title": "q2", "url": "https://x/9"}],
+        }
+        idx = {"https://a/1": "techcrunch", "https://b/2": "scmp_tech"}
+        record = memory_store.build_memory_record("197", content, idx)
+        assert record["main_find"]["source"] == "techcrunch"
+        assert [q["source"] for q in record["quick_finds"]] == ["scmp_tech", ""]
+
+    def test_source_empty_without_index(self):
+        record = memory_store.build_memory_record(
+            "197", {"main_find": {"title": "m", "url": "https://a/1"}, "quick_finds": []}
+        )
+        assert record["main_find"]["source"] == ""
