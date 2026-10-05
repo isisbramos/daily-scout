@@ -590,3 +590,19 @@ class TestCategorizaByTitle:
     def test_default_returned_when_no_match(self):
         assert _categorize_by_title("Some random news", [], "ai") == "ai"
         assert _categorize_by_title("Some random news", [], "tech") == "tech"
+
+
+class TestFeedFailuresAreVisible:
+    """404/timeout em RSS não pode virar 'OK — 0 items' calado (caso anthropic_blog)."""
+
+    def test_http_error_logs_warning_and_returns_empty(self, monkeypatch, caplog):
+        import logging
+        import sources.rss_generic as rg
+
+        def boom(url, *a, **k):
+            raise RuntimeError("404 Client Error: Not Found")
+
+        monkeypatch.setattr(rg, "fetch_feed", boom)
+        with caplog.at_level(logging.WARNING, logger="daily-scout"):
+            assert _fetch_rss("https://x/feed", "anthropic_blog", "Anthropic Blog") == []
+        assert any("anthropic_blog" in r.message and "404" in r.message for r in caplog.records)
