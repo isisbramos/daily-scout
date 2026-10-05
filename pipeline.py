@@ -34,6 +34,7 @@ import sources.huggingface_papers  # API JSON oficial — huggingface.co/papers 
 from pre_filter import run_pre_filter
 from schemas import Reasoning, MainFind, QuickFind, RadarItem, Meta, CurationOutput
 from delivery import send_via_buttondown, send_fallback
+from final_reviewer import run_final_review
 from exceptions import FetchError, CurationError, DeliveryError
 from memory_store import (
     load_recent_editions,
@@ -673,12 +674,25 @@ def run_pipeline():
             source_breakdown=source_breakdown,
         )
 
+        # ── Step 3a: Revisor final (Rec. 1) — modo em sources_config.json: final_review.mode ──
+        # off (default) | shadow (só registra) | enforce (remove itens reprovados). Falha aberta.
+        review = run_final_review(
+            content, filtered_items, config.get("final_review", {}),
+            recent_editions=load_recent_editions(7),
+        )
+
         # ── Step 3b: Save debug artifacts (para audit agent / PE study) ──
         if DEBUG_SAVE:
             debug_dir = os.path.join(
                 os.path.dirname(os.path.abspath(__file__)), "debug"
             )
             os.makedirs(debug_dir, exist_ok=True)
+
+            if review is not None:
+                review_path = os.path.join(debug_dir, f"edition_{EDITION_NUMBER}_review.json")
+                with open(review_path, "w", encoding="utf-8") as f:
+                    json.dump(review, f, ensure_ascii=False, indent=2)
+                logger.info(f"[DEBUG] Review verdicts saved: {review_path}")
 
             curation_path = os.path.join(debug_dir, f"edition_{EDITION_NUMBER}_curation.json")
             with open(curation_path, "w", encoding="utf-8") as f:

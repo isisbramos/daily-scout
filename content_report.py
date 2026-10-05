@@ -289,6 +289,55 @@ def judge_vs_feedback(editions: list[dict], audits: dict[str, dict]) -> dict:
     }
 
 
+def reviewer_vs_audit(editions: list[dict], audits: dict[str, dict]) -> dict:
+    """Concordância do revisor final (debug/edition_N_review.json, Rec. 1) com o audit_agent.
+
+    Para cada edição com os dois: os itens que o revisor reprovou (FAIL) batem com os
+    false_positives do audit? Mede se o revisor enxerga o que o juiz enxerga ANTES de
+    promover final_review.mode de "shadow" para "enforce". Só edições com review entram.
+    """
+    rows = []
+    for ed in editions:
+        num = str(ed.get("edition", ""))
+        path = os.path.join(DEBUG_DIR, f"edition_{num}_review.json")
+        if num not in audits or not os.path.exists(path):
+            continue
+        try:
+            with open(path, encoding="utf-8") as fh:
+                review = json.load(fh)
+        except (json.JSONDecodeError, OSError):
+            continue
+        if review.get("error"):
+            rows.append({"edition": num, "error": True})
+            continue
+        items = _all_items(ed)
+        fail_titles = {
+            items[v["idx"]].get("title", "").strip().lower()
+            for v in review.get("verdicts", [])
+            if v.get("verdict") == "FAIL" and 0 <= v.get("idx", -1) < len(items)
+        }
+        fp_titles = {
+            (fp.get("title", "") if isinstance(fp, dict) else str(fp)).strip().lower()
+            for fp in audits[num].get("false_positives", []) or []
+        }
+        rows.append({
+            "edition": num, "error": False, "mode": review.get("mode", "?"),
+            "review_fail": len(fail_titles), "audit_fp": len(fp_titles),
+            "both": len(fail_titles & fp_titles),
+            "missed": len(review.get("missed", []) or []),
+            "contradictions": len(review.get("contradictions", []) or []),
+        })
+    ok = [r for r in rows if not r["error"]]
+    return {
+        "rows": rows,
+        "n": len(ok),
+        "review_fail": sum(r["review_fail"] for r in ok),
+        "audit_fp": sum(r["audit_fp"] for r in ok),
+        "both": sum(r["both"] for r in ok),
+        "errors": sum(1 for r in rows if r["error"]),
+    }
+
+
 # ── Camada 2: scorecard de qualidade (consome audits) ──────────────────
 # (campo, label curto) — derivado de AUDIT_DIMENSIONS (audit_agent.py), a fonte única
 # do schema do AuditReport. Sem isso, uma dimensão nova no audit_agent não apareceria
@@ -529,7 +578,7 @@ def _bar(count: int, maxc: int, width: int = 16) -> str:
 
 
 def build_markdown(content: dict, quality: dict, det_insights: list[str], llm_text: str | None,
-                   judge: dict | None = None) -> str:
+                   judge: dict | None = None, reviewer: dict | None = None) -> str:
     now = datetime.now(_BRT)
     d0, d1 = content["date_range"]
     L: list[str] = [
@@ -667,6 +716,20 @@ def build_markdown(content: dict, quality: dict, det_insights: list[str], llm_te
             else:
                 L += ["_Correlação não calculada (menos de 5 pares ou sem variação)._", ""]
 
+        # Revisor final × audit (Rec. 1)
+        if reviewer and reviewer["rows"]:
+            L += ["### Revisor final × audit (Rec. 1)", "",
+                  f"Base: {reviewer['n']} edições com review e audit"
+                  + (f" ({reviewer['errors']} com erro do revisor)" if reviewer["errors"] else "") + ".",
+                  "", "| Medida | Total |", "|---|---|",
+                  f"| Itens reprovados pelo revisor | {reviewer['review_fail']} |",
+                  f"| Falsos positivos apontados pelo audit | {reviewer['audit_fp']} |",
+                  f"| Reprovados pelo revisor **e** pelo audit | {reviewer['both']} |", ""]
+            if reviewer["review_fail"]:
+                L += [f"**Precisão do revisor vs. audit:** {round(100 * reviewer['both'] / reviewer['review_fail'])}% "
+                      "dos reprovados também são falsos positivos do audit. "
+                      "Promover para `enforce` só com concordância alta e amostra maior.", ""]
+
         # Padrões recorrentes
         if quality["fn_by_source"]:
             L += ["### False negatives recorrentes (por fonte)", ""]
@@ -747,7 +810,8 @@ def main():
     llm_text = None if args.no_llm else llm_insights(content, quality)
 
     judge = judge_vs_feedback(editions, audits)
-    md = build_markdown(content, quality, det, llm_text, judge)
+    reviewer = reviewer_vs_audit(editions, audits)
+    md = build_markdown(content, quality, det, llm_text, judge, reviewer)
     os.makedirs(REPORTS_DIR, exist_ok=True)
     fname = f"content_report_{datetime.now(_BRT).strftime('%Y%m%d')}.md"
     out_path = os.path.join(REPORTS_DIR, fname)

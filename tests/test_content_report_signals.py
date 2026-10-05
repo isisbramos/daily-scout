@@ -37,3 +37,23 @@ def test_judge_vs_feedback_pairs_and_skips_old_editions():
 def test_judge_vs_feedback_handles_missing_feedback():
     j = judge_vs_feedback([_ed(170, ["a"], None)], {"170": {"overall_score": 2}})
     assert j["n_pairs"] == 0 and j["correlation"] is None
+
+
+def test_reviewer_vs_audit_agreement(tmp_path, monkeypatch):
+    import json
+    import content_report as cr
+    monkeypatch.setattr(cr, "DEBUG_DIR", str(tmp_path))
+    ed = {"edition": "200", "main_find": {"title": "Main"},
+          "quick_finds": [{"title": "Funding X"}, {"title": "Bom"}]}
+    (tmp_path / "edition_200_review.json").write_text(json.dumps({
+        "mode": "shadow", "verdicts": [{"idx": 1, "verdict": "FAIL"}, {"idx": 2, "verdict": "PASS"}],
+        "missed": [{}], "contradictions": []}), encoding="utf-8")
+    audits = {"200": {"false_positives": [{"title": "Funding X"}, {"title": "Outro"}]}}
+    r = cr.reviewer_vs_audit([ed], audits)
+    assert (r["n"], r["review_fail"], r["audit_fp"], r["both"]) == (1, 1, 2, 1)
+
+
+def test_reviewer_vs_audit_ignores_editions_without_review(tmp_path, monkeypatch):
+    import content_report as cr
+    monkeypatch.setattr(cr, "DEBUG_DIR", str(tmp_path))
+    assert cr.reviewer_vs_audit([{"edition": "1", "main_find": {}}], {"1": {}})["rows"] == []
