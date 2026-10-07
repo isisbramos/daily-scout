@@ -124,3 +124,36 @@ class TestContradictions:
 
     def test_no_sample_no_contradictions(self):
         assert fr.find_contradictions(_content()) == []
+
+
+class TestTolerantParsing:
+    """Regressão da ed.198: 'str' object has no attribute 'get' com a resposta real do modelo."""
+
+    def test_verdicts_as_indexed_dict(self):
+        payload = {"verdicts": {"0": {"verdict": "PASS", "rule": "none", "why": "ok"},
+                                "1": {"verdict": "FAIL", "rule": "funding", "why": "x"}}}
+        review = fr.run_final_review(_content(), CANDS, {"mode": "shadow"}, client=_client(payload))
+        assert "error" not in review
+        assert [(v["idx"], v["verdict"]) for v in review["verdicts"]] == [(0, "PASS"), (1, "FAIL")]
+
+    def test_missed_as_plain_strings(self):
+        payload = {"verdicts": [_v(0)], "missed": ["C6", "C3: evento forte", "lixo"]}
+        review = fr.run_final_review(_content(), CANDS, {"mode": "shadow"}, client=_client(payload))
+        assert "error" not in review
+        assert [m["candidate"] for m in review["missed"]] == ["C6", "C3"]
+
+    def test_string_entries_inside_verdicts_are_skipped(self):
+        payload = {"verdicts": ["texto solto", _v(1, "FAIL", "opinion")], "missed": "nenhum"}
+        review = fr.run_final_review(_content(), CANDS, {"mode": "shadow"}, client=_client(payload))
+        assert "error" not in review and len(review["verdicts"]) == 1 and review["missed"] == []
+
+    def test_non_object_response_reports_error_with_location_and_raw(self):
+        review = fr.run_final_review(_content(), CANDS, {"mode": "shadow"}, client=_client("[1, 2]"))
+        assert "ValueError" in review["error"] and "final_reviewer.py" in review["error"]
+        assert review["raw_response"] == "[1, 2]"
+
+    def test_reasoning_as_plain_string_does_not_break(self):
+        content = _content()
+        content["reasoning"] = "texto corrido em vez de objeto"
+        review = fr.run_final_review(content, CANDS, {"mode": "shadow"}, client=_client({"verdicts": [_v(0)]}))
+        assert "error" not in review and review["contradictions"] == []

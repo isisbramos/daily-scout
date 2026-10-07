@@ -22,6 +22,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import traceback
 from difflib import SequenceMatcher
 
 from llm_config import DEEPSEEK_BASE_URL, DEEPSEEK_EXTRA_BODY, DEEPSEEK_MODEL
@@ -37,6 +38,12 @@ DEFAULT_MIN_QUICK_FINDS = 3
 DEFAULT_MAX_REMOVALS = 2
 
 
+def _reasoning(content: dict) -> dict:
+    """`content["reasoning"]` como dict; qualquer outro formato vira {} (nunca quebra)."""
+    r = content.get("reasoning")
+    return r if isinstance(r, dict) else {}
+
+
 # ── Checagem determinística: reasoning × edição ───────────────────────
 def find_contradictions(content: dict, threshold: float = 0.85) -> list[dict]:
     """Itens publicados que o próprio reasoning da curadoria listou como REJEITADOS no AI Gate.
@@ -44,7 +51,7 @@ def find_contradictions(content: dict, threshold: float = 0.85) -> list[dict]:
     Sem LLM. `ai_gate_rejected_sample` é uma amostra de títulos descartados; se um deles
     reaparece como main_find/quick_find, a curadoria se contradisse.
     """
-    rejected = [r for r in (content.get("reasoning", {}) or {}).get("ai_gate_rejected_sample", []) or []
+    rejected = [r for r in (_reasoning(content).get("ai_gate_rejected_sample") or [])
                 if isinstance(r, str)]
     if not rejected:
         return []
@@ -83,8 +90,7 @@ def _build_prompt(content: dict, candidates: list) -> str:
             f"   resumo: {detail}\n   url: {it.get('url', '')}"
         )
 
-    reasoning = content.get("reasoning", {}) or {}
-    rationale = (reasoning.get("main_find_rationale") or "")[:500]
+    rationale = str(_reasoning(content).get("main_find_rationale") or "")[:500]
     return (
         template.replace("{{CANDIDATES}}", "\n".join(cand_lines))
         .replace("{{PUBLISHED}}", "\n".join(pub_lines))
@@ -92,13 +98,31 @@ def _build_prompt(content: dict, candidates: list) -> str:
     )
 
 
+def _as_dict_items(value) -> list[dict]:
+    """Normaliza o que o modelo devolveu para uma lista de dicts.
+
+    O LLM nem sempre respeita o formato: pode mandar a lista como dict indexado
+    ({"0": {...}, "1": {...}}), ou itens como texto solto. Entradas que não dão
+    para interpretar são descartadas (nunca levantam exceção).
+    """
+    if isinstance(value, dict):
+        out = []
+        for k, v in value.items():
+            if isinstance(v, dict):
+                out.append({"idx": int(k) if str(k).isdigit() else None, **v})
+        return out
+    return [v for v in (value or []) if isinstance(v, dict)] if isinstance(value, list) else []
+
+
 def _parse_review(raw: str, n_items: int, candidates: list) -> dict:
     """Valida o JSON do revisor. Descarta vereditos malformados em vez de falhar."""
     data = json.loads(raw)
+    if not isinstance(data, dict):
+        raise ValueError(f"resposta do revisor não é um objeto JSON ({type(data).__name__})")
     verdicts = []
-    for v in data.get("verdicts", []) or []:
+    for v in _as_dict_items(data.get("verdicts")):
         idx = v.get("idx")
-        if not isinstance(idx, int) or not 0 <= idx < n_items:
+        if not isinstance(idx, int) or isinstance(idx, bool) or not 0 <= idx < n_items:
             continue
         verdict = str(v.get("verdict", "")).upper()
         if verdict not in ("PASS", "FAIL"):
@@ -108,12 +132,17 @@ def _parse_review(raw: str, n_items: int, candidates: list) -> dict:
                          "rule": rule if rule in VALID_RULES else "other",
                          "why": str(v.get("why", ""))[:300]})
     missed = []
-    for m in (data.get("missed", []) or [])[:2]:
-        cid = str(m.get("candidate", "")).upper().lstrip("C")
+    raw_missed = data.get("missed")
+    raw_missed = raw_missed if isinstance(raw_missed, list) else []
+    for m in raw_missed[:2]:
+        # aceita {"candidate": "C7", "why": "..."} ou texto solto "C7" / "C7: motivo"
+        cand = m.get("candidate", "") if isinstance(m, dict) else str(m).split(":", 1)[0]
+        why = m.get("why", "") if isinstance(m, dict) else (str(m).split(":", 1)[1] if ":" in str(m) else "")
+        cid = str(cand).strip().upper().lstrip("C")
         if cid.isdigit() and 1 <= int(cid) <= len(candidates):
             c = candidates[int(cid) - 1]
             missed.append({"candidate": f"C{cid}", "title": c.title, "source": c.source_label,
-                           "url": c.url, "why": str(m.get("why", ""))[:300]})
+                           "url": c.url, "why": str(why)[:300]})
     return {"verdicts": verdicts, "missed": missed}
 
 
@@ -200,6 +229,7 @@ def run_final_review(content: dict, candidates: list, cfg: dict | None,
         review["contradictions"] = find_contradictions(content)
         n_items = 1 + len(content.get("quick_finds", []))
         raw = _call_llm(_build_prompt(content, candidates), client)
+        review["raw_response"] = (raw or "")[:4000]   # para depurar se o parse falhar
         review.update(_parse_review(raw, n_items, candidates))
 
         fails = [v for v in review["verdicts"] if v["verdict"] == "FAIL"]
@@ -221,6 +251,8 @@ def run_final_review(content: dict, candidates: list, cfg: dict | None,
             for a in review["actions"]:
                 logger.warning(f"Revisor final: {a}")
     except Exception as err:  # falha aberta: nunca bloqueia o envio
-        review["error"] = str(err)[:300]
-        logger.warning(f"Revisor final falhou (não-bloqueante): {err}")
+        frame = traceback.extract_tb(err.__traceback__)[-1]
+        where = f"{os.path.basename(frame.filename)}:{frame.lineno} ({frame.name})"
+        review["error"] = f"{type(err).__name__}: {str(err)[:250]} @ {where}"
+        logger.warning(f"Revisor final falhou (não-bloqueante): {review['error']}")
     return review
