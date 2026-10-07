@@ -34,6 +34,7 @@ import sources.huggingface_papers  # API JSON oficial — huggingface.co/papers 
 from pre_filter import run_pre_filter
 from schemas import Reasoning, MainFind, QuickFind, RadarItem, Meta, CurationOutput
 from delivery import send_via_buttondown, send_fallback
+from coherence import note_main_swap, refresh_after_swaps
 from final_reviewer import run_final_review
 from exceptions import FetchError, CurationError, DeliveryError
 from memory_store import (
@@ -453,11 +454,13 @@ def curate_and_write(
                             f"— restam {len(content['quick_finds'])}"
                         )
                     if any(h["where"] == "main_find" for h in hits):
-                        old_title = content.get("main_find", {}).get("title", "")
+                        old_main = content.get("main_find", {})
+                        old_title = old_main.get("title", "")
                         replacement_idx = find_clean_quick_find(content["quick_finds"], recent_editions)
                         if replacement_idx is not None:
                             promoted = content["quick_finds"].pop(replacement_idx)
                             content["main_find"] = promote_quick_find_to_main(promoted)
+                            note_main_swap(content, old_main, "repetição de edição recente")
                             logger.warning(
                                 f"Dedup guard: main_find '{old_title[:50]}' repetia edição "
                                 f"recente — substituído por '{promoted.get('title', '')[:50]}'"
@@ -480,13 +483,15 @@ def curate_and_write(
                 items_by_url = {it.url: it for it in filtered_items}
                 reason = main_find_below_bar(content.get("main_find", {}), items_by_url)
                 if reason:
-                    old_title = content["main_find"].get("title", "")
+                    old_main = content["main_find"]
+                    old_title = old_main.get("title", "")
                     idx = find_eligible_quick_find(
                         content.get("quick_finds", []), items_by_url, recent_editions
                     )
                     if idx is not None:
                         promoted = content["quick_finds"].pop(idx)
                         content["main_find"] = promote_quick_find_to_main(promoted)
+                        note_main_swap(content, old_main, f"barra do destaque: {reason}")
                         logger.warning(
                             f"Main-find bar: '{old_title[:50]}' ({reason}) — substituído por "
                             f"'{promoted.get('title', '')[:50]}'"
@@ -680,6 +685,13 @@ def run_pipeline():
             content, filtered_items, config.get("final_review", {}),
             recent_editions=load_recent_editions(7),
         )
+
+        # ── Step 3a-bis: Coerência (Rec. 6) — se algum guard trocou o destaque, a introdução
+        # (que o leitor vê) é reescrita pro novo destaque. Falha aberta: nunca bloqueia o envio.
+        try:
+            refresh_after_swaps(content, tone_check=lambda t: bool(HYPE_PATTERNS.search(t)))
+        except Exception as coh_err:
+            logger.warning(f"Coerência falhou (não-bloqueante): {coh_err}")
 
         # ── Step 3b: Save debug artifacts (para audit agent / PE study) ──
         if DEBUG_SAVE:

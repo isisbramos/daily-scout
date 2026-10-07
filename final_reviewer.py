@@ -25,6 +25,7 @@ import os
 import traceback
 from difflib import SequenceMatcher
 
+from coherence import note_main_swap
 from llm_config import DEEPSEEK_BASE_URL, DEEPSEEK_EXTRA_BODY, DEEPSEEK_MODEL
 from memory_store import find_eligible_quick_find, promote_quick_find_to_main
 
@@ -191,6 +192,7 @@ def apply_review(content: dict, verdicts: list[dict], candidates_by_url: dict | 
             promoted = passing[pos]
             quick = [qf for qf in quick if qf is not promoted]
             content["main_find"] = promote_quick_find_to_main(promoted)
+            note_main_swap(content, main, f"revisor final: {fails[id(main)]['rule']}")
             actions.append({"action": "main_replaced", "removed": main.get("title", ""),
                             "promoted": promoted.get("title", ""), "rule": fails[id(main)]["rule"]})
             removals += 1

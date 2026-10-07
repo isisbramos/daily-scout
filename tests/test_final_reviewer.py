@@ -86,6 +86,8 @@ class TestGuardrails:
         assert [q["title"] for q in content["quick_finds"]] == ["QF1", "QF3", "QF4"]
         assert any(a["action"] == "kept_by_guardrail" for a in review["actions"])
         assert review["actions"][0]["action"] == "main_replaced"
+        # Rec. 6: a troca fica registrada para a introdução/reasoning serem ajustados depois
+        assert content["main_swaps"][0]["from"] == "Main" and "revisor final" in content["main_swaps"][0]["reason"]
 
     def test_failed_main_without_replacement_is_kept(self):
         content = _content()

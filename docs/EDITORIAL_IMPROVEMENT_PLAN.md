@@ -27,6 +27,7 @@ Mais fortes: Diversidade 3.33, Tom 3.17, Intro 3.60.
 | 5 | Investigar por que 4 fontes nunca entram | ✅ Investigada; visibilidade corrigida (PR empilhado). Falta decidir fix de cada fonte | Baixo | Baixo |
 | 2 | Barra mínima para o destaque principal (main_find) | ✅ No `main` (PR #38) | Baixo | Baixo |
 | 3 | Rebaixar funding/valuation/IPO por código (pre_filter) | ✅ No `main` (PR #39). Panorama/roundup fica para a Rec. 1 | Baixo | Baixo (rebaixa, não exclui) |
+| 6 | Manter o texto coerente quando um guard troca o destaque | ✅ Implementada (PR aberto) | Baixo | Baixo |
 | 1 | "Revisor final": conferir cada item publicado contra as regras | ✅ Implementada em modo **shadow** (PR aberto); `enforce` depende de medição | Médio | Médio (custo extra) |
 
 Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
@@ -147,6 +148,27 @@ Ordem: uma mudança por vez, medindo no Content Report semanal seguinte.
 - **Limites da v1:** o revisor **não gera texto novo**: ele remove ou promove. Os "candidatos omitidos" só
   são registrados. Se os dados mostrarem que vale, a v2 pode pedir uma regeneração da curadoria com o
   feedback do revisor.
+
+### Rec. 6 — Coerência quando um guard troca o destaque  ✅
+- **Origem:** achado do Diagnóstico de 07/10. O audit da ed.197 (nota 2) apontou que o reasoning e a
+  introdução falavam da "frota de agentes" chinesa, mas a edição entregou a Cloudflare. O log mostrou a causa:
+  o guard de repetição trocou o destaque **depois** que o modelo escreveu destaque + reasoning + introdução
+  juntos. Como a introdução aparece no e-mail, o **leitor** via uma abertura sobre uma notícia descartada.
+- **O que faz** (`coherence.py`): toda troca de destaque (guard de repetição, barra do Reddit da Rec. 2,
+  revisor final em `enforce`) é registrada em `content["main_swaps"]` e:
+  1. o `reasoning.main_find_rationale` ganha uma nota `[AJUSTE AUTOMÁTICO — motivo]` dizendo que o destaque
+     foi trocado e preservando a justificativa original (determinístico, sem LLM);
+  2. a `correspondent_intro` é reescrita **uma vez**, com uma chamada curta de LLM
+     (`prompts/intro_rewrite_prompt.txt`). A resposta é validada (tamanho, não citar o destaque antigo, detector
+     de sensacionalismo) e, se reprovar ou o LLM falhar, entra uma introdução determinística
+     ("O destaque de hoje: …" + a frase de volume da antiga, se não falar do destaque antigo).
+- **Custo:** 1 chamada extra de LLM só nos dias em que houve troca (uma minoria das edições).
+- **Falha aberta:** nunca bloqueia o envio.
+- **Impacto esperado:** introdução e destaque sempre coerentes para o leitor; Reasoning e Intro deixam de ser
+  penalizados por esse defeito. É também pré-requisito para ligar o `enforce` do revisor.
+- **Limites:** não reescreve outros textos que mencionem o destaque antigo (ex.: `meta.editorial_note`);
+  só confirmei o defeito em um caso (#197), então o ganho em nota precisa ser medido.
+- **Como acompanhar:** `grep "Coerência:"` no log e o campo `main_swaps` em `debug/edition_N_curation.json`.
 
 ## O que NÃO vamos fazer (por ora)
 

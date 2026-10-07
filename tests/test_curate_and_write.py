@@ -203,3 +203,38 @@ class TestMainFindBarIntegration:
         with patch("openai.OpenAI", _fake_openai([_response(self._content("https://tc.com/a"))])):
             content = pipeline.curate_and_write(self.ITEMS)
         assert content["main_find"]["title"] == "Main"
+
+
+class TestMainSwapIsRecorded:
+    """Rec. 6: toda troca de destaque por guard fica registrada e o reasoning é anotado."""
+
+    def test_reddit_bar_swap_records_and_annotates(self):
+        items = [
+            SourceItem(title="post reddit", url="https://reddit.com/r/x/1", source_id="reddit", source_label="r/x"),
+            SourceItem(title="matéria", url="https://tc.com/a", source_id="techcrunch", source_label="TechCrunch"),
+        ]
+        content = {
+            "reasoning": {"main_find_rationale": "escolhi o post do reddit"},
+            "main_find": {"title": "Main", "url": "https://reddit.com/r/x/1", "body": "b", "bullets": ["b1"]},
+            "quick_finds": [{"title": "QF TechCrunch", "url": "https://tc.com/a", "source": "TechCrunch",
+                             "signal": "Algo aconteceu. → Importa.", "entities": ["Foo"]}],
+            "correspondent_intro": "intro sobre o reddit",
+        }
+        with patch("openai.OpenAI", _fake_openai([_response(content)])):
+            out = pipeline.curate_and_write(items)
+        assert out["main_find"]["title"] == "QF TechCrunch"
+        assert out["main_swaps"][0]["from"] == "Main" and "barra do destaque" in out["main_swaps"][0]["reason"]
+        assert out["reasoning"]["main_find_rationale"].startswith("[AJUSTE AUTOMÁTICO")
+
+    def test_repetition_guard_swap_records(self, monkeypatch):
+        recent = [{"edition": "190", "main_find": {"title": "velho", "entities": ["Alpha", "Beta"]}, "quick_finds": []}]
+        monkeypatch.setattr(pipeline, "load_recent_editions", lambda n=7: recent)
+        content = {
+            "main_find": {"title": "Repetido", "url": "u1", "body": "b", "bullets": ["b1"], "entities": ["Alpha", "Beta"]},
+            "quick_finds": [{"title": "Limpo", "url": "u2", "source": "B", "signal": "s. → x.", "entities": ["Gamma"]}],
+            "correspondent_intro": "intro",
+        }
+        with patch("openai.OpenAI", _fake_openai([_response(content)])):
+            out = pipeline.curate_and_write(SOME_ITEMS)
+        assert out["main_find"]["title"] == "Limpo"
+        assert out["main_swaps"][0]["reason"] == "repetição de edição recente"
