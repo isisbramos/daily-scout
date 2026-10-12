@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (QGIS bane contribuições assistidas por IA) com fonte primária (PR no GitHub) e relevante para o leitor de tech/AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Declaração de executivo da Microsoft sobre regulação de IA no Reino Unido é evento datado e relevante, sem violar regras editoriais.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Movimento concreto da Ant Group com agente pessoal no LingGuang é evento singular de produto, relevante para o leitor.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Startup afirmando gerar plantas prontas para aprovação é novidade de produto com evento datado, ainda que o claim seja ambicioso.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Paper de pesquisa com resultado concreto sobre representação espacial em modelos multimodais é tipo desejado e verificável.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Caso de petição no STJ sobre prompt injection em IA do tribunal é evento singular, datado e relevante para o leitor brasileiro.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C9\", \"why\": \"Declaração do fundador da Unitree sobre GPT-6 levar a avanço em robótica é evento singular, com fonte verificável (SCMP) e forte apelo para o leitor de tech/AI.\"},\n    {\"candidate\": \"C24\", \"why\": \"QGIS banindo contribuições assistidas por IA já é o main_find, então não é candidato não publicado; C19 (vulnerabilidade de US$ 90 mil no Google) é evento singular, verificável e relevante, mais forte que itens como idx 3 ou idx 4.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (QGIS bane contribuições assistidas por IA) com fonte primária (PR no GitHub) e relevante para o leitor de tech/AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Declaração de executivo da Microsoft sobre regulação de IA no Reino Unido é evento datado e relevante, sem violar regras editoriais."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Movimento concreto da Ant Group com agente pessoal no LingGuang é evento singular de produto, relevante para o leitor."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Startup afirmando gerar plantas prontas para aprovação é novidade de produto com evento datado, ainda que o claim seja ambicioso."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa com resultado concreto sobre representação espacial em modelos multimodais é tipo desejado e verificável."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Caso de petição no STJ sobre prompt injection em IA do tribunal é evento singular, datado e relevante para o leitor brasileiro."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C9",
+      "title": "OpenAI’s GPT-6 may lead to robotics breakthrough  as soon as next year: Unitree founder",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/big-tech/article/3370603/openais-gpt-6-may-lead-robotics-breakthrough-soon-next-year-unitree-founder?utm_source=rss_feed",
+      "why": "Declaração do fundador da Unitree sobre GPT-6 levar a avanço em robótica é evento singular, com fonte verificável (SCMP) e forte apelo para o leitor de tech/AI."
+    },
+    {
+      "candidate": "C24",
+      "title": "QGIS bans AI assisted contributions",
+      "source": "HackerNews",
+      "url": "https://github.com/qgis/QGIS-Enhancement-Proposals/pull/387",
+      "why": "QGIS banindo contribuições assistidas por IA já é o main_find, então não é candidato não publicado; C19 (vulnerabilidade de US$ 90 mil no Google) é evento singular, verificável e relevante, mais forte que itens como idx 3 ou idx 4."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto concreto (Claude Haiku 5.5) com dado verificável de custo 75% menor, corroborado por múltiplas fontes.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado de parceria entre Uber e Pony.ai para robotaxis em Londres, com ângulo de expansão internacional.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto concreto do Google (transcrição local-first), com ângulo de privacidade e concorrência clara.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Publicação de modelos abertos multimodais para edge pela Liquid AI, com uso concreto e fonte primária.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa com método concreto (LLM-juiz para guardrails) publicada no arXiv, relevante para segurança de IA.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C21\", \"why\": \"Ferramenta de IA que reconstrói imagens a partir de exames cerebrais é um avanço concreto e verificável, mais forte que o item de pesquisa genérica sobre guardrails.\"},\n    {\"candidate\": \"C33\", \"why\": \"Anthropic habilitar opções em chinês para o Claude é um evento singular e datado com implicações geopolíticas e de mercado, mais forte que o item de pesquisa sobre guardrails.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (Claude Haiku 5.5) com dado verificável de custo 75% menor, corroborado por múltiplas fontes."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado de parceria entre Uber e Pony.ai para robotaxis em Londres, com ângulo de expansão internacional."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto do Google (transcrição local-first), com ângulo de privacidade e concorrência clara."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Publicação de modelos abertos multimodais para edge pela Liquid AI, com uso concreto e fonte primária."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa com método concreto (LLM-juiz para guardrails) publicada no arXiv, relevante para segurança de IA."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C21",
+      "title": "Uma ferramenta de IA que “lê a mente” consegue reconstruir o que você está vendo a partir de um exame cerebral",
+      "source": "MIT Tech Review Brasil",
+      "url": "https://mittechreview.com.br/ia-leitura-mente-reconstroi-imagens-cerebro/",
+      "why": "Ferramenta de IA que reconstrói imagens a partir de exames cerebrais é um avanço concreto e verificável, mais forte que o item de pesquisa genérica sobre guardrails."
+    },
+    {
+      "candidate": "C33",
+      "title": "US AI firm Anthropic enables Chinese-language options for Claude chatbot",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/big-tech/article/3370154/us-ai-firm-anthropic-enables-chinese-language-options-claude-chatbot?utm_source=rss_feed",
+      "why": "Anthropic habilitar opções em chinês para o Claude é um evento singular e datado com implicações geopolíticas e de mercado, mais forte que o item de pesquisa sobre guardrails."
+    }
+  ]
+}

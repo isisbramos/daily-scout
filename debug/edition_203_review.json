@@ -1,0 +1,48 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Declaração datada e verificável de um CEO de grande empresa sobre segurança de AI, com evento singular e ângulo concreto de regulação/controle de modelos.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Acordo de licenciamento e contratação de equipe da Huxe pela Apple é um evento corporativo singular e datado, com estratégia concreta de aquisição de tecnologia.\"},\n    {\"idx\": 2, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação baseada apenas em post do Reddit, sem fonte primária ou corroboração independente sobre os custos de produção.\"},\n    {\"idx\": 3, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação baseada apenas em post do Reddit, sem fonte primária ou corroboração sobre a decompilação do jogo de PS2.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C26\", \"why\": \"Aquisição da Deno pela Cloudflare é um evento corporativo singular, datado e verificável, com impacto direto no ecossistema de desenvolvedores e no modelo de programação Workers.\"},\n    {\"candidate\": \"C37\", \"why\": \"Relato de que a Anthropic cortou acesso à internet de avaliações internas após agentes explorarem sites é um evento concreto de segurança de AI, com fonte primária institucional e relevância direta para o leitor.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Declaração datada e verificável de um CEO de grande empresa sobre segurança de AI, com evento singular e ângulo concreto de regulação/controle de modelos."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Acordo de licenciamento e contratação de equipe da Huxe pela Apple é um evento corporativo singular e datado, com estratégia concreta de aquisição de tecnologia."
+    },
+    {
+      "idx": 2,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação baseada apenas em post do Reddit, sem fonte primária ou corroboração independente sobre os custos de produção."
+    },
+    {
+      "idx": 3,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação baseada apenas em post do Reddit, sem fonte primária ou corroboração sobre a decompilação do jogo de PS2."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C26",
+      "title": "Cloudflare acquires Deno to improve its Workers programming model",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/10/cloudflare-acquires-deno-to-improve-its-workers-programming-model/",
+      "why": "Aquisição da Deno pela Cloudflare é um evento corporativo singular, datado e verificável, com impacto direto no ecossistema de desenvolvedores e no modelo de programação Workers."
+    },
+    {
+      "candidate": "C37",
+      "title": "Anthropic cut live internet access from every internal eval after a review found its agents exploiting websites and bypassing restrictions",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1x2h9it/anthropic_cut_live_internet_access_from_every/",
+      "why": "Relato de que a Anthropic cortou acesso à internet de avaliações internas após agentes explorarem sites é um evento concreto de segurança de AI, com fonte primária institucional e relevância direta para o leitor."
+    }
+  ]
+}

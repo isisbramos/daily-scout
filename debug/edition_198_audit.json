@@ -1,0 +1,109 @@
+{
+  "edition": "198",
+  "audited_at": "2026-10-12T17:37:30.560450-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Mistral Large 4) passa no AI Gate e é acionável, mas o corpo mistura uma fonte fraca (r/artificial) para sustentar a afirmação central de Mensch, e o item da Flai é essencialmente um press release de tração sem novidade de produto/estratégia — viola o anti-signal de resultado/métrica sem shift. O item da Reflection AI é borderline: 'desafia domínio chinês' é enquadramento de panorama, não evento singular verificável.",
+    "issues": [
+      "Flai: '50 mil agendamentos por mês' é métrica de tração sem novidade de produto ou mudança de estratégia — se enquadra no anti-signal de resultado sem shift, mesmo sendo TechCrunch.",
+      "main_find: a afirmação de Mensch vem de um post no r/artificial, não da documentação oficial nem de benchmark — usar fonte secundária fraca para sustentar a manchete é frágil.",
+      "Reflection AI: 'challenges Chinese dominance' é enquadramento de panorama; não há evento singular (lançamento, benchmark, rodada com feature) descrito no signal.",
+      "Instinct: passa no AI Gate e é acionável, mas o signal descreve feature sem evidência de adoção ou mudança de categoria — borderline entre sinal de mercado e anúncio de produto."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido e sem hype vocabular, mas há duas falhas de acurácia: o main_find transforma 'Mensch says it beats Chinese models in some areas' em manchete afirmativa ('diz superar'), o que é aceitável, porém o corpo atribui a afirmação a 'discussão no r/artificial' sem qualificar que é fonte secundária. Além disso, o step5_phrase do main_find ('Agora é possível testar...') afirma disponibilidade prática que não está confirmada no input.",
+    "issues": [
+      "main_find.body: 'O CEO Arthur Mensch afirmou, segundo discussão no r/artificial' — atribuição a fórum, não a declaração primária; risco de propagar rumor como fato.",
+      "main_find.step5_phrase: 'Agora é possível testar o Mistral Large 4' — o input não confirma disponibilidade pública; pode ser apenas documentação publicada.",
+      "quick_find Flai: 'atingiu a marca de 50 mil agendamentos mensais' — número vem do título, mas o signal trata como fato consolidado sem qualificar que é auto-reportado pela empresa."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há diversidade de audiência (desenvolvedores, executivos, PMs) e alguma diversidade geográfica (Reino Unido, China, Europa). Porém, TechCrunch aparece 2x entre quick_finds (Instinct e Flai), e o eixo temático é concentrado em 'modelos de fronteira' com Mistral + Reflection AI tratando do mesmo assunto.",
+    "issues": [
+      "TechCrunch aparece 2 vezes em quick_finds (Instinct, Flai) — não viola a regra de 'mais de 2', mas é concentração notável.",
+      "Mistral Large 4 (main_find) e Reflection AI (quick_find) cobrem o mesmo tema (competição em modelos de fronteira/abertos) — redundância temática.",
+      "Nenhum item da América Latina ou África no output, apesar de haver fontes como Agência Brasil e Rest of World no input."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Mistral Large 4) e o Reino Unido, o que é bom. A segunda frase ('Garimpei 318 posts de 22 fontes') é genérica e poderia servir para qualquer edição, mas não compromete.",
+    "issues": [
+      "Segunda frase é boilerplate de curadoria — não adiciona informação específica desta edição."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente os descartes por AI Gate e anti-signal, mas há contradições: diz que 'Our approach to EU text provenance rules' foi descartado por STEP 1.5 e 'mantido apenas como radar' — o que é coerente — porém o item aparece no radar sem que o reasoning explique por que vale radar se foi descartado. Mais grave: o reasoning afirma que 'Rest of World ficou fora por panorama', mas o item 'Not just AI. China is building technologies' é de fato panorama, então está correto; o problema é que o reasoning não justifica por que Reflection AI (também panorama) passou.",
+    "issues": [
+      "Contradição: reasoning descarta 'panorama sem evento singular' mas mantém Reflection AI, que é enquadrado como 'challenges Chinese dominance' — mesmo padrão de panorama.",
+      "reasoning não explica por que Flai (métrica de tração) passa, dado que o anti-signal de resultado financeiro/métrica sem novidade de produto se aplica.",
+      "reasoning menciona 'STEP 1.5' e 'ai_gate_passed' que não existem no schema de output — referências a etapas internas não visíveis, dificultando auditoria."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI, Anthropic tell Australia they would welcome data breach rules",
+      "source": "r/artificial",
+      "why_should_include": "É evento regulatório singular (duas empresas de AI de fronteira se posicionando formalmente sobre regra de vazamento de dados na Austrália), passa no AI Gate e tem sinal de mercado claro (shift de política das empresas).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Falcon-Emirati: When an LLM Learns the Dialect, the Culture, and the Nuance",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Lançamento de modelo com foco em dialeto e cultura específicos — evento singular de um player (TII), acionável para desenvolvedores que trabalham com árabe, e sinal de mercado de modelos regionais.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "As China’s AI race accelerates, ‘model fatigue’ becomes the next challenge",
+      "source": "SCMP Tech",
+      "why_should_include": "Apesar de ser panorama, descreve fenômeno específico (fadiga de modelos) com implicação para adoção — borderline, mas poderia entrar como radar se o critério de panorama fosse aplicado com mais nuance.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Software de IA da Flai agenda 50 mil compromissos por mês em concessionárias",
+      "field": "quick_finds",
+      "why_should_discard": "Métrica de tração auto-reportada sem novidade de produto ou mudança de estratégia — se enquadra no anti-signal de resultado/métrica sem shift.",
+      "violated_rule": "Anti-signal: resultado financeiro/métrica sem novidade de produto/estratégia"
+    },
+    {
+      "title": "Reflection AI, apoiada pela Nvidia, desafia domínio chinês em modelos abertos",
+      "field": "quick_finds",
+      "why_should_discard": "Enquadramento de panorama ('challenges Chinese dominance') sem evento singular verificável (sem lançamento, benchmark ou rodada com feature descrita).",
+      "violated_rule": "Anti-signal: panorama/tendência sem evento singular de UMA empresa"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O critério 'Sinal de mercado' não distingue claramente entre evento singular e enquadramento de panorama — itens como Reflection AI passam porque 'desafia domínio' soa como movimento estratégico, mas é moldura editorial.",
+      "evidence": "Reflection AI entrou como quick_find com signal baseado em 'challenges Chinese dominance', enquanto 'Not just AI. China is building technologies' foi descartado pelo mesmo motivo.",
+      "suggested_fix": "Adicionar regra explícita: 'Sinal de mercado exige evento datado e verificável (lançamento, M&A, mudança de política anunciada), não enquadramento comparativo entre players.'"
+    },
+    {
+      "hypothesis": "O anti-signal de 'resultado financeiro sem novidade de produto' não está sendo aplicado a métricas operacionais (agendamentos, usuários, GMV), apenas a receita/lucro/valuation.",
+      "evidence": "Flai passou com '50 mil agendamentos por mês', que é métrica de tração sem novidade de produto.",
+      "suggested_fix": "Expandir o anti-signal para incluir 'métricas operacionais auto-reportadas (usuários, agendamentos, GMV) sem novidade de produto/estratégia junto'."
+    },
+    {
+      "hypothesis": "O prompt não exige que a fonte primária sustente a afirmação central do main_find — permite que fontes secundárias (r/artificial) carreguem a manchete.",
+      "evidence": "main_find usa 'segundo discussão no r/artificial' para sustentar a afirmação de Mensch sobre superar modelos chineses.",
+      "suggested_fix": "Adicionar regra: 'Afirmação central do main_find deve vir de fonte primária (documentação oficial, release, declaração direta); fontes secundárias só podem complementar.'"
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem dois false positives claros (Flai por métrica sem novidade, Reflection AI por panorama) e um main_find cuja afirmação central se apoia em fonte secundária fraca (r/artificial). O reasoning é internamente contraditório ao descartar panorama mas manter Reflection AI, e o anti-signal de resultado financeiro não foi estendido a métricas operacionais. A diversidade de audiência salva parcialmente, mas a concentração temática em modelos de fronteira reduz o valor editorial."
+}

@@ -1,0 +1,48 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Ferramenta concreta de transcrição local de 16,9 MB, com fonte primária (blog) e discussão no HackerNews, atende ao critério de produto/tech verificável.\"},\n    {\"idx\": 1, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação sobre posição jurídica da OpenAI baseada apenas em post do r/artificial, sem fonte primária ou corroboração.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Achado técnico singular e datado de pesquisadores da ByteDance sobre recuperação de contexto longo em DeepSeek, com fonte TechNode.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Paper de pesquisa concreto (MiMo-V2.6) sobre escalar RL para autoaperfeiçoamento, com fonte HuggingFace Papers.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C8\", \"why\": \"Evento corporativo singular e verificável (Deno se juntando à Cloudflare), com impacto direto para desenvolvedores, mais forte que o quick_find sobre post anônimo do Reddit.\"},\n    {\"candidate\": \"C29\", \"why\": \"Notícia financeira com número concreto e fonte TechCrunch sobre projeção de receita da OpenAI, evento datado e relevante, mais forte que o item baseado em r/artificial.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Ferramenta concreta de transcrição local de 16,9 MB, com fonte primária (blog) e discussão no HackerNews, atende ao critério de produto/tech verificável."
+    },
+    {
+      "idx": 1,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação sobre posição jurídica da OpenAI baseada apenas em post do r/artificial, sem fonte primária ou corroboração."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Achado técnico singular e datado de pesquisadores da ByteDance sobre recuperação de contexto longo em DeepSeek, com fonte TechNode."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa concreto (MiMo-V2.6) sobre escalar RL para autoaperfeiçoamento, com fonte HuggingFace Papers."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C8",
+      "title": "Deno is joining Cloudflare",
+      "source": "Lobsters",
+      "url": "https://deno.com/blog/cloudflare",
+      "why": "Evento corporativo singular e verificável (Deno se juntando à Cloudflare), com impacto direto para desenvolvedores, mais forte que o quick_find sobre post anônimo do Reddit."
+    },
+    {
+      "candidate": "C29",
+      "title": "OpenAI’s revenue is reportedly $20 billion less than previously projected",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/08/openais-revenue-is-reportedly-20-billion-less-than-previously-projected/",
+      "why": "Notícia financeira com número concreto e fonte TechCrunch sobre projeção de receita da OpenAI, evento datado e relevante, mais forte que o item baseado em r/artificial."
+    }
+  ]
+}

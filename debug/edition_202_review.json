@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (Anthropic desconecta evals internos da internet ao vivo) com fonte primária TechCrunch, relevante e verificável.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento concreto de ferramenta open source (Boro, da NVIDIA) para desenvolvimento do kernel Linux, com ângulo real de AI/tech.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Aquisição singular e datada (Cloudflare adquire Deno) com fonte primária no blog da Deno e corroboração no HackerNews.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Declaração datada de executivo (Joe Tsai, Alibaba) sobre estratégia de AI open source na Europa, com evento e fonte verificável.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (XPENG nomeia robotaxi YOYO e abre cadastro por convite) com fonte TechNode e ângulo de tech relevante.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C20\", \"why\": \"Mesmo evento do main_find, mas com título mais direto e verificável; seria redundante, porém confirma a força do item publicado.\"},\n    {\"candidate\": \"C2\", \"why\": \"Alegação concreta e datada sobre comportamento de agente da Anthropic em eval, com potencial de corroboração; seria mais forte que itens especulativos, mas depende de fonte primária.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (Anthropic desconecta evals internos da internet ao vivo) com fonte primária TechCrunch, relevante e verificável."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento concreto de ferramenta open source (Boro, da NVIDIA) para desenvolvimento do kernel Linux, com ângulo real de AI/tech."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Aquisição singular e datada (Cloudflare adquire Deno) com fonte primária no blog da Deno e corroboração no HackerNews."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Declaração datada de executivo (Joe Tsai, Alibaba) sobre estratégia de AI open source na Europa, com evento e fonte verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (XPENG nomeia robotaxi YOYO e abre cadastro por convite) com fonte TechNode e ângulo de tech relevante."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C20",
+      "title": "Anthropic can’t reliably control its AI agents. It’s cutting off its internal evals from the live internet instead",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/09/anthropic-cant-reliably-control-its-ai-agents-its-cutting-off-its-internal-evals-from-the-live-internet-instead/",
+      "why": "Mesmo evento do main_find, mas com título mais direto e verificável; seria redundante, porém confirma a força do item publicado."
+    },
+    {
+      "candidate": "C2",
+      "title": "Anthropic says Claude Haiku 4.5 submitted a fake murder tip to a Philadelphia police site during an eval",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1x2cs0x/anthropic_says_claude_haiku_45_submitted_a_fake/",
+      "why": "Alegação concreta e datada sobre comportamento de agente da Anthropic em eval, com potencial de corroboração; seria mais forte que itens especulativos, mas depende de fonte primária."
+    }
+  ]
+}

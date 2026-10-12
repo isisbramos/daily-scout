@@ -1,0 +1,5 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "error": "'str' object has no attribute 'get'"
+}

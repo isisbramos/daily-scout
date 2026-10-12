@@ -1,0 +1,96 @@
+{
+  "edition": "199",
+  "audited_at": "2026-10-12T17:37:45.105332-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "A maioria dos itens passa no AI Gate e nos critérios de seleção. Porém, o quick_find do Atlassian/OpenAI é um anúncio corporativo de parceria sem detalhe concreto de produto ou mudança de workflow verificável — beira o anti-signal de 'blog corporativo de thought-leadership'. O item do Nemotron IOI/IMO é resultado de benchmark de pesquisa, não evento de mercado nem ferramenta acionável, e o critério 'afeta workflows' é fraco.",
+    "issues": [
+      "quick_find 'Atlassian e OpenAI ampliam parceria' — anúncio de parceria sem feature, produto ou mudança de política específica; o próprio reasoning admite que é 'anúncio corporativo' e mesmo assim manteve.",
+      "quick_find 'Nvidia Nemotron IOI/IMO' — resultado de benchmark de pesquisa sem produto lançado, sem mudança de workflow concreta; satisfaz no máximo 1 critério (sinal de mercado fraco).",
+      "main_find EmbeddingGemma 2 é legítimo, mas o reasoning não justifica por que ele venceu o caso OpenAI rogue agents/Wikimedia, que tem sinal de mercado mais forte (reconhecimento de falha por um player de referência)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype explícito, e os textos preservam o nível de certeza dos títulos originais. Há um problema pontual de step5_phrase no quick_find do UNREAL, que introduz uma moldura de 'muda o que sabíamos' não sustentada pelo paper.",
+    "issues": [
+      "quick_find UNREAL: step5_phrase 'UNREAL muda o que sabíamos sobre unificar recuperação e contexto longo em RAG' — 'muda o que sabíamos' é moldura editorial forte para um paper que apenas propõe uma abordagem; o signal não sustenta essa afirmação.",
+      "main_find.body afirma 'A versão anterior, EmbeddingGemma, já era usada como alternativa gratuita a APIs pagas da OpenAI e Cohere' — informação não presente no título nem no input; é inferência externa apresentada como fato."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa diversidade de fontes (HackerNews, Simon Willison, TechCrunch, OpenAI Blog, HuggingFace Papers, HuggingFace Blog) e de audiências (desenvolvedores, executivos, PMs). Nenhuma fonte se repete entre main_find e quick_finds. Geografia concentrada em EUA/Europa, mas isso reflete o input.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (EmbeddingGemma 2) e conecta com o caso OpenAI/Wikimedia, o que é bom. A segunda frase ('Garimpei 317 posts de 21 fontes') é genérica e poderia servir para qualquer edição, mas não compromete.",
+    "issues": [
+      "Segunda frase é boilerplate de garimpo — poderia ser omitida ou substituída por algo específico da edição."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning descreve corretamente os descartes por AI Gate, mas há contradições internas: admite que o Atlassian/OpenAI é 'anúncio corporativo' e mesmo assim o mantém; admite que o Tab é 'valuation sozinho é ruído' e o classifica como preterido, mas o item não aparece no output — o que é correto, mas o reasoning o lista como se tivesse sido considerado para quick_find. O main_find_rationale não compara EmbeddingGemma 2 com o caso OpenAI rogue agents, que tinha sinal de mercado mais forte.",
+    "issues": [
+      "Contradição: reasoning diz que Atlassian/OpenAI 'é anúncio corporativo — mas anuncia integração concreta', sem especificar qual integração concreta; o item foi mantido sem justificativa sólida.",
+      "reasoning lista 'Tab (preterido por valuation sem detalhe de produto)' na distribuição epistêmica, mas o item não aparece em quick_finds nem em radar — a menção é confusa e não corresponde ao output.",
+      "main_find_rationale não explica por que EmbeddingGemma 2 venceu o caso OpenAI rogue agents/Wikimedia, que tem sinal de mercado mais forte (reconhecimento de falha por player de referência)."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI 'rogue' agent activities found on Wikimedia projects",
+      "source": "Simon Willison",
+      "why_should_include": "Evento singular de um player de referência (OpenAI) reconhecendo comportamento fora de controle de seu agente em projetos Wikimedia — sinal de mercado forte e afeta workflows de quem roda agentes com permissão de escrita.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Quem é responsável quando agentes de IA saem do controle?",
+      "source": "MIT Tech Review Brasil",
+      "why_should_include": "Conecta diretamente ao caso OpenAI/Wikimedia e discute responsabilidade de agentes autônomos — tema acionável para times que operam agentes em produção.",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Atlassian e OpenAI ampliam parceria para transformar conhecimento corporativo em ação",
+      "field": "quick_finds",
+      "why_should_discard": "Anúncio de parceria sem feature, produto ou mudança de política específica; é blog corporativo de parceria sem novidade concreta verificável.",
+      "violated_rule": "Anti-signal: blog corporativo de thought-leadership sem novidade concreta"
+    },
+    {
+      "title": "Nvidia ajusta Nemotron e alcança nível ouro em olimpíadas de programação e matemática",
+      "field": "quick_finds",
+      "why_should_discard": "Resultado de benchmark de pesquisa sem produto lançado, sem mudança de workflow concreta; satisfaz no máximo 1 critério de seleção.",
+      "violated_rule": "Critérios de seleção: precisa de pelo menos 2 de 3"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1.5 (exceção para anúncios corporativos) está sendo aplicada de forma permissiva — qualquer anúncio de parceria com 'integração' declarada passa, mesmo sem detalhe concreto.",
+      "evidence": "quick_find Atlassian/OpenAI mantido apesar de o próprio reasoning admitir que é 'anúncio corporativo'.",
+      "suggested_fix": "Exigir que anúncios corporativos especifiquem feature, produto ou mudança de política concreta para passar; caso contrário, descartar."
+    },
+    {
+      "hypothesis": "A régua de 'sinal de mercado' está sendo aplicada de forma frouxa para resultados de benchmark de pesquisa (Nemotron IOI/IMO), tratando 'benchmark competitivo' como evento de mercado.",
+      "evidence": "quick_find Nemotron IOI/IMO mantido com signal que apenas descreve resultado de benchmark, sem produto ou mudança de workflow.",
+      "suggested_fix": "Esclarecer que resultado de benchmark de pesquisa não conta como sinal de mercado nem como afeta workflows, a menos que venha com lançamento de produto ou mudança de política."
+    },
+    {
+      "hypothesis": "O main_find_rationale não exige comparação explícita com os concorrentes mais fortes do input, permitindo escolha por tração (371 pontos) em vez de acionabilidade ou sinal de mercado.",
+      "evidence": "EmbeddingGemma 2 escolhido como main_find sem justificativa contra o caso OpenAI rogue agents/Wikimedia, que tem sinal de mercado mais forte.",
+      "suggested_fix": "Exigir que o main_find_rationale compare explicitamente o item escolhido com pelo menos um concorrente forte do input, justificando a escolha por acionabilidade ou sinal de mercado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa diversidade de fontes e tom contido, mas inclui dois quick_finds que não deveriam ter passado (Atlassian/OpenAI como anúncio corporativo sem novidade concreta e Nemotron IOI/IMO como benchmark de pesquisa sem produto). O reasoning admite contradições internas e não justifica a escolha do main_find contra o caso OpenAI rogue agents/Wikimedia, que era sinal de mercado mais forte e ficou de fora."
+}

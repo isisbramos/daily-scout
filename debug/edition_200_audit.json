@@ -1,0 +1,107 @@
+{
+  "edition": "200",
+  "audited_at": "2026-10-12T17:37:56.828435-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Claude Haiku 5.5) passa no AI Gate e é acionável, mas o corpo afirma 'redução de 75% no custo' como fato quando a única fonte para esse número é um post de Reddit — o título do HN não menciona preço. O quick_find do Google/Granola é o mais frágil: o título não confirma que é produto de AI, e o signal inventa 'transcrição de reuniões' e 'local-first' como se estivessem no título. O quick_find do Liquid AI descreve 'modelos de decisão' sem evidência de que sejam AI/ML no sentido do gate.",
+    "issues": [
+      "main_find.body trata '75% mais barato' como fato, mas essa informação vem apenas do post do r/artificial, não do título do HN nem do Simon Willison — o claim_status 'confirmado' é indevido.",
+      "quick_find 'Google releases a new local-first Granola competitor': o título não menciona AI nem transcrição; o signal adiciona 'transcrição de reuniões' e 'processa áudio no próprio dispositivo' como se fossem do título — possível invenção.",
+      "quick_find 'Multimodal open d1 decision models for the edge': 'modelos de decisão' não é claramente AI/ML pelo gate; o signal assume que são para 'sistemas autônomos' sem base no título.",
+      "quick_find 'AdaGuard': é paper arXiv sem evento de mercado/produto — satisfaz no máximo 1 critério (acionável para devs), não 2 de 3."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "Não há hype explícito (revolucionário, bombástico), mas há aumento de certeza em pontos-chave. O título original do HN é 'Claude Haiku 5.5' — neutro — e o output afirma 'lançou' e '75% menor' como confirmado. O quick_find do Uber/Pony.ai preserva 'plan to launch' corretamente, mas o do Google afirma 'lançou' sem confirmação no título.",
+    "issues": [
+      "main_find: título original 'Claude Haiku 5.5' não afirma lançamento nem preço; o output transforma em 'lançou' + '75% menor' como fato confirmado.",
+      "main_find.body: 'Se a queda de preço se confirmar' aparece no meio, mas o step5_phrase e o título do main_find afirmam a queda como fato — contradição interna.",
+      "quick_find Google: título 'Google releases a new local-first Granola competitor' não confirma que é produto de transcrição de reuniões; o signal afirma 'ferramenta de transcrição de reuniões' como fato."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição de fontes (HackerNews, TechCrunch, HuggingFace, arXiv) e audiências (desenvolvedores, product managers, executivos). Geografia razoável: Uber/Pony.ai (China/UK), Anthropic (EUA), Google (EUA), Liquid AI (EUA). Nenhuma fonte aparece 3+ vezes.",
+    "issues": [
+      "TechCrunch aparece 2 vezes nos quick_finds (Uber/Pony.ai e Google/Granola) — dentro do limite, mas concentra o bloco de 'sinal de mercado'."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('modelo novo da Anthropic') e contrasta com o segundo item (robotaxis chineses em Londres), o que é concreto e não genérico. O número '317 posts de 21 fontes' é específico.",
+    "issues": [
+      "A frase 'os dois dizem coisas diferentes sobre onde a AI está indo' é vaga — não especifica o que cada um sinaliza, soa como preenchimento."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os descartes e justifica o main_find por cross-source e tração. Porém, há contradições: o reasoning diz que 'Alibaba's AI cloud revenue' foi descartado por ser resultado financeiro (anti-signal), mas o quick_find do Google/Granola e o do Liquid AI não têm justificativa explícita de por que passaram nos 2 de 3 critérios. Além disso, o reasoning afirma que 'AdaGuard' passou, mas não explica qual segundo critério ele satisfaz além de 'acionável'.",
+    "issues": [
+      "reasoning não justifica por que 'Google releases a new local-first Granola competitor' passa nos 2 de 3 critérios — o item é tratado como produto sem verificação de AI Gate.",
+      "reasoning não explica por que 'AdaGuard' (paper arXiv) satisfaz 2 de 3 critérios; é listado como 'pesquisa/dado' sem rationale de seleção.",
+      "reasoning afirma que 'On-Device Language Model Safety' passou, mas o item só aparece no radar, não nos quick_finds — inconsistência entre o que o reasoning diz que passou e o que foi efetivamente selecionado.",
+      "reasoning diz 'verifiquei que não há 3+ itens asiáticos' mas não lista quais itens asiáticos foram contados — observação de preenchimento."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "US AI firm Anthropic enables Chinese-language options for Claude chatbot",
+      "source": "SCMP Tech",
+      "why_should_include": "É um movimento estratégico específico da Anthropic (shift de política de localização/geopolítica) com conexão direta a AI, satisfazendo 'sinal de mercado' e 'afeta workflows' para usuários chineses.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "I gave Opus 5.5 one prompt and six hours to visualize Invisible Cities",
+      "source": "HackerNews",
+      "why_should_include": "Demonstra capacidade concreta de um modelo de referência (Opus 5.5) em tarefa de longa duração — é acionável para devs avaliando o modelo e tem tração (108 pts, 44 comentários).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Google releases a new local-first Granola competitor",
+      "field": "quick_finds",
+      "why_should_discard": "O título não confirma conexão com AI nem que é produto de transcrição; o signal inventa 'transcrição de reuniões' e 'processa áudio no próprio dispositivo' sem base no título. Não passa no AI Gate com a informação disponível.",
+      "violated_rule": "STEP 1 - AI Gate"
+    },
+    {
+      "title": "AdaGuard: Enhancing Safety and Policy Compliance with Reasoning-Enabled LLM-As-A-Judge Guardrails",
+      "field": "quick_finds",
+      "why_should_discard": "Paper arXiv sem evento de mercado/produto — satisfaz no máximo 1 critério (acionável para devs), não 2 de 3. É pesquisa sem novidade de produto ou shift estratégico.",
+      "violated_rule": "STEP 2 - Critérios de seleção (precisa de 2 de 3)"
+    },
+    {
+      "title": "Multimodal open d1 decision models for the edge",
+      "field": "quick_finds",
+      "why_should_discard": "'Modelos de decisão' não é claramente AI/ML pelo gate; o signal assume aplicação em 'sistemas autônomos' sem base no título. É lançamento de modelo aberto sem evento de mercado singular.",
+      "violated_rule": "STEP 1 - AI Gate"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) não exige verificação explícita de que o TÍTULO contém conexão com AI — o LLM pode inferir conexão a partir de contexto implícito (ex: 'Granola competitor' → assume transcrição de reuniões).",
+      "evidence": "quick_find do Google/Granola e do Liquid AI descrevem produtos de AI sem que o título confirme isso.",
+      "suggested_fix": "Adicionar regra: 'Se o título não menciona AI/ML/automação, o item só passa se o corpo da fonte (não inferência) confirmar conexão — caso contrário, descartar.'"
+    },
+    {
+      "hypothesis": "STEP 2 (critérios) não exige que o LLM declare explicitamente QUAIS 2 dos 3 critérios cada item satisfaz — o reasoning lista itens como 'passaram' sem justificar critério por critério.",
+      "evidence": "reasoning lista AdaGuard e Liquid AI como 'passaram' sem explicar quais 2 critérios satisfazem.",
+      "suggested_fix": "Exigir no reasoning: para cada item selecionado, citar explicitamente os 2 critérios satisfeitos (ex: 'Acionável + Sinal de mercado')."
+    },
+    {
+      "hypothesis": "STEP de tom não exige preservar o nível de certeza do TÍTULO quando a informação vem de fonte secundária (Reddit) — o LLM trata '75% mais barato' do Reddit como fato confirmado.",
+      "evidence": "main_find afirma 'redução de 75% no custo' como fato, mas o número só aparece no post do r/artificial, não no título do HN.",
+      "suggested_fix": "Adicionar regra: 'Informação que aparece apenas em fonte secundária (Reddit, comentário) deve ser atribuída (ex: \"segundo o r/artificial\") ou marcada como não confirmada.'"
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find defensável (Claude Haiku 5.5), mas três quick_finds violam o AI Gate ou os critérios de seleção: Google/Granola (AI não confirmado no título), AdaGuard (paper sem evento de mercado) e Liquid AI (AI não confirmado). Há também aumento de certeza no main_find (75% de desconto tratado como fato vindo de Reddit) e contradição no reasoning (diz que On-Device Safety passou, mas o item só aparece no radar)."
+}
