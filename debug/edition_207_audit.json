@@ -1,0 +1,107 @@
+{
+  "edition": "207",
+  "audited_at": "2026-10-19T15:00:16.924330-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Figma) passa no AI Gate e é acionável, mas o reasoning afirma explicitamente que 'Eight states sue OpenAI' foi escolhido como main_find e depois o output entrega Figma — contradição direta. Além disso, 'Ricursive Intelligence' é uma startup apostando em tese (chips desenhados por AI) sem produto/evento concreto, e 'Amazon Bee' é lançamento de hardware consumer com preço — beira anti-signal de produto consumer, embora tenha conexão AI.",
+    "issues": [
+      "main_find no output (Figma) não é o main_find declarado no reasoning ('Eight states sue OpenAI') — o swap foi feito sem justificativa coerente no reasoning.",
+      "Ricursive Intelligence: 'está apostando em' / 'está desenvolvendo' — tese de startup sem evento singular (lançamento, parceria, resultado). Sinal de mercado fraco, não é shift de categoria confirmado.",
+      "Amazon Bee: lançamento de dispositivo consumer com preço inicial — o sinal de mercado é fraco (produto consumer), e o critério 'afeta workflows' é esticado ao dizer que devs de Alexa ganham 'nova superfície'.",
+      "Z.ai GLM-5.3: item especulativo ('fears', 'can fake') — passa no AI Gate, mas o critério de sinal de mercado é fraco; é mais rumor/pesquisa do que evento."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido, sem hype explícito. Porém há problemas de acurácia: o main_find.body repete 'segundo o TechCrunch' duas vezes na mesma frase, e o bullet 1 duplica o body quase literalmente. O quick_find da Z.ai preserva o 'poderia' corretamente, mas o título em português afirma 'levanta temores de que modelo chinês consiga falsear' — 'consiga' é mais assertivo que o 'can' original.",
+    "issues": [
+      "main_find.body: 'Segundo TechCrunch, a Figma anunciou... segundo o TechCrunch' — repetição redundante na mesma frase.",
+      "main_find.bullets[0] é cópia quase literal do body — bullets deveriam adicionar informação, não repetir.",
+      "Z.ai: título 'consiga falsear' soa mais assertivo que o original 'can fake' (que é temor de pesquisadores, não capacidade confirmada). O signal corrige com 'consiga simular', mas o título escorrega.",
+      "Ricursive: 'está desenvolvendo chips projetados por AI' — o título original diz 'is betting on AI-designed chips', que é tese/aposta, não desenvolvimento confirmado. A AYA aumentou a certeza."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: TechCrunch aparece 3 vezes (main_find + 2 quick_finds) — acima do limite de 2. Audiência: 2 devs, 1 executivo, 1 PM, 1 'todos' — razoável. Geografia: Z.ai (China) é o único não-EUA; os demais são todos EUA. Não é grave, mas TechCrunch triplicado é violação clara.",
+    "issues": [
+      "TechCrunch aparece 3 vezes entre main_find + quick_finds (Figma, Amazon Bee, Ricursive) — excede o limite de 2 do mesmo source.",
+      "Geografia: 4 de 5 itens são EUA; apenas Z.ai é China. Falta Europa ou outra região."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase menciona Figma (main_find do output), o que é correto em relação ao output — mas o reasoning declara outro main_find. A intro também menciona Amazon Bee, que é quick_find, não main_find. A intro é factual mas desalinhada com o reasoning e não destaca o item de maior peso editorial (regulação/OpenAI).",
+    "issues": [
+      "Intro menciona Figma (main_find do output) mas o reasoning diz que o main_find é 'Eight states sue OpenAI' — desalinhamento.",
+      "Intro dedica a segunda metade a Amazon Bee, que é quick_find — desloca o foco do main_find.",
+      "Não há menção ao item de regulação (processos contra OpenAI), que seria o de maior peso se fosse o main_find declarado."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 1,
+    "rationale": "O reasoning é internamente contraditório: declara 'MAIN_FIND escolhido: Eight states sue OpenAI' e depois o output entrega Figma como main_find, com um main_swaps que justifica a troca por 'reddit sem corroboração de outra fonte'. A justificativa do swap é plausível, mas o reasoning não foi atualizado — o campo reasoning continua afirmando o main_find antigo. Além disso, o reasoning lista 'Citizen Lab zero-click spyware' como candidato mantido, mas o item não aparece no output (nem main_find, nem quick_finds, nem radar) — contradição.",
+    "issues": [
+      "reasoning declara main_find = 'Eight states sue OpenAI', mas output entrega Figma — contradição direta.",
+      "reasoning diz que Citizen Lab foi 'mantido como candidato', mas o item não aparece em nenhum campo do output.",
+      "reasoning lista 'OpenCode 2.0' como passou no AI Gate, mas o item não aparece no output — sem justificativa de descarte.",
+      "reasoning lista 'Apertus 1.5', 'RuleTrek', 'Long-Horizon-Terminal-Bench 2.0', 'SwarmRSI', 'ClawLoop', 'Silent Failures', 'Vela', 'GRPO' como aprovados, mas só alguns aparecem no radar — sem critério claro de por que uns ficaram e outros não.",
+      "reasoning afirma 'Diversidade: 1 regulação, 2 produto, 2 pesquisa/segurança, 1 China' — mas o output tem 1 regulação? Não: o output tem 0 regulação (OpenAI foi trocado por Figma). A contagem no reasoning não bate com o output."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Eight states sue OpenAI over ChatGPT’s alleged harms to users",
+      "source": "r/artificial",
+      "why_should_include": "Regulação governamental contra player central de AI — passa no AI Gate por exceção de magnitude (ação judicial de 8 estados) e é evento singular com sinal de mercado forte. O reasoning o declarou main_find e depois o removeu por 'reddit sem corroboração', mas a exceção de magnitude deveria prevalecer.",
+      "missed_criteria": [
+        "AI Gate (exceção de magnitude)",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "OpenCode 2.0",
+      "source": "HackerNews",
+      "why_should_include": "Ferramenta de código com AI, 669 pts no HN, acionável para devs (podem testar a nova versão) e afeta workflow de desenvolvimento. O reasoning o listou como aprovado no AI Gate mas não o incluiu no output sem justificativa.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Ricursive Intelligence is betting on AI-designed chips to help solve the compute crisis",
+      "field": "quick_finds",
+      "why_should_discard": "Tese de startup sem evento singular (lançamento, parceria, resultado). 'Está apostando em' / 'está desenvolvendo' não é sinal de mercado específico — é pitch. Não satisfaz 2 dos 3 critérios com força.",
+      "violated_rule": "Critério 2 (sinal de mercado) — panorama/tese sem evento singular de uma empresa"
+    },
+    {
+      "title": "Amazon’s Bee launches two new personal AI devices, starting at $75",
+      "field": "quick_finds",
+      "why_should_discard": "Lançamento de hardware consumer com preço — beira anti-signal de produto consumer. O critério 'afeta workflows' é esticado ('devs de Alexa ganham nova superfície'). Sinal de mercado fraco.",
+      "violated_rule": "Anti-signal — preço/produto consumer; critério 3 (afeta workflows) forçado"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção de main_find não exige que o reasoning seja reescrito após swap — o modelo declarou OpenAI como main_find no reasoning e depois trocou por Figma no output sem atualizar o campo reasoning.",
+      "evidence": "reasoning diz 'MAIN_FIND escolhido: Eight states sue OpenAI' e output entrega Figma; main_swaps justifica a troca mas o reasoning não foi atualizado.",
+      "suggested_fix": "Exigir que o campo reasoning seja gerado DEPOIS do main_swaps, refletindo o main_find final, ou que o reasoning cite explicitamente o swap."
+    },
+    {
+      "hypothesis": "Regra de exceção de magnitude (aquisição >$1B, regulação governamental) não está sendo aplicada a itens de fonte Reddit — o modelo descartou OpenAI por 'reddit sem corroboração' ignorando a exceção.",
+      "evidence": "main_swaps justifica troca de OpenAI por Figma com 'reddit sem corroboração de outra fonte', mas regulação de 8 estados é exceção de magnitude.",
+      "suggested_fix": "Reforçar no prompt que a exceção de magnitude (regulação governamental) sobrepõe a exigência de corroboração de fonte."
+    },
+    {
+      "hypothesis": "Critério de sinal de mercado não distingue 'tese/aposta de startup' de 'evento singular' — Ricursive passou como 'está apostando em'.",
+      "evidence": "Ricursive no quick_finds com signal 'está desenvolvendo chips projetados por AI' — tese, não evento.",
+      "suggested_fix": "Adicionar few-shot negativo: 'startup X está apostando em Y' sem lançamento/parceria/resultado = não passa no critério 2."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem contradição grave entre reasoning e output (main_find declarado OpenAI, entregue Figma) e removeu o item de regulação que era o de maior peso editorial. TechCrunch triplicado viola diversidade de fontes, e dois quick_finds (Ricursive, Amazon Bee) são fracos em sinal de mercado. O tom é contido, mas há repetição no body e aumento de certeza em Ricursive."
+}

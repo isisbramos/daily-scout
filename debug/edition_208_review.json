@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de modelo novo da Mistral é evento singular, datado e verificável, com ângulo claro de AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto concreto (Granite Switch 4.1) com funcionalidade específica e fonte primária.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Publicação de pipeline aberto de pré-treinamento multilíngue é achado técnico concreto e verificável.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Decisão judicial datada do TSE sobre moderação automatizada da Meta é evento singular e relevante para o leitor brasileiro.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Ainda que seja análise de tendência, o título ancora um dado/evento comparativo verificável sobre modelos open-weight, com fonte estabelecida.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C29\", \"why\": \"Confirmação de Tim Cook sobre entrada do Apple Intelligence em beta na China é evento singular, datado e verificável, mais forte que o quick_find de panorama do Rest of World.\"},\n    {\"candidate\": \"C18\", \"why\": \"Aplicação concreta de AI do Google DeepMind na busca por peptídeos antimicrobianos é achado de pesquisa com evento e fonte primária, mais forte que o item de panorama open-weight.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de modelo novo da Mistral é evento singular, datado e verificável, com ângulo claro de AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (Granite Switch 4.1) com funcionalidade específica e fonte primária."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Publicação de pipeline aberto de pré-treinamento multilíngue é achado técnico concreto e verificável."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Decisão judicial datada do TSE sobre moderação automatizada da Meta é evento singular e relevante para o leitor brasileiro."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Ainda que seja análise de tendência, o título ancora um dado/evento comparativo verificável sobre modelos open-weight, com fonte estabelecida."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C29",
+      "title": "Apple Intelligence to enter China beta testing this month, Tim Cook confirms",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/10/16/apple-intelligence-to-enter-china-beta-testing-this-month-tim-cook-confirms/",
+      "why": "Confirmação de Tim Cook sobre entrada do Apple Intelligence em beta na China é evento singular, datado e verificável, mais forte que o quick_find de panorama do Rest of World."
+    },
+    {
+      "candidate": "C18",
+      "title": "Accelerating the search for antimicrobial peptides with Google Antigravity",
+      "source": "Google DeepMind Blog",
+      "url": "https://deepmind.google/blog/accelerating-antimicrobial-discovery/",
+      "why": "Aplicação concreta de AI do Google DeepMind na busca por peptídeos antimicrobianos é achado de pesquisa com evento e fonte primária, mais forte que o item de panorama open-weight."
+    }
+  ]
+}

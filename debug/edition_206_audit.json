@@ -1,0 +1,118 @@
+{
+  "edition": "206",
+  "audited_at": "2026-10-19T15:00:04.829609-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find passa no AI Gate e tem sinal de mercado forte (aprovação regulatória que destrava AI generativa no iPhone na China). Mas três dos cinco quick_finds são dados de mercado/resultado sem evento singular de produto ou estratégia: exportações de chips (+136%), market share Nvidia/Huawei e marco de 100M Kirin. O de exportações é explicitamente panorama de mercado ('AI frenzy jacks up prices') sem evento de UMA empresa — anti-signal claro.",
+    "issues": [
+      "Quick find 'Exportações de chips da China saltam 136%' viola anti-signal de panorama/tendência de mercado sem evento singular de uma empresa; é dado macro de comércio, não movimento estratégico específico.",
+      "Quick find 'Participação da Nvidia cai para 34%; Huawei chega a 28%' é dado de market share sem novidade de produto/estratégia — sinal de mercado genérico, não shift específico de uma empresa.",
+      "Quick find 'Huawei ultrapassa 100 milhões de chips Kirin' é marco de produção/resultado sem novidade concreta de produto ou mudança de estratégia anunciada; borderline anti-signal.",
+      "Quick find 'Anthropic abre escritório em Singapura e assina MOU' é anúncio corporativo de expansão geográfica; acionabilidade para o leitor é fraca e o sinal de mercado é genérico (padrão de expansão), não shift de categoria."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype explícito, mas há acréscimos de informação não presentes nos títulos: 'resolve um impasse regulatório que impedia a Apple de oferecer recursos de AI generativa', 'a Alibaba se consolida como parceira de AI da Apple', 'a escolha da Alibaba indica que a empresa priorizou escala de infraestrutura sobre exclusividade'. São inferências apresentadas como fato.",
+    "issues": [
+      "main_find.body afirma que a aprovação 'resolve um impasse regulatório que impedia a Apple de oferecer recursos de AI generativa' — o título só diz que a China aprovou modelos da Alibaba para iPhones; o 'impasse' e a 'impossibilidade anterior' são inferência não sustentada pelo input.",
+      "main_find.body diz que 'a Alibaba se consolida como parceira de AI da Apple na China' — o título não afirma parceria Apple-Alibaba, apenas aprovação regulatória de modelos.",
+      "Bullet 2 do main_find ('A Apple vinha negociando com várias empresas chinesas de AI desde o ano passado; a escolha da Alibaba indica que a empresa priorizou escala de infraestrutura sobre exclusividade') inventa contexto histórico e motivação não presentes no input.",
+      "Quick find de exportações de chips usa 'impulsionadas pela demanda de AI que elevou os preços' — o título menciona 'AI frenzy jacks up prices', mas a causalidade direta é uma interpretação; aceitável, porém no limite."
+    ]
+  },
+  "diversity": {
+    "score": 2,
+    "rationale": "Concentração geográfica e de fonte: 4 dos 6 itens (main_find + 3 quick_finds) são sobre China, e 3 quick_finds vêm de SCMP Tech/TechNode. Audiência é razoavelmente variada (product managers, executivos, todos), mas a pauta é monotemática em chips chineses.",
+    "issues": [
+      "Quatro itens (main_find + exportações de chips + Nvidia/Huawei + Huawei Kirin) giram em torno de China/chips — mais de 2 itens da mesma região, violando o critério de diversidade geográfica.",
+      "Três quick_finds vêm de fontes chinesas (SCMP Tech x2, TechNode x2 na verdade — 4 itens de 2 fontes), concentração de fonte acima do limite de 2 por source.",
+      "Nenhum item dos EUA/Europa sobre produto ou regulação de AI apesar de haver candidatos no input (ex.: OpenAI/EU agentic, DeepMind scam detection)."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona explicitamente o tema do main_find ('a Apple finalmente destravando AI no iPhone na China') e conecta com o segundo tema (chips). É específica, não genérica. Pequeno problema: 'destravando' é coloquial e implica que havia um bloqueio — o que é inferência, não fato do título.",
+    "issues": [
+      "'a Apple finalmente destravando AI no iPhone na China' — 'finalmente destravando' pressupõe um bloqueio anterior que o título não afirma; leve aumento de certeza.",
+      "A intro promete 'dois sinais' mas a edição entrega 4 itens sobre chips chineses, o que desequilibra a expectativa criada."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "Campo reasoning ausente (observability, não editorial). Score neutro conforme instrução.",
+    "issues": [
+      "campo reasoning ausente (observability, não editorial)"
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Google DeepMind and Singapore Government collaborate to build fine-tuned AI model for scam detection",
+      "source": "Google DeepMind Blog",
+      "why_should_include": "Evento singular de uma empresa (DeepMind) com parceria governamental e produto concreto (modelo fine-tuned on-device para detecção de scam) — sinal de mercado específico e potencialmente acionável para quem constrói anti-fraude.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "The EU’s next chapter in AI is agentic",
+      "source": "OpenAI Blog",
+      "why_should_include": "Posicionamento estratégico da OpenAI sobre regulação/agentes na UE — sinal de política e direção de produto, com impacto em workflows de quem opera na Europa.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Industrial Next wants factory robots to switch tasks in minutes, not weeks",
+      "source": "TechCrunch",
+      "why_should_include": "Produto/abordagem concreta de automação robótica com AI que muda setup de linha de produção — acionável para times de manufatura e sinal de mercado de uma empresa específica.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Exportações de chips da China saltam 136% para US$ 45 bi",
+      "field": "quick_finds",
+      "why_should_discard": "Dado macro de comércio sem evento singular de uma empresa; é panorama de mercado ('AI frenzy jacks up prices') — anti-signal explícito.",
+      "violated_rule": "Anti-signal: panorama/tendência de mercado sem evento singular de UMA empresa"
+    },
+    {
+      "title": "Participação da Nvidia em chips de AI na China cai para 34%; Huawei chega a 28%",
+      "field": "quick_finds",
+      "why_should_discard": "Market share é resultado/panorama, não shift estratégico específico anunciado por uma empresa; não há novidade de produto ou mudança de categoria.",
+      "violated_rule": "Critério 2 (sinal de mercado) — market share sem evento singular"
+    },
+    {
+      "title": "Huawei ultrapassa 100 milhões de chips Kirin produzidos",
+      "field": "quick_finds",
+      "why_should_discard": "Marco de produção/resultado sem novidade de produto ou mudança de estratégia concreta; acionabilidade baixa para o leitor.",
+      "violated_rule": "Anti-signal: resultado/panorama sem novidade de produto/estratégia"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção trata 'dado de mercado' como sinal de mercado válido quando vem de fonte de tech (SCMP/TechNode), sem exigir evento singular de uma empresa.",
+      "evidence": "Três quick_finds são dados de exportação/market share/marco de produção, todos enquadrados como 'sinal de mercado'.",
+      "suggested_fix": "Adicionar regra explícita: 'dado de comércio, market share ou marco de produção NÃO conta como sinal de mercado; exige anúncio de produto, mudança de categoria ou M&A de uma empresa nomeada'."
+    },
+    {
+      "hypothesis": "O prompt não limita concentração geográfica/fonte entre main_find e quick_finds, permitindo 4 itens sobre China e 4 de 2 fontes chinesas.",
+      "evidence": "Main_find + 3 quick_finds sobre China; SCMP Tech e TechNode repetidos.",
+      "suggested_fix": "Adicionar constraint: 'máximo 2 itens por região e 2 por source entre main_find + quick_finds'."
+    },
+    {
+      "hypothesis": "O prompt não proíbe inferência de contexto histórico/motivação ao redigir body/bullets, permitindo que a AYA 'complete' a notícia com fatos não presentes no input.",
+      "evidence": "main_find.body afirma 'impasse regulatório', 'parceria Apple-Alibaba' e 'priorizou escala sobre exclusividade' — nada disso está no título.",
+      "suggested_fix": "Adicionar regra: 'body e bullets só podem conter informação presente no título/URL; qualquer contexto adicional deve ser marcado como hipótese ou omitido'."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find forte, mas três quick_finds são anti-signals (dados macro/market share/marco de produção) e a pauta é monotemática em chips chineses. O body do main_find inventa contexto (impasse regulatório, parceria Apple-Alibaba) não sustentado pelo título. Ficaram de fora itens mais alinhados (DeepMind/Singapura scam detection, OpenAI/EU agentic, Industrial Next)."
+}

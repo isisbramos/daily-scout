@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (aprovação regulatória chinesa dos modelos Alibaba para iPhones) com fonte primária e ângulo claro de AI/tech.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Dado concreto e datado de exportação de chips chineses, com ângulo real de AI/tech e fonte verificável.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Dado de market share de chips de AI na China, evento singular e relevante, com fonte verificável.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Marco concreto de produção de chips Kirin pela Huawei, com ângulo de tech/geopolítica e fonte verificável.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto concreto (óculos de AI Qwen N1) com preço e data, tipo desejado e fonte verificável.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento corporativo singular (abertura de escritório e MOU com governo de Singapura) com ângulo de AI/tech e fonte primária.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C18\", \"why\": \"Colaboração entre Google DeepMind e o governo de Singapura para modelo de detecção de golpes é evento singular, datado, com fonte primária e ângulo de AI aplicado, mais forte que itens de mercado já publicados.\"},\n    {\"candidate\": \"C40\", \"why\": \"Prisão de funcionário da OpenAI pelo FBI por dispositivo de gravação é evento singular, datado, com fonte jornalística verificável e alto interesse para o leitor de tech/AI.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (aprovação regulatória chinesa dos modelos Alibaba para iPhones) com fonte primária e ângulo claro de AI/tech."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Dado concreto e datado de exportação de chips chineses, com ângulo real de AI/tech e fonte verificável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Dado de market share de chips de AI na China, evento singular e relevante, com fonte verificável."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Marco concreto de produção de chips Kirin pela Huawei, com ângulo de tech/geopolítica e fonte verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (óculos de AI Qwen N1) com preço e data, tipo desejado e fonte verificável."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento corporativo singular (abertura de escritório e MOU com governo de Singapura) com ângulo de AI/tech e fonte primária."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C18",
+      "title": "Google DeepMind and Singapore Government collaborate to build fine-tuned AI model for scam detection",
+      "source": "Google DeepMind Blog",
+      "url": "https://deepmind.google/blog/on-device-ai-scam-detection-mddi/",
+      "why": "Colaboração entre Google DeepMind e o governo de Singapura para modelo de detecção de golpes é evento singular, datado, com fonte primária e ângulo de AI aplicado, mais forte que itens de mercado já publicados."
+    },
+    {
+      "candidate": "C40",
+      "title": "FBI arrests OpenAI employee accused of planting hidden recording device in conference room",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/13/fbi-arrests-openai-employee-accused-of-planting-hidden-recording-device-in-conference-room/",
+      "why": "Prisão de funcionário da OpenAI pelo FBI por dispositivo de gravação é evento singular, datado, com fonte jornalística verificável e alto interesse para o leitor de tech/AI."
+    }
+  ]
+}

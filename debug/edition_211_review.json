@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Aquisição singular e datada (Stripe compra OpenRouter por US$ 7,5 bi) com uso estratégico concreto de infraestrutura de roteamento de LLM, corroborada por fonte primária.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Parceria singular entre Rokid e Tencent com caso de uso concreto (ride-hailing por voz em óculos de AI), evento datado e relevante.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Experimento singular e datado com Claude em ilha virtual, resultado concreto sobre comportamento de agentes, sem violar regras.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Mudança regulatória singular e datada da Apple nas diretrizes da App Store contra apps 'nudify', evento concreto e relevante.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Paper de pesquisa com benchmark concreto (LiveMACE) para avaliação de agentes de LLM em mercados dinâmicos, tipo desejado e verificável.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C35\", \"why\": \"Lançamento de modelo concreto (DeepSeek V4.1 Flash-1017) com capacidades de coding e agentes, evento singular e datado, mais forte que o paper idx 4 em relevância prática para o leitor.\"},\n    {\"candidate\": \"C38\", \"why\": \"Acordo singular e datado (Disney contrata maioria da força de trabalho da Character.AI), evento corporativo concreto com implicações claras para o setor de AI.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Aquisição singular e datada (Stripe compra OpenRouter por US$ 7,5 bi) com uso estratégico concreto de infraestrutura de roteamento de LLM, corroborada por fonte primária."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Parceria singular entre Rokid e Tencent com caso de uso concreto (ride-hailing por voz em óculos de AI), evento datado e relevante."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Experimento singular e datado com Claude em ilha virtual, resultado concreto sobre comportamento de agentes, sem violar regras."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Mudança regulatória singular e datada da Apple nas diretrizes da App Store contra apps 'nudify', evento concreto e relevante."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa com benchmark concreto (LiveMACE) para avaliação de agentes de LLM em mercados dinâmicos, tipo desejado e verificável."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C35",
+      "title": "DeepSeek releases V4.1 Flash-1017 with stronger coding and agent capabilities",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/10/19/deepseek-releases-v4-1-flash-1017-with-stronger-coding-and-agent-capabilities/",
+      "why": "Lançamento de modelo concreto (DeepSeek V4.1 Flash-1017) com capacidades de coding e agentes, evento singular e datado, mais forte que o paper idx 4 em relevância prática para o leitor."
+    },
+    {
+      "candidate": "C38",
+      "title": "Disney agrees to hire the majority of Character.AI’s workforce",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/18/disney-agrees-to-hire-the-majority-of-character-ais-workforce/",
+      "why": "Acordo singular e datado (Disney contrata maioria da força de trabalho da Character.AI), evento corporativo concreto com implicações claras para o setor de AI."
+    }
+  ]
+}

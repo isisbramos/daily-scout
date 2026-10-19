@@ -1,0 +1,88 @@
+{
+  "edition": "205",
+  "audited_at": "2026-10-19T14:59:53.844889-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Character.AI) passa no AI Gate e tem sinal de mercado forte, mas o quick_find sobre geolocalização policial vem de um post de Reddit sem fonte primária verificável e o de educação nos Emirados é política pública sem evento de empresa de AI — ambos no limite. O item da Amex é o mais sólido do conjunto.",
+    "issues": [
+      "Quick_find 'Polícia usa IA para localizar residências' tem como única fonte um post de r/artificial sem link para reportagem original; não há confirmação de qual sistema, qual força policial ou qual estudo. Sinal de mercado fraco e acionabilidade difusa.",
+      "Quick_find 'Emirados Árabes adotam IA obrigatória' é política educacional nacional, não movimento de player de AI; satisfaz 'afeta workflows' de forma indireta e 'sinal de mercado' apenas como criação de mercado regulatório — borderline.",
+      "Main_find Character.AI: a venda de ativos por US$20M é evento singular e passa, mas o texto afirma 'já foi avaliada em bilhões' sem que isso esteja no título/fonte citada — detalhe importado de conhecimento externo."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype vocabular, mas há duas inferências apresentadas como fato: a avaliação bilionária da Character.AI e a leitura de que 'o mercado de chatbots de entretenimento não converteu engajamento em receita' — nenhuma das duas está no título nem é atribuída à fonte. O quick_find da polícia usa 'relata' corretamente, mas depois afirma 'a técnica combina reconhecimento visual com bases de dados públicas' como se fosse descrição técnica confirmada.",
+    "issues": [
+      "main_find.body: 'empresa que já foi avaliada em bilhões' — informação não presente no título nem atribuída; pode ser verdadeira, mas não foi verificada na fonte citada.",
+      "main_find.body: 'o que sinaliza que o mercado de chatbots de entretenimento não converteu engajamento em receita sustentável' — causalidade inferida, não reportada.",
+      "quick_find polícia: 'A técnica combina reconhecimento visual com bases de dados públicas' — detalhe técnico inventado; o post original não é citado nesses termos."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição de fontes (HackerNews, TechCrunch, HuggingFace, MIT Tech Review, Rest of World, Reddit) e audiências variadas (PMs, devs, executivos, todos). Geografia razoável: EUA, Emirados, global. Nenhuma fonte repetida entre main_find e quick_finds.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona especificamente o main_find (Character.AI/Disney), não é genérica. A segunda frase é de transição padrão, mas aceitável. O '6 achados de 6 fontes' confere com o output.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os descartes por AI Gate e anti-signal, mas há incoerências: (1) diz que 'Huawei Kirin 100M milestone é hardware sem ângulo AI direto' — correto; (2) diz que 'China five-ton robot é hardware' — mas o item é explicitamente sobre robô, que é automação inteligente e passaria no AI Gate; o descarte deveria ser por critério, não por gate; (3) afirma memória editorial de 'open models saturado (ed.198, ed.199)' sem que isso seja verificável no input; (4) o main_find_rationale não compara explicitamente com alternativas mais acionáveis (Amex), apenas justifica a magnitude.",
+    "issues": [
+      "Descarte do robô de cinco toneladas classificado como 'hardware' ignora que robótica é automação inteligente — o motivo correto seria falta de sinal de mercado específico ou ausência de info de produto.",
+      "Referência a 'memória editorial: open models saturado (ed.198, ed.199)' é afirmação não sustentada pelo input fornecido.",
+      "Não há perspective_check explícito nem comparação direta entre Character.AI e Amex para justificar por que o primeiro é main_find."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "XPENG plans humanoid robot deliveries in 2027 and European rollout later that year",
+      "source": "TechNode",
+      "why_should_include": "Evento singular de uma empresa específica (XPENG) com cronograma concreto de entrega de robôs humanoides e expansão europeia — sinal de mercado claro e afeta workflows de manufatura/logística.",
+      "missed_criteria": [
+        "AI Gate (robótica/automação inteligente)",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "China’s Iluvatar CoreX’s first AI computing supernode squeezes most GPUs in 1 system",
+      "source": "SCMP Tech",
+      "why_should_include": "Lançamento de produto de infraestrutura de AI por player específico (Iluvatar CoreX), com implicação para treinamento/inferência — sinal de mercado e potencial acionabilidade para quem acompanha hardware de AI.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Polícia usa IA para localizar residências a partir de uma única foto interna",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte única é um post de Reddit sem link para reportagem primária; não há player identificado, nem evento datado, nem detalhe verificável. Acionabilidade difusa e sinal de mercado fraco.",
+      "violated_rule": "Critérios de seleção — precisa de 2 de 3; aqui só 'afeta workflows' de forma vaga, sem sinal de mercado nem acionabilidade concreta."
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O AI Gate não distingue 'hardware sem AI' de 'hardware/robótica que É automação inteligente' — o reasoning descartou o robô de cinco toneladas como 'hardware', sugerindo que o gate está sendo aplicado de forma binária demais.",
+      "evidence": "Reasoning: 'China five-ton robot é hardware' como motivo de descarte, quando robótica é explicitamente automação inteligente.",
+      "suggested_fix": "Adicionar ao AI Gate exemplos positivos de robótica/automação física como conexão válida com AI."
+    },
+    {
+      "hypothesis": "A regra de 'sinal de mercado' não exige fonte primária verificável, permitindo que posts de Reddit sem link para reportagem entrem como quick_find.",
+      "evidence": "Quick_find da polícia usa r/artificial como fonte única, sem URL para matéria original.",
+      "suggested_fix": "Exigir que itens de Reddit tenham link para fonte primária ou cross_source_count ≥ 2 para entrar no output."
+    },
+    {
+      "hypothesis": "O prompt não instrui a AYA a não importar conhecimento externo ao título/fonte ao escrever o body, levando a inferências (avaliação bilionária, causalidade de mercado) apresentadas como fato.",
+      "evidence": "main_find.body afirma 'já foi avaliada em bilhões' e 'o mercado não converteu engajamento em receita' sem atribuição.",
+      "suggested_fix": "Adicionar regra explícita: 'não incluir fatos que não estejam no título, URL ou snippet fornecido; se necessário, marcar como inferência'."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição acerta no main_find e na diversidade de fontes, mas peca em acurácia: o body da Character.AI importa fatos não verificados (avaliação bilionária, causalidade de mercado) e o quick_find da polícia entra com fonte frágil de Reddit. O reasoning também tem descarte incoerente (robô classificado como 'hardware' apesar de ser automação inteligente) e omite comparação com alternativas mais acionáveis como a Amex."
+}

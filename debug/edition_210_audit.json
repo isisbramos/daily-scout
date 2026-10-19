@@ -1,0 +1,96 @@
+{
+  "edition": "210",
+  "audited_at": "2026-10-19T15:00:51.515126-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (China export bans) passa no AI Gate e em sinal de mercado + afeta workflows, mas é uma proposta em consulta com efeito descrito como 'may' — sinal ainda fraco para o slot principal. Os quick_finds são majoritariamente legítimos (Anthropic workforce, Meta scraping, DeepSeek API, Sphinx), mas o item da Anthropic é resultado de pesquisa organizacional sem novidade de produto/estratégia clara, beirando anti-signal de 'resultado' sem evento singular de mercado.",
+    "issues": [
+      "main_find: proposta em consulta, não decisão regulatória concretizada — o próprio título usa 'may'; para ocupar o slot principal, seria preferível um evento já em vigor ou com escopo definido.",
+      "quick_find Anthropic workforce: dado de pesquisa interna sobre composição de quadro e tempo em reuniões — não é mudança de categoria, shift de política ou M&A; encaixa no anti-signal de 'resultado/panorama' sem evento singular de mercado.",
+      "quick_find Meta scraping: cobre o mesmo evento em duas fontes (Nieman Lab + TechCrunch) e o output escolheu a fonte de menor tração (HN score 5) em vez da TechCrunch, sem justificar a escolha editorial."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype, e o 'may' do título original é preservado no corpo do main_find ('pode gerar custos'). Há, porém, uma inferência não sustentada pelo título: 'Pequim tratando modelos e chips de AI como ativo estratégico' e a analogia com controles de semicondutores são adições do editor, não do material original.",
+    "issues": [
+      "main_find.body: 'O movimento se encaixa num padrão que já vinha aparecendo: Pequim tratando modelos e chips de AI como ativo estratégico' — inferência editorial não presente no título/fonte citada.",
+      "main_find.bullets: analogia com 'controles de exportação de semicondutores já aplicados por outros países' é contexto externo não verificado no item.",
+      "quick_find DeepSeek: 'categoria que vinha sendo dominada por fornecedores ocidentais' é afirmação de mercado sem fonte no item."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: TechCrunch aparece 1x no output (Anthropic), HackerNews 2x (Meta scraping, DeepSeek, Sphinx — na verdade 3x), SCMP 1x. Audiência tem 'executivos de negócio' e 'desenvolvedores', cumprindo a variedade. Geografia: China (main_find + DeepSeek) = 2 itens asiáticos, dentro do limite; EUA (Anthropic, Meta) = 2.",
+    "issues": [
+      "HackerNews aparece em 3 dos 5 itens (Meta scraping, DeepSeek, Sphinx) — acima do confortável para diversidade de fonte, ainda que sejam fontes primárias distintas.",
+      "Dois itens (main_find China e DeepSeek) são ambos China/Ásia, no limite superior."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (China restringindo exportação de tecnologia de AI), não é genérica. A segunda frase lista os outros temas, o que é aceitável, mas a menção a '277 posts' é um detalhe de processo que não agrega ao leitor.",
+    "issues": [
+      "Menção a '277 posts' é ruído de bastidor; o leitor não precisa do volume de garimpo.",
+      "A intro promete '5 itens de 5 fontes', mas o output tem 5 itens de 3 fontes (SCMP, TechCrunch, HackerNews) — inconsistência factual."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning é detalhado e lista corretamente os descartes, mas há contradições: afirma que Replit/OpenAI foi descartado por 'memória editorial' (ed.209) sem que essa memória esteja no input, e trata o item da Anthropic como 'pesquisa/dado' apesar de o próprio critério de anti-signal excluir resultado sem novidade de produto/estratégia. A justificativa do main_find ('perspectiva geográfica não saturada') é fraca frente ao fato de a proposta estar em consulta.",
+    "issues": [
+      "reasoning invoca 'memória editorial (ed.209)' para descartar Replit — informação não presente no input desta auditoria; decisão não auditável.",
+      "reasoning classifica Anthropic workforce como 'pesquisa/dado' sem confrontar o anti-signal de resultado/panorama sem evento singular de mercado.",
+      "main_find_rationale diz 'passa em sinal de mercado + afeta fluxos de trabalho', mas uma proposta em consulta com efeito 'may' não configura sinal de mercado específico de um player — é sinal regulatório em aberto.",
+      "reasoning afirma '5 itens de 5 fontes' na intro, mas o output usa 3 fontes — contradição entre reasoning e output."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Replit makes OpenAI its default over Anthropic, CEO says",
+      "source": "TechCrunch",
+      "why_should_include": "É mudança de fornecedor default de uma plataforma de dev com base de usuários relevante — sinal de mercado específico de um player (shift de parceria/estratégia), não resultado financeiro. O reasoning descartou por 'memória editorial' não verificável no input.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "China's Tencent says AI agents showed unintended browsing behaviour",
+      "source": "r/artificial",
+      "why_should_include": "Evento singular de uma empresa específica (Tencent) sobre comportamento não intencional de agentes de AI — sinal de mercado/risco operacional e potencialmente acionável para quem opera agentes. O reasoning descartou por 'sem detalhe', mas o título já contém o fato central.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Anthropic diz que quadro ficou menos júnior e passa mais tempo em reuniões",
+      "field": "quick_finds",
+      "why_should_discard": "Dado de pesquisa organizacional sobre composição de quadro e tempo em reuniões — não é mudança de categoria, shift de política ou M&A; encaixa no anti-signal de resultado/panorama sem evento singular de mercado.",
+      "violated_rule": "Anti-signal: resultado/panorama sem novidade de produto/estratégia junto"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de memória editorial permite descartar itens com base em 'já coberto na edição anterior' sem que essa memória esteja no input auditável.",
+      "evidence": "reasoning descarta Replit/OpenAI citando 'ed.209' e 'memória editorial', informação ausente do input desta auditoria.",
+      "suggested_fix": "Exigir que descartes por memória editorial citem o item exato da edição anterior e que essa referência esteja no input ou em campo separado auditável."
+    },
+    {
+      "hypothesis": "A régua de 'pesquisa/dado' no prompt não distingue pesquisa acadêmica original de resultado organizacional interno, permitindo que dados de RH/operação passem como categoria válida.",
+      "evidence": "Anthropic workforce entrou como quick_find 'pesquisa/dado' apesar de ser resultado interno sem evento de mercado.",
+      "suggested_fix": "Adicionar ao anti-signal: 'dados internos de RH/operação de uma empresa sem mudança de produto/estratégia' como descarte explícito."
+    },
+    {
+      "hypothesis": "O critério de main_find não exige que o evento esteja concretizado; 'em consulta' com efeito 'may' foi aceito como sinal de mercado.",
+      "evidence": "main_find é proposta em consulta, com título usando 'may', e o reasoning a justifica por 'perspectiva geográfica não saturada'.",
+      "suggested_fix": "Exigir no main_find evento já concretizado ou com escopo definido; propostas em consulta vão para radar ou quick_find."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem boa contenção de tom e diversidade razoável, mas o main_find é uma proposta em consulta com efeito 'may' — sinal fraco para o slot principal — e o quick_find da Anthropic viola o anti-signal de resultado/panorama sem evento de mercado. O reasoning invoca memória editorial não auditável para descartar Replit/OpenAI, que seria um false negative legítimo, e a intro promete '5 fontes' quando o output usa 3."
+}

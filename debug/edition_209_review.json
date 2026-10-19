@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (fim da parceria Replit-Anthropic) com fonte primária (CEO ao TechCrunch), relevante para o leitor de tech/AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Estudo concreto da Mercor com dado quantitativo (90% das horas) e fonte verificável, não é roundup nem opinião.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto específico (FLUX 3 Image Klein) pela Black Forest Labs, com fonte primária no blog da empresa.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Release de modelo aberto (DeepSeek V4.1 Flash) no Hugging Face, evento singular e verificável.\"},\n    {\"idx\": 4, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação baseada apenas em post no r/artificial, sem fonte primária ou corroboração do caso do desenvolvedor.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Declaração de executivo da Alibaba ao SCMP com evento datado (integração de AI até 2027), fonte verificável e relevante.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C29\", \"why\": \"Waymo expandindo robotaxis para o Canadá é evento singular, datado e verificável, mais forte que o item 4 (post anônimo no Reddit).\"},\n    {\"candidate\": \"C35\", \"why\": \"Já é o main_find publicado (Replit-Anthropic), então não conta como missed; alternativa: C19 (Alibaba) já publicado. C29 é o candidato mais claro.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (fim da parceria Replit-Anthropic) com fonte primária (CEO ao TechCrunch), relevante para o leitor de tech/AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Estudo concreto da Mercor com dado quantitativo (90% das horas) e fonte verificável, não é roundup nem opinião."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto específico (FLUX 3 Image Klein) pela Black Forest Labs, com fonte primária no blog da empresa."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Release de modelo aberto (DeepSeek V4.1 Flash) no Hugging Face, evento singular e verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação baseada apenas em post no r/artificial, sem fonte primária ou corroboração do caso do desenvolvedor."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Declaração de executivo da Alibaba ao SCMP com evento datado (integração de AI até 2027), fonte verificável e relevante."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C29",
+      "title": "Waymo’s robotaxis are headed to Canada",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/16/waymos-robotaxis-are-headed-to-canada/",
+      "why": "Waymo expandindo robotaxis para o Canadá é evento singular, datado e verificável, mais forte que o item 4 (post anônimo no Reddit)."
+    },
+    {
+      "candidate": "C35",
+      "title": "Replit is no longer working with Anthropic, CEO says",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/16/replit-is-no-longer-working-with-anthropic-ceo-says/",
+      "why": "Já é o main_find publicado (Replit-Anthropic), então não conta como missed; alternativa: C19 (Alibaba) já publicado. C29 é o candidato mais claro."
+    }
+  ]
+}

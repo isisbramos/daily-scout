@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação de falência da Character.AI e venda de ativos à Disney por US$ 20 milhões aparece apenas em post anônimo do Reddit (C5/C14), sem fonte primária ou corroboração — e o link do The Verge citado não consta entre os candidatos fornecidos.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (Amex lança framework para pagamentos por agentes de IA), com fonte verificável e ângulo claro de tech/AI.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa concreta publicada no HuggingFace Papers, tipo desejado, com evento singular e relevante para o leitor.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Reportagem da MIT Technology Review sobre mercado secundário de dados de startups encerradas, com ângulo real de AI e fonte verificável.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Política nacional singular e datada (EAU tornam IA obrigatória no currículo desde o kindergarten), com fonte verificável e relevância tech.\"},\n    {\"idx\": 5, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Baseado apenas em post anônimo do r/artificial, sem fonte primária ou corroboração, sobre uso policial de IA para geolocalização por foto.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C7\", \"why\": \"Evento singular e datado (Huawei ultrapassa 100 milhões de chips Kirin), fonte verificável (SCMP) e relevante para o leitor de tech/AI — mais forte que o item 5 publicado.\"},\n    {\"candidate\": \"C35\", \"why\": \"Evento corporativo concreto e datado (XPeng planeja entregas de robôs humanoides em 2027 e rollout europeu), fonte verificável (TechNode) e ângulo claro de AI/robótica — mais forte que o item 5 publicado.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação de falência da Character.AI e venda de ativos à Disney por US$ 20 milhões aparece apenas em post anônimo do Reddit (C5/C14), sem fonte primária ou corroboração — e o link do The Verge citado não consta entre os candidatos fornecidos."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (Amex lança framework para pagamentos por agentes de IA), com fonte verificável e ângulo claro de tech/AI."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa concreta publicada no HuggingFace Papers, tipo desejado, com evento singular e relevante para o leitor."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Reportagem da MIT Technology Review sobre mercado secundário de dados de startups encerradas, com ângulo real de AI e fonte verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Política nacional singular e datada (EAU tornam IA obrigatória no currículo desde o kindergarten), com fonte verificável e relevância tech."
+    },
+    {
+      "idx": 5,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Baseado apenas em post anônimo do r/artificial, sem fonte primária ou corroboração, sobre uso policial de IA para geolocalização por foto."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C7",
+      "title": "Huawei, once hobbled by US sanctions, passes 100 million Kirin chip milestone",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/big-tech/article/3370766/huawei-once-hobbled-us-sanctions-passes-100-million-kirin-chip-milestone?utm_source=rss_feed",
+      "why": "Evento singular e datado (Huawei ultrapassa 100 milhões de chips Kirin), fonte verificável (SCMP) e relevante para o leitor de tech/AI — mais forte que o item 5 publicado."
+    },
+    {
+      "candidate": "C35",
+      "title": "XPENG plans humanoid robot deliveries in 2027 and European rollout later that year",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/10/13/xpeng-plans-humanoid-robot-deliveries-in-2027-and-european-rollout-later-that-year/",
+      "why": "Evento corporativo concreto e datado (XPeng planeja entregas de robôs humanoides em 2027 e rollout europeu), fonte verificável (TechNode) e ângulo claro de AI/robótica — mais forte que o item 5 publicado."
+    }
+  ]
+}

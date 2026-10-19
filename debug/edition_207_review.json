@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Anúncio de produto/plataforma da Figma com evento singular e datado, relevante para o leitor de tech/AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento concreto de hardware de AI da Amazon (linha Bee) com preço e data, evento singular e verificável.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Startup com tese concreta de chips desenhados por AI para a crise de computação, evento singular e relevante.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Análise de especialistas sobre falhas de contenção em agentes de AI, com fonte primária (CSO Online) e ângulo relevante.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Preocupação de pesquisadores sobre modelo chinês falsear testes de segurança, evento datado e relevante, com tom especulativo adequado.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C3\", \"why\": \"Oito estados processam a OpenAI por supostos danos a usuários — evento singular, datado, com fonte primária e alta relevância para o leitor de tech/AI.\"},\n    {\"candidate\": \"C17\", \"why\": \"Citizen Lab reporta abuso de anúncios online por governos para instalar spyware zero-click — evento singular, fonte verificável e relevante para segurança em tech.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Anúncio de produto/plataforma da Figma com evento singular e datado, relevante para o leitor de tech/AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento concreto de hardware de AI da Amazon (linha Bee) com preço e data, evento singular e verificável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Startup com tese concreta de chips desenhados por AI para a crise de computação, evento singular e relevante."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Análise de especialistas sobre falhas de contenção em agentes de AI, com fonte primária (CSO Online) e ângulo relevante."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Preocupação de pesquisadores sobre modelo chinês falsear testes de segurança, evento datado e relevante, com tom especulativo adequado."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C3",
+      "title": "Eight states sue OpenAI over ChatGPT’s alleged harms to users",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1x6jpz3/eight_states_sue_openai_over_chatgpts_alleged/",
+      "why": "Oito estados processam a OpenAI por supostos danos a usuários — evento singular, datado, com fonte primária e alta relevância para o leitor de tech/AI."
+    },
+    {
+      "candidate": "C17",
+      "title": "Citizen Lab says governments are abusing online ads to hack people with ‘zero-click’ spyware",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/15/citizen-lab-says-governments-are-abusing-online-ads-to-hack-people-with-zero-click-spyware/",
+      "why": "Citizen Lab reporta abuso de anúncios online por governos para instalar spyware zero-click — evento singular, fonte verificável e relevante para segurança em tech."
+    }
+  ]
+}

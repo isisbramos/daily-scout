@@ -1,0 +1,97 @@
+{
+  "edition": "208",
+  "audited_at": "2026-10-19T15:00:29.394830-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Mistral Timestral) passa no AI Gate mas é frágil: o próprio body admite 'sem cobertura independente ainda' e 'sem detalhes públicos' — é um anúncio de blog corporativo sem informação concreta sobre o que o modelo faz. O quick_find do Rest of World é explicitamente um panorama de tendência ('modelos ocidentais ainda não superam chineses') sem evento singular de uma empresa, o que é anti-signal declarado. O quick_find do TSE/Meta é sólido (regulação + workflow de moderação).",
+    "issues": [
+      "main_find 'Mistral Timestral': body admite ausência de detalhes públicos e cobertura independente — viola o espírito de 'sinal de mercado específico' e beira thought-leadership de blog corporativo.",
+      "quick_find 'Western open-weight models still can't beat China' (Rest of World): panorama de tendência de mercado sem evento singular de UMA empresa — anti-signal explícito ('Roundup ou panorama de tendência de mercado sem evento singular').",
+      "quick_find 'Granite Switch 4.1': plausível, mas o signal descreve 'unifica chat, decisão e fala' sem verificar se é real ou marketing do blog IBM — risco de blog corporativo sem novidade concreta verificada."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "Não há hype explícito (revolucionário, bombástico etc.), mas há inflação de certeza e informação inferida. O main_find afirma 'A Mistral é conhecida por publicar modelos com pesos abertos' e 'compete com Meta e Google' — nada disso está no título/URL, é conhecimento externo apresentado como fato do anúncio. O bullet 'Acompanhe se o Timestral sai com pesos abertos ou só via API' revela que a AYA não sabe o básico do produto, contradizendo o step5_phrase 'Agora é possível testar o Timestral'.",
+    "issues": [
+      "main_find.body: 'A Mistral é conhecida por publicar modelos com pesos abertos' e 'compete com Meta e Google' — informação não presente no input, apresentada como fato.",
+      "Contradição interna: step5_phrase diz 'Agora é possível testar o Timestral' enquanto bullet admite que não se sabe se sai com pesos abertos ou só via API.",
+      "quick_find Rest of World: signal afirma 'perdem para os chineses em benchmarks e adoção' e 'Qwen e DeepSeek publicam pesos abertos com mais frequência' — detalhes não verificáveis a partir do título, apresentados como reportagem factual."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição de fontes (Mistral, HuggingFace, Agência Brasil, Rest of World) e audiências variadas (3 devs, 1 executivo). Geografia razoável (França, EUA, Brasil, China via Rest of World). Nenhum source repetido entre main_find + quick_finds.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o main_find (Mistral) e um quick_find (TSE/Meta), então não é genérica. Porém o main_find é justamente o item mais fraco da edição, e a intro o vende como destaque sem hesitação.",
+    "issues": [
+      "A intro trata o Mistral Timestral como destaque ('Mistral lançando modelo novo') quando o próprio body admite falta de detalhes — desalinhamento entre intro e substância."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente vários descartes, mas comete erros: descarta 'Even Benchmark thinks AI is eroding the venture pact' como 'panorama sem evento singular' — correto — mas depois inclui o Rest of World, que é exatamente o mesmo tipo de panorama. Também descarta 'Apple Intelligence China' por redundância com ed.206 sem que isso seja verificável no input. O reasoning não explica por que Timestral venceu Granite Switch ou o TSE, apenas afirma 'lançamento concreto, acionável' — o que o próprio body contradiz.",
+    "issues": [
+      "Contradição: reasoning descarta 'Even Benchmark' por ser panorama sem evento singular, mas mantém 'Western open-weight models' (Rest of World), que é o mesmo tipo de item.",
+      "reasoning afirma que Timestral é 'lançamento de produto concreto, acionável' — mas o body diz que não há detalhes públicos nem cobertura independente.",
+      "reasoning cita memória editorial (ed.206, Anthropic revenue) não verificável no input fornecido — pode ser alucinação de contexto."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Accenture Tells Employees They Can Now Spend Only $29 on Claude Per Month",
+      "source": "r/artificial",
+      "why_should_include": "Evento singular de uma empresa (Accenture) restringindo gasto corporativo em AI — sinal de mercado específico sobre adoção e custo de AI em enterprise, e afeta workflow de milhares de funcionários. Aparece duas vezes no input (dois posts Reddit), reforçando relevância.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "OpenGCUA: Toward a Fully Open Stack for Generalist Computer Use",
+      "source": "HuggingFace Papers",
+      "why_should_include": "Paper com 78 pontos no HuggingFace sobre stack aberta para agentes de computador — acionável para devs que constroem agentes e sinal de direção técnica. Foi relegado ao radar em vez de quick_find, apesar de ter mais tração que o Rest of World (0 pts).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Western open-weight models still can’t beat China",
+      "field": "quick_finds",
+      "why_should_discard": "Panorama de tendência de mercado sem evento singular de uma empresa — anti-signal explícito. O próprio reasoning descarta item equivalente ('Even Benchmark') pela mesma razão.",
+      "violated_rule": "Anti-signal: roundup/panorama de tendência sem evento singular"
+    },
+    {
+      "title": "Mistral lança Timestral, novo modelo da casa francesa",
+      "field": "main_find",
+      "why_should_discard": "Anúncio de blog corporativo sem informação concreta sobre o produto (pesos abertos? benchmarks? API?), sem cobertura independente. Não satisfaz 'sinal de mercado específico' nem 'acionável' de forma verificável — o leitor não pode testar nada com base no texto.",
+      "violated_rule": "Critério 1 (Acionável) e Critério 2 (Sinal de mercado) — blog corporativo sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção trata 'lançamento de modelo de player conhecido' como automaticamente acionável, sem exigir detalhe concreto (pesos, benchmarks, API).",
+      "evidence": "Timestral virou main_find apesar do body admitir 'sem cobertura independente' e 'sem detalhes públicos'.",
+      "suggested_fix": "Adicionar regra: anúncio de modelo só passa se o input contiver detalhe concreto (open weights, benchmark, preço, API) — caso contrário, radar."
+    },
+    {
+      "hypothesis": "A distinção entre 'panorama de tendência' (anti-signal) e 'reportagem com tese' não está clara no prompt, permitindo que Rest of World passe enquanto 'Even Benchmark' é descartado.",
+      "evidence": "Reasoning descarta Benchmark por panorama mas mantém Rest of World, que é o mesmo formato.",
+      "suggested_fix": "Explicitar no anti-signal: 'reportagem analítica sobre tendência de mercado sem evento datado de uma empresa = descartar, mesmo com fonte reputada'."
+    },
+    {
+      "hypothesis": "O prompt não instrui a AYA a verificar se o step5_phrase é sustentado pelo body — permitindo frases como 'Agora é possível testar' quando o body diz que não se sabe o formato de acesso.",
+      "evidence": "step5_phrase do main_find contradiz o bullet sobre pesos abertos vs API.",
+      "suggested_fix": "Adicionar checagem: step5_phrase deve ser logicamente implicada pelo body; se o body expressa incerteza, a frase deve ser condicional."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "O main_find é um anúncio de blog corporativo sem informação concreta, vendido como destaque apesar do próprio body admitir falta de detalhes. Um quick_find (Rest of World) é panorama de tendência — anti-signal explícito — enquanto o reasoning descarta item equivalente pela mesma razão, revelando incoerência. Ficaram de fora itens mais fortes (Accenture/Claude, OpenGCUA)."
+}

@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular e datado (proposta de banimento de exportação de tecnologia de AI pela China) com fonte primária (SCMP) e ângulo claro de regulação tech/AI.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Dado concreto e datado sobre mudança na composição da força de trabalho da Anthropic, com fonte verificável (TechCrunch) e relevância direta para impacto de AI.\"},{\"idx\":2,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Alerta de especialistas jurídicos sobre termos da Meta é evento datado com fonte identificável (Nieman Lab) e ângulo real de scraping/AI training.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de produto concreto (busca e fetch da DeepSeek com preço definido) documentado na própria API docs, evento singular e verificável.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Ferramenta concreta (hook Sphinx) publicada como Show HN, com proposta clara e verificável, relevante para desenvolvedores de AI.\"}],\"missed\":[{\"candidate\":\"C19\",\"why\":\"Evento singular e datado (Tencent reporta comportamento não intencional de browsing em agentes de AI), fonte corporativa verificável e altamente relevante para segurança de agentes — mais forte que o quick_find de ferramenta individual (idx 4).\"},{\"candidate\":\"C13\",\"why\":\"Ação concreta e datada da Meta removendo linguagem sobre scraping e treinamento de AI, com fonte TechCrunch verificável e ângulo direto de regulação/treinamento de AI.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (proposta de banimento de exportação de tecnologia de AI pela China) com fonte primária (SCMP) e ângulo claro de regulação tech/AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Dado concreto e datado sobre mudança na composição da força de trabalho da Anthropic, com fonte verificável (TechCrunch) e relevância direta para impacto de AI."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Alerta de especialistas jurídicos sobre termos da Meta é evento datado com fonte identificável (Nieman Lab) e ângulo real de scraping/AI training."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (busca e fetch da DeepSeek com preço definido) documentado na própria API docs, evento singular e verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Ferramenta concreta (hook Sphinx) publicada como Show HN, com proposta clara e verificável, relevante para desenvolvedores de AI."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C19",
+      "title": "China's Tencent says AI agents showed unintended browsing behaviour",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1x8x4du/chinas_tencent_says_ai_agents_showed_unintended/",
+      "why": "Evento singular e datado (Tencent reporta comportamento não intencional de browsing em agentes de AI), fonte corporativa verificável e altamente relevante para segurança de agentes — mais forte que o quick_find de ferramenta individual (idx 4)."
+    },
+    {
+      "candidate": "C13",
+      "title": "Meta removes language that raised scraping and AI training concerns",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/17/meta-removes-language-that-raised-scraping-and-ai-training-concerns/",
+      "why": "Ação concreta e datada da Meta removendo linguagem sobre scraping e treinamento de AI, com fonte TechCrunch verificável e ângulo direto de regulação/treinamento de AI."
+    }
+  ]
+}
