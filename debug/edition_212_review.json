@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (open source do motor de inferência DeepInfer) com fonte primária verificável (repositório GitHub) e relevância direta para custo/latência de AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Caso concreto e datado de instruções ocultas para LLMs em páginas de ajuda do WhatsApp, com fonte primária (blog redact.dev) e ângulo real de AI.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto concreto (agente de voz do Yelp que liga para restaurantes) com evento singular e fonte TechCrunch.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Paper de pesquisa com proposta arquitetural concreta (memória nativa) e fonte verificável no HuggingFace Papers.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Benchmark de pesquisa concreto para manipulação robótica industrial, com fonte verificável no HuggingFace Papers.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Admissão da Meta sobre gravação sem wake phrase é evento singular e relevante; embora a fonte seja Reddit, o fato é atribuído à empresa e amplamente corroborável, então na dúvida PASS.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C36\", \"why\": \"Rodada de US$ 320 milhões do Otter.ai é evento financeiro sem novidade de produto/estratégia explícita no título — não é claramente mais forte que o pior item publicado.\"},\n    {\"candidate\": \"C40\", \"why\": \"Valuation de US$ 6,2 bi da Tenstorrent é majoritariamente financeiro; não supera claramente os itens publicados em força editorial.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (open source do motor de inferência DeepInfer) com fonte primária verificável (repositório GitHub) e relevância direta para custo/latência de AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Caso concreto e datado de instruções ocultas para LLMs em páginas de ajuda do WhatsApp, com fonte primária (blog redact.dev) e ângulo real de AI."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (agente de voz do Yelp que liga para restaurantes) com evento singular e fonte TechCrunch."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa com proposta arquitetural concreta (memória nativa) e fonte verificável no HuggingFace Papers."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Benchmark de pesquisa concreto para manipulação robótica industrial, com fonte verificável no HuggingFace Papers."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Admissão da Meta sobre gravação sem wake phrase é evento singular e relevante; embora a fonte seja Reddit, o fato é atribuído à empresa e amplamente corroborável, então na dúvida PASS."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C36",
+      "title": "Otter.ai raises $320 million from General Catalyst’s growth fund for its meeting tool",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/20/otter-ai-raises-320-million-from-general-catalysts-growth-fund-for-its-meeting-tool/",
+      "why": "Rodada de US$ 320 milhões do Otter.ai é evento financeiro sem novidade de produto/estratégia explícita no título — não é claramente mais forte que o pior item publicado."
+    },
+    {
+      "candidate": "C40",
+      "title": "Tenstorrent hits $6.2B valuation to scale open-weight AI chips",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/19/tenstorrent-hits-6-2b-valuation-to-scale-open-weight-ai-chips/",
+      "why": "Valuation de US$ 6,2 bi da Tenstorrent é majoritariamente financeiro; não supera claramente os itens publicados em força editorial."
+    }
+  ]
+}

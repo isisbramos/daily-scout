@@ -1,0 +1,114 @@
+{
+  "edition": "217",
+  "audited_at": "2026-10-26T14:59:35.294268-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Cerebras) passa no AI Gate e satisfaz acionabilidade + sinal de mercado, mas o quick_find do 'AI graveyard' é uma lista/compilação — explicitamente anti-signal de roundup sem evento singular — e foi incluído mesmo com a Aya reconhecendo isso no reasoning. O quick_find do Block voice model é aceitável, mas o sinal de mercado é fraco (anúncio de modelo sem detalhe de produto ou adoção).",
+    "issues": [
+      "quick_find 'The AI graveyard' viola o anti-signal de roundup/compilação sem evento singular de UMA empresa — a própria Aya escreveu no reasoning que 'não pode ser main_find' mas o promoveu a quick_find, o que não resolve a violação.",
+      "quick_find 'Block voice model' tem sinal de mercado genérico ('empresa de pagamentos entra em voz') sem detalhe específico de mudança de categoria, produto ou adoção — fica no limite do critério 2.",
+      "main_find Cerebras é sólido: AI Gate ok, acionável para quem contrata inferência, sinal de mercado específico (posicionamento contra clusters de GPU)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido e factual, sem hype explícito. Porém o main_find.body introduz detalhes técnicos não presentes no título/URL (wafer-scale chips 'do tamanho de um prato', sharding, latência de comunicação) que podem ser conhecimento geral do modelo, mas não estão ancorados na fonte citada — risco de informação não verificada no input.",
+    "issues": [
+      "main_find.body afirma 'A empresa fabrica wafer-scale chips — pastilhas de silício do tamanho de um prato' e descreve gargalos de sharding/latência sem que isso esteja no título ou URL fornecidos; é plausível, mas não verificável a partir do input.",
+      "quick_find Block usa 'soa humano' preservando o 'eerily human' do título — ok, mas o signal acrescenta 'camada que alimenta atendimento automatizado, agentes telefônicos' como se fosse fato do anúncio, quando é inferência da Aya.",
+      "Nenhuma palavra de hype proibida (revolucionário, bombástico, game-changer) detectada."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: TechCrunch aparece 2x entre quick_finds (Block e AI graveyard) — no limite, não ultrapassa 2. Audiência: main_find é 'desenvolvedores', quick_finds são 'product managers e fundadores' — há variação. Geografia: todos os itens selecionados são dos EUA (Cerebras, Block, TechCrunch), apesar de a Aya citar SCMP/China e MIT Tech Review Brasil no reasoning como 'AI Gate passed' sem incluí-los no output.",
+    "issues": [
+      "Nenhum item do output é não-EUA: SCMP (China) e MIT Tech Review Brasil aparecem no reasoning como aprovados no gate, mas só o MIT Brasil entrou em quick_find — e mesmo assim é uma publicação em português sobre tema global, não um evento brasileiro.",
+      "TechCrunch com 2 quick_finds é o máximo permitido, mas combinado com a ausência de fontes não-EUA no main_find deixa a edição geograficamente concentrada.",
+      "Distribuição epistêmica declarada no meta inclui 'SCMP salários' e 'Grok vs OpenAI' que NÃO estão no output — inconsistência entre meta e conteúdo."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase ('infraestrutura de inferência disputando espaço com o debate sobre como agentes de IA vão redesenhar a web') menciona o tema do main_find de forma indireta, mas é genérica o suficiente para servir a qualquer edição sobre AI e infraestrutura. Não cita Cerebras, o evento específico, nem o dado de 1 trilhão de parâmetros.",
+    "issues": [
+      "Intro não menciona Cerebras nem o fato concreto (modelos de 1 trilhão de parâmetros) — poderia abrir qualquer edição sobre infra de AI.",
+      "A menção a 'agentes de IA vão redesenhar a web' antecipa um quick_find (MIT Tech Review Brasil) mas não o main_find, diluindo o foco.",
+      "O número '302 posts de 20 fontes' é o único elemento específico — o resto é moldura genérica."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista como 'AI Gate PASSAI' itens que não aparecem no output (SCMP salários, Grok vs OpenAI, Google AI opt-in, Dreamina, Samsung, 'America has lost 200k jobs', 'What's wrong with AI?') sem explicar por que foram descartados depois do gate. O meta.epistemic_distribution cita 'SCMP salários' e 'Grok vs OpenAI' como parte da edição, mas nenhum dos dois está no output — contradição direta entre reasoning/meta e conteúdo entregue.",
+    "issues": [
+      "reasoning diz que SCMP (salários de engenheiros de AI na China) e Grok vs OpenAI passaram no AI Gate, mas nenhum dos dois aparece no output nem é explicitamente descartado depois — contradição.",
+      "meta.epistemic_distribution lista 'SCMP salários' e 'Grok vs OpenAI escolha política' como itens da edição, mas eles não estão em main_find nem quick_finds — o meta descreve uma edição que não foi entregue.",
+      "O reasoning não explica por que 'America has lost 200k jobs in media/film/arts — how much is AI?' (384 pontos no HN, 395 comentários) foi descartado, apesar de ter tração alta e conexão com AI — omissão relevante na justificativa.",
+      "A justificativa do main_find ('Cerebras posicionando contra GPUs') é coerente com o item escolhido, mas não compara com os outros candidatos aprovados no gate."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "America has lost 200k of jobs in media, film and the arts. How much is AI?",
+      "source": "HackerNews",
+      "why_should_include": "Item com 384 pontos e 395 comentários no HN, conexão direta com impacto de AI em workflows criativos — satisfaz 'afeta workflows' e tem sinal de mercado (deslocamento de categoria profissional), além de ser acionável para quem gerencia times criativos.",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "China’s tech giants are paying 1 million yuan for a new kind of AI engineer",
+      "source": "SCMP Tech",
+      "why_should_include": "Evento específico de mercado de talento em AI na China, com número concreto (1 milhão de yuan) e sinal de mudança de categoria profissional — a própria Aya listou como aprovado no gate e depois não incluiu.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Forced to pick, Grok’s AI model chooses Republicans. OpenAI’s picks Democrats.",
+      "source": "TechCrunch",
+      "why_should_include": "Cobertura em 2 fontes (TechCrunch + Reddit), evento singular de comportamento de modelo com implicação de política de produto — sinal de mercado sobre alinhamento político de modelos, tema acionável para quem escolhe fornecedor.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "The AI graveyard: a running list of projects and startups that didn’t make it",
+      "field": "quick_finds",
+      "why_should_discard": "É uma lista/compilação contínua sem evento singular de UMA empresa — anti-signal explícito de roundup. A própria Aya reconheceu no reasoning que 'não pode ser main_find', mas promoveu a quick_find, o que não resolve a violação.",
+      "violated_rule": "Anti-signal: roundup/panorama sem evento singular de uma empresa"
+    },
+    {
+      "title": "Block’s new voice model sounds eerily human",
+      "field": "quick_finds",
+      "why_should_discard": "Sinal de mercado genérico ('empresa de pagamentos entra em voz') sem detalhe de produto, adoção ou mudança de categoria específica — fica no limite do critério 2 e não é claramente acionável além de 'avaliar mais um fornecedor'.",
+      "violated_rule": "Critério 2 — sinal de mercado exige movimento estratégico específico, não entrada genérica em categoria"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção não distingue 'aprovado no AI Gate' de 'selecionado para o output' — o reasoning lista itens como PASSAI sem exigir justificativa de descarte posterior.",
+      "evidence": "reasoning lista SCMP, Grok vs OpenAI, Google AI opt-in, Dreamina, Samsung e 'America has lost 200k jobs' como aprovados no gate, mas nenhum aparece no output nem é explicitamente descartado.",
+      "suggested_fix": "Exigir que o reasoning tenha um campo 'gate_passed_but_excluded' com motivo de exclusão para cada item aprovado no gate que não entrou no output."
+    },
+    {
+      "hypothesis": "Regra de anti-signal de roundup é aplicada só ao main_find, não aos quick_finds — a Aya tratou 'não pode ser main_find' como suficiente para incluir em quick_find.",
+      "evidence": "quick_find 'AI graveyard' é uma lista contínua, e o reasoning diz explicitamente 'não pode ser main_find; entra como quick_find'.",
+      "suggested_fix": "Estender a regra de anti-signal de roundup a TODOS os campos (main_find, quick_finds, radar) e proibir compilações em quick_finds."
+    },
+    {
+      "hypothesis": "O campo meta.epistemic_distribution é preenchido a partir do reasoning/gate, não do output efetivo — gerando descrição de uma edição que não foi entregue.",
+      "evidence": "meta lista 'SCMP salários' e 'Grok vs OpenAI escolha política' como itens da edição, mas nenhum está em main_find ou quick_finds.",
+      "suggested_fix": "Gerar meta.epistemic_distribution automaticamente a partir dos itens efetivamente presentes no output, não do reasoning."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find sólido (Cerebras), mas o reasoning e o meta descrevem uma edição diferente da entregue — citam SCMP, Grok vs OpenAI e outros como aprovados sem incluí-los nem justificar o descarte. O quick_find 'AI graveyard' viola o anti-signal de roundup, e a intro é genérica o suficiente para qualquer edição sobre infra de AI."
+}

@@ -1,0 +1,48 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Relato técnico singular e datado da Cerebras sobre servir modelos de 1 trilhão de parâmetros em seus chips, com fonte primária e corroboração no HackerNews.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto concreto (modelo de voz do Block) reportado pelo TechCrunch, com ângulo de aplicação em produto.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Análise de imprensa com tom especulativo explícito sobre impacto de agentes de IA na web, sem violar regra de opinião por trazer questionamento concreto e datado.\"},\n    {\"idx\": 3, \"verdict\": \"FAIL\", \"rule\": \"panorama\", \"why\": \"Lista contínua de projetos e startups de AI encerrados é um roundup de mercado sem evento singular e datado de uma empresa por trás.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C7\", \"why\": \"Estudo comparativo datado e verificável sobre viés político em modelos Grok e OpenAI, com evento singular e relevância direta para leitores de tech & AI.\"},\n    {\"candidate\": \"C14\", \"why\": \"Notícia sobre opt-in de IA do Google como chave legal para dados de anúncios, evento singular de uma empresa com implicações concretas de privacidade e regulação.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Relato técnico singular e datado da Cerebras sobre servir modelos de 1 trilhão de parâmetros em seus chips, com fonte primária e corroboração no HackerNews."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (modelo de voz do Block) reportado pelo TechCrunch, com ângulo de aplicação em produto."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Análise de imprensa com tom especulativo explícito sobre impacto de agentes de IA na web, sem violar regra de opinião por trazer questionamento concreto e datado."
+    },
+    {
+      "idx": 3,
+      "verdict": "FAIL",
+      "rule": "panorama",
+      "why": "Lista contínua de projetos e startups de AI encerrados é um roundup de mercado sem evento singular e datado de uma empresa por trás."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C7",
+      "title": "Forced to pick, Grok’s AI model chooses Republicans. OpenAI’s picks Democrats.",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/24/forced-to-pick-groks-ai-model-chooses-republicans-openais-picks-democrats/",
+      "why": "Estudo comparativo datado e verificável sobre viés político em modelos Grok e OpenAI, com evento singular e relevância direta para leitores de tech & AI."
+    },
+    {
+      "candidate": "C14",
+      "title": "Google's AI opt-in becomes the legal key to its richest ad data",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1xevnru/googles_ai_optin_becomes_the_legal_key_to_its/",
+      "why": "Notícia sobre opt-in de IA do Google como chave legal para dados de anúncios, evento singular de uma empresa com implicações concretas de privacidade e regulação."
+    }
+  ]
+}

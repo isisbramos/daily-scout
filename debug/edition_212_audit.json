@@ -1,0 +1,99 @@
+{
+  "edition": "212",
+  "audited_at": "2026-10-26T14:58:29.793374-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (DeepSeek DeepInfer) passa no AI Gate e é acionável + sinal de mercado, bem escolhido. Mas dois quick_finds são fracos: MemT-1.0 e LIBERO-Industry são papers de pesquisa sem evidência de resultado concreto, e o sinal de mercado/acionável é especulativo ('se o resultado se sustentar'). O quick_find da Meta smart glasses vem de um post de Reddit sem fonte primária, o que é frágil para uma alegação de admissão corporativa.",
+    "issues": [
+      "MemT-1.0: paper de pesquisa sem resultado demonstrado; 'se o resultado se sustentar' admite que não há evidência — não satisfaz claramente 2 de 3 critérios.",
+      "LIBERO-Industry: benchmark acadêmico; acionável apenas para nicho muito estreito, sem sinal de mercado de player específico.",
+      "Meta smart glasses: alegação de 'admissão' da empresa baseada em post de r/artificial sem link para fonte primária — risco de rehashed/unverified."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom contido, sem hype, verbos factuais. O main_find preserva o nível de certeza. Problema pontual: o quick_find da Meta afirma 'a Meta admitiu' como fato direto, quando a fonte é um post de Reddit — o título original não confirma admissão oficial.",
+    "issues": [
+      "Quick_find Meta: 'a Meta admitiu que seus óculos...' apresenta como fato uma alegação de post de Reddit, sem hedge ('relata-se', 'segundo post').",
+      "Quick_find MemT-1.0: 'muda como sistemas de AI mantêm contexto' no step5_phrase é afirmação forte para um paper não replicado."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes bem distribuídas: HackerNews (2), TechCrunch (1), HuggingFace Papers (2), Reddit (1). Audiência tem 'todos' e 'desenvolvedores'. Geografia razoável (DeepSeek/China, WhatsApp/Meta global, Yelp/EUA). Nenhum problema grave.",
+    "issues": [
+      "Dois itens de HuggingFace Papers entre os quick_finds — aceitável, mas concentra pesquisa acadêmica."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (DeepSeek abrindo motor de inferência) e cita dois quick_finds. Cumpre o requisito. O 'garimpei 317 posts' é levemente auto-promocional mas factual.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning é detalhado e lista descartes coerentes, mas há contradições: diz que 'World of SWECraft e Doing Less with More ficam no radar' — SWECraft aparece no radar, mas 'Doing Less with More' não aparece em lugar nenhum do output. Também afirma que MemT-1.0 e LIBERO-Industry passam, mas não justifica por que esses papers satisfazem 2 de 3 critérios enquanto outros papers foram descartados.",
+    "issues": [
+      "Reasoning menciona 'Doing Less with More' como radar, mas o item não aparece no output — inconsistência.",
+      "Reasoning não explica por que MemT-1.0/LIBERO-Industry passam nos critérios, enquanto outros papers de arXiv foram descartados.",
+      "Reasoning cita 'STEP 1.5' e 'anti-signal' sem mapear claramente aos critérios de seleção — falta de rastreabilidade."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Otter.ai raises $320 million from General Catalyst’s growth fund for its meeting tool",
+      "source": "TechCrunch",
+      "why_should_include": "Rodada de $320M é anti-signal por si só, mas o item menciona 'meeting tool' — se houver detalhe de produto/estratégia, poderia passar. Como está, é borderline; o reasoning o descartou corretamente por falta de info nova. Não é false negative forte.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Tenstorrent hits $6.2B valuation to scale open-weight AI chips",
+      "source": "TechCrunch",
+      "why_should_include": "Valuation sozinho é anti-signal, mas 'scale open-weight AI chips' sugere movimento estratégico de player de hardware AI. Borderline — o reasoning descartou por 'sem novidade de produto', o que é defensável.",
+      "missed_criteria": [
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "MemT-1.0: Towards Memory-Native Evolution",
+      "field": "quick_finds",
+      "why_should_discard": "Paper de pesquisa sem resultado demonstrado; o próprio texto admite 'se o resultado se sustentar'. Não satisfaz claramente 2 de 3 critérios — acionável apenas especulativamente.",
+      "violated_rule": "Critérios de seleção — precisa de 2 de 3 com evidência concreta"
+    },
+    {
+      "title": "LIBERO-Industry: Benchmarking Robotic Manipulation under Industrial Process Constraints",
+      "field": "quick_finds",
+      "why_should_discard": "Benchmark acadêmico de nicho estreito; sem sinal de mercado de player específico e acionável apenas para subconjunto muito pequeno de leitores.",
+      "violated_rule": "Critérios de seleção — acionável fraco, sem sinal de mercado"
+    },
+    {
+      "title": "Meta's smart glasses were recording conversations without the wake phrase, company admits",
+      "field": "quick_finds",
+      "why_should_discard": "Alegação de 'admissão' corporativa baseada em post de Reddit sem fonte primária linkada; risco de desinformação/rehashed. Deveria exigir fonte primária antes de entrar.",
+      "violated_rule": "Anti-signal — rehashed/unverified; falta de verificação de fonte"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt não exige fonte primária para alegações de 'admissão' ou 'confirmação' corporativa, permitindo que posts de Reddit entrem como fato.",
+      "evidence": "Quick_find da Meta smart glasses afirma 'a Meta admitiu' com base em r/artificial sem link para comunicado oficial.",
+      "suggested_fix": "Adicionar regra: alegações de admissão/confirmação corporativa exigem fonte primária (comunicado, reportagem) — posts de fórum não bastam."
+    },
+    {
+      "hypothesis": "O prompt não define critério mínimo de evidência para papers de pesquisa (resultado demonstrado vs. proposta), permitindo que papers especulativos passem como 'pesquisa/dado'.",
+      "evidence": "MemT-1.0 e LIBERO-Industry entraram como quick_finds apesar de o texto admitir 'se o resultado se sustentar'.",
+      "suggested_fix": "Exigir que papers de pesquisa tenham resultado concreto ou adoção/replicação para entrar; propostas vão para radar."
+    },
+    {
+      "hypothesis": "O campo reasoning não é validado contra o output final, permitindo mencionar itens que não aparecem (Doing Less with More).",
+      "evidence": "Reasoning cita 'Doing Less with More' como radar, mas o item não está no output.",
+      "suggested_fix": "Adicionar checagem de consistência: todo item citado no reasoning deve aparecer no output ou ser explicitamente marcado como descartado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Main_find bem escolhido e alinhado, mas dois quick_finds de pesquisa (MemT-1.0, LIBERO-Industry) não têm evidência concreta e o da Meta smart glasses se baseia em post de Reddit sem fonte primária. O reasoning tem inconsistência (cita item ausente do output) e não justifica por que esses papers passam enquanto outros foram descartados."
+}

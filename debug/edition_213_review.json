@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Parceria concreta entre Mistral e NVIDIA com foco em AI para engenharia industrial, evento singular e datado de uma empresa, com ângulo de produto/estratégia.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Posicionamento estratégico da DeepSeek em modelos melhores a custo menor, com evento concreto (publicação de modelos abertos e motor de inferência próprio) e relevância clara para o leitor de tech/AI.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Consenso entre ministros de finanças da APEC sobre AI e financiamento digital é evento singular e datado de uma entidade (APEC), com ângulo regulatório/tech relevante.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Resultado de pesquisa concreto (ALTK-Evolve lidera τ²-bench sem modelo de fronteira) com fonte primária (IBM Research/HuggingFace), tipo pesquisa desejado.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Artigo de pesquisa com proposta concreta (FlowState) para memória de agentes de longo horizonte, fonte verificável (arXiv/HuggingFace Papers) e relevante.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C13\", \"why\": \"Anthropic apresenta projeto de lei de segurança de AI que pode bloquear modelo se 50+ pessoas puderem morrer — evento singular, datado, de uma empresa concreta e com ângulo regulatório forte, mais verificável que itens de panorama.\"},\n    {\"candidate\": \"C4\", \"why\": \"Alegação de que Claude da Anthropic projeta autonomamente binders de proteína contra neurotoxinas de escorpião — achado científico concreto e relevante, embora precise de corroboração primária; ainda assim é mais forte que quick_finds genéricos.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Parceria concreta entre Mistral e NVIDIA com foco em AI para engenharia industrial, evento singular e datado de uma empresa, com ângulo de produto/estratégia."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Posicionamento estratégico da DeepSeek em modelos melhores a custo menor, com evento concreto (publicação de modelos abertos e motor de inferência próprio) e relevância clara para o leitor de tech/AI."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Consenso entre ministros de finanças da APEC sobre AI e financiamento digital é evento singular e datado de uma entidade (APEC), com ângulo regulatório/tech relevante."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Resultado de pesquisa concreto (ALTK-Evolve lidera τ²-bench sem modelo de fronteira) com fonte primária (IBM Research/HuggingFace), tipo pesquisa desejado."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Artigo de pesquisa com proposta concreta (FlowState) para memória de agentes de longo horizonte, fonte verificável (arXiv/HuggingFace Papers) e relevante."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C13",
+      "title": "Anthropic pitches AI safety bill that may block a model if 50+ people could be killed",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/20/anthropic-pitches-ai-safety-bill-that-may-block-a-model-if-50-people-could-be-killed/",
+      "why": "Anthropic apresenta projeto de lei de segurança de AI que pode bloquear modelo se 50+ pessoas puderem morrer — evento singular, datado, de uma empresa concreta e com ângulo regulatório forte, mais verificável que itens de panorama."
+    },
+    {
+      "candidate": "C4",
+      "title": "Anthropic's Claude autonomously designs protein binders targeting scorpion neurotoxins",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1xbks11/anthropics_claude_autonomously_designs_protein/",
+      "why": "Alegação de que Claude da Anthropic projeta autonomamente binders de proteína contra neurotoxinas de escorpião — achado científico concreto e relevante, embora precise de corroboração primária; ainda assim é mais forte que quick_finds genéricos."
+    }
+  ]
+}

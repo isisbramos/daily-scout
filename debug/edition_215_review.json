@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Adoção corporativa concreta e datada (Uber colocando 30 mil funcionários no ChatGPT Work), com fonte primária TechCrunch e evento singular.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento regulatório singular e datado (licenças open source obtidas por DeepSeek e MiniMax após novas regras chinesas), com fonte SCMP citando mídia estatal.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto concreto (mecanismo da 1Password para login de agentes sem expor senha), com fonte TechCrunch e evento datado.\"},\n    {\"idx\": 3, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação baseada apenas em post do r/artificial, sem fonte primária ou corroboração sobre bancos dos EUA detectando agentes não autorizados.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Decisão de política interna de um governo nacional (Suécia banindo ChatGPT e Claude), evento singular e datado, com fonte da rádio pública sueca.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Anúncio de produto concreto (Decisions API da OpenAI) no blog oficial, com evento datado e relevância para desenvolvedores.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C40\", \"why\": \"Lançamento de produto concreto e verificável (1Password para login de agentes sem expor senha) — já publicado como idx 2, mas seria mais forte que o item unverified idx 3.\"},\n    {\"candidate\": \"C36\", \"why\": \"Adoção corporativa concreta e datada (Uber colocando 30 mil funcionários no ChatGPT Work) — já publicado como main_find idx 0, mas seria mais forte que o item unverified idx 3.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Adoção corporativa concreta e datada (Uber colocando 30 mil funcionários no ChatGPT Work), com fonte primária TechCrunch e evento singular."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento regulatório singular e datado (licenças open source obtidas por DeepSeek e MiniMax após novas regras chinesas), com fonte SCMP citando mídia estatal."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (mecanismo da 1Password para login de agentes sem expor senha), com fonte TechCrunch e evento datado."
+    },
+    {
+      "idx": 3,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação baseada apenas em post do r/artificial, sem fonte primária ou corroboração sobre bancos dos EUA detectando agentes não autorizados."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Decisão de política interna de um governo nacional (Suécia banindo ChatGPT e Claude), evento singular e datado, com fonte da rádio pública sueca."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Anúncio de produto concreto (Decisions API da OpenAI) no blog oficial, com evento datado e relevância para desenvolvedores."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C40",
+      "title": "1Password launches a way for AI agents to log in on your behalf without seeing your password",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/22/1password-launches-a-way-for-ai-agents-to-log-in-on-your-behalf-without-seeing-your-password/",
+      "why": "Lançamento de produto concreto e verificável (1Password para login de agentes sem expor senha) — já publicado como idx 2, mas seria mais forte que o item unverified idx 3."
+    },
+    {
+      "candidate": "C36",
+      "title": "Uber puts all 30,000 employees on ChatGPT Work",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/22/uber-puts-all-30000-employees-on-chatgpt-work/",
+      "why": "Adoção corporativa concreta e datada (Uber colocando 30 mil funcionários no ChatGPT Work) — já publicado como main_find idx 0, mas seria mais forte que o item unverified idx 3."
+    }
+  ]
+}

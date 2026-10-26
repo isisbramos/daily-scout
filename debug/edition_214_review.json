@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular e datado (multa de US$ 25 bi à Meta no caso Cambridge Analytica) com fonte verificável e ângulo tech/regulatório relevante.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Relatório sobre avanço de Huawei/DeepSeek no ecossistema de chips é evento concreto e datado, com tom especulativo adequado e relevância clara para AI.\"},{\"idx\":2,\"verdict\":\"FAIL\",\"rule\":\"unverified\",\"why\":\"Alegação baseada apenas em post do r/artificial sem fonte primária ou corroboração para a disponibilidade das GPUs Vera Rubin e a meta de 960 mil GPUs.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de produto concreto (Fotor Agent cobrindo geração ao corte final de vídeo) com fonte TechNode e ângulo de AI relevante.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Fenômeno de resistência local a data centers por consumo de água é reportado pelo Rest of World com ângulo real de infraestrutura de AI.\"}],\"missed\":[{\"candidate\":\"C13\",\"why\":\"Evento singular e verificável (início da produção do Optimus na Califórnia) com ângulo de AI/robótica, mais forte que o item do Reddit não verificado.\"},{\"candidate\":\"C23\",\"why\":\"Movimento concreto e datado da China para padrões globais de interface cérebro-computador, com fonte SCMP e relevância tech clara.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (multa de US$ 25 bi à Meta no caso Cambridge Analytica) com fonte verificável e ângulo tech/regulatório relevante."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Relatório sobre avanço de Huawei/DeepSeek no ecossistema de chips é evento concreto e datado, com tom especulativo adequado e relevância clara para AI."
+    },
+    {
+      "idx": 2,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação baseada apenas em post do r/artificial sem fonte primária ou corroboração para a disponibilidade das GPUs Vera Rubin e a meta de 960 mil GPUs."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (Fotor Agent cobrindo geração ao corte final de vídeo) com fonte TechNode e ângulo de AI relevante."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Fenômeno de resistência local a data centers por consumo de água é reportado pelo Rest of World com ângulo real de infraestrutura de AI."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C13",
+      "title": "Tesla starts Optimus robot production in California as profit falls 43%",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/21/tesla-stars-optimus-robot-production-in-california-as-profit-falls-43/",
+      "why": "Evento singular e verificável (início da produção do Optimus na Califórnia) com ângulo de AI/robótica, mais forte que o item do Reddit não verificado."
+    },
+    {
+      "candidate": "C23",
+      "title": "China moves to set global standards for brain-computer interface technology",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/business/china-business/article/3371742/china-moves-set-global-standards-brain-computer-interface-technology",
+      "why": "Movimento concreto e datado da China para padrões globais de interface cérebro-computador, com fonte SCMP e relevância tech clara."
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "edition": "216",
+  "audited_at": "2026-10-26T14:59:23.212474-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (OpenAI corta treinamento na internet ao vivo) passa no AI Gate e é evento singular com sinal de mercado claro. Mas dois quick_finds são frágeis: Boston Dynamics/ICE é política trabalhista de robótica sem conexão direta com AI/ML (Spot é autônomo, não AI generativa) e o Samsung TV é achado de segurança/privacidade de consumo, não decisão de empresa de AI. Ambos dependem de esticar o AI Gate.",
+    "issues": [
+      "Boston Dynamics/ICE: robô Spot é autônomo mas o item é sobre petição trabalhista contra venda a órgão de imigração — não é decisão de empresa de AI nem mudança de workflow de AI. Passa só por 'afeta workflows' de forma muito indireta.",
+      "Samsung TV: achado de hacker sobre escuta embarcada é privacidade/segurança de consumo. A conexão com AI é tangencial (conta OpenAI suspensa) e o item é post de r/antiai, não decisão de player de AI.",
+      "Dessa: modelo treinado só em fala é legítimo, mas o sinal é 'apresentado no HackerNews com 399 pontos' — tração usada como justificativa, não critério editorial."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom contido, sem hype, verbos factuais. O main_find preserva o 'citing significant risks' do título. Mas há um problema de certeza: o título original do TechCrunch é afirmação ('says it will no longer train'), então está OK; porém o body do main_find inventa detalhe ao dizer 'dados da web passam a ser coletados e curados antes' — isso não está no título nem no post do Reddit citado.",
+    "issues": [
+      "main_find.body: 'dados da web passam a ser coletados e curados antes, em vez de puxados continuamente' — inferência não sustentada pelo título original. O título só diz que não treina mais na internet ao vivo.",
+      "main_find.body: 'afeta qualquer produto que dependa de atualização contínua do modelo com conteúdo fresco' — extrapolação sobre consequência não confirmada.",
+      "quick_find Dessa: 'preserva características como entonação' — detalhe técnico inventado, não está no título nem no snippet."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes razoavelmente distribuídas (TechCrunch, TechNode x2, HackerNews, r/artificial), mas TechNode aparece 2x entre quick_finds. Audiência tem variedade (desenvolvedores, todos, executivos). Geografia: 3 itens com origem chinesa (MiniMax, ByteDance, e Samsung é coreana) — no limite, mas o reasoning afirma 'limitei Ásia a 2 itens' quando na prática são 3 players asiáticos (MiniMax, ByteDance, Samsung).",
+    "issues": [
+      "TechNode aparece 2x nos quick_finds (MiniMax e ByteDance) — acima do limite de 1 por fonte fora do main_find.",
+      "Reasoning afirma 'limitei Ásia a 2 itens' mas há 3 itens de players asiáticos (MiniMax, ByteDance, Samsung) — contradição factual."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (OpenAI cortando internet ao vivo), o que é bom. Mas a segunda frase ('Separei 5 achados de 5 fontes') é imprecisa: são 5 achados mas apenas 4 fontes distintas (TechNode conta 2x).",
+    "issues": [
+      "'5 achados de 5 fontes' é factualmente errado — são 4 fontes distintas (TechCrunch, TechNode, HackerNews, r/artificial)."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente o que passou e o que foi descartado, e o main_find_rationale é coerente. Mas há contradições: (1) afirma ter limitado Ásia a 2 itens quando há 3; (2) diz que Samsung TV é 'caso de consumo global, não Ásia' — mas Samsung é empresa coreana, o argumento é frágil; (3) lista 'Dessa' como passando no AI Gate mas justifica com tração (399 pts), não com critério editorial.",
+    "issues": [
+      "Contradição: 'limitei Ásia a 2 itens' vs. 3 itens de players asiáticos no output.",
+      "Justificativa do Dessa usa tração ('399 pts') como se fosse critério de seleção — viola a regra de que tração é tiebreaker, nunca critério principal.",
+      "Reasoning não explica por que Boston Dynamics/ICE passa no AI Gate — apenas o lista como aprovado sem justificativa."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "OpenAI says it will no longer train its AI models on the live internet, citing 'significant risks'",
+      "source": "TechCrunch",
+      "why_should_include": "Já está no output como main_find — não é false negative. (Nenhum item do input fora do output satisfaz AI Gate + 2 critérios + não é anti-signal de forma clara.)",
+      "missed_criteria": []
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Boston Dynamics employees petition to cancel $1.3M Spot robot sale to ICE",
+      "field": "quick_finds",
+      "why_should_discard": "Petição trabalhista contra venda de robô autônomo a órgão de imigração. Não é decisão de empresa de AI, não muda workflow de AI, e o AI Gate é esticado (Spot é robótica autônoma, não AI/ML no sentido do gate).",
+      "violated_rule": "STEP 1 - AI Gate (conexão tangencial com AI/ML)"
+    },
+    {
+      "title": "Hacker reverses Samsung TV, finds on-board AI listening OpenAI account suspended",
+      "field": "quick_finds",
+      "why_should_discard": "Achado de segurança/privacidade de consumo em post de r/antiai. A conexão com AI é incidental (conta OpenAI suspensa). Não é decisão de player de AI nem sinal de mercado específico.",
+      "violated_rule": "STEP 1 - AI Gate + critério 2 (sinal de mercado exige movimento estratégico de player de AI)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O AI Gate está sendo interpretado de forma frouxa: qualquer menção a 'AI' no título (mesmo incidental, como 'conta OpenAI suspensa') é tratada como aprovação.",
+      "evidence": "Samsung TV e Boston Dynamics/ICE entraram como quick_finds apesar de conexão tangencial com AI.",
+      "suggested_fix": "Reforçar no STEP 1 que a conexão com AI deve ser o TEMA do item, não uma menção incidental no título."
+    },
+    {
+      "hypothesis": "A regra de que tração é tiebreaker, nunca critério principal, não está sendo aplicada — o reasoning usa '399 pts' e '197 pts' como justificativa de seleção.",
+      "evidence": "Reasoning do Dessa: 'apresentado no HackerNews com 399 pontos' como se fosse razão para incluir.",
+      "suggested_fix": "Adicionar instrução explícita no STEP de seleção: 'score/comments NUNCA devem aparecer na justificativa de inclusão'."
+    },
+    {
+      "hypothesis": "A regra de diversidade geográfica não tem contagem automática, permitindo que o reasoning afirme 'limitei a 2' quando há 3.",
+      "evidence": "Reasoning diz 'limitei Ásia a 2 itens' mas output tem MiniMax, ByteDance e Samsung (3 players asiáticos).",
+      "suggested_fix": "Adicionar STEP de verificação: contar itens por região antes de finalizar e reportar o número real."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "O main_find é sólido e bem escolhido, mas dois quick_finds (Boston Dynamics/ICE e Samsung TV) passam no AI Gate de forma esticada e deveriam ter sido descartados. Há ainda contradições factuais no reasoning (contagem de Ásia e de fontes) e inferências não sustentadas no body do main_find."
+}

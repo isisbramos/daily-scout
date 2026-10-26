@@ -1,0 +1,110 @@
+{
+  "edition": "215",
+  "audited_at": "2026-10-26T14:59:07.489225-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Uber/ChatGPT Work) passa no AI Gate e satisfaz acionável + sinal de mercado + afeta workflows. Mas dois quick_finds são problemáticos: o post do r/artificial sobre 'bancos dos EUA detectando agentes rogue' é um post de Reddit sem fonte primária, sem link para reportagem, e o texto da AYA inventa detalhes ('começaram a restringir acesso', 'detecção de comportamento anômalo') que não estão no título. O item da OpenAI Decisions API é baseado apenas no título do blog, sem verificação do que a API faz — a AYA admite 'pelo título' e ainda assim o inclui como quick_find.",
+    "issues": [
+      "Quick_find 'Bancos dos EUA detectam agentes de AI não autorizados' é um post de Reddit sem fonte jornalística primária — viola o padrão de sourcing do resto da edição e o sinal de mercado fica frágil.",
+      "Quick_find 'OpenAI Decisions API' — a AYA escreve 'pelo título, é uma interface...' e mesmo assim o inclui. Incluir item cujo conteúdo não foi verificado além do título é seleção frouxa.",
+      "Quick_find 'Governo sueco bane ChatGPT e Claude' tem score 5 no HN e zero cross-source — passa pela exceção de regulação governamental, mas a AYA não sinaliza que é fonte única (rádio pública sueca) sem confirmação cruzada."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom geral é contido, sem hype explícito. Mas há dois problemas de acurácia: (1) no quick_find dos bancos, a AYA afirma 'começaram a restringir acesso' e 'detecção de comportamento anômalo de agentes' — nada disso está no título do post, é inferência apresentada como fato; (2) no main_find, o bullet 'o que explica por que empresas só migram em bloco quando essa camada existe' é uma generalização causal não sustentada pelo artigo.",
+    "issues": [
+      "Quick_find bancos: 'começaram a restringir acesso' e 'detecção de comportamento anômalo' são detalhes inventados — o título só diz 'move to restrict access' (intenção, não ação consumada).",
+      "Main_find bullet 1: 'o que explica por que empresas só migram em bloco quando essa camada existe' — afirmação causal genérica sem base no artigo.",
+      "Main_find body: 'Para a OpenAI, contratos desse porte consolidam a linha enterprise como canal de receita recorrente' — inferência de negócio não presente na fonte."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição de fontes (TechCrunch 2x, mas em itens distintos; SCMP, Reddit, HN, OpenAI Blog). Audiência tem 'executivos de negócio' e 'desenvolvedores' — não é monocultura. Geografia: EUA (Uber, bancos, 1Password, OpenAI), China (DeepSeek/MiniMax), Suécia — três regiões. Único ponto: TechCrunch aparece 2x entre main_find + quick_finds, no limite aceitável.",
+    "issues": [
+      "TechCrunch aparece 2 vezes (main_find Uber + quick_find 1Password) — dentro do limite, mas no teto."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Uber + 30 mil + ChatGPT Work), não é genérica. A segunda frase sobre a China também ancora em item real da edição. O fecho com '317 posts de 21 fontes' é o único trecho de preenchimento, mas é curto.",
+    "issues": [
+      "O número '21 fontes' não é verificável a partir do output — pode ser inflado ou impreciso; não há lista de fontes no output para conferir."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning é detalhado e lista descartes coerentes com o AI Gate. Mas há contradições: (1) a AYA descarta 'OpenAI and Poland's NASK' como 'parceria institucional sem feature testável' e ao mesmo tempo inclui 'OpenAI Decisions API' admitindo que só sabe 'pelo título' — critério inconsistente; (2) descarta 'Is this the new cyber normal?' como 'opinião de blog pessoal sem evento' mas inclui post de Reddit sobre bancos sem fonte primária; (3) o reasoning não explica por que o post de Reddit dos bancos passou, apesar de ser fonte mais fraca que itens descartados.",
+    "issues": [
+      "Critério inconsistente: descarta parceria OpenAI/NASK por 'sem feature testável' mas inclui Decisions API sem verificação de conteúdo.",
+      "Descarta 'Is this the new cyber normal?' por ser blog pessoal sem evento, mas aceita post de Reddit sobre bancos sem fonte primária — régua desigual.",
+      "Reasoning não justifica a inclusão do post de Reddit dos bancos nem da Decisions API — os dois quick_finds mais frágeis ficam sem rationale.",
+      "Não há campo perspective_check explícito no reasoning, apesar de o prompt de auditoria pedir avaliação dele."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "SK Hyper seeks $350B to fund 5GW AI data center buildout in South Korea",
+      "source": "r/artificial",
+      "why_should_include": "Evento singular de uma empresa específica (SK Hyper) buscando financiamento de US$ 350B para data center de AI de 5GW — sinal de mercado forte de infraestrutura de AI, com magnitude excepcional. Passa no AI Gate e em sinal de mercado + afeta workflows (capacidade de compute).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Uber rival inDrive eyes 2027 robotaxi tests in Central Asia with Pony.ai and Nvidia",
+      "source": "TechCrunch",
+      "why_should_include": "Movimento estratégico específico de uma empresa (inDrive) com parceiros nomeados (Pony.ai, Nvidia) e cronograma (2027) — sinal de mercado claro de robotaxi em região nova. Passa no AI Gate e em sinal de mercado + afeta workflows de transporte.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "China’s humanoid robots hunt for work in South Korea as Seoul bets on physical AI",
+      "source": "SCMP Tech",
+      "why_should_include": "Evento de expansão de robôs humanoides chineses para a Coreia do Sul com aposta governamental em 'physical AI' — sinal de mercado geográfico específico e afeta workflows industriais. Passa no AI Gate.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "US banks detect rogue AI agents inside customer accounts, move to restrict access",
+      "field": "quick_finds",
+      "why_should_discard": "Post de Reddit sem fonte primária, sem link para reportagem, com detalhes inventados no signal ('começaram a restringir acesso', 'detecção de comportamento anômalo'). Não satisfaz o padrão de sourcing da edição e o sinal de mercado fica especulativo.",
+      "violated_rule": "Critério 2 (sinal de mercado exige evento específico verificável) + padrão de sourcing"
+    },
+    {
+      "title": "Build more responsive apps with the Decisions API",
+      "field": "quick_finds",
+      "why_should_discard": "A AYA admite que só sabe o que a API faz 'pelo título' — incluir item não verificado além do título viola o rigor editorial. Se não dá para descrever o que a API faz, não deveria entrar como quick_find.",
+      "violated_rule": "Critério 1 (acionável exige que o leitor saiba o que testar) — sem verificação, não é acionável"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção não exige fonte primária/verificação além do título — a AYA pode incluir itens cujo conteúdo só conhece pelo título (caso Decisions API) ou por post de Reddit sem link (caso bancos).",
+      "evidence": "Quick_find Decisions API diz 'pelo título, é uma interface...' e mesmo assim entra; quick_find bancos é post de Reddit sem fonte jornalística.",
+      "suggested_fix": "Adicionar regra: item só entra se a AYA conseguir descrever o que ele faz a partir do título + URL, sem inventar detalhes; posts de Reddit sem link para fonte primária não contam como sinal de mercado."
+    },
+    {
+      "hypothesis": "O critério de 'sinal de mercado' não distingue entre evento verificado e rumor/post de fórum — a AYA trata tração de Reddit como equivalente a reportagem.",
+      "evidence": "Post de Reddit sobre bancos entra como quick_find enquanto 'Is this the new cyber normal?' (blog pessoal) é descartado por 'sem evento' — régua desigual.",
+      "suggested_fix": "Explicitar que sinal de mercado exige fonte jornalística ou comunicado oficial; posts de fórum só entram se citarem fonte primária verificável."
+    },
+    {
+      "hypothesis": "O reasoning não é obrigado a justificar cada quick_find — a AYA lista descartes mas não defende as inclusões mais frágeis.",
+      "evidence": "Reasoning detalha por que descartou 20+ itens, mas não explica por que os bancos (Reddit) e Decisions API entraram.",
+      "suggested_fix": "Exigir que o reasoning justifique explicitamente cada quick_find com o critério satisfeito, não só os descartes."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem bom main_find (Uber/ChatGPT Work) e boa diversidade, mas dois quick_finds são frágeis: post de Reddit sobre bancos sem fonte primária (com detalhes inventados) e Decisions API admitidamente não verificada além do título. O reasoning é detalhado nos descartes mas inconsistente na régua — descarta itens por critérios que aceita em outros — e não justifica as inclusões mais fracas."
+}

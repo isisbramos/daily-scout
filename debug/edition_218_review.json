@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Análise do Rest of World sobre custo de tokenização em línguas não-inglesas é um achado concreto e relevante de AI, com fonte verificável.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Parceria Agile Robots–Nvidia com plano de até 2.000 humanoides de pesquisa é evento singular e datado de uma empresa, com ângulo de AI/robótica.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Amap/Alibaba apresentando modelo de humanoide que aprende tarefas de corpo inteiro é lançamento de produto concreto e relevante.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Grok liberando os primeiros sete minutos de 'Odyssey' é evento datado e específico de uma empresa, com ângulo de AI generativa.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Correção de precisão de tool-call no vLLM é achado técnico concreto e útil para o leitor de tech/AI, com fonte primária (blog da Ubicloud).\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C11\", \"why\": \"É o mesmo achado do main_find (Rest of World sobre custo de AI em línguas não-inglesas), portanto já está representado na edição.\"},\n    {\"candidate\": \"C24\", \"why\": \"Também já está publicado como idx 2 (Amap/Alibaba humanoid model).\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Análise do Rest of World sobre custo de tokenização em línguas não-inglesas é um achado concreto e relevante de AI, com fonte verificável."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Parceria Agile Robots–Nvidia com plano de até 2.000 humanoides de pesquisa é evento singular e datado de uma empresa, com ângulo de AI/robótica."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Amap/Alibaba apresentando modelo de humanoide que aprende tarefas de corpo inteiro é lançamento de produto concreto e relevante."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Grok liberando os primeiros sete minutos de 'Odyssey' é evento datado e específico de uma empresa, com ângulo de AI generativa."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Correção de precisão de tool-call no vLLM é achado técnico concreto e útil para o leitor de tech/AI, com fonte primária (blog da Ubicloud)."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C11",
+      "title": "AI models cost more when you don’t use English",
+      "source": "Rest of World",
+      "url": "https://restofworld.org/2026/ai-tokenizer-tax-non-english-languages-cost-inequity/?utm_source=rss&utm_medium=rss&utm_campaign=feeds",
+      "why": "É o mesmo achado do main_find (Rest of World sobre custo de AI em línguas não-inglesas), portanto já está representado na edição."
+    },
+    {
+      "candidate": "C24",
+      "title": "Alibaba’s Amap unveils humanoid model that learns whole-body tasks from human movements",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/10/26/alibabas-amap-unveils-humanoid-model-that-learns-whole-body-tasks-from-human-movements/",
+      "why": "Também já está publicado como idx 2 (Amap/Alibaba humanoid model)."
+    }
+  ]
+}

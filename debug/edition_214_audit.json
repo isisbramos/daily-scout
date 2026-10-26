@@ -1,0 +1,102 @@
+{
+  "edition": "214",
+  "audited_at": "2026-10-26T14:58:55.148764-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (multa Meta/Cambridge Analytica) passa apenas pela exceção de magnitude regulatória, mas o caso é de 2018 e o vínculo com AI/ML é indireto — é regulação de dados, não de AI. Dois quick_finds têm problemas sérios: Google Cloud Vera Rubin vem de um post de Reddit sem corroboração e o Fotor Agent é anúncio de fornecedor sem evidência independente. O item Huawei/DeepSeek é explicitamente especulativo ('report') e o título original usa 'report', o que a Aya preservou, mas o sinal de mercado é vago.",
+    "issues": [
+      "main_find: multa Meta/Cambridge Analytica é regulação de privacidade de dados de 2018, sem conexão direta com AI/ML — só passa pela exceção de magnitude, e mesmo assim é esticado.",
+      "quick_find Google Cloud Vera Rubin: fonte única é post de r/artificial (score 0, 0 comentários) — sem corroboração, tratado como 'confirmado'.",
+      "quick_find Fotor Agent: anúncio de fornecedor (TechNode) sem evidência independente de que o agente funciona; claim_status 'confirmado' é forte demais.",
+      "quick_find Huawei/DeepSeek: baseado em 'report' não nomeado, sem detalhe específico do movimento — sinal de mercado fraco."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype explícito, mas há problemas de certeza: o quick_find do Google Cloud afirma 'liberou instâncias' como fato confirmado a partir de um post de Reddit, e o do Fotor afirma 'lançou' sem verificação. O main_find adiciona detalhes não presentes no título (processo aberto em separado da FTC, precedente para outros estados) que soam como informação inventada ou não atribuída.",
+    "issues": [
+      "main_find.body: 'O processo do Novo México foi aberto em separado das ações federais da FTC' — detalhe não presente no título nem atribuído a fonte.",
+      "main_find.body: 'A decisão cria precedente para outros estados' — afirmação jurídica não sustentada pelo título.",
+      "quick_find Google Cloud: 'liberou instâncias' como confirmado, mas fonte é post de Reddit sem link para anúncio oficial.",
+      "quick_find Fotor: 'lançou um agente' como confirmado, mas é anúncio de fornecedor."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes estão razoavelmente distribuídas (HackerNews, SCMP, Reddit, TechNode, Rest of World), sem repetição excessiva. Audiência tem variedade (executivos, desenvolvedores, PMs). Geografia: dois itens chineses (Huawei/DeepSeek e Fotor) — no limite, mas dentro da regra de 2. O problema é que o quick_find do Google Cloud vem de Reddit, fonte de baixa qualidade, o que compromete a diversidade qualitativa.",
+    "issues": [
+      "quick_find Google Cloud usa Reddit como fonte única para um anúncio de infraestrutura — fonte fraca para o peso dado."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona especificamente a multa de US$ 25 bi contra a Meta, o que ancora o main_find. A segunda frase menciona o relatório Huawei/DeepSeek, que é quick_find. O intro é específico e não genérico, embora mencione '317 posts de 21 fontes' — número que não é verificável a partir do input (que tem 40 itens).",
+    "issues": [
+      "Intro cita '317 posts de 21 fontes', mas o input tem 40 itens — número não rastreável, possivelmente inflado."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente muitos descartes, mas há contradições: diz que 'AI's hidden storage bill' entra como quick_find, mas o item não aparece no output. Diz que BCI standards foi 'movido para radar', o que confere. Diz que 'Claude brinca em ilha virtual' foi descartado por já ter sido coberto na ed.211 — mas isso não é anti-signal previsto; é uma regra inventada. O main_find_rationale justifica a escolha pela magnitude, mas não explica por que a multa de 2018 é mais acionável que, por exemplo, o anúncio de GPU do Google Cloud.",
+    "issues": [
+      "reasoning afirma que 'AI's hidden storage bill' entra como quick_find, mas o item não está no output — contradição direta.",
+      "reasoning descarta 'Claude brinca em ilha virtual' por 'já coberto na ed.211' — regra de rehashed não se aplica a cobertura em edição anterior sem confirmação.",
+      "reasoning não explica por que a multa Meta (2018, sem AI direto) é main_find em vez do anúncio de GPU ou do relatório de chips.",
+      "reasoning diz 'Main_find escolhido: Meta multa US$ 25 bi — evento singular, magnitude excepcional' mas não avalia se o caso tem conexão com AI além da exceção."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "NVIDIA Kumo Relational Outperforms Supervised Machine Learning on Relational Data, No Training Required",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Anúncio de método de ML que dispensa treino em dados relacionais — acionável para times de dados e com sinal de produto claro da Nvidia.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Automating ML for Science: Can Frontier Agents Climb Scientific Hills in the Wild?",
+      "source": "HuggingFace Papers",
+      "why_should_include": "Pesquisa sobre agentes de fronteira aplicados a ciência — conexão direta com AI e potencial de mudar workflows de pesquisa.",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Google Cloud opens Nvidia Vera Rubin GPU instances, plans 960,000-GPU scale",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte única é post de Reddit sem corroboração; anúncio de infraestrutura sem link oficial não deveria ser tratado como 'confirmado'.",
+      "violated_rule": "Critério de fonte / claim_status confirmado sem verificação"
+    },
+    {
+      "title": "From AI generation to final cut, Fotor Agent takes on the video production workflow",
+      "field": "quick_finds",
+      "why_should_discard": "Anúncio de fornecedor (TechNode) sem evidência independente; claim_status 'confirmado' é inadequado para release de marketing.",
+      "violated_rule": "STEP 1.5 — blog corporativo sem novidade testável"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A exceção de magnitude ('aquisição >$1B, regulação governamental') está sendo aplicada de forma ampla demais, permitindo que casos de regulação de dados sem AI direta passem como main_find.",
+      "evidence": "main_find é multa Meta/Cambridge Analytica de 2018, sem conexão com AI/ML além de ser 'regulação'.",
+      "suggested_fix": "Restringir a exceção a regulação que afete diretamente AI/ML ou empresas de AI, não qualquer regulação de dados."
+    },
+    {
+      "hypothesis": "O prompt não exige corroboração de fonte para claim_status 'confirmado', permitindo que posts de Reddit ou anúncios de fornecedor sejam tratados como fatos.",
+      "evidence": "Google Cloud Vera Rubin (Reddit) e Fotor Agent (TechNode) marcados como 'confirmado' sem fonte oficial.",
+      "suggested_fix": "Adicionar regra: claim_status 'confirmado' exige fonte primária ou duas fontes independentes."
+    },
+    {
+      "hypothesis": "O reasoning não é verificado contra o output final, permitindo contradições como itens citados no reasoning que não aparecem no output.",
+      "evidence": "reasoning cita 'AI's hidden storage bill' como quick_find, mas o item não está no output.",
+      "suggested_fix": "Adicionar checagem de consistência entre reasoning e output antes de finalizar."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "O main_find é uma multa de 2018 sem conexão direta com AI, sustentada apenas por exceção de magnitude esticada. Dois quick_finds têm fontes fracas (Reddit, anúncio de fornecedor) tratadas como confirmadas, e o reasoning contradiz o output ao citar um item que não aparece. A edição tem problemas de verificação e alinhamento editorial."
+}

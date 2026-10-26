@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (decisão da OpenAI de parar de treinar em internet ao vivo) com fonte primária (TechCrunch) e corroboração em fórum, relevante para AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de pesos abertos de modelo de 428B parâmetros é novidade de produto concreta e verificável, com uso prático para desenvolvedores.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de modelo de vídeo 4K para produção cinematográfica é evento de produto singular e datado, com ângulo claro de AI.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Apresentação de modelo de conversa treinado só em fala é achado técnico concreto e verificável, com fonte primária (block.xyz).\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Petição de funcionários da Boston Dynamics contra venda de robôs ao ICE é evento singular e datado, com fonte primária (petição) e relevância para AI/robótica.\"},\n    {\"idx\": 5, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação baseada apenas em post anônimo do Reddit (r/antiai) sem fonte primária ou corroboração independente.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C31\", \"why\": \"Notícia da OpenAI sobre parar de treinar em internet ao vivo é o mesmo evento do main_find, mas com fonte primária TechCrunch; já está coberto pelo idx 0.\"},\n    {\"candidate\": \"C33\", \"why\": \"Lançamento de pesos abertos do MiniMax M3.1 Flash é evento de produto concreto e verificável, mais forte que o item publicado idx 5 (não verificado).\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (decisão da OpenAI de parar de treinar em internet ao vivo) com fonte primária (TechCrunch) e corroboração em fórum, relevante para AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de pesos abertos de modelo de 428B parâmetros é novidade de produto concreta e verificável, com uso prático para desenvolvedores."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de modelo de vídeo 4K para produção cinematográfica é evento de produto singular e datado, com ângulo claro de AI."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Apresentação de modelo de conversa treinado só em fala é achado técnico concreto e verificável, com fonte primária (block.xyz)."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Petição de funcionários da Boston Dynamics contra venda de robôs ao ICE é evento singular e datado, com fonte primária (petição) e relevância para AI/robótica."
+    },
+    {
+      "idx": 5,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação baseada apenas em post anônimo do Reddit (r/antiai) sem fonte primária ou corroboração independente."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C31",
+      "title": "OpenAI says it will no longer train its AI models on the live internet, citing “significant risks”",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/23/openai-says-it-will-no-longer-train-its-ai-models-on-the-live-internet-citing-significant-risks/",
+      "why": "Notícia da OpenAI sobre parar de treinar em internet ao vivo é o mesmo evento do main_find, mas com fonte primária TechCrunch; já está coberto pelo idx 0."
+    },
+    {
+      "candidate": "C33",
+      "title": "MiniMax releases open weights for 428-billion-parameter M3.1 Flash model",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/10/23/minimax-releases-open-weights-for-428-billion-parameter-m3-1-flash-model/",
+      "why": "Lançamento de pesos abertos do MiniMax M3.1 Flash é evento de produto concreto e verificável, mais forte que o item publicado idx 5 (não verificado)."
+    }
+  ]
+}
