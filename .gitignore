@@ -43,3 +43,12 @@ uploads/
 # Relatório JUnit gerado por tests.yml/record_test_run.py — efêmero, o que
 # persiste é o resumo em ci/test_runs.jsonl.
 pytest-results.xml
+
+# Snapshots regeneráveis que alimentam a camada de arquitetura do dashboard.
+# Ambos são derivados: coverage.json sai de `pytest --cov --cov-report=json` e
+# actions_runs.json de `scripts/fetch_actions_runs.py`. São ~500 KB que mudam a
+# cada run — versionar isso polui o diff sem guardar nada que não dê pra
+# reconstruir em um comando.
+coverage.json
+.coverage
+ci/actions_runs.json

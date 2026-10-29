@@ -52,6 +52,8 @@ social_post.py        # gera post social a partir da edição
 audit_agent.py        # LLM-as-judge por edição
 content_report.py     # relatório semanal através das edições
 feedback_join.py      # junta feedback dos leitores à memória
+arch_stats.py         # métricas do próprio repo: dívida técnica, acoplamento, fontes, CI
+dashboard.py          # painel interno (editorial + arquitetura), não publicado
 templates/            # template Jinja2 do e-mail
 prompts/              # system instruction + template de curadoria (texto puro)
 sources_config.json   # liga/desliga fontes sem mudar código
@@ -82,6 +84,35 @@ Rodar a suíte de testes:
 ```bash
 pytest tests/
 ```
+
+## Dashboard interno
+
+`dashboard.py` gera um painel self-contained em `output/dashboard.html` (fora do git) com sete seções: ação agora, tendência de qualidade, conteúdo editorial, operação, performance das fontes, arquitetura e log.
+
+```bash
+python dashboard.py                  # últimas 30 edições, abre no navegador
+python dashboard.py --all --no-open  # todas as edições, só gera o arquivo
+```
+
+As seções editoriais saem das camadas determinísticas do `content_report.py`; as de fontes e arquitetura, do `arch_stats.py`. Duas delas dependem de snapshots que o painel **não** gera por conta própria, de propósito — gerar o dashboard não deve precisar de rede nem de token:
+
+```bash
+pytest --cov=. --cov-report=json      # → coverage.json, alimenta a coluna de cobertura
+python scripts/fetch_actions_runs.py  # → ci/actions_runs.json, alimenta a saúde dos workflows
+```
+
+Sem eles o painel sai inteiro: a coluna de cobertura fica `—` e a seção de workflows diz qual comando rodar. Ambos os arquivos são gitignorados — são derivados, e 500 KB que mudam a cada run poluiriam o diff sem guardar nada que não dê pra reconstruir num comando.
+
+`arch_stats.py` também roda sozinho, pra olhar só a arquitetura:
+
+```bash
+python arch_stats.py          # resumo por módulo no terminal
+python arch_stats.py --json   # tudo em JSON
+```
+
+O que ele mede: complexidade ciclomática e aninhamento por função, acoplamento (fan-in/fan-out e instabilidade de Martin), cobertura por módulo, e um índice de risco que é tamanho × complexidade × quantos módulos dependem dele, descontado pela cobertura — ordem de atenção, não nota. A análise lê a AST e não importa nada do repo: medir `pipeline.py` não pode disparar um fetch.
+
+> Na performance das fontes, as duas janelas são deliberadamente separadas: `sources_used` existe em quase toda edição e diz quais fontes contribuíram; o campo `source` por item só passou a ser gravado na edição 198. Misturar as duas faz uma fonte antiga parecer improdutiva só porque a instrumentação é nova.
 
 ## CI/CD
 

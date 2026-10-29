@@ -46,6 +46,19 @@ from content_report import (
     load_editions,
     load_enabled_sources,
 )
+from arch_stats import (
+    COV_BAD,
+    COV_WARN,
+    FN_CC_BAD,
+    FN_CC_WARN,
+    FN_PER_ITEM_BAD,
+    INSTABILITY_FRAGILE,
+    WORKFLOW_OK_PCT,
+    aggregate_architecture,
+    aggregate_workflows,
+    load_actions_runs,
+    source_performance,
+)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -349,6 +362,171 @@ def render_feedback_by_theme(fbt: dict, edge_n: int = 8) -> str:
     return note + bars
 
 
+# ════════════════════════════════════════════════════════════════════════
+# Camada de arquitetura — ⑤ Fontes e ⑥ Arquitetura
+#
+# Os limiares de cor vêm todos de arch_stats (FN_CC_*, COV_*, WORKFLOW_OK_PCT,
+# FN_PER_ITEM_BAD), pelo mesmo motivo que os de conteúdo vêm do
+# content_report: cor sem regra atrás vira decoração.
+# ════════════════════════════════════════════════════════════════════════
+
+def _cov_cell(pct: float | None) -> str:
+    if pct is None:
+        return "<td class='empty-cell'>—</td>"
+    cls = "bad" if pct <= COV_BAD else ("warn" if pct < COV_WARN else "ok")
+    return f"<td class='{cls}'>{pct:.0f}%</td>"
+
+
+def render_module_risk(modules: list[dict], top_n: int = 14) -> str:
+    """Módulos por ordem de atenção. Risco é exposição (tamanho × complexidade ×
+    quantos dependem) descontada pela cobertura — ordem de olhar, não nota."""
+    core = [m for m in modules if not m["is_script"]][:top_n]
+    if not core:
+        return "<p class='empty'>nenhum módulo analisado</p>"
+    rows = []
+    for m in core:
+        cc_cls = "bad" if m["max_cc"] >= FN_CC_BAD else ("warn" if m["max_cc"] >= FN_CC_WARN else "")
+        rows.append(
+            f"<tr><td>{_esc(m['module'])}</td>"
+            f"<td>{m['loc']}</td><td>{m['sum_cc']}</td>"
+            f"<td class='{cc_cls}'>{m['max_cc']}</td>"
+            f"<td>{m['fan_in']}</td><td>{m['fan_out']}</td>"
+            f"{_cov_cell(m['coverage_pct'])}"
+            f"<td class='score-cell'>{m['risk']}</td></tr>"
+        )
+    return (
+        "<table><thead><tr><th>Módulo</th><th>LOC</th><th>CC</th><th>Pior fn</th>"
+        "<th>Dep. de</th><th>Importa</th><th>Cob.</th><th>Risco</th></tr></thead>"
+        f"<tbody>{''.join(rows)}</tbody></table>"
+        f"<p class='empty'>Pior fn = complexidade da função mais complexa do módulo "
+        f"(🟠 ≥{FN_CC_WARN}, 🔴 ≥{FN_CC_BAD}). Dep. de = quantos módulos importam este.</p>"
+    )
+
+
+def render_hotspots(modules: list[dict], top_n: int = 10) -> str:
+    """As funções individuais mais complexas, com arquivo:linha pra ir direto."""
+    flat = []
+    for m in modules:
+        if m["is_script"]:
+            continue
+        for fn in m["hotspots"]:
+            flat.append((m["path"], fn))
+    flat.sort(key=lambda t: -t[1]["cc"])
+    if not flat:
+        return f"<p class='ok'>nenhuma função acima de CC {FN_CC_WARN}</p>"
+    rows = "".join(
+        f"<tr><td>{'🔴' if fn['cc'] >= FN_CC_BAD else '🟠'}</td>"
+        f"<td class='evidence'>{_esc(path)}:{fn['line']}</td>"
+        f"<td>{_esc(fn['name'])}</td><td>{fn['cc']}</td>"
+        f"<td>{fn['loc']}</td><td>{fn['nesting']}</td></tr>"
+        for path, fn in flat[:top_n]
+    )
+    note = ""
+    if len(flat) > top_n:
+        note = f"<p class='empty'>mostrando as {top_n} mais complexas de {len(flat)}</p>"
+    return (
+        "<table><thead><tr><th></th><th>Arquivo</th><th>Função</th><th>CC</th>"
+        f"<th>LOC</th><th>Aninh.</th></tr></thead><tbody>{rows}</tbody></table>{note}"
+    )
+
+
+def render_coupling(modules: list[dict], top_n: int = 12) -> str:
+    """Quem depende de quem. Instabilidade alta + fan_out alto = quebra quando
+    qualquer dependência muda; instabilidade baixa + fan_in alto = caro de mexer."""
+    core = [m for m in modules if not m["is_script"] and (m["fan_in"] or m["fan_out"])]
+    if not core:
+        return "<p class='empty'>sem imports entre módulos</p>"
+    core.sort(key=lambda m: -(m["fan_in"] + m["fan_out"]))
+    maxv = max(max(m["fan_in"], m["fan_out"]) for m in core) or 1
+    rows = []
+    for m in core[:top_n]:
+        fragile = m["instability"] >= INSTABILITY_FRAGILE and m["fan_out"] >= 3
+        left = round(100 * m["fan_in"] / maxv)
+        right = round(100 * m["fan_out"] / maxv)
+        rows.append(
+            "<div class='split-row'>"
+            f"<span class='split-in'><span class='split-bar in' style='width:{left}%'></span>"
+            f"<span class='split-n'>{m['fan_in']}</span></span>"
+            f"<span class='split-label'>{_esc(m['module'])}</span>"
+            f"<span class='split-out'><span class='split-n'>{m['fan_out']}</span>"
+            f"<span class='split-bar out{' bad' if fragile else ''}' style='width:{right}%'></span></span>"
+            "</div>"
+        )
+    return (
+        "<div class='split-head'><span>← dependem dele</span><span>importa →</span></div>"
+        + "".join(rows)
+        + f"<p class='empty'>🔴 instabilidade ≥{INSTABILITY_FRAGILE} com 3+ dependências — "
+          "muda junto com tudo que importa.</p>"
+    )
+
+
+def render_workflow_health(agg: dict) -> str:
+    """Saúde dos workflows que você escreveu, do snapshot do Actions."""
+    wfs = agg.get("workflows") or []
+    if not wfs:
+        return (
+            "<p class='empty'>sem snapshot do Actions. Gere com:<br>"
+            "<code>python scripts/fetch_actions_runs.py</code></p>"
+        )
+    rows = []
+    for w in wfs:
+        pct = w["success_pct"]
+        cls = "bad" if (pct is not None and pct < WORKFLOW_OK_PCT) else "ok"
+        streak_cls = "bad" if w["streak_kind"] == "failure" else ""
+        last_cls = "ok" if w["last_conclusion"] == "success" else "bad"
+        pct_txt = "—" if pct is None else f"{pct}%"
+        med_txt = "—" if w["median_s"] is None else f"{round(w['median_s'])}s"
+        streak_txt = f"{w['streak']}× " + ("ok" if w["streak_kind"] == "success" else "falha")
+        last_txt = "ok" if w["last_conclusion"] == "success" else "falha"
+        rows.append(
+            f"<tr><td>{_esc(w['name'][:34])}</td><td>{w['n']}</td>"
+            f"<td class='{cls}'>{pct_txt}</td>"
+            f"<td>{w['n_failures']}</td><td>{med_txt}</td>"
+            f"<td class='{streak_cls}'>{streak_txt}</td>"
+            f"<td class='{last_cls}'>{last_txt}</td></tr>"
+        )
+    rng = agg.get("range")
+    note = (f"<p class='empty'>{agg['n_runs']} runs · {rng[0]} → {rng[1]} · "
+            f"vermelho = sucesso abaixo de {WORKFLOW_OK_PCT}%. Workflows do próprio "
+            "GitHub (pages, dependabot) ficam fora.</p>") if rng else ""
+    return (
+        "<table><thead><tr><th>Workflow</th><th>Runs</th><th>Sucesso</th><th>Falhas</th>"
+        "<th>Mediana</th><th>Sequência</th><th>Último</th></tr></thead>"
+        f"<tbody>{''.join(rows)}</tbody></table>{note}"
+    )
+
+
+def render_source_performance(rows: list[dict]) -> str:
+    """Contribuição real contra cegueira do judge, por fonte."""
+    if not rows:
+        return "<p class='empty'>sem dados de fonte</p>"
+    n_used = rows[0].get("_n_with_used") or 0
+    n_item = rows[0].get("_n_item_window") or 0
+    out = []
+    for r in rows:
+        fpi = r["fn_per_item"]
+        fpi_cls = "bad" if (fpi is not None and fpi >= FN_PER_ITEM_BAD) else ""
+        badge = "🔴" if r["idle"] else ("🟠" if fpi_cls else "")
+        out.append(
+            f"<tr><td>{badge}</td><td>{_esc(r['source'])}</td>"
+            f"<td>{'—' if r['weight'] is None else r['weight']}</td>"
+            f"<td>{r['used_count']}</td><td>{r['used_pct']}%</td>"
+            f"<td>{r['main_find']}</td><td>{r['quick_finds']}</td>"
+            f"<td>{r['false_negatives']}</td>"
+            f"<td class='{fpi_cls}'>{'—' if fpi is None else fpi}</td></tr>"
+        )
+    return (
+        "<table><thead><tr><th></th><th>Fonte</th><th>Peso</th><th>Edições</th><th>Uso</th>"
+        "<th>Main</th><th>Quick</th><th>FN</th><th>FN/item</th></tr></thead>"
+        f"<tbody>{''.join(out)}</tbody></table>"
+        f"<p class='empty'>🔴 nunca contribuiu · 🟠 mais de {FN_PER_ITEM_BAD} false negatives "
+        f"por item entregue. <strong>Edições</strong> e <strong>Uso</strong> cobrem as "
+        f"{n_used} edições com <code>sources_used</code>; <strong>Main</strong> e "
+        f"<strong>Quick</strong> só as {n_item} com <code>source</code> por item "
+        "(gravado a partir da ed. 198), então não compare as duas janelas.</p>"
+    )
+
+
 def _hint(text: str) -> str:
     return f"<p class='hint'>{text}</p>"
 
@@ -440,12 +618,36 @@ ul.insights { padding-left: 20px; margin: 0; }
 ul.insights li { margin-bottom: 10px; line-height: 1.45; }
 .trend-up { color: var(--ok); } .trend-down { color: var(--bad); }
 svg circle { cursor: default; }
+
+/* Acoplamento: barra dupla saindo do nome, fan_in à esquerda e fan_out à direita. */
+.split-head { display: flex; justify-content: space-between; color: var(--mute);
+              font-size: .78rem; margin-bottom: 6px; }
+.split-row { display: grid; grid-template-columns: 1fr minmax(8rem, 11rem) 1fr;
+             align-items: center; gap: 8px; margin-bottom: 4px; }
+.split-label { text-align: center; font-size: .82rem; overflow: hidden;
+               text-overflow: ellipsis; white-space: nowrap; }
+.split-in, .split-out { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.split-in { justify-content: flex-end; }
+.split-bar { height: 9px; border-radius: 3px; display: block; }
+.split-bar.in { background: var(--mute); }
+.split-bar.out { background: var(--accent); opacity: .75; }
+.split-bar.out.bad { background: var(--bad); opacity: 1; }
+.split-n { font-size: .75rem; color: var(--mute); font-variant-numeric: tabular-nums;
+           min-width: 1.2rem; text-align: center; }
+
+td.empty-cell { color: var(--mute); }
+code { background: var(--bg); padding: 1px 4px; border-radius: 3px; font-size: .85em; }
 """
 
 
 def render_html(content: dict, quality: dict, insights: list[str], cadence: dict, meta: dict,
-                 test_runs: list[dict]) -> str:
+                 test_runs: list[dict], arch: dict | None = None,
+                 workflows: dict | None = None, sources: list[dict] | None = None) -> str:
     date_by_edition = meta["date_by_edition"]
+    arch = arch or {}
+    workflows = workflows or {}
+    sources = sources or []
+    modules = arch.get("modules") or []
     trend = quality.get("trend")
     trend_html = ""
     if trend:
@@ -476,7 +678,9 @@ def render_html(content: dict, quality: dict, insights: list[str], cadence: dict
     <a href="#tendencia">② Tendência</a>
     <a href="#conteudo">③ Conteúdo</a>
     <a href="#operacao">④ Operação</a>
-    <a href="#log">⑤ Log</a>
+    <a href="#fontes">⑤ Fontes</a>
+    <a href="#arquitetura">⑥ Arquitetura</a>
+    <a href="#log">⑦ Log</a>
   </nav>
 
   <div class="panel full">
@@ -594,7 +798,71 @@ def render_html(content: dict, quality: dict, insights: list[str], cadence: dict
     </div>
   </div>
 
-  <h2 id="log" class="section-title">⑤ Log / referência</h2>
+  <div class="panel full">
+    <h2>Saúde dos workflows</h2>
+    {_hint("Todos os runs do GitHub Actions, do snapshot em ci/actions_runs.json. "
+           "Um workflow que vive vermelho para de ser sinal — é a diferença entre uma "
+           "falha pra investigar e um check que todo mundo aprendeu a ignorar.")}
+    {render_workflow_health(workflows)}
+  </div>
+
+  <h2 id="fontes" class="section-title">⑤ Performance das fontes</h2>
+
+  <div class="panel full">
+    <h2>Contribuição contra cegueira</h2>
+    {_hint("Cruza o que cada fonte entregou com as vezes que o judge disse que ela tinha algo "
+           "bom que ficou de fora. Uma fonte muito usada E muito apontada é problema de "
+           "critério de seleção, não de peso; pouco usada E muito apontada é peso. "
+           "Nunca usada e nunca apontada é fetch quebrado ou feed morto.")}
+    {render_source_performance(sources)}
+  </div>
+
+  <h2 id="arquitetura" class="section-title">⑥ Arquitetura</h2>
+
+  <div class="panel full">
+    <div class="stat-row">
+      {_stat(arch.get('n_modules', '—'), "Módulos de produção",
+             "Módulos .py fora de tests/ e scripts/ — o que roda em produção.")}
+      {_stat(arch.get('total_loc', '—'), "Linhas de código",
+             "Soma das linhas desses módulos, comentários e brancos incluídos.")}
+      {_stat(f"{arch['avg_coverage']}%" if arch.get('avg_coverage') is not None else "—",
+             "Cobertura média",
+             "Média da cobertura por módulo (pytest --cov --cov-report=json). "
+             "'—' = sem coverage.json gerado.")}
+      {_stat(len(arch.get('no_coverage') or []), "Módulos em 0%",
+             "Módulos que nenhum teste executa — o caso binário, não uma questão de grau.")}
+      {_stat(len(arch.get('fragile') or []), "Módulos frágeis",
+             f"Instabilidade ≥{INSTABILITY_FRAGILE} com 3+ dependências: mudam junto com "
+             "tudo que importam.")}
+    </div>
+  </div>
+
+  <div class="panel full">
+    <h2>Risco por módulo</h2>
+    {_hint("Risco = tamanho × complexidade × quantos módulos dependem dele, descontado pela "
+           "cobertura. É ordem de atenção, não nota: um módulo grande e complexo mas testado "
+           "não é a primeira coisa a mexer; o mesmo módulo sem teste é.")}
+    {render_module_risk(modules)}
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Acoplamento</h2>
+      {_hint("À esquerda, quantos módulos dependem deste; à direita, quantos ele importa. "
+             "Muita gente dependendo dele = caro de mudar. Ele dependendo de muita gente = "
+             "quebra fácil.")}
+      {render_coupling(modules)}
+    </div>
+    <div class="panel">
+      <h2>Funções mais complexas</h2>
+      {_hint(f"Complexidade ciclomática por função: 🟠 ≥{FN_CC_WARN} (limite clássico de "
+             f"McCabe, acima disso os caminhos passam do que se testa à mão), 🔴 ≥{FN_CC_BAD}. "
+             "Arquivo:linha pra ir direto.")}
+      {render_hotspots(modules)}
+    </div>
+  </div>
+
+  <h2 id="log" class="section-title">⑦ Log / referência</h2>
 
   <details class="panel full">
     <summary>Scorecard por edição</summary>
@@ -642,12 +910,22 @@ def main():
     insights = deterministic_insights(content, quality)
     test_runs = load_test_runs()
 
+    # Camada de arquitetura. Tudo local e tolerante a dado ausente: sem
+    # coverage.json a coluna de cobertura fica vazia, sem ci/actions_runs.json a
+    # seção de workflows diz como gerar. Nenhum dos dois impede o painel.
+    arch = aggregate_architecture()
+    workflows = aggregate_workflows(load_actions_runs())
+    sources = source_performance(editions, audits)
+    logger.info("Arquitetura: %d módulos, %d LOC, %d em 0%% de cobertura",
+                arch["n_modules"], arch["total_loc"], len(arch["no_coverage"]))
+
     meta = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "date_by_edition": {e.get("edition"): e.get("date", "?") for e in editions},
     }
 
-    doc = render_html(content, quality, insights, cadence, meta, test_runs)
+    doc = render_html(content, quality, insights, cadence, meta, test_runs,
+                      arch=arch, workflows=workflows, sources=sources)
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(doc)
