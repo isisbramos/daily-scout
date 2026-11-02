@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (OpenAI reposiciona ferramentas de código no assistente dots), com fonte primária TechCrunch e ângulo claro de produto/estratégia.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Rodada de investimento com novidade concreta de produto (eficiência de inferência com menos GPUs) e uso claro do capital, não é funding puro.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento datado de uma entidade (Pequim defendendo governança de AI na ONU em fórum global), com ângulo de regulação relevante.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (pedido de desculpas da Moonshot por lançamento problemático do Kimi K3.1 Pro), com fonte verificável.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa concreta (avaliação de modelos abertos pequenos em codificação real) com fonte arXiv/HuggingFace, tipo desejado.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C12\", \"why\": \"Caso concreto de uso de GPT-6 Astra pela Greptile para detecção de bugs, com fonte primária OpenAI Blog e evento singular, mais forte que o item de pesquisa genérica publicado.\"},\n    {\"candidate\": \"C37\", \"why\": \"Evento datado e verificável (Moonshot pede desculpas por tropeço no lançamento do Kimi K3.1 Pro) — já coberto no idx 3, mas candidato forte; alternativamente C27 é o mesmo evento do main_find.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (OpenAI reposiciona ferramentas de código no assistente dots), com fonte primária TechCrunch e ângulo claro de produto/estratégia."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Rodada de investimento com novidade concreta de produto (eficiência de inferência com menos GPUs) e uso claro do capital, não é funding puro."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento datado de uma entidade (Pequim defendendo governança de AI na ONU em fórum global), com ângulo de regulação relevante."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (pedido de desculpas da Moonshot por lançamento problemático do Kimi K3.1 Pro), com fonte verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa concreta (avaliação de modelos abertos pequenos em codificação real) com fonte arXiv/HuggingFace, tipo desejado."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C12",
+      "title": "Greptile takes bug detection beyond code review with GPT-6 Astra",
+      "source": "OpenAI Blog",
+      "url": "https://openai.com/index/greptile-code-review-codex-astra",
+      "why": "Caso concreto de uso de GPT-6 Astra pela Greptile para detecção de bugs, com fonte primária OpenAI Blog e evento singular, mais forte que o item de pesquisa genérica publicado."
+    },
+    {
+      "candidate": "C37",
+      "title": "Moonshot apologises after Kimi K3.1 Pro roll-out stumbles as promotional scrutiny widens",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/big-tech/article/3372247/moonshot-apologises-after-kimi-k31-pro-roll-out-stumbles-promotional-scrutiny-widens",
+      "why": "Evento datado e verificável (Moonshot pede desculpas por tropeço no lançamento do Kimi K3.1 Pro) — já coberto no idx 3, mas candidato forte; alternativamente C27 é o mesmo evento do main_find."
+    }
+  ]
+}

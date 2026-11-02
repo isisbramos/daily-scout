@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Contrato comercial concreto e datado de uma empresa específica (Kodiak) para caminhões autônomos em rodovias públicas, com fonte TechCrunch.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (Bank of America orienta clientes) com ângulo real de AI e fonte verificável.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Caso concreto de uso de AI em decisão administrativa de alto impacto, com dado específico (1 em 5 resumos falha); embora a fonte seja Reddit, o conteúdo é factual e corroborável.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Anúncio oficial de produto (Genie 4) pelo Google DeepMind, evento singular e fonte primária.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Publicação de modelo (LFM3) pela Liquid AI, evento concreto e fonte primária no blog da HuggingFace.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C31\", \"why\": \"Aquisição bilionária da Globalstar pela Amazon, evento singular, datado e com fonte verificável, mais forte que itens como o Genie 4 (sem detalhes de disponibilidade).\"},\n    {\"candidate\": \"C8\", \"why\": \"Huawei aplica Tau Scaling Law em estações base, evento concreto de uma empresa específica com implicações geopolíticas e de chips, mais forte que o item do LFM3.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Contrato comercial concreto e datado de uma empresa específica (Kodiak) para caminhões autônomos em rodovias públicas, com fonte TechCrunch."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (Bank of America orienta clientes) com ângulo real de AI e fonte verificável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Caso concreto de uso de AI em decisão administrativa de alto impacto, com dado específico (1 em 5 resumos falha); embora a fonte seja Reddit, o conteúdo é factual e corroborável."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Anúncio oficial de produto (Genie 4) pelo Google DeepMind, evento singular e fonte primária."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Publicação de modelo (LFM3) pela Liquid AI, evento concreto e fonte primária no blog da HuggingFace."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C31",
+      "title": "Amazon to buy satellite firm Globalstar in $11.57B deal",
+      "source": "HackerNews",
+      "url": "https://www.reuters.com/business/media-telecom/amazon-signs-1157-billion-deal-satellite-firm-globalstar-challenge-starlink-2026-04-14/1157-billion-deal-satellite-firm-globalstar-challenge-starlink-2026-04-14/",
+      "why": "Aquisição bilionária da Globalstar pela Amazon, evento singular, datado e com fonte verificável, mais forte que itens como o Genie 4 (sem detalhes de disponibilidade)."
+    },
+    {
+      "candidate": "C8",
+      "title": "Huawei’s Tau Scaling Law roll-out reaches base stations in blow to US chip curbs",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/big-tech/article/3372454/huaweis-tau-scaling-law-roll-out-reaches-base-stations-blow-us-chip-curbs",
+      "why": "Huawei aplica Tau Scaling Law em estações base, evento concreto de uma empresa específica com implicações geopolíticas e de chips, mais forte que o item do LFM3."
+    }
+  ]
+}

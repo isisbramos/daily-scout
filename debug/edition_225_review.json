@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Decisão de produto concreta e datada da xAI (redução de limites do Grok Bot por custos), com fonte primária TechCrunch e impacto direto no usuário.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Caso concreto e datado de AI de vendas da Tencent/WeChat Pay operando em loja 7-Eleven, com evento singular e fonte verificável.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Aquisição específica com valor e alvo definidos (Omen AI compra Aquatic Labs por US$ 16 mi) e uso concreto de capital em domínio técnico, não é funding genérico.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Publicação de pesquisa no arXiv com benchmark concreto para agentes auto-evolutivos, tipo desejado e verificável.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Reportagem do Rest of World sobre movimento concreto de startups ocidentais adaptando modelos chineses, com ângulo de mercado e fonte estabelecida.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C39\", \"why\": \"Evento singular e datado (Apple confirma integração do Qwen para rollout de AI na China, beta em 4/11) com fonte TechNode, mais forte e verificável que itens de pesquisa/benchmark publicados.\"},\n    {\"candidate\": \"C27\", \"why\": \"Notícia concreta de protótipo de robô humanoide da Meta com a chinesa Fourier, evento específico e relevante para tech/AI, com fonte TechNode.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Decisão de produto concreta e datada da xAI (redução de limites do Grok Bot por custos), com fonte primária TechCrunch e impacto direto no usuário."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Caso concreto e datado de AI de vendas da Tencent/WeChat Pay operando em loja 7-Eleven, com evento singular e fonte verificável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Aquisição específica com valor e alvo definidos (Omen AI compra Aquatic Labs por US$ 16 mi) e uso concreto de capital em domínio técnico, não é funding genérico."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Publicação de pesquisa no arXiv com benchmark concreto para agentes auto-evolutivos, tipo desejado e verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Reportagem do Rest of World sobre movimento concreto de startups ocidentais adaptando modelos chineses, com ângulo de mercado e fonte estabelecida."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C39",
+      "title": "Apple confirms Qwen integration for China AI rollout, with beta testing starting November 4",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/02/apple-confirms-qwen-integration-for-china-ai-rollout-with-beta-testing-starting-november-4/",
+      "why": "Evento singular e datado (Apple confirma integração do Qwen para rollout de AI na China, beta em 4/11) com fonte TechNode, mais forte e verificável que itens de pesquisa/benchmark publicados."
+    },
+    {
+      "candidate": "C27",
+      "title": "Meta reportedly builds humanoid robot prototype with China’s Fourier",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/02/meta-reportedly-builds-humanoid-robot-prototype-with-chinas-fourier/",
+      "why": "Notícia concreta de protótipo de robô humanoide da Meta com a chinesa Fourier, evento específico e relevante para tech/AI, com fonte TechNode."
+    }
+  ]
+}

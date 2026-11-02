@@ -1,0 +1,99 @@
+{
+  "edition": "225",
+  "audited_at": "2026-11-02T18:09:24.008627-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find passa no AI Gate e é evento singular de um player de AI, mas o critério 'sinal de mercado' é fraco: corte de limite por custo é decisão operacional, não shift de categoria ou política. O quick_find do Omen AI é M&A de US$16M — abaixo do limiar de magnitude excepcional e sem info de produto/estratégia além de 'conhecimento em líquidos', beirando anti-signal de aquisição pequena. O quick_find do Rest of World é panorama de tendência ('startups ocidentais recalibram modelos chineses') sem evento singular de UMA empresa, o que viola o anti-signal de roundup.",
+    "issues": [
+      "Quick_find 'Startups ocidentais recalibram modelos chineses' (Rest of World) é panorama/tendência sem evento singular de uma empresa — anti-signal explícito de roundup.",
+      "Quick_find 'Omen AI adquire Aquatic Labs por US$16M' é M&A de baixo valor sem novidade de produto/estratégia clara; 'conhecimento em líquidos' é vago e não demonstra shift de categoria.",
+      "Main_find 'Musk reduz limites do Grok Bot' é decisão operacional de custo, não shift estratégico nem mudança de categoria — sinal de mercado fraco."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype, e o título preserva o condicional implícito do original ('throttles' é factual). Porém o body do main_find afirma 'O movimento contrasta com a estratégia de concorrentes que vêm ampliando cotas gratuitas' — generalização não sustentada pelo título nem pelo input, que não menciona concorrentes. Também há inferência não confirmada em 'Vale observar se o corte vem acompanhado de plano pago novo'.",
+    "issues": [
+      "main_find.body: 'O movimento contrasta com a estratégia de concorrentes que vêm ampliando cotas gratuitas' — informação não presente no título/input, inferência editorial apresentada como fato.",
+      "main_find.bullets: 'Cortar limite por custo é o oposto do que fizeram players que subsidiam uso gratuito' — generalização comparativa sem fonte no input."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Há duas fontes TechCrunch (main_find + Omen AI) entre os 5 itens, o que é aceitável mas no limite. A audiência é razoavelmente variada (todos, executivos de negócio, desenvolvedores, product managers). Geografia: dois itens com foco China (WeChat Pay/7-Eleven e Rest of World sobre modelos chineses), o que concentra a cobertura em uma região.",
+    "issues": [
+      "Duas entradas da mesma fonte (TechCrunch) entre main_find e quick_finds.",
+      "Dois dos cinco itens têm eixo China (WeChat Pay e Rest of World), concentrando geografia."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (decisão de produto da xAI) e contrasta com o robô da WeChat Pay, o que é concreto e não genérico. O número '40 posts de 21 fontes' não bate com o meta.total_analyzed=317, criando inconsistência factual interna.",
+    "issues": [
+      "Intro diz 'Garimpei 40 posts de 21 fontes', mas meta.total_analyzed é 317 — inconsistência numérica entre intro e meta."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista descartes de forma coerente com os anti-signals, mas há contradições: descarta 'The agentic web is here' como panorama, mas mantém 'Rest of World' que também é panorama; descarta 'Meta humanoid robot' por repetição de tema, mas mantém 'Omen AI' que é M&A pequeno sem novidade forte. O main_find_rationale justifica a escolha, mas não explica por que Grok (decisão operacional) venceu o WeChat Pay (deploy concreto de AI em varejo), que tem sinal de mercado mais específico.",
+    "issues": [
+      "Reasoning descarta 'The agentic web is here' como panorama, mas mantém 'Rest of World' que é igualmente panorama sem evento singular — critério inconsistente.",
+      "Reasoning não justifica por que Grok (corte de limite por custo) é main_find em vez do WeChat Pay (deploy concreto de AI em loja física), que tem sinal de mercado mais específico.",
+      "Reasoning afirma '40 posts de 21 fontes' na intro mas meta.total_analyzed=317 — falta de coerência entre campos."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Apple confirms Qwen integration for China AI rollout, with beta testing starting November 4",
+      "source": "TechNode",
+      "why_should_include": "Evento singular de uma empresa (Apple) com data concreta de beta e integração de modelo específico (Qwen) — sinal de mercado forte e acionável para quem opera na China. O reasoning descarta por 'repetição da ed.223', mas a confirmação oficial com data de beta é informação nova em relação a um rumor anterior.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "China’s EDA champion buys start-up to address weak link, support Huawei’s Tau Scaling Law",
+      "source": "SCMP Tech",
+      "why_should_include": "M&A específico de uma empresa (campeã de EDA chinesa) com motivação estratégica clara (suportar Tau Scaling Law da Huawei) — sinal de mercado singular e geopolítico, não panorama. Passa no AI Gate por conexão com infraestrutura de chips para AI.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Startups recalibrate Chinese AI for the West",
+      "field": "quick_finds",
+      "why_should_discard": "É panorama de tendência sem evento singular de UMA empresa específica — viola o anti-signal de roundup explicitamente.",
+      "violated_rule": "Anti-signal: roundup/panorama de tendência sem evento singular"
+    },
+    {
+      "title": "Omen AI adds liquid know-how in $16 million Aquatic Labs acquisition",
+      "field": "quick_finds",
+      "why_should_discard": "M&A de US$16M sem novidade de produto/estratégia concreta além de 'conhecimento em líquidos' — abaixo do limiar de magnitude excepcional e sem shift de categoria demonstrável.",
+      "violated_rule": "Critério 2 (sinal de mercado) — M&A pequeno sem info nova de produto/estratégia"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A regra de 'sinal de mercado' não distingue claramente decisão operacional (corte de custo) de shift estratégico (mudança de categoria/política), permitindo que o main_find seja um evento de custo.",
+      "evidence": "Main_find é 'Musk reduz limites do Grok Bot por custos' — decisão operacional, não shift de categoria.",
+      "suggested_fix": "Adicionar exemplo negativo explícito: 'corte de limite/feature por custo operacional não é sinal de mercado'."
+    },
+    {
+      "hypothesis": "O anti-signal de roundup/panorama não é aplicado de forma consistente quando o panorama tem ângulo geopolítico (China/modelos chineses).",
+      "evidence": "Reasoning descarta 'The agentic web is here' como panorama, mas mantém 'Rest of World' que também é panorama.",
+      "suggested_fix": "Reforçar que panorama geopolítico sem evento singular de UMA empresa também é anti-signal."
+    },
+    {
+      "hypothesis": "A regra de memória editorial ('repetição de edição anterior') está sendo aplicada de forma dura demais, descartando confirmações oficiais com informação nova (data de beta).",
+      "evidence": "Apple/Qwen descartado por 'repetição da ed.223', mas a confirmação oficial com data de beta é info nova.",
+      "suggested_fix": "Especificar que confirmação oficial com dado novo (data, versão, escopo) não conta como repetição."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem main_find fraco (decisão operacional de custo, não shift de mercado) e um quick_find que é panorama explícito (Rest of World), violando anti-signal. Há false negatives relevantes (Apple/Qwen com data de beta e M&A de EDA chinês) e inconsistência numérica entre intro e meta."
+}

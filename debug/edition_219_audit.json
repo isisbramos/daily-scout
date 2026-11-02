@@ -1,0 +1,95 @@
+{
+  "edition": "219",
+  "audited_at": "2026-11-02T18:07:56.684501-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find e a maioria dos quick_finds passam no AI Gate, mas o item 'Beyond Benchmarks' é um paper de pesquisa sem evento singular de empresa e sem acionabilidade concreta — satisfaz no máximo 1 critério. Além disso, o main_find é baseado apenas no título do TechCrunch, sem detalhe de produto confirmado, o que fragiliza a seleção como 'mais acionável'.",
+    "issues": [
+      "Quick_find 'Beyond Benchmarks: Can Small Open-Weight Models Get Real Coding Work Done?' (HuggingFace Papers) é paper de pesquisa sem evento singular de empresa; não é acionável (não há ferramenta/processo a testar) e não revela movimento estratégico específico — falha nos 3 critérios.",
+      "Main_find 'How OpenAI turned its coding tools into dots' é tratado como evento confirmado, mas o próprio body admite 'Ainda não está claro no título se o dots substitui...' — ou seja, a base é apenas o título, sem informação de produto verificada. Isso enfraquece o critério 'acionável'.",
+      "Quick_find 'Nvidia backs Indian startup' é funding round com sinal de mercado, mas o texto não nomeia a startup nem o produto — fica no limite do anti-signal 'funding round sem info nova'."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "Não há hype explícito (revolucionário, massivo etc.), mas há aumento de certeza em relação ao título original e uma inferência não sustentada no main_find. O título do TechCrunch é descritivo ('How OpenAI turned...'), mas o body da AYA afirma 'A mudança indica que a empresa está reposicionando produtos...' — interpretação apresentada como fato.",
+    "issues": [
+      "Main_find body: 'A mudança indica que a empresa está reposicionando produtos originalmente voltados a desenvolvedores para um público mais amplo' — inferência estratégica não presente no título, apresentada como conclusão factual.",
+      "Main_find bullet 1: 'O movimento segue um padrão de mercado: empresas de AI estão migrando de ferramentas especializadas para assistentes de uso geral' — generalização de mercado sem fonte, exatamente o tipo de panorama que o critério 2 pede para evitar.",
+      "Quick_find Moonshot: título original diz 'roll-out stumbles' e 'promotional scrutiny widens'; a AYA traduz como 'lançamento problemático' e 'escrutínio maior sobre a promoção' — aceitável, mas 'tropeço' no título em português suaviza o original sem necessidade."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição de fontes (TechCrunch, SCMP, HuggingFace) e geografia (EUA, China, Índia). Audiência tem 'desenvolvedores' e 'executivos de negócio'. Nenhum source aparece mais de 2 vezes entre main_find + quick_finds.",
+    "issues": [
+      "Dois quick_finds são do SCMP Tech (Pequim/ONU e Moonshot) — dentro do limite de 2, mas concentra a cobertura geográfica chinesa em uma única fonte.",
+      "Três dos cinco itens têm primary_audience 'desenvolvedores' (main_find, Moonshot, Beyond Benchmarks), reduzindo a variedade de audiência."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (OpenAI/dots) e o segundo item (Pequim/ONU), o que é bom. Porém, a segunda frase ('Separei 5 achados de 5 fontes...') é genérica e poderia servir para qualquer edição.",
+    "issues": [
+      "Segunda frase é boilerplate: 'Separei 5 achados de 5 fontes pra você não precisar vasculhar os 307 posts' — não acrescenta informação editorial específica desta edição."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista itens como 'aprovados' que depois são descartados no mesmo parágrafo (GPT-6.1 Sol, Greptile, Will the real Anthropic), o que confunde a leitura. Além disso, afirma que 'Beyond Benchmarks' é pesquisa aprovada, mas não explica por que ela satisfaz os critérios de seleção — apenas a classifica como 'pesquisa'. O main_find_rationale não compara com alternativas reais (ex: por que não Nvidia/Índia ou Pequim/ONU como main).",
+    "issues": [
+      "Reasoning diz 'Aprovados: ... GPT-6.1 Sol helps CodeRabbit e Greptile ... (OpenAI Blog — casos de uso, mas são marketing de cliente, descartados por STEP 1.5)' — contradição interna: lista como aprovado e descarta na mesma frase.",
+      "Reasoning não justifica por que 'Beyond Benchmarks' passa nos critérios de seleção; apenas a rotula como 'pesquisa'.",
+      "Main_find_rationale afirma 'acionável para quem usa ferramentas de código', mas o próprio body admite que não se sabe se o dots substitui ou convive com as ferramentas — logo, a acionabilidade é hipotética.",
+      "Não há perspective_check explícito no reasoning, apesar de o prompt de auditoria pedir essa observação."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Wikipedia's Cleanup of AI-Generated Content",
+      "source": "HackerNews (IEEE Spectrum)",
+      "why_should_include": "Evento singular (Wikiproject de limpeza de conteúdo gerado por AI) com sinal de mercado sobre confiabilidade de conteúdo AI e impacto em workflow editorial; tem tração (52 pontos, 20 comentários).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "GPT-6.1 Terra",
+      "source": "Simon Willison",
+      "why_should_include": "Lançamento de modelo com análise técnica de um observador respeitado; se o post contém detalhes de capacidade/uso, é acionável para desenvolvedores e sinal de produto. A AYA descartou por 'release sem info nova no título', mas não verificou o conteúdo.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Beyond Benchmarks: Can Small Open-Weight Models Get Real Coding Work Done?",
+      "field": "quick_finds",
+      "why_should_discard": "Paper de pesquisa sem evento singular de empresa, sem ferramenta testável e sem movimento estratégico específico — não satisfaz 2 dos 3 critérios de seleção.",
+      "violated_rule": "Critérios de seleção (precisa de 2 de 3): acionável, sinal de mercado, afeta workflows"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção trata 'pesquisa/dado' como categoria epistêmica válida sem exigir que o paper tenha aplicação prática ou evento singular de empresa, permitindo que papers genéricos entrem como quick_find.",
+      "evidence": "'Beyond Benchmarks' entrou como quick_find apenas por ser paper do HuggingFace, sem justificativa de acionabilidade ou sinal de mercado.",
+      "suggested_fix": "Exigir que papers de pesquisa só entrem se houver aplicação prática clara (ferramenta, dataset, benchmark adotável) ou se forem de um player específico com implicação de produto."
+    },
+    {
+      "hypothesis": "O prompt não instrui a AYA a verificar o conteúdo do artigo antes de escrever o body; ela se baseia apenas no título, o que gera inferências estratégicas não sustentadas.",
+      "evidence": "Main_find body afirma 'A mudança indica que a empresa está reposicionando produtos...' e depois admite 'Ainda não está claro no título se o dots substitui...' — contradição entre afirmação e ressalva.",
+      "suggested_fix": "Adicionar regra: se a informação disponível é apenas o título, o body deve se limitar ao que o título afirma e usar condicional para qualquer inferência."
+    },
+    {
+      "hypothesis": "O reasoning não tem um campo estruturado de comparação entre candidatos, então a AYA lista itens como 'aprovados' e depois os descarta no mesmo parágrafo, gerando contradição.",
+      "evidence": "Reasoning lista GPT-6.1 Sol e Greptile como 'Aprovados' e imediatamente os descarta por STEP 1.5.",
+      "suggested_fix": "Separar no reasoning os campos 'aprovados no AI Gate' e 'selecionados após critérios', evitando listas mistas."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find frágil (baseado só no título, com inferência estratégica não sustentada) e um quick_find que não passa nos critérios de seleção (paper de pesquisa sem acionabilidade). O reasoning é internamente contraditório ao listar itens como aprovados e descartá-los na mesma frase, e a intro tem uma segunda frase genérica. A diversidade de fontes e geografia é o ponto mais forte."
+}

@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de modelo frontier com ranking em índice independente, corroborado por múltiplas fontes — evento singular e verificável.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Relatório anual com dados concretos sobre adoção de AI em código, com análise de fonte respeitada — evento datado e verificável.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Aquisição estratégica com implicação clara para infraestrutura de voz e o framework Pipecat — evento singular e datado.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto de AI em mercado específico por big tech chinesa — evento singular e relevante.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Debate sobre soberania de AI com evento em andamento, fonte jornalística verificável e ângulo relevante.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Atualização de produto concreta da Alexa com novas funções — evento datado e verificável.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C36\", \"why\": \"Alegação de que OpenAI planeja comprar TPUs do Google é evento singular com implicações estratégicas fortes para o mercado de AI, mais relevante que itens como a atualização da Alexa.\"},\n    {\"candidate\": \"C39\", \"why\": \"Surgimento de identificadores do DeepSeek V5 em repositório oficial é evento datado e verificável, com potencial de antecipar lançamento relevante — mais forte que a atualização da Alexa.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de modelo frontier com ranking em índice independente, corroborado por múltiplas fontes — evento singular e verificável."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Relatório anual com dados concretos sobre adoção de AI em código, com análise de fonte respeitada — evento datado e verificável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Aquisição estratégica com implicação clara para infraestrutura de voz e o framework Pipecat — evento singular e datado."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto de AI em mercado específico por big tech chinesa — evento singular e relevante."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Debate sobre soberania de AI com evento em andamento, fonte jornalística verificável e ângulo relevante."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Atualização de produto concreta da Alexa com novas funções — evento datado e verificável."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C36",
+      "title": "OpenAI reportedly plans to buy Google's AI chips (TPUs) — rivals becoming each other's suppliers",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1xhzycw/openai_reportedly_plans_to_buy_googles_ai_chips/",
+      "why": "Alegação de que OpenAI planeja comprar TPUs do Google é evento singular com implicações estratégicas fortes para o mercado de AI, mais relevante que itens como a atualização da Alexa."
+    },
+    {
+      "candidate": "C39",
+      "title": "DeepSeek V5 identifiers surface in official Harness code repository",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/10/29/deepseek-v5-identifiers-surface-in-official-harness-code-repository/",
+      "why": "Surgimento de identificadores do DeepSeek V5 em repositório oficial é evento datado e verificável, com potencial de antecipar lançamento relevante — mais forte que a atualização da Alexa."
+    }
+  ]
+}

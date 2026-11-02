@@ -1,0 +1,98 @@
+{
+  "edition": "220",
+  "audited_at": "2026-11-02T18:08:09.444063-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Kodiak) passa no AI Gate e tem sinal de mercado real (primeiro contrato comercial de caminhões autônomos em rodovias públicas), mas o reasoning da Aya escolheu o Claude Opus 5.5 como main_find original e só trocou por 'barra do destaque: reddit sem corroboração' — o que é uma justificativa de fonte, não editorial. Os quick_finds são mistos: Bank of America e UK asilo são regulação/crítica legítima com AI Gate; Genie 4 é lançamento de produto válido; LFM3 é borderline (blog de ferramenta sem evento singular de mercado, mas acionável para devs).",
+    "issues": [
+      "main_swaps revela que o main_find original era Claude Opus 5.5 (r/artificial), trocado por Kodiak com justificativa de 'reddit sem corroboração' — a troca não foi por ranking editorial (acionabilidade/sinal de mercado), foi por fonte.",
+      "LFM3 (HuggingFace Blog) é borderline: blog de ferramenta sem evento singular de mercado; passa só por 'acionável' e 'afeta workflows', mas é o tipo de post que o anti-signal de 'blog corporativo sem novidade concreta' deveria filtrar com mais rigor.",
+      "Genie 4 é lançamento de produto legítimo, mas o signal admite 'sem detalhes de disponibilidade pública no título' — acionabilidade fraca; passa por sinal de mercado (DeepMind) e afeta workflows."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype explícito, mas há problemas de acurácia: o main_find.body repete a mesma frase do título e do primeiro bullet (redundância), e o signal do UK asilo transforma '1 em 5 resumos falhou na checagem' em afirmação categórica sem preservar o condicional do título original ('One in Five Checked Summaries Failed' é factual, mas o texto adiciona 'onde erro de resumo afeta diretamente o processo de uma pessoa' — inferência não presente no título).",
+    "issues": [
+      "main_find.body repete literalmente a frase do título e do bullet 1 ('A Kodiak — empresa de caminhões autônomos — fechou seu primeiro contrato comercial...'), gerando redundância em vez de contexto.",
+      "UK asilo: signal adiciona 'onde erro de resumo afeta diretamente o processo de uma pessoa' — inferência sobre impacto individual não presente no título original.",
+      "Bank of America: signal diz 'pediu formalmente' — o título original é 'kindly asks', que é mais brando; 'formalmente' aumenta a certeza.",
+      "Nenhuma palavra de hype explícita (revolucion*, bombástic*, game-changer) encontrada — ponto positivo."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: TechCrunch aparece 2x (main_find Kodiak + quick_find Bank of America), o que viola a regra de 'mais de 2 itens do mesmo source' — na verdade são 2, no limite. Audiência: main_find é 'executivos de negócio', quick_finds têm 'todos', 'executivos de negócio', 'desenvolvedores', 'desenvolvedores' — há diversidade. Geografia: EUA (Kodiak, Bank of America, DeepMind é UK/EUA, Liquid AI é EUA), UK (asilo) — sem 3+ da mesma região, mas concentração em EUA/UK.",
+    "issues": [
+      "TechCrunch aparece 2x entre main_find e quick_finds (Kodiak + Bank of America) — no limite da regra, mas vale sinalizar.",
+      "Nenhum item da China no output, apesar de Huawei Tau Scaling Law e Tencent estarem no input — diversidade geográfica poderia ser melhor, mas não é violação grave.",
+      "Audiência: 2 de 5 itens são 'desenvolvedores', 2 são 'executivos de negócio', 1 é 'todos' — distribuição razoável."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Kodiak, caminhões sem motorista, rodovias públicas) — não é genérica. A segunda frase ('Analisei 327 posts de 5 fontes') é boilerplate, mas aceitável. O intro cumpre o papel.",
+    "issues": [
+      "Segunda frase é boilerplate ('Analisei 327 posts de 5 fontes para separar os 5 achados') — poderia ser mais específica sobre o que a edição cobre além do main_find."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é longo e detalhado, mas há contradições: (1) diz que Claude Opus 5.5 foi escolhido como main_find por ser 'o item mais acionável e sinal de mercado', mas o output final tem Kodiak como main_find — a troca só aparece em main_swaps, não no reasoning; (2) o reasoning lista 'Genie 4' e 'LFM3' como candidatos fortes, mas não explica por que LFM3 (borderline) entrou e Huawei Tau Scaling Law (sinal de mercado geopolítico mais forte) ficou de fora; (3) o reasoning diz 'Diversidade epistêmica garantida' mas não menciona a concentração de TechCrunch.",
+    "issues": [
+      "Contradição direta: reasoning afirma que Claude Opus 5.5 é o main_find escolhido ('Main_find escolhido: Claude Opus 5.5 no ProgramBench'), mas o output tem Kodiak — a troca não é reconciliada no reasoning.",
+      "Reasoning lista Huawei Tau Scaling Law como 'sinal de mercado geopolítico' entre os candidatos fortes, mas não explica por que ficou de fora enquanto LFM3 (borderline) entrou.",
+      "Reasoning não menciona a troca de main_find nem justifica editorialmente a substituição — só main_swaps faz isso, com justificativa de fonte ('reddit sem corroboração'), não de ranking.",
+      "Perspective_check não existe como campo explícito no reasoning — a 'diversidade epistêmica garantida' é afirmação de preenchimento, não observação real."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Huawei’s Tau Scaling Law roll-out reaches base stations in blow to US chip curbs",
+      "source": "SCMP Tech",
+      "why_should_include": "Sinal de mercado singular e específico: Huawei estendendo uma lei de scaling própria para estações-base, com implicação geopolítica direta (blow to US chip curbs). Passa no AI Gate (chip/AI infrastructure) e em sinal de mercado + afeta workflows de infra.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Claude Opus 5.5 can now rebuild real programs from scratch — 18.5% on ProgramBench, up from 0% in May",
+      "source": "r/artificial",
+      "why_should_include": "Dado de benchmark concreto e acionável (0% → 18,5% em ProgramBench), com sinal de mercado claro (salto de capacidade de modelo de referência). Foi o main_find original da Aya e foi descartado só por 'reddit sem corroboração' — mas a régua de seleção não exige corroboração de fonte, exige 2 de 3 critérios, que ele satisfaz.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Build specialized multimodal models with LFM3",
+      "field": "quick_finds",
+      "why_should_discard": "Blog de ferramenta da Liquid AI sem evento singular de mercado — é post de produto/ferramenta que se enquadra no anti-signal de 'blog corporativo sem novidade concreta'. Passa só por acionabilidade fraca.",
+      "violated_rule": "Anti-signal: blog corporativo de thought-leadership/produto sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de ranking não distingue 'tração de fonte' de 'ranking editorial' — a Aya trocou o main_find por 'reddit sem corroboração', tratando corroboração de fonte como critério de ranking, quando o prompt diz que tração é tiebreaker e nunca critério principal.",
+      "evidence": "main_swaps: 'from: Claude Opus 5.5... to: Kodiak... reason: barra do destaque: reddit sem corroboração de outra fonte' — a justificativa é de fonte, não de acionabilidade/sinal de mercado.",
+      "suggested_fix": "Adicionar regra explícita: 'corroboração de fonte NÃO é critério de ranking; main_find é escolhido por acionabilidade ou sinal de mercado, independentemente da fonte'."
+    },
+    {
+      "hypothesis": "O reasoning não é reconciliado com o output final — a Aya escreve o reasoning antes da troca de main_find e não o atualiza, gerando contradição direta entre 'Main_find escolhido: Claude Opus 5.5' e o output com Kodiak.",
+      "evidence": "reasoning afirma 'Main_find escolhido: Claude Opus 5.5 no ProgramBench', mas main_find no output é Kodiak.",
+      "suggested_fix": "Exigir que o reasoning seja gerado DEPOIS da seleção final e que mencione explicitamente o main_find que está no output."
+    },
+    {
+      "hypothesis": "O anti-signal de 'blog corporativo sem novidade concreta' não está sendo aplicado a posts de ferramenta/produto de blog de empresa (LFM3, Genie 4) — a Aya trata 'lançamento de produto' como passe livre mesmo quando o post é só descritivo.",
+      "evidence": "LFM3 entrou como quick_find apesar de ser post de blog de ferramenta sem evento singular; Genie 4 entrou com signal admitindo 'sem detalhes de disponibilidade pública'.",
+      "suggested_fix": "Reforçar no STEP de anti-signals: 'post de blog de produto/ferramenta sem evento singular de mercado (contrato, M&A, mudança de política) não passa, mesmo sendo lançamento'."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find defensável (Kodiak) e quick_finds majoritariamente válidos, mas o reasoning é incoerente com o output (afirma Claude Opus 5.5 como main_find e o output tem Kodiak), a troca de main_find foi justificada por fonte e não por ranking editorial, e há um false positive claro (LFM3) e dois false negatives fortes (Huawei Tau Scaling Law e Claude Opus 5.5). O tom é contido, mas há redundância no body e pequenas inflações de certeza ('formalmente', inferência sobre impacto individual no UK asilo)."
+}

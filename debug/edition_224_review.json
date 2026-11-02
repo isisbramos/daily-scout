@@ -1,0 +1,48 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (lançamento do 'super agente' de código da DeepSeek) com fonte primária (SCMP) e ângulo claro de AI/tech.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Decisão judicial datada e singular envolvendo a xAI, com fonte verificável (TechCrunch) e ângulo relevante de infraestrutura de AI.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Apesar do tom de tendência, ancora-se em evento datado e concreto (data centers entrando na pauta das midterms) reportado pelo TechCrunch.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Declaração pública e datada de uma entidade específica (fundador da Z.ai) com posição concreta sobre AI autoaperfeiçoável e segurança, não é mero thought-leadership genérico.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C33\", \"why\": \"Achado singular e verificável (red-teaming automatizado da Anthropic encontrou ponto cego em monitores de dados de treino), mais forte que o item de panorama eleitoral (idx 2).\"},\n    {\"candidate\": \"C36\", \"why\": \"Evento concreto e datado (Claude bloqueia clonagem de jogos e engenharia reversa, afetando desenvolvedores legítimos), com ângulo de produto/regulação mais forte que o item de panorama (idx 2).\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (lançamento do 'super agente' de código da DeepSeek) com fonte primária (SCMP) e ângulo claro de AI/tech."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Decisão judicial datada e singular envolvendo a xAI, com fonte verificável (TechCrunch) e ângulo relevante de infraestrutura de AI."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Apesar do tom de tendência, ancora-se em evento datado e concreto (data centers entrando na pauta das midterms) reportado pelo TechCrunch."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Declaração pública e datada de uma entidade específica (fundador da Z.ai) com posição concreta sobre AI autoaperfeiçoável e segurança, não é mero thought-leadership genérico."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C33",
+      "title": "Anthropic's automated red-teaming found a blind spot in training-data monitors",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1xks5ad/anthropics_automated_redteaming_found_a_blind/",
+      "why": "Achado singular e verificável (red-teaming automatizado da Anthropic encontrou ponto cego em monitores de dados de treino), mais forte que o item de panorama eleitoral (idx 2)."
+    },
+    {
+      "candidate": "C36",
+      "title": "Anthropic's Claude AI blocks video game cloning and reverse-engineering — sweeping new restrictions also hit legitimate developers and basic troubleshooting tasks",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1xkibsh/anthropics_claude_ai_blocks_video_game_cloning/",
+      "why": "Evento concreto e datado (Claude bloqueia clonagem de jogos e engenharia reversa, afetando desenvolvedores legítimos), com ângulo de produto/regulação mais forte que o item de panorama (idx 2)."
+    }
+  ]
+}

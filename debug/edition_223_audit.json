@@ -1,0 +1,98 @@
+{
+  "edition": "223",
+  "audited_at": "2026-11-02T18:08:56.099271-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Apple Intelligence na China com Alibaba) passa no AI Gate e tem sinal de mercado específico, mas o quick_find sobre Democratas/NYT é especulativo e baseado em post de Reddit citando NYT, sem evento singular concreto — beira o anti-signal de 'panorama político'. O paper de arXiv sobre conluio é legítimo, mas o Zest é lançamento de produto menor sem tração ou detalhe suficiente para justificar inclusão.",
+    "issues": [
+      "Quick_find 'Democratas sinalizam mudança de postura sobre regulação de AI' é baseado em post de Reddit citando NYT, sem texto de lei, cronograma ou evento singular — é sinalização política especulativa, não evento concreto. Viola o critério de 'sinal de mercado' (não é movimento estratégico específico de um player) e flerta com anti-signal de panorama.",
+      "Quick_find 'Zest lança agente de AI' é lançamento de produto sem tração, sem cross-source, sem detalhe sobre adoção ou diferencial técnico — satisfaz no máximo 'acionável' de forma fraca, não 2 de 3 critérios.",
+      "O reasoning afirma que 'Salesforce/Rune' foi descartado por 'defesa sem AI central', mas o título não permite essa conclusão — o descarte pode estar correto, mas a justificativa é inferida, não verificada."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype, e o main_find preserva o nível de certeza do título original ('vai liberar' é afirmação, mas o título do SCMP também é afirmativo). Há um problema pontual: o quick_find sobre Democratas usa 'devem acompanhar' e 'indicador antecedente', o que é adequado, mas o claim_status 'especulativo' está correto e o texto não exagera. Não encontrei informação inventada grave.",
+    "issues": [
+      "No main_find.body, a frase 'A Alibaba já opera o Qwen, sua família de modelos de linguagem, e tem relação consolidada com reguladores' adiciona detalhe ('relação consolidada com reguladores') que não está no título nem é verificável pelo input — é inferência apresentada como fato.",
+      "No quick_find do Zest, 'sem app dedicado, sem interface própria' é detalhe não presente no título — pode ser verdade, mas não está no input e não foi verificado."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes: TechCrunch aparece 2x (Zest e Nvidia no radar), SCMP 1x, arXiv 2x (um quick_find, um radar), Reddit 1x — dentro do limite de 'mais de 2 do mesmo source' entre main_find + quick_finds (TechCrunch tem 1 no quick_finds, não 2). Audiência: 'product managers e fundadores' (2x), 'executivos de negócio' (1x), 'desenvolvedores' (1x) — há variedade. Geografia: China (Apple/Alibaba), EUA (Zest, Democratas, arXiv) — 3 itens dos EUA, no limite, mas não ultrapassa.",
+    "issues": [
+      "Três dos quatro itens principais (Zest, Democratas, paper arXiv) são dos EUA — no limite do aceitável, mas concentração notável.",
+      "O radar tem Nvidia/Nscale (EUA) e WebAnything (arXiv, sem geografia clara) — não agrava."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('Apple finalmente destravando AI no iPhone chinês com apoio da Alibaba'), o que é bom. A segunda frase menciona o Ollie, que não está no output (foi descartado ou omitido) — isso é uma inconsistência: o intro promete um item que não aparece na edição.",
+    "issues": [
+      "O intro diz 'enquanto um assistente de AI focado em privacidade anuncia encerramento' (Ollie), mas o Ollie não aparece em main_find, quick_finds nem radar — o leitor é remetido a um item ausente.",
+      "O intro diz 'Separei 5 itens de 5 fontes', mas o output tem 4 itens principais (1 main + 3 quick) de 3 fontes (SCMP, TechCrunch, Reddit, arXiv = 4 fontes, mas 4 itens, não 5). Contagem inconsistente."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os descartes por AI Gate, mas há contradições: afirma que o Ollie 'entra como quick_find' e depois o output não o inclui; afirma que 'Salesforce/Rune' foi descartado por 'defesa sem AI central' sem base no título; e diz que o main_find foi escolhido por 'não saturado nas edições recentes', o que é critério não verificável e não previsto nas regras. A justificativa do main_find é razoável, mas a coerência interna falha.",
+    "issues": [
+      "O reasoning afirma 'Ollie shutdown entra como quick_find (cross-source, encerramento de produto de AI com data concreta)', mas o Ollie não aparece no output — contradição direta entre reasoning e seleção.",
+      "O reasoning afirma que 'Salesforce/Rune' foi descartado por 'defesa sem AI central', mas o título não informa isso — a justificativa é inventada ou inferida sem base.",
+      "O reasoning usa 'não saturado nas edições recentes' como critério de escolha do main_find, mas esse critério não está nas regras fornecidas — é racionalização ad hoc.",
+      "O reasoning diz 'Diversidade epistêmica coberta: produto (Zest, Ollie), pesquisa (arXiv), regulação (NYT/Democrats)' — mas o Ollie não está no output, então a cobertura de produto é só Zest."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Ollie, a privacy-focused AI assistant, is shutting down",
+      "source": "TechCrunch",
+      "why_should_include": "Encerramento de produto de AI com data concreta (6/11/2026), cross-source (TechCrunch + r/artificial), afeta workflows de usuários e é evento singular de uma empresa — passa no AI Gate e satisfaz 'sinal de mercado' (shutdown de plataforma) e 'afeta workflows'.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "NYT: 'the lawmakers also signaled that if the Democrats retook the House...'",
+      "source": "r/artificial",
+      "why_should_include": "Não deveria ser false negative — na verdade é um false positive no output. Mas se a régua for aplicada, o item é especulativo e não deveria entrar; portanto não conta como false negative. (Nota: incluído aqui apenas para registrar que a régua foi aplicada corretamente ao descartar, mas o output o incluiu.)",
+      "missed_criteria": []
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Democratas sinalizam mudança de postura sobre regulação de AI se retomarem a Câmara",
+      "field": "quick_finds",
+      "why_should_discard": "Sinalização política especulativa baseada em post de Reddit citando NYT, sem texto de lei, cronograma ou evento singular de uma empresa — não satisfaz 'sinal de mercado' (não é movimento estratégico específico de um player) e é anti-signal de panorama político sem evento concreto.",
+      "violated_rule": "Critério 2 (sinal de mercado) — não é movimento específico de player; e anti-signal de panorama/tendência sem evento singular"
+    },
+    {
+      "title": "Zest lança agente de AI que encontra restaurantes e faz reservas por mensagem",
+      "field": "quick_finds",
+      "why_should_discard": "Lançamento de produto sem tração, sem cross-source, sem detalhe sobre adoção ou diferencial técnico — satisfaz no máximo 'acionável' de forma fraca, não 2 de 3 critérios. É produto menor sem sinal de mercado.",
+      "violated_rule": "Critério de seleção — precisa de pelo menos 2 de 3; aqui só 'acionável' de forma fraca"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção de quick_finds pode não exigir a mesma régua de 2-de-3 critérios que o main_find, permitindo itens fracos como o Zest.",
+      "evidence": "O Zest entrou como quick_find sem tração, sem cross-source e sem detalhe — se a régua fosse aplicada, não passaria.",
+      "suggested_fix": "Aplicar explicitamente os mesmos 2-de-3 critérios a quick_finds, não só ao main_find."
+    },
+    {
+      "hypothesis": "O STEP de reasoning pode permitir que o LLM 'prometa' itens no reasoning que depois não são incluídos no output, sem validação de consistência.",
+      "evidence": "O reasoning afirma que o Ollie entra como quick_find, mas o output não o inclui — contradição direta.",
+      "suggested_fix": "Adicionar validação que force o reasoning a listar apenas itens efetivamente presentes no output, ou que o output inclua todos os itens prometidos no reasoning."
+    },
+    {
+      "hypothesis": "O STEP de anti-signals pode não cobrir explicitamente 'sinalização política especulativa sem evento concreto' como anti-signal, permitindo que o item dos Democratas passe.",
+      "evidence": "O quick_find dos Democratas é especulativo e baseado em post de Reddit, mas foi incluído.",
+      "suggested_fix": "Adicionar 'sinalização política especulativa sem texto de lei ou evento concreto' à lista de anti-signals."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find sólido (Apple/Alibaba), mas inclui dois quick_finds fracos (Zest e Democratas) que não passam na régua de 2-de-3 critérios, e o reasoning promete um item (Ollie) que não aparece no output — contradição interna grave. O intro também menciona o Ollie e conta '5 itens de 5 fontes' quando o output tem 4 itens de 4 fontes."
+}

@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (comprometimento da Anthropic para distribuir trojan) com fonte primária (post técnico no DoublePulsar) e corroboração no HackerNews, relevante para leitores de tech/AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Alegação de backdoor em extensões oficiais é especulativa, mas o tom é explicitamente de especulação e há fonte identificável (post de GossiTheDog no cyberplace.social), não anônima.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (acordo Waymo-Toyota para robotáxis no Japão e Reino Unido) com fonte verificável (TechCrunch) e ângulo claro de AI/tech.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Notícia de produto/estratégia de uma startup específica com evento datado e fonte verificável (TechCrunch), não é roundup nem funding puro.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Mudança concreta de produto (créditos de API incluídos em assinaturas ChatGPT) registrada por fonte primária (Simon Willison) com link para anúncio da OpenAI.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto com preço concreto (humanoide Noetix a RMB 9.998) e evento singular datado, fonte verificável (TechNode).\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C14\", \"why\": \"Atualização do Model Spec da OpenAI é evento singular, datado e de fonte primária (blog oficial), com impacto direto em comportamento de modelos — mais forte e verificável que itens especulativos publicados.\"},\n    {\"candidate\": \"C29\", \"why\": \"Mesmo evento do idx 2 (Waymo-Toyota), mas citado como candidato não publicado; não é mais forte que o pior item publicado, então não se aplica. Alternativa: C13 (Granite Switch 4.1.1) é atualização de produto concreta com fonte primária (HuggingFace Blog), mais verificável que o item especulativo idx 1.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (comprometimento da Anthropic para distribuir trojan) com fonte primária (post técnico no DoublePulsar) e corroboração no HackerNews, relevante para leitores de tech/AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Alegação de backdoor em extensões oficiais é especulativa, mas o tom é explicitamente de especulação e há fonte identificável (post de GossiTheDog no cyberplace.social), não anônima."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (acordo Waymo-Toyota para robotáxis no Japão e Reino Unido) com fonte verificável (TechCrunch) e ângulo claro de AI/tech."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Notícia de produto/estratégia de uma startup específica com evento datado e fonte verificável (TechCrunch), não é roundup nem funding puro."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Mudança concreta de produto (créditos de API incluídos em assinaturas ChatGPT) registrada por fonte primária (Simon Willison) com link para anúncio da OpenAI."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto com preço concreto (humanoide Noetix a RMB 9.998) e evento singular datado, fonte verificável (TechNode)."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C14",
+      "title": "An updated Model Spec for more capable and beneficial AI",
+      "source": "OpenAI Blog",
+      "url": "https://openai.com/index/updated-model-spec",
+      "why": "Atualização do Model Spec da OpenAI é evento singular, datado e de fonte primária (blog oficial), com impacto direto em comportamento de modelos — mais forte e verificável que itens especulativos publicados."
+    },
+    {
+      "candidate": "C29",
+      "title": "Waymo taps Toyota to supply robotaxis for Japan and the U.K.",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/10/30/waymos-next-robotaxi-will-be-a-toyota-bz4x-destined-for-japan-and-the-uk/",
+      "why": "Mesmo evento do idx 2 (Waymo-Toyota), mas citado como candidato não publicado; não é mais forte que o pior item publicado, então não se aplica. Alternativa: C13 (Granite Switch 4.1.1) é atualização de produto concreta com fonte primária (HuggingFace Blog), mais verificável que o item especulativo id"
+    }
+  ]
+}
