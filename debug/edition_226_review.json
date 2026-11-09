@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Projeto open source concreto da Nvidia com repositório verificável e relevante para agentes de AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Post técnico identificado (Honnibal) que contesta uma alegação específica, com fonte primária e discussão relevante.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Paper de pesquisa concreto sobre treino de agentes de código, tipo desejado e verificável.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Levantamento jornalístico datado sobre adesão a um teste político de AI, com evento singular e fonte verificável.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Análise com dado concreto sobre margens de empresas chinesas de AI, relevante e verificável.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Show HN de ferramenta concreta (Subvocal) com link verificável e ângulo tech claro.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C31\", \"why\": \"Evento singular e datado (Brookfield mira data center de US$ 27 bi no Reino Unido), com fonte jornalística verificável e relevante para infraestrutura de AI.\"},\n    {\"candidate\": \"C27\", \"why\": \"Rodada de investimento concreta (Nanochap levanta RMB 500 mi) em interface cérebro-computador, com uso de capital implícito e fonte TechNode verificável.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Projeto open source concreto da Nvidia com repositório verificável e relevante para agentes de AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Post técnico identificado (Honnibal) que contesta uma alegação específica, com fonte primária e discussão relevante."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa concreto sobre treino de agentes de código, tipo desejado e verificável."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Levantamento jornalístico datado sobre adesão a um teste político de AI, com evento singular e fonte verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Análise com dado concreto sobre margens de empresas chinesas de AI, relevante e verificável."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Show HN de ferramenta concreta (Subvocal) com link verificável e ângulo tech claro."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C31",
+      "title": "Brookfield targets $27 billion AI data centre at UK power station site in Yorkshire",
+      "source": "r/artificial",
+      "url": "https://www.reddit.com/r/artificial/comments/1xmrhht/brookfield_targets_27_billion_ai_data_centre_at/",
+      "why": "Evento singular e datado (Brookfield mira data center de US$ 27 bi no Reino Unido), com fonte jornalística verificável e relevante para infraestrutura de AI."
+    },
+    {
+      "candidate": "C27",
+      "title": "Visual brain-computer interface developer Nanochap raises RMB 500 million",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/03/visual-brain-computer-interface-developer-nanochap-raises-rmb-500-million/",
+      "why": "Rodada de investimento concreta (Nanochap levanta RMB 500 mi) em interface cérebro-computador, com uso de capital implícito e fonte TechNode verificável."
+    }
+  ]
+}

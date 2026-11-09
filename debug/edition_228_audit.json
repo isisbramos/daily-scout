@@ -1,0 +1,99 @@
+{
+  "edition": "228",
+  "audited_at": "2026-11-09T18:46:36.071515-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Oracle/Tencent) passa no AI Gate e tem sinal de mercado forte, mas é 'reportedly' — especulativo — e a Aya o trata como evento confirmado no step5_phrase. Quick finds como 'Greve em Taiwan' e 'Turns Matter' são tangenciais: a greve não é sobre AI/ML, é sobre condições trabalhistas na cadeia; o paper de RL para vídeo é pesquisa sem acionabilidade clara. 'Box + Nemotron' é o quick find mais alinhado.",
+    "issues": [
+      "Greve em Taiwan: AI Gate tangencial — o evento é trabalhista, não de AI/ML; o critério 'afeta workflows' é forçado (empresas que compram hardware taiwanês).",
+      "Turns Matter: paper de RL para vídeo em streaming — acionabilidade baixa para o leitor da newsletter; satisfaz no máximo 'sinal de mercado' fraco (pesquisa).",
+      "FrontierPhysics: benchmark de agentes científicos — acionável apenas para nicho de pesquisa; não muda workflow de tech/AI no dia a dia.",
+      "Main_find é 'reportedly' (especulativo) mas o step5_phrase afirma 'Oracle está saindo de um contrato' — certeza aumentada."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 2,
+    "rationale": "O título original diz 'reportedly cancels' e o body preserva 'teria cancelado', mas o step5_phrase e o título do main_find perdem o condicional ('Oracle teria cancelado' no título, mas 'Oracle está saindo' no step5). Há também informação não sustentada pelo título: 'leasing de capacidade de computação, não compra de chips' é inferência apresentada como fato.",
+    "issues": [
+      "step5_phrase do main_find: 'Oracle está saindo de um contrato de US$ 7 bi' — afirmação direta de evento 'reportedly'.",
+      "Bullet 1 do main_find: 'indica que a Tencent estava terceirizando infraestrutura em vez de construir data centers próprios' — inferência não presente no título nem no texto-fonte citado.",
+      "Quick find 'Greve em Taiwan': signal afirma 'Taiwan concentra parte relevante da fabricação de componentes usados em data centers e chips' — contexto genérico não verificado no título.",
+      "Quick find 'Phonon TTS': 'lidera benchmarks da categoria' — o título diz 'Tops the Benchmarks', mas o signal transforma em 'lidera' sem qualificar quais benchmarks."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa diversidade de fontes (TechNode, HuggingFace Blog, TechCrunch, HuggingFace Papers, Rest of World) e audiências (executivos, desenvolvedores, PMs). Geografia razoável: China/EUA/Taiwan. Nenhuma fonte repetida mais de uma vez entre main_find + quick_finds.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 2,
+    "rationale": "A primeira frase menciona 'geopolítica de chips' e 'TTS on-device', que são temas da edição, mas não o evento específico do main_find (Oracle/Tencent). É genérica o suficiente para servir a qualquer edição com esses dois temas.",
+    "issues": [
+      "Primeira frase não cita Oracle, Tencent ou o cancelamento do lease — apenas categorias amplas ('geopolítica de chips', 'TTS on-device').",
+      "Segunda frase ('Garimpei 40 posts de 22 fontes') é meta-comentário de processo, não conteúdo editorial."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os descartes e justifica o main_find, mas há contradições: diz que 'Texas data center buildout' é anti-signal por ser panorama, mas o main_find Oracle/Tencent também é 'reportedly' e o reasoning não menciona o status especulativo. Além disso, o reasoning afirma que papers de agentes 'vão pra radar se valerem', mas o radar inclui um item agregando três papers — o que é roundup, não evento singular.",
+    "issues": [
+      "Reasoning não aborda o status 'reportedly' do main_find nem justifica por que um evento especulativo vira main_find.",
+      "Radar item 'Papers propõem controle operacional...' agrega três papers do arXiv — é roundup, contrariando a regra de main_find/radar sobre evento singular.",
+      "Reasoning diz que 'datasette-llm 0.1a10' foi descartado por ser 'release de patch', mas o item tem cross_source_count 4 — sinal de relevância que o reasoning ignora."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "datasette-llm 0.1a10",
+      "source": "Simon Willison",
+      "why_should_include": "Plugin que integra LLMs ao Datasette — ferramenta acionável para desenvolvedores que trabalham com dados e AI; cross_source_count 4 indica tração real. O reasoning descarta como 'release de patch', mas a versão 0.1a10 de um plugin de LLM é novidade concreta de produto.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Baidu Tests a New Way to Train Robotaxis",
+      "source": "TechNode",
+      "why_should_include": "Evento singular de uma empresa específica (Baidu) com mudança de método de treino de robotaxis — sinal de mercado e potencial acionabilidade para quem acompanha autonomia. Passa no AI Gate e tem pelo menos 2 critérios.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Greve rara em Taiwan expõe tensão trabalhista sob a corrida global de AI",
+      "field": "quick_finds",
+      "why_should_discard": "O evento é trabalhista, não de AI/ML; a conexão com AI é contextual (cadeia de hardware). Não satisfaz 'afeta workflows' de tech/AI no dia a dia nem 'sinal de mercado' de um player de AI.",
+      "violated_rule": "STEP 1 - AI Gate (conexão tangencial)"
+    },
+    {
+      "title": "Turns Matter propõe treino de RL para vídeo em streaming com crédito por turno",
+      "field": "quick_finds",
+      "why_should_discard": "Paper de pesquisa sem acionabilidade clara para o leitor da newsletter; não muda workflow de tech/AI no dia a dia e não é sinal de mercado de um player específico.",
+      "violated_rule": "Critérios de seleção — não satisfaz 2 de 3"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP 1 (AI Gate) permite conexão 'tangencial' sem exigir que o evento seja sobre AI/ML — a greve em Taiwan passou por menção à 'corrida de AI'.",
+      "evidence": "Quick find 'Greve em Taiwan' foi incluído com signal que admite conexão indireta ('cadeia de produção que sustenta a corrida de AI').",
+      "suggested_fix": "Exigir que o evento em si seja sobre AI/ML ou decisão de empresa de AI, não apenas contextualizado por ela."
+    },
+    {
+      "hypothesis": "A regra de 'preservar nível de certeza' não é aplicada ao step5_phrase, apenas ao body.",
+      "evidence": "Main_find 'reportedly cancels' virou step5_phrase 'Oracle está saindo de um contrato'.",
+      "suggested_fix": "Aplicar a checagem de certeza também ao step5_phrase e ao título do main_find."
+    },
+    {
+      "hypothesis": "O prompt não define que radar também deve ser evento singular, permitindo roundups de papers.",
+      "evidence": "Radar item 'Papers propõem controle operacional...' agrega três papers do arXiv.",
+      "suggested_fix": "Estender a regra de 'evento singular' ao radar ou criar categoria explícita para 'linha de pesquisa'."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "O main_find é especulativo ('reportedly') mas tratado como confirmado no step5_phrase, e quick finds como 'Greve em Taiwan' e 'Turns Matter' têm conexão tangencial com AI ou baixa acionabilidade. O reasoning é coerente na estrutura, mas ignora o status especulativo do main_find e inclui roundup de papers no radar."
+}

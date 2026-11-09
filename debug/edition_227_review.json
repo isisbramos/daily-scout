@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Aquisição anunciada pela própria OpenAI é evento singular, datado e de fonte primária, com ângulo estratégico claro.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de produto concreto (Hy4 com visão e computer use) por empresa identificável, com fonte verificável.\"},{\"idx\":2,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Publicação de benchmark concreto por entidade identificável (Allen Institute), tipo pesquisa desejado.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento eleitoral datado e singular com impacto direto em infraestrutura de AI, corroborado por fonte nomeada (Semafor).\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Declaração pública de engenheiro da DeepSeek sobre estratégia open source, com fonte primária identificada (SCMP).\"},{\"idx\":5,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Paper no arXiv com achado concreto sobre alignment faking, tipo pesquisa desejado e verificável.\"}],\"missed\":[{\"candidate\":\"C30\",\"why\":\"Demissão em massa na Canva (1.200+ pessoas) é evento singular, datado e de fonte verificável, mais forte que itens de pesquisa/opinião publicados.\"},{\"candidate\":\"C23\",\"why\":\"Vulnerabilidade de execução arbitrária de código no apt do Debian é achado técnico concreto e relevante para leitores de tech, com fonte verificável.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Aquisição anunciada pela própria OpenAI é evento singular, datado e de fonte primária, com ângulo estratégico claro."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (Hy4 com visão e computer use) por empresa identificável, com fonte verificável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Publicação de benchmark concreto por entidade identificável (Allen Institute), tipo pesquisa desejado."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento eleitoral datado e singular com impacto direto em infraestrutura de AI, corroborado por fonte nomeada (Semafor)."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Declaração pública de engenheiro da DeepSeek sobre estratégia open source, com fonte primária identificada (SCMP)."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper no arXiv com achado concreto sobre alignment faking, tipo pesquisa desejado e verificável."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C30",
+      "title": "Canva lays off over 1,200 people amid slowing growth",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/04/canva-lays-off-over-1200-people-amid-slowing-growth/",
+      "why": "Demissão em massa na Canva (1.200+ pessoas) é evento singular, datado e de fonte verificável, mais forte que itens de pesquisa/opinião publicados."
+    },
+    {
+      "candidate": "C23",
+      "title": "Man-in-the-middle arbitrary code execution in Debian’s apt",
+      "source": "Lobsters",
+      "url": "https://lists.debian.org/debian-security-announce/2026/msg00526.html",
+      "why": "Vulnerabilidade de execução arbitrária de código no apt do Debian é achado técnico concreto e relevante para leitores de tech, com fonte verificável."
+    }
+  ]
+}

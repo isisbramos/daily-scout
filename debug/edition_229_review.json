@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Issue concreta no repositório do Claude Code com alta tração no HackerNews, evento singular e verificável sobre comportamento de ferramenta de AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Demo de produto concreto (modelo de voz de 32 MB) com novidade técnica clara e fonte primária (TechCrunch).\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de produto datado e específico (Gemini Omni 1.2 Flash) com mudança concreta de capacidade.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Dado de mercado com evento singular (dominância de modelos chineses no gasto empresarial open source) reportado pelo SCMP, não é roundup genérico.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Episódio datado e localizado (invasão de canteiro de data center da Microsoft em Amsterdã) com fonte verificável.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de modelos abertos concretos (NVIDIA Cosmos 3) com aplicação específica em simulação de mundo.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C20\", \"why\": \"Relato em primeira pessoa de teste concreto de robô humanoide limpando apartamento, evento singular e verificável, mais forte que itens de mercado genéricos.\"},\n    {\"candidate\": \"C28\", \"why\": \"Expansão datada e específica de capacidade de inferência da Tencent (Hy4 dez vezes maior) com demanda concreta, evento singular de uma empresa.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Issue concreta no repositório do Claude Code com alta tração no HackerNews, evento singular e verificável sobre comportamento de ferramenta de AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Demo de produto concreto (modelo de voz de 32 MB) com novidade técnica clara e fonte primária (TechCrunch)."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto datado e específico (Gemini Omni 1.2 Flash) com mudança concreta de capacidade."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Dado de mercado com evento singular (dominância de modelos chineses no gasto empresarial open source) reportado pelo SCMP, não é roundup genérico."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Episódio datado e localizado (invasão de canteiro de data center da Microsoft em Amsterdã) com fonte verificável."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de modelos abertos concretos (NVIDIA Cosmos 3) com aplicação específica em simulação de mundo."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C20",
+      "title": "I watched a humanoid robot clean my apartment. It felt like a taste of the future.",
+      "source": "MIT Technology Review",
+      "url": "https://www.technologyreview.com/2026/11/06/1148090/i-watched-a-humanoid-robot-clean-my-apartment-it-felt-like-a-taste-of-the-future/",
+      "why": "Relato em primeira pessoa de teste concreto de robô humanoide limpando apartamento, evento singular e verificável, mais forte que itens de mercado genéricos."
+    },
+    {
+      "candidate": "C28",
+      "title": "Tencent expands Hy4 inference capacity tenfold as WorkBuddy demand surges",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/06/tencent-expands-hy4-inference-capacity-tenfold-as-workbuddy-demand-surges/",
+      "why": "Expansão datada e específica de capacidade de inferência da Tencent (Hy4 dez vezes maior) com demanda concreta, evento singular de uma empresa."
+    }
+  ]
+}

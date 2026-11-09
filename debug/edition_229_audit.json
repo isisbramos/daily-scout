@@ -1,0 +1,109 @@
+{
+  "edition": "229",
+  "audited_at": "2026-11-09T18:46:48.941126-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find passa no AI Gate e é acionável, mas o quick_find sobre o protesto em data center da Microsoft é um evento de infraestrutura/regulação local sem conexão direta com AI/ML — não satisfaz o AI Gate nem a exceção de magnitude. O item do Kimi/SCMP é um panorama de adoção de mercado sem evento singular de uma empresa, o que é anti-signal explícito.",
+    "issues": [
+      "Quick_find 'Manifestantes invadem canteiro de data center da Microsoft em Amsterdã': protesto local sobre data center não tem conexão com AI/ML no título nem magnitude excepcional (não é aquisição >$1B, regulação governamental ampla ou shutdown de plataforma). Viola o AI Gate.",
+      "Quick_find 'Modelos chineses liderados pelo Kimi dominam gasto empresarial em open source': é panorama/tendência de mercado sem evento singular de UMA empresa específica — anti-signal explícito ('Roundup ou panorama de tendência de mercado sem evento singular de UMA empresa específica por trás').",
+      "Quick_find 'Underdog 32MB speech model': o título diz 'shows off in new demo' — é demo, não lançamento disponível. O signal afirma 'Desenvolvedores... têm um caminho alternativo para testar em protótipos locais', o que extrapola o que uma demo pública permite."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O main_find preserva o condicional ('estaria enviando') e evita hype. Porém há extrapolações factuais em quick_finds: o item do Kimi transforma um dado de gasto em afirmação sobre 'preferência corporativa migrando', e o do Underdog trata demo como disponibilidade para teste. O signal do protesto afirma 'sequência de resistências locais' sem base no título.",
+    "issues": [
+      "Quick_find Kimi: 'o dado indica que a preferência corporativa por pesos abertos está migrando para fornecedores fora do eixo americano' — inferência não sustentada pelo título, que fala de gasto, não de preferência ou migração.",
+      "Quick_find Underdog: 'Desenvolvedores... têm um caminho alternativo para testar em protótipos locais' — o título diz 'shows off in new demo', não que o modelo está disponível para download/teste.",
+      "Quick_find protesto Microsoft: 'O episódio se soma a uma sequência de resistências locais a data centers de AI na Europa e nos EUA' — generalização não presente no título original.",
+      "Main_find bullet 2: 'se o e-mail vai junto em requisições HTTP' — detalhe técnico (HTTP) não está no título nem na issue conforme descrita; é especificação inventada sobre o mecanismo."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição de fontes (HackerNews, TechCrunch, DeepMind, SCMP, The Verge via HN, HuggingFace) e audiências variadas (desenvolvedores e executivos de negócio). Geografia razoável, com 2 itens asiáticos (Kimi, e Gemini global).",
+    "issues": [
+      "Dois itens têm HackerNews como source declarada (main_find e protesto Microsoft), embora o segundo aponte para The Verge — a fonte real é The Verge, mas o campo 'source' repete HackerNews, o que pode mascarar concentração de fonte."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (privacidade no Claude Code enviando e-mail), não é genérica. A menção a '317 posts' é detalhe de processo que pode não interessar ao leitor, mas não compromete.",
+    "issues": [
+      "A frase 'separei 6 itens de 6 fontes' é imprecisa: são 6 itens, mas as fontes declaradas incluem HackerNews duas vezes (main_find e protesto), então não são 6 fontes distintas."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é detalhado, mas há contradições internas: ele descarta 'Tencent expands Hy4' por 'título não traz decisão nova além de capacidade', mas aceita o protesto Microsoft e o panorama Kimi, que têm problemas análogos de falta de evento singular/escopo. Também afirma que papers são 'candidata a RADAR, não a achado', mas coloca o Kimi (panorama) como quick_find.",
+    "issues": [
+      "Contradição: o reasoning descarta itens por 'panorama macro' (Higher interest rates) mas aceita 'Kimi domina gasto empresarial', que é exatamente panorama de mercado sem evento singular.",
+      "O reasoning não justifica por que o protesto Microsoft passa no AI Gate — apenas o lista como 'regulação/crítica, consequência negativa concreta', sem demonstrar conexão com AI/ML.",
+      "O reasoning afirma que 'a maioria [dos papers] é candidata a RADAR, não a achado', mas o output coloca apenas 2 papers no RADAR e nenhum no main/quick — coerente, mas o reasoning não explica por que o paper 'Autonomous AI Agents Systematically Diverge From Human Preferences' (arXiv) não entrou nem no RADAR, apesar de ser sinal de pesquisa relevante.",
+      "O reasoning menciona 'STEP 1.5' e 'memória editorial' sem que esses steps estejam definidos no prompt de auditoria — referências internas que não podem ser verificadas."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "ToyBlocks: A controlled world for robot learning and evaluation",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Ambiente controlado para aprendizado e avaliação de robôs é infraestrutura de pesquisa acionável para quem treina agentes; tem conexão clara com AI/ML e afeta workflow de pesquisa.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Decoupled Predictive Decision Making: A Shared Conditional Predictor for Agents",
+      "source": "HuggingFace Papers",
+      "why_should_include": "Paper com 113 pontos no HuggingFace Papers sobre predição para agentes — sinal de pesquisa com tração, candidato natural a RADAR, mas ficou de fora mesmo com score relevante.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Autonomous AI Agents Systematically Diverge From Human Preferences in Proof Formalization",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Resultado empírico sobre divergência de agentes de AI em relação a preferências humanas — tem conexão direta com AI e consequência prática para quem implanta agentes; deveria ao menos estar no RADAR.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Manifestantes invadem canteiro de data center da Microsoft em Amsterdã",
+      "field": "quick_finds",
+      "why_should_discard": "Protesto local sobre data center não tem conexão com AI/ML no título nem magnitude excepcional; é notícia de infraestrutura/regulação local.",
+      "violated_rule": "AI Gate — item sem conexão com AI/ML, automação inteligente ou decisão de empresa de AI"
+    },
+    {
+      "title": "Modelos chineses liderados pelo Kimi dominam gasto empresarial em open source",
+      "field": "quick_finds",
+      "why_should_discard": "É panorama de tendência de mercado sem evento singular de uma empresa específica; o título não descreve movimento estratégico de UM player.",
+      "violated_rule": "Anti-signal — roundup/panorama de tendência de mercado sem evento singular de UMA empresa"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A exceção de magnitude excepcional no AI Gate pode estar sendo interpretada de forma frouxa, permitindo itens de infraestrutura/regulação local (protesto em data center) como se fossem 'regulação governamental'.",
+      "evidence": "Quick_find do protesto Microsoft em Amsterdã foi aceito apesar de ser ação local de manifestantes, não regulação governamental.",
+      "suggested_fix": "Especificar que 'regulação governamental' exige ato de governo (lei, decisão regulatória), não protesto ou ação civil."
+    },
+    {
+      "hypothesis": "A regra de anti-signal para 'panorama de tendência de mercado' não está sendo aplicada quando o item vem de fonte de prestígio (SCMP) ou tem ângulo geográfico (China).",
+      "evidence": "Item do Kimi/SCMP foi aceito como quick_find apesar de ser explicitamente panorama de adoção sem evento singular.",
+      "suggested_fix": "Adicionar few-shot negativo explícito de item 'X domina mercado Y' como anti-signal, independente da fonte."
+    },
+    {
+      "hypothesis": "O reasoning não tem um campo estruturado de 'ai_gate_passed' por item, permitindo que a justificativa de seleção ignore a verificação do AI Gate para quick_finds.",
+      "evidence": "O reasoning lista quick_finds por categoria (produto, regulação) sem demonstrar o AI Gate de cada um; o protesto Microsoft não tem justificativa de conexão com AI.",
+      "suggested_fix": "Exigir no reasoning uma linha de AI Gate por item selecionado, com a conexão explícita."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Dois quick_finds violam regras explícitas: o protesto em data center da Microsoft falha no AI Gate e o item do Kimi é panorama de mercado sem evento singular (anti-signal). Há também extrapolações factuais em quick_finds (Underdog demo tratado como disponível, Kimi como 'migração de preferência') e contradição no reasoning, que descarta itens por 'panorama macro' mas aceita um panorama. O main_find é sólido e bem escolhido."
+}

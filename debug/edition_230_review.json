@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular e datado (ferramentas de hacking AI da Artex expostas publicamente) reportado pelo TechCrunch, com ângulo claro de segurança em AI.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular e datado (Google compra projeto de data center da Crusoe em Wyoming) com implicação concreta de capacidade de computação para AI.\"},{\"idx\":2,\"verdict\":\"FAIL\",\"rule\":\"unverified\",\"why\":\"Alegação baseada apenas em post do r/artificial sem fonte primária ou corroboração sobre o uso do Claude na estrutura 3D da partícula vault.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Posição datada e atribuível de uma entidade concreta (Bank of England) sobre produtividade e AI, com relevância real para o leitor.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Descreve uma abordagem concreta (roteamento para modelo auxiliar com custo 4x menor) com resultado mensurável, ainda que a fonte seja um blog.\"}],\"missed\":[{\"candidate\":\"C10\",\"why\":\"Evento singular e datado com fonte verificável (SCMP) sobre modelos chineses, liderados por Kimi, dominando gastos enterprise em open-source — mais forte e verificável que o item idx 2 baseado só em Reddit.\"},{\"candidate\":\"C27\",\"why\":\"Já é o main_find publicado; não se aplica como candidato não publicado.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (ferramentas de hacking AI da Artex expostas publicamente) reportado pelo TechCrunch, com ângulo claro de segurança em AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (Google compra projeto de data center da Crusoe em Wyoming) com implicação concreta de capacidade de computação para AI."
+    },
+    {
+      "idx": 2,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação baseada apenas em post do r/artificial sem fonte primária ou corroboração sobre o uso do Claude na estrutura 3D da partícula vault."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Posição datada e atribuível de uma entidade concreta (Bank of England) sobre produtividade e AI, com relevância real para o leitor."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Descreve uma abordagem concreta (roteamento para modelo auxiliar com custo 4x menor) com resultado mensurável, ainda que a fonte seja um blog."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C10",
+      "title": "China’s AI models, led by Kimi, dominate open-source enterprise spending",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3373550/chinas-ai-models-led-kimi-dominate-open-source-enterprise-spending",
+      "why": "Evento singular e datado com fonte verificável (SCMP) sobre modelos chineses, liderados por Kimi, dominando gastos enterprise em open-source — mais forte e verificável que o item idx 2 baseado só em Reddit."
+    },
+    {
+      "candidate": "C27",
+      "title": "Hundreds of Artex AI hacking tools found publicly exposed to the web",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/06/hundreds-of-artex-ai-hacking-tools-found-publicly-exposed-to-the-web/",
+      "why": "Já é o main_find publicado; não se aplica como candidato não publicado."
+    }
+  ]
+}

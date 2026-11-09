@@ -1,0 +1,100 @@
+{
+  "edition": "230",
+  "audited_at": "2026-11-09T18:47:03.934172-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Artex) passa no AI Gate e tem sinal de mercado/segurança, mas o quick_find do Bank of England é um post de Reddit sobre um relatório macro sem evento singular de uma empresa de AI — falha no critério 2 (panorama/tendência) e é borderline anti-signal. O quick_find do Claude/vault vem de um post de Reddit sem fonte primária, o que enfraquece a verificação. O quick_find do Jev/Opus é sólido (acionável + workflow).",
+    "issues": [
+      "Bank of England: item de Reddit sobre relatório macro de produtividade — não é evento singular de uma empresa de AI, é panorama/tendência. Viola critério 2 e beira anti-signal de 'panorama de mercado'.",
+      "Claude/vault: fonte é post de Reddit sem link para paper ou anúncio oficial; o output trata como fato ('ajudou a determinar') sem qualificar a origem.",
+      "Crusoe/Google: passa no AI Gate (data center de AI) e tem sinal de mercado, mas o texto não deixa claro o valor da transação nem o que 'problemático' significa — sinal fraco para executivos."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "Não há hype explícito (revolucionário, massivo, game-changer), mas há dois problemas de certeza: o título original do Bank of England é 'pours cold water' (metáfora jornalística) e o output transforma em 'decidiu questionar', adicionando intencionalidade não presente. No main_find, o body afirma 'ferramentas desse tipo costumam incluir geração automatizada de exploits' — especulação apresentada como contexto factual sem ressalva suficiente.",
+    "issues": [
+      "Bank of England: 'decidiu questionar' adiciona agência/intenção que o título original não afirma.",
+      "Main_find body: 'ferramentas desse tipo costumam incluir geração automatizada de exploits, reconhecimento de alvos e scripts de ataque' — generalização não ancorada no artigo citado.",
+      "Claude/vault: 'ajudou a determinar a primeira estrutura 3D' — o título diz 'helped solve', não 'determinou'; o output eleva o grau de contribuição."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: TechCrunch aparece 2x (main_find + Crusoe), Reddit 2x (Claude + Bank of England) — dentro do limite de 'mais de 2', mas no limite. Audiência: 2 developers, 2 executivos, 1 todos — ok. Geografia: 3 itens EUA (Artex, Crusoe, Claude), 1 Reino Unido, 1 global — concentração em EUA aceitável mas notável.",
+    "issues": [
+      "TechCrunch e Reddit aparecem 2x cada entre main_find + quick_finds — no limite, mas reduz variedade de fontes.",
+      "3 dos 5 itens são de origem EUA; nenhum item da Ásia apesar de o input ter SCMP/Kimi (descartado por memória editorial, mas a edição fica sem cobertura geográfica asiática)."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('ferramentas de hacking com AI vazando para a web aberta') e contrasta com o Bank of England — não é genérica. O número '302 posts de 20 fontes' é consistente com total_analyzed=302, mas '20 fontes' não é verificável no input (há ~10 source_ids distintos).",
+    "issues": [
+      "'20 fontes' não bate com os source_ids distintos do input (cerca de 10) — número possivelmente inflado ou mal contado."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente os descartes, mas há contradições: (a) diz que 'Gemini Omni 1.2 Flash' foi coberto na ed.229 e descarta por memória editorial — decisão plausível, mas não há verificação no output; (b) classifica 'Bank of England' como 'DIRETA (AI e produtividade)' e o mantém, quando o próprio critério 2 exclui panorama macro; (c) o main_find_rationale diz 'sinal de mercado (ecossistema de ferramentas de AI ofensivas)' — mas o item é sobre exposição acidental, não movimento estratégico de um player, o que enfraquece a justificativa de main_find.",
+    "issues": [
+      "Reasoning trata Bank of England como 'DIRETA' e seleciona, contradizendo o critério 2 (panorama/tendência sem evento singular).",
+      "Main_find_rationale alega 'sinal de mercado' para um caso de exposição acidental — não é movimento estratégico de player, é falha de segurança.",
+      "Não há perspective_check explícito no reasoning, apesar de o schema de auditoria pedir; o campo está ausente."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Every Mac comes with an (undocumented) family member classifier",
+      "source": "HackerNews",
+      "why_should_include": "Classificador de AI embutido no Apple Intelligence, 210 pontos e 104 comentários no HN — acionável (usuários podem testar/verificar) e afeta workflow de privacidade. O reasoning diz 'passa' mas não foi incluído em quick_finds nem radar.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Gemini Omni 1.2 Flash",
+      "source": "HackerNews",
+      "why_should_include": "Lançamento de modelo com 347 pontos e 234 comentários — altamente acionável para developers. Se foi coberto na ed.229, a exclusão é defensável, mas o reasoning não mostra verificação e o item é o de maior tração do input.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Bank of England pours cold water on AI productivity boom",
+      "field": "quick_finds",
+      "why_should_discard": "Post de Reddit sobre relatório macro sem evento singular de uma empresa de AI — é panorama/tendência, viola critério 2 e beira anti-signal.",
+      "violated_rule": "Critério 2 — panorama/tendência sem evento singular; anti-signal de roundup macro"
+    },
+    {
+      "title": "Claude helped solve the first 3D structure of a mysterious 'vault' particle",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte é post de Reddit sem link para paper ou anúncio oficial; o output trata como fato verificado sem qualificar a origem.",
+      "violated_rule": "Verificação de fonte — item de Reddit sem fonte primária tratado como notícia"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de AI Gate trata 'AI e produtividade' como conexão suficiente, permitindo que relatórios macro (Bank of England) passem como 'DIRETA'.",
+      "evidence": "Reasoning classifica Bank of England como 'DIRETA (AI e produtividade)' e o seleciona, apesar do critério 2 excluir panorama.",
+      "suggested_fix": "Adicionar regra explícita: relatório de autoridade macro sobre AI sem evento singular de empresa = anti-signal, mesmo com AI no título."
+    },
+    {
+      "hypothesis": "O prompt não exige fonte primária para itens de Reddit, permitindo que posts sem link oficial entrem como quick_finds.",
+      "evidence": "Claude/vault e Bank of England vêm de r/artificial sem link para paper ou anúncio, e são tratados como fato.",
+      "suggested_fix": "Exigir que itens de Reddit tenham link para fonte primária (paper, blog oficial) ou sejam rebaixados a radar."
+    },
+    {
+      "hypothesis": "O main_find_rationale aceita 'sinal de mercado' para casos de exposição acidental, confundindo falha de segurança com movimento estratégico de player.",
+      "evidence": "Main_find (Artex) é justificado como 'sinal de mercado (ecossistema de ferramentas de AI ofensivas)', mas é exposição acidental, não movimento de player.",
+      "suggested_fix": "Refinar definição de 'sinal de mercado' no prompt: exige movimento intencional de um player (M&A, mudança de categoria, shift de política), não incidente de segurança."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find defensável (Artex) e um quick_find sólido (Jev/Opus), mas inclui um item de panorama macro (Bank of England) que viola o critério 2 e um item de Reddit sem fonte primária (Claude/vault). O reasoning se contradiz ao classificar o Bank of England como 'DIRETA' e ao justificar o main_find como 'sinal de mercado' para um caso de exposição acidental. Faltam dois itens de alta tração e conexão direta com AI (classificador da Apple, Gemini Omni 1.2 Flash) que o próprio reasoning reconhece como 'passa' mas não inclui."
+}

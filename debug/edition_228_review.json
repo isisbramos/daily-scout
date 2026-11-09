@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular e datado (cancelamento de lease de US$ 7 bi) com fonte identificada e tom especulativo adequado, relevante para AI/tech.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de produto concreto (TTS on-device) com benchmark, tipo desejado e verificável.\"},{\"idx\":2,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Adoção concreta de tecnologia por empresa específica (Box + Nemotron), evento singular e relevante.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Paper de pesquisa com benchmark concreto, tipo desejado e verificável.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Greve datada e singular em Taiwan com ângulo real de cadeia de AI, fonte verificável.\"},{\"idx\":5,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Paper de pesquisa com técnica concreta de RL, tipo desejado e verificável.\"}],\"missed\":[{\"candidate\":\"C24\",\"why\":\"Huawei lança desktop com componentes 100% chineses — evento singular, datado e verificável, mais forte que papers de nicho publicados.\"},{\"candidate\":\"C33\",\"why\":\"Evento datado sobre Texas deixar de ser epicentro de data centers de AI — notícia concreta e relevante, mais forte que itens de pesquisa especializada.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (cancelamento de lease de US$ 7 bi) com fonte identificada e tom especulativo adequado, relevante para AI/tech."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (TTS on-device) com benchmark, tipo desejado e verificável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Adoção concreta de tecnologia por empresa específica (Box + Nemotron), evento singular e relevante."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa com benchmark concreto, tipo desejado e verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Greve datada e singular em Taiwan com ângulo real de cadeia de AI, fonte verificável."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa com técnica concreta de RL, tipo desejado e verificável."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C24",
+      "title": "No Intel, no Qualcomm: Huawei unveils desktop built entirely with China-made components",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3373435/no-intel-no-qualcomm-huawei-unveils-desktop-built-entirely-china-made-components",
+      "why": "Huawei lança desktop com componentes 100% chineses — evento singular, datado e verificável, mais forte que papers de nicho publicados."
+    },
+    {
+      "candidate": "C33",
+      "title": "Texas was the new epicenter of the AI data center buildout. That might be kaput.",
+      "source": "MIT Technology Review",
+      "url": "https://www.technologyreview.com/2026/11/04/1148043/texas-was-the-new-epicenter-of-the-ai-data-center-buildout-that-might-be-kaput/",
+      "why": "Evento datado sobre Texas deixar de ser epicentro de data centers de AI — notícia concreta e relevante, mais forte que itens de pesquisa especializada."
+    }
+  ]
+}

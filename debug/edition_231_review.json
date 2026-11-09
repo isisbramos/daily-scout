@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (fim do grupo AI Frontiers da Microsoft) com fonte primária (blog de pesquisador) e corroboração no HackerNews.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de benchmark concreto (MaxxBench) que questiona validade de scores, com URL própria e tom especulativo adequado.\"},\n    {\"idx\": 2, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação baseada apenas em post do Reddit, sem fonte primária ou corroboração externa da prova em Lean.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Projeto concreto (llama-modchip) com repositório GitHub verificável rodando modelo grande em hardware limitado.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Análise de pesquisa sobre teoria dos jogos reversa com veículo estabelecido (MIT Tech Review Brasil), tom especulativo explícito.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C25\", \"why\": \"Evento singular e verificável (exposição de senhas em arquivos públicos do GitHub pelo Claude Code) com ângulo claro de segurança em AI, mais forte que o item especulativo do Reddit.\"},\n    {\"candidate\": \"C5\", \"why\": \"Declaração datada e atribuída de executivo de AI da Tencent sobre riscos de segurança biológica, com fonte jornalística (SCMP), mais concreta que o item especulativo do Reddit.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (fim do grupo AI Frontiers da Microsoft) com fonte primária (blog de pesquisador) e corroboração no HackerNews."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de benchmark concreto (MaxxBench) que questiona validade de scores, com URL própria e tom especulativo adequado."
+    },
+    {
+      "idx": 2,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação baseada apenas em post do Reddit, sem fonte primária ou corroboração externa da prova em Lean."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Projeto concreto (llama-modchip) com repositório GitHub verificável rodando modelo grande em hardware limitado."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Análise de pesquisa sobre teoria dos jogos reversa com veículo estabelecido (MIT Tech Review Brasil), tom especulativo explícito."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C25",
+      "title": "Claude Code's \"Don't Ask Again\" exposes passwords in 1,122 public GitHub files",
+      "source": "HackerNews",
+      "url": "https://apiiro.com/blog/coding-agents-leaking-secrets-github-dont-ask-again",
+      "why": "Evento singular e verificável (exposição de senhas em arquivos públicos do GitHub pelo Claude Code) com ângulo claro de segurança em AI, mais forte que o item especulativo do Reddit."
+    },
+    {
+      "candidate": "C5",
+      "title": "AI will soon master biology, unleashing new safety risks, Tencent AI chief warns",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/big-tech/article/3373697/ai-will-soon-master-biology-unleashing-new-safety-risks-tencent-ai-chief-warns",
+      "why": "Declaração datada e atribuída de executivo de AI da Tencent sobre riscos de segurança biológica, com fonte jornalística (SCMP), mais concreta que o item especulativo do Reddit."
+    }
+  ]
+}

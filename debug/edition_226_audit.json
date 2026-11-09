@@ -1,0 +1,106 @@
+{
+  "edition": "226",
+  "audited_at": "2026-11-09T18:46:05.361821-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Nvidia auto-ontology) passa no AI Gate e é acionável, mas o corpo inventa detalhes sobre o que o projeto faz ('ontologia é a camada que define entidades...') que não estão no título nem no input. O quick_find do Z.ai/MiniMax é resultado financeiro comparativo sem evento singular de produto/estratégia — anti-signal explícito. O quick_find do Trump loyalty test é panorama político sem evento de UMA empresa de AI, e o do Astra é correção técnica de blog (rehashed/crítica) sem ação concreta para o leitor.",
+    "issues": [
+      "Z.ai/MiniMax: 'não conseguem igualar margem de lucro da Anthropic' é resultado financeiro comparativo — anti-signal explícito ('resultado financeiro sem novidade de produto/estratégia').",
+      "Trump 'Super Intelligence loyalty test': levantamento de 'quem aderiu' é panorama político, não evento singular de uma empresa; sinal de mercado difuso.",
+      "Astra read/write weights: post de blog contestando claim de terceiro — não é lançamento, não é mudança de processo, é crítica técnica. Acionável apenas no sentido fraco de 'reler documentação'.",
+      "Main_find Nvidia: o input só traz título e URL do GitHub; o corpo afirma o que o projeto faz (ontologia para agentes) sem base no input — seleção sobre premissa não verificada."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 2,
+    "rationale": "Não há hype vocabular óbvio, mas há invenção factual significativa no main_find: o texto descreve a função do auto-ontology ('camada que define quais entidades existem num domínio', 'permite agente consultar dados sem adivinhar esquema') sem que isso esteja no título ou no input. O quick_find do Astra preserva o 'misleading' do título, mas o do Subvocal transforma 'Talk to your computer without making noise' em 'captando o movimento da fala em vez do áudio emitido' — detalhe técnico inventado.",
+    "issues": [
+      "main_find.body: descrição funcional do auto-ontology inventada — input só tem título 'Nvidia – open-source auto-ontology' e URL.",
+      "Subvocal: 'captando o movimento da fala em vez do áudio emitido' é mecanismo inventado; o título só diz 'talk without making noise'.",
+      "Z.ai/MiniMax: 'modelos chineses competem por preço baixo, enquanto a Anthropic sustenta margem com foco em uso empresarial' — interpretação causal não presente no título.",
+      "Astra: 'ler e escrever pesos sugere capacidade de editar o modelo diretamente' — explicação plausível mas não ancorada no input."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes razoavelmente distribuídas (HN x2, HF x1, MIT TR x1, SCMP x1), sem violar o limite de 2 por source. Audiência tem 'executivos de negócio' além de 'desenvolvedores'. Geografia: 2 itens China (Z.ai/MiniMax e Trump não conta), dentro do limite, mas o eixo temático é pesado em infraestrutura para agentes.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 3,
+    "rationale": "A primeira frase menciona Nvidia auto-ontology e SWE-Trail — específica o suficiente para não ser genérica. Porém conecta os dois como 'dois lados da mesma moeda: infraestrutura para agentes', o que é uma tese editorial não sustentada pelo input (o auto-ontology pode não ser sobre agentes).",
+    "issues": [
+      "A frase 'dois lados da mesma moeda: infraestrutura para agentes ficarem úteis de verdade' afirma uma relação temática entre Nvidia e SWE-Trail que o input não confirma."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente muitos descartes, mas há contradições: diz que descartou 'resultado financeiro' e ainda assim manteve Z.ai/MiniMax (que é exatamente resultado financeiro comparativo); diz que descartou 'roundup' e manteve o levantamento do Trump loyalty test. Também afirma que o main_find é 'produto/lançamento' e 'acionável para devs' sem ter informação sobre o que o projeto faz. O campo 'perspective_check' citado no prompt de auditoria não existe no output.",
+    "issues": [
+      "Reasoning descarta 'resultado financeiro' mas mantém Z.ai/MiniMax, que é resultado financeiro comparativo.",
+      "Reasoning descarta 'roundup' mas mantém o levantamento 'quem aderiu ao loyalty test' — é compilação, não evento singular.",
+      "Reasoning afirma que Nvidia auto-ontology é 'ferramenta open source concreta, acionável para devs' sem base no input (só título + URL).",
+      "Reasoning menciona 'perspective_check' como se existisse, mas o output não tem esse campo — desalinhamento com o schema."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Advances in Agentic Computer Graphics",
+      "source": "HuggingFace Papers",
+      "why_should_include": "Paper com 63 pontos no HF sobre agentes aplicados a computação gráfica — pesquisa com sinal acionável para devs de CG/agentes, e o reasoning o lista como 'passou' mas ele não aparece no output.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Transformers Model Integration Contracts",
+      "source": "HuggingFace Blog",
+      "why_should_include": "Post técnico do HF sobre contratos de integração de modelos no Transformers — mudança de processo concreta para quem integra modelos, acionável e com sinal de padronização.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "SCMP: Z.ai e MiniMax não conseguem igualar margem de lucro da Anthropic",
+      "field": "quick_finds",
+      "why_should_discard": "Resultado financeiro comparativo sem evento singular de produto/estratégia — anti-signal explícito.",
+      "violated_rule": "Anti-signal: resultado financeiro (margem/lucro) sem novidade de produto/estratégia"
+    },
+    {
+      "title": "MIT Technology Review mapeia quem aderiu ao teste de lealdade 'Super Intelligence' de Trump",
+      "field": "quick_finds",
+      "why_should_discard": "Levantamento/panorama político sem evento singular de UMA empresa de AI; sinal de mercado difuso.",
+      "violated_rule": "Anti-signal: roundup/panorama sem evento singular de uma empresa"
+    },
+    {
+      "title": "Post no HackerNews contesta claim de que Astra lê e escreve pesos do Qwen",
+      "field": "quick_finds",
+      "why_should_discard": "Crítica de blog a claim de terceiro — não é lançamento, mudança de processo ou decisão de empresa; acionável apenas no sentido fraco de 'reler doc'.",
+      "violated_rule": "Critério 1 (Acionável) e 2 (Sinal de mercado) não satisfeitos de forma robusta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção trata 'resultado financeiro' como anti-signal, mas o reasoning da AYA explicitamente o descartou e ainda assim o manteve — provável few-shot ou exemplo que mostra margem/lucro comparativo como 'sinal de mercado'.",
+      "evidence": "Z.ai/MiniMax entrou em quick_finds apesar de o reasoning dizer que descartou 'resultado financeiro'.",
+      "suggested_fix": "Adicionar exemplo negativo explícito: 'margem de lucro comparativa entre empresas = anti-signal, mesmo com nome de player'."
+    },
+    {
+      "hypothesis": "O STEP de 'sinal de mercado' não distingue evento singular de panorama; a AYA tratou 'quem aderiu ao loyalty test' como evento quando é compilação.",
+      "evidence": "Trump loyalty test entrou como quick_find e o reasoning o classificou como 'regulação/política' sem notar que é roundup.",
+      "suggested_fix": "Reforçar no STEP: 'levantamento de quem fez X = roundup, não evento singular; só entra se houver UMA empresa com ação concreta'."
+    },
+    {
+      "hypothesis": "O STEP de main_find não exige verificação do conteúdo do item além do título; a AYA preencheu a função do auto-ontology por inferência.",
+      "evidence": "main_find.body descreve o que o projeto faz sem base no input (só título + URL).",
+      "suggested_fix": "Adicionar regra: 'se o input só tem título e URL, o body não pode afirmar função/mecanismo do produto — apenas o que o título sustenta'."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "Três quick_finds violam anti-signals explícitos (resultado financeiro comparativo, roundup político, crítica de blog) e o reasoning se contradiz ao dizer que os descartou. O main_find inventa a função do auto-ontology a partir de um título, e o Subvocal inventa mecanismo técnico. A seleção tem boa diversidade de fontes, mas a régua editorial foi aplicada de forma inconsistente."
+}

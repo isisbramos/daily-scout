@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (investigação interna da Nvidia) com fonte primária (SCMP) e relevância clara para o leitor de tech/AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (constatação de autoridades federais sobre Waymo) com fonte verificável e ângulo de AI/regulação.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular reportado (avaliação de expansão de data center da ByteDance no Brasil) com fonte TechNode e tom especulativo adequado.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (expansão global da estimativa de idade por AI no Instagram) com fonte verificável e relevância de produto/regulação.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Análise com tese concreta (defesa climática da AI não demonstrada) publicada pela MIT Technology Review, com ângulo real de tech/AI.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Reportagem com evento singular (esforço de contratação de engenheiros do Vale por labs chineses) e fonte Rest of World, relevante para o leitor.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C8\", \"why\": \"Falha crítica de segurança (Terminal2Shell) com acesso instantâneo a shell em todos os principais SOs é evento singular, verificável e de alto interesse para leitores de tech, mais forte que itens especulativos como o idx 2.\"},\n    {\"candidate\": \"C17\", \"why\": \"Lançamento concreto de produto (app TK do Medium com assistência de AI na escrita) é evento singular e verificável, mais forte que o item idx 4, que é análise de tendência sem evento datado de uma entidade.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (investigação interna da Nvidia) com fonte primária (SCMP) e relevância clara para o leitor de tech/AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (constatação de autoridades federais sobre Waymo) com fonte verificável e ângulo de AI/regulação."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular reportado (avaliação de expansão de data center da ByteDance no Brasil) com fonte TechNode e tom especulativo adequado."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (expansão global da estimativa de idade por AI no Instagram) com fonte verificável e relevância de produto/regulação."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Análise com tese concreta (defesa climática da AI não demonstrada) publicada pela MIT Technology Review, com ângulo real de tech/AI."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Reportagem com evento singular (esforço de contratação de engenheiros do Vale por labs chineses) e fonte Rest of World, relevante para o leitor."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C8",
+      "title": "Terminal2Shell: Critical flaw grants instant shell access on every major OS",
+      "source": "Lobsters",
+      "url": "https://terminal2shell.com/",
+      "why": "Falha crítica de segurança (Terminal2Shell) com acesso instantâneo a shell em todos os principais SOs é evento singular, verificável e de alto interesse para leitores de tech, mais forte que itens especulativos como o idx 2."
+    },
+    {
+      "candidate": "C17",
+      "title": "Medium’s new TK app brings AI assistance directly into the writing process",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/09/mediums-new-tk-app-brings-ai-assistance-directly-into-the-writing-process/",
+      "why": "Lançamento concreto de produto (app TK do Medium com assistência de AI na escrita) é evento singular e verificável, mais forte que o item idx 4, que é análise de tendência sem evento datado de uma entidade."
+    }
+  ]
+}

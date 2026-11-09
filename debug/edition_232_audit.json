@@ -1,0 +1,107 @@
+{
+  "edition": "232",
+  "audited_at": "2026-11-09T18:47:31.905106-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Nvidia/Jensen Huang) passa no AI Gate por ser empresa de AI, mas o conteúdo é sobre escândalo pessoal/governança, não sobre movimento estratégico de produto ou política de AI — o 'sinal de mercado' é queda de ação, que é resultado financeiro sem novidade de produto/estratégia, um anti-signal explícito. O quick_find do MIT TR sobre clima é blog de thought-leadership/opinião sem evento concreto de uma empresa, também anti-signal. Waymo, ByteDance Brasil e Meta age-guessing são defensáveis.",
+    "issues": [
+      "main_find: 'Nvidia abre investigação interna sobre relacionamento do CEO' — o sinal de mercado citado é queda de ação e risco de liderança, não mudança de categoria, shift de política de produto ou M&A. Resultado financeiro/turbulência de ação sem novidade de produto é anti-signal.",
+      "quick_find MIT TR 'The climate case for AI has not been made' — análise/opinião de thought-leadership sem evento singular de uma empresa; viola anti-signal de blog corporativo/panorama sem novidade concreta.",
+      "quick_find Rest of World 'laboratórios chineses tentam atrair engenheiros' — panorama de mercado de trabalho sem evento singular de UMA empresa específica; o próprio título é genérico ('Chinese AI firms').",
+      "quick_find ByteDance Brasil usa 'reportedly' e 'estaria avaliando' — sinal de mercado fraco (rumor), mas passa marginalmente por geografia/infraestrutura."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype explícito, mas há aumento de certeza em pelo menos um ponto: o título original do SCMP é 'Nvidia fallout: chipmaker faces extensive risks after CEO affair, analysts and lawyers say' e o output transforma em 'A Nvidia abriu uma investigação interna' como fato consumado, quando o enquadramento original é de analistas/advogados comentando riscos. Também há detalhe inventado: 'mulher descrita como espiã chinesa' não está no título do SCMP nem no do Reddit — o título do Reddit diz 'relationship with Chinese spy', mas o corpo afirma 'ligada à China' e 'espiã', extrapolando.",
+    "issues": [
+      "main_find.body: 'A Nvidia abriu uma investigação interna' apresentado como fato; o título-fonte do SCMP fala em 'fallout' e 'risks after CEO affair, analysts and lawyers say' — a existência da investigação vem do título do Reddit, não confirmada pelo SCMP.",
+      "main_find.body: 'mulher descrita como espiã chinesa' e bullet 'a suposta espiã é ligada à China' — detalhe não presente nos títulos fornecidos; risco de informação inventada.",
+      "main_find.bullet: 'o que sinaliza que o mercado está precificando risco de liderança' — interpretação não ancorada em fonte citada."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: TechCrunch aparece 2x (Waymo e Meta), SCMP 1x, TechNode 1x, MIT TR 1x, Rest of World 1x — dentro do limite. Audiência: 3 'executivos de negócio', 1 'product managers', 1 'desenvolvedores' — há variação, mas concentrada em executivos. Geografia: 3 itens centrados em EUA (Nvidia, Waymo, Meta) e 1 China/Brasil — aceitável, mas o eixo EUA domina.",
+    "issues": [
+      "Concentração de 3 de 5 itens com audiência 'executivos de negócio' — pouca variação real.",
+      "3 itens com eixo EUA (Nvidia, Waymo, Meta) contra 1 Brasil e 1 China-global."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (investigação da Nvidia sobre o CEO), não é genérica. Porém, a frase 'mexe com ação, contrato de fornecimento e confiança de cliente' reforça o enquadramento de resultado financeiro que é justamente o problema editorial do main_find.",
+    "issues": [
+      "A intro valida o enquadramento de 'mexe com ação' como justificativa de relevância, o que é exatamente o anti-signal de resultado financeiro."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning afirma que o caso Nvidia 'passa como main_find por sinal de mercado forte (empresa de AI sob investigação interna + turbulência de ação)' — mas turbulência de ação é explicitamente anti-signal. Também classifica o MIT TR clima como 'crítica/regulação com argumento ancorado em análise', quando é opinião sem evento. Há contradição entre a régua declarada e a aplicação.",
+    "issues": [
+      "reasoning: 'turbulência de ação' citada como justificativa de sinal de mercado — viola a definição de sinal de mercado (resultado financeiro sem novidade de produto não conta).",
+      "reasoning: MIT TR clima classificado como 'regulação/crítica' — é análise de opinião, não regulação nem evento.",
+      "reasoning: Rest of World descrito como 'sinal de mercado de trabalho' — panorama sem evento singular de uma empresa, anti-signal.",
+      "reasoning menciona 'memória editorial' e 'ed.226' sem que isso esteja no input — possível alucinação de contexto."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Medium’s new TK app brings AI assistance directly into the writing process",
+      "source": "TechCrunch",
+      "why_should_include": "Foi descartado como 'feature consumer', mas é lançamento de produto de AI com impacto em fluxo de trabalho de escrita profissional — satisfaz AI Gate e critério de afeta workflows.",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Show HN: Flide: Make Jev-like decision models up to 9.5x faster",
+      "source": "HackerNews",
+      "why_should_include": "Ferramenta concreta e testável (acionável) com ganho de performance em modelos de decisão; foi relegada ao radar sem justificativa forte, mas satisfaz AI Gate e acionabilidade.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "MIT Technology Review questiona se a defesa climática da AI foi de fato construída",
+      "field": "quick_finds",
+      "why_should_discard": "Análise de opinião/thought-leadership sem evento singular de uma empresa; viola anti-signal de panorama sem novidade concreta.",
+      "violated_rule": "Anti-signal: blog de thought-leadership/panorama sem evento singular"
+    },
+    {
+      "title": "Laboratórios chineses de AI tentam atrair engenheiros do Vale do Silício, mas contratação não é simples",
+      "field": "quick_finds",
+      "why_should_discard": "Panorama de mercado de trabalho sem evento singular de UMA empresa específica; título genérico ('Chinese AI firms').",
+      "violated_rule": "Anti-signal: panorama/tendência sem evento singular de uma empresa"
+    },
+    {
+      "title": "Nvidia abre investigação interna sobre relacionamento de Jensen Huang com suposta espiã chinesa",
+      "field": "main_find",
+      "why_should_discard": "Sinal de mercado citado é queda de ação e risco de liderança — resultado financeiro/turbulência sem novidade de produto ou estratégia de AI; além disso, detalhes ('espiã chinesa', 'ligada à China') extrapolam os títulos-fonte.",
+      "violated_rule": "Anti-signal: resultado financeiro sem novidade de produto/estratégia; risco de informação inventada"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A exceção de 'magnitude excepcional' no AI Gate pode estar sendo lida como passe livre para qualquer notícia de empresa de AI de grande porte, mesmo quando o conteúdo é escândalo pessoal ou turbulência de ação.",
+      "evidence": "main_find Nvidia foi justificado por 'empresa de AI sob investigação interna + turbulência de ação', que é exatamente o anti-signal de resultado financeiro.",
+      "suggested_fix": "Reforçar no STEP de seleção que 'empresa de AI' não basta: o evento precisa ser de produto, política ou M&A, não de governança pessoal ou preço de ação."
+    },
+    {
+      "hypothesis": "A régua de 'sinal de mercado' está sendo aplicada de forma frouxa para análises e panoramas, aceitando 'crítica ancorada em análise' como evento.",
+      "evidence": "MIT TR clima e Rest of World entraram como quick_finds apesar de serem panorama/opinião sem evento singular.",
+      "suggested_fix": "Adicionar few-shot negativo explícito: análise de tendência ou crítica de opinião sem empresa/evento nomeado = descarte."
+    },
+    {
+      "hypothesis": "O campo reasoning está sendo usado para racionalizar seleções já feitas, citando 'memória editorial' e edições anteriores que não estão no input, em vez de aplicar a régua declarada.",
+      "evidence": "reasoning menciona 'ed.226' e 'memória editorial' sem base no input, e classifica turbulência de ação como sinal de mercado forte.",
+      "suggested_fix": "Instruir o reasoning a citar apenas itens do input e a marcar explicitamente quando um critério é atendido de forma marginal."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "O main_find viola o anti-signal de resultado financeiro (turbulência de ação) e extrapola detalhes não presentes nos títulos-fonte. Dois quick_finds (MIT TR clima e Rest of World) são panorama/opinião sem evento singular, também anti-signal. O reasoning racionaliza essas escolhas em vez de aplicar a régua, e há possível alucinação de contexto ('ed.226')."
+}

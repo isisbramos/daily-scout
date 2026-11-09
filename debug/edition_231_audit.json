@@ -1,0 +1,96 @@
+{
+  "edition": "231",
+  "audited_at": "2026-11-09T18:47:17.439811-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find passa no AI Gate e é um evento singular de uma empresa de referência, mas o quick_find do MIT Tech Review Brasil é análise/panorama sem evento singular de uma empresa — viola o anti-signal de roundup/panorama. O quick_find do MaxxBench é um benchmark novo, mas o claim_status 'especulativo' e a fonte ser o próprio site do benchmark sem cobertura independente enfraquecem o critério de sinal de mercado. O quick_find da conjectura quântica vem de um post de Reddit sem fonte primária, o que é frágil para um item de pesquisa/dado.",
+    "issues": [
+      "MIT Tech Review Brasil 'teoria dos jogos reversa' é análise/panorama sem evento singular de uma empresa — anti-signal explícito de roundup/panorama de tendência.",
+      "Conjectura quântica vem de post no r/artificial sem link para paper ou fonte primária; claim_status 'especulativo' é honesto, mas o item não deveria entrar como quick_find sem lastro verificável.",
+      "MaxxBench é o próprio site do benchmark se autopromovendo; sem cobertura independente, o 'sinal de mercado' é fraco."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype explícito, mas há aumento de certeza em pelo menos um ponto: o título original do item da conjectura quântica é um post de Reddit com claim não verificado, e o signal trata como fato ('produziu a prova') antes de ressalvar. O main_find.body afirma 'Um post no blog de John Langford... anuncia o fim do AI Frontiers' — o título original é 'The end of Microsoft Research's AI Frontiers group', então a atribuição a Langford é inferência plausível mas não confirmada pelo input.",
+    "issues": [
+      "Quick_find da conjectura quântica: 'um sistema de AI produziu a prova' afirma como fato um claim de Reddit sem fonte primária; deveria manter condicional ('um post alega que...').",
+      "Main_find.body atribui o anúncio a 'John Langford, pesquisador da Microsoft' — o input só dá a URL hunch.net, sem nome; a atribuição é inferência não sustentada pelo input.",
+      "Main_find.body diz 'distinta do trabalho de produto do Copilot e dos modelos vendidos via Azure' — detalhe não presente no input, adicionado pelo editor."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: HackerNews aparece 2x (main_find + llama-modchip), o que está no limite aceitável. Audiência: 'desenvolvedores' aparece 2x, mas há 'executivos de negócio', 'todos' e 'product managers e fundadores' — ok. Geografia: 3 dos 5 itens são de fontes dos EUA/globais (HN, Reddit), 1 Brasil, 1 sem região clara; não há excesso de uma região, mas a diversidade é fraca.",
+    "issues": [
+      "HackerNews é fonte de 2 dos 5 itens selecionados (main_find + llama-modchip) — no limite, mas concentração notável.",
+      "Nenhum item da China ou Ásia foi selecionado apesar de haver candidatos no input (Pudu, Tencent) — o reasoning reconhece isso e mesmo assim não corrige."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('empresa de referência recuando da pesquisa em AI') e o segundo sinal (benchmark questionando números). É específica o suficiente para não servir a qualquer edição. O 'garimpei 40 posts de 8 fontes' é verificável e coerente com o input.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é detalhado, mas há contradições: diz que 'Claude Code secrets' foi mantido como quick_find por trazer dado concreto, mas o item NÃO aparece no output — foi descartado sem justificativa. Também diz que 'Pudu Robotics' foi descartado por 'posicionamento competitivo sem evento singular', mas o item aparece no radar. E o reasoning afirma 'Diversidade geográfica: 1 item China/Ásia (nenhum selecionado além do MIT TR Brasil, que é brasileiro), ok' — frase confusa que reconhece a falha e a absolve sem corrigir.",
+    "issues": [
+      "Reasoning afirma que 'Claude Code secrets' foi mantido como quick_find, mas o item não está no output — contradição direta.",
+      "Reasoning diz que Pudu foi descartado, mas Pudu aparece no radar — inconsistência entre decisão declarada e output.",
+      "Reasoning declara 'Diversidade geográfica: 1 item China/Ásia (nenhum selecionado além do MIT TR Brasil, que é brasileiro), ok' — frase autocontraditória que reconhece ausência de item asiático e a trata como satisfatória.",
+      "Reasoning não explica por que o MIT TR Brasil (panorama) passou, apesar de o próprio reasoning listar anti-signal de panorama."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Claude Code's \"Don't Ask Again\" exposes passwords in 1,122 public GitHub files",
+      "source": "HackerNews",
+      "why_should_include": "Passa no AI Gate (ferramenta de AI para código), é acionável (desenvolvedores precisam revisar configuração 'Don't Ask Again'), afeta workflows (segurança de segredos em repositórios) e traz dado concreto e novo (1.122 arquivos). O reasoning o declarou selecionado e o output o omitiu.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Llama-modchip: 284B DeepSeek on 64GB RAM, no GPU",
+      "source": "HackerNews",
+      "why_should_include": "Já está no output como quick_find — não é false negative. (Não aplicável.)",
+      "missed_criteria": []
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "MIT Tech Review Brasil: teoria dos jogos reversa para manter agentes de AI sob controle",
+      "field": "quick_finds",
+      "why_should_discard": "É análise/panorama de tendência sem evento singular de uma empresa específica — anti-signal explícito. Não há produto, decisão ou dado novo; é thought-leadership traduzido.",
+      "violated_rule": "Anti-signal: roundup/panorama de tendência sem evento singular de UMA empresa"
+    },
+    {
+      "title": "Sistema de AI prova conjectura quântica de 18 anos com verificação em Lean",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte é post de Reddit sem link para paper ou fonte primária; claim_status 'especulativo' e sem lastro verificável. Não satisfaz 'sinal de mercado' (não é movimento de empresa) nem 'acionável' (leitor não pode testar).",
+      "violated_rule": "Critérios de seleção: precisa de 2 de 3; aqui só 'afeta workflows' de forma indireta e especulativa"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de anti-signal lista 'roundup ou panorama de tendência de mercado sem evento singular de UMA empresa' mas não deixa claro que análises de veículos de imprensa (MIT TR, etc.) sobre um conceito também contam como panorama — o modelo tratou 'MIT Tech Review Brasil' como fonte de prestígio e passou.",
+      "evidence": "Quick_find do MIT TR Brasil é análise conceitual sem evento, e o reasoning não o classifica como panorama.",
+      "suggested_fix": "Adicionar exemplo explícito: 'análise conceitual de veículo de imprensa sobre uma técnica = panorama, descartar'."
+    },
+    {
+      "hypothesis": "O prompt não exige fonte primária para claims de pesquisa/dado; o modelo aceitou post de Reddit como base para quick_find de conjectura quântica.",
+      "evidence": "Quick_find da conjectura quântica tem claim_status 'especulativo' e fonte Reddit sem link para paper.",
+      "suggested_fix": "Adicionar regra: 'pesquisa/dado só entra com fonte primária (paper, repositório, anúncio oficial); post de fórum sem link = descartar'."
+    },
+    {
+      "hypothesis": "O reasoning não é validado contra o output final — o modelo declarou 'Claude Code secrets' como quick_find e o omitiu, e declarou Pudu descartado mas o colocou no radar. Falta um passo de consistência entre reasoning e seleção.",
+      "evidence": "Contradições entre reasoning e output em Claude Code e Pudu.",
+      "suggested_fix": "Adicionar STEP de verificação: 'cada item mencionado como selecionado no reasoning deve aparecer no output; cada item declarado descartado não pode aparecer'."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find defensável, mas inclui um panorama conceitual (MIT TR Brasil) que viola anti-signal explícito e um claim de Reddit sem fonte primária. O reasoning é internamente contraditório: declara 'Claude Code secrets' selecionado e o omite, e declara Pudu descartado mas o coloca no radar. O tom é contido, mas há aumento de certeza em claim especulativo e atribuições não sustentadas pelo input."
+}
