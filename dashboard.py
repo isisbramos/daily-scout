@@ -34,7 +34,7 @@ import json
 import logging
 import os
 import webbrowser
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from content_report import (
     EDITIONS_PATH,
@@ -360,6 +360,11 @@ def _stat(n, label: str, hint: str) -> str:
     )
 
 
+def _window_button(mode: str, label: str, active_mode: str) -> str:
+    cls = "window-btn active" if mode == active_mode else "window-btn"
+    return f"<button type='button' class='{cls}' data-window='{mode}'>{_esc(label)}</button>"
+
+
 def render_insights(insights: list[str]) -> str:
     items = "".join(f"<li>{_esc(b).replace('**', '')}</li>" for b in insights)
     items = items.replace("**", "")
@@ -440,6 +445,23 @@ ul.insights { padding-left: 20px; margin: 0; }
 ul.insights li { margin-bottom: 10px; line-height: 1.45; }
 .trend-up { color: var(--ok); } .trend-down { color: var(--bad); }
 svg circle { cursor: default; }
+.window-bar {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 20px;
+}
+.window-bar .label { color: var(--mute); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; margin-right: 4px; }
+.window-btn {
+  background: var(--panel); color: var(--ink); border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 12px; font-size: .82rem; cursor: pointer; font-family: inherit;
+}
+.window-btn:hover { border-color: var(--accent); color: var(--accent); }
+.window-btn.active { background: var(--accent); color: #06120b; border-color: var(--accent); font-weight: 600; }
+.window-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--panel); border: 1px solid var(--accent); color: var(--ink); padding: 10px 18px;
+  border-radius: 8px; font-size: .85rem; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s;
+  z-index: 50;
+}
+.window-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 """
 
 
@@ -470,6 +492,56 @@ def render_html(content: dict, quality: dict, insights: list[str], cadence: dict
     {content['n_editions']} edições · gerado em {meta['generated_at']} ·
     <strong>uso interno — não publicar</strong>
   </p>
+
+  <div class="window-bar" id="window-bar">
+    <span class="label">Rodar de novo com:</span>
+    {_window_button('all', 'Todos', meta['window_mode'])}
+    {_window_button('last30', 'Últimos 30', meta['window_mode'])}
+    {_window_button('last15', 'Últimos 15', meta['window_mode'])}
+    {_window_button('days7', '7 dias', meta['window_mode'])}
+  </div>
+  <div class="window-toast" id="window-toast"></div>
+  <script>
+  (function() {{
+    var COMMANDS = {{
+      all: 'rode o dash --all',
+      last30: 'rode o dash --last 30',
+      last15: 'rode o dash --last 15',
+      days7: 'rode o dash --days 7'
+    }};
+    var toast = document.getElementById('window-toast');
+    var toastTimer = null;
+    function showToast(msg) {{
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() {{ toast.classList.remove('show'); }}, 3200);
+    }}
+    function copyText(text) {{
+      if (navigator.clipboard && window.isSecureContext) {{
+        return navigator.clipboard.writeText(text);
+      }}
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {{ document.execCommand('copy'); }} catch (e) {{}}
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    }}
+    document.querySelectorAll('.window-btn').forEach(function(btn) {{
+      btn.addEventListener('click', function() {{
+        var cmd = COMMANDS[btn.dataset.window];
+        copyText(cmd).then(function() {{
+          showToast('Copiado: "' + cmd + '" — cole no chat pra eu rodar de novo.');
+        }});
+      }});
+    }});
+  }})();
+  </script>
 
   <nav class="toc">
     <a href="#acao">① Ação agora</a>
@@ -623,12 +695,21 @@ def main():
     g = p.add_mutually_exclusive_group()
     g.add_argument("--last", type=int, default=30, help="Quantas edições recentes analisar (default: 30)")
     g.add_argument("--all", action="store_true", help="Analisar todas as edições disponíveis")
+    g.add_argument("--days", type=int, help="Só edições publicadas nos últimos N dias")
     p.add_argument("--editions-file", default=EDITIONS_PATH, help="Caminho do editions.jsonl")
     p.add_argument("--no-open", action="store_true", help="Não abrir no navegador ao terminar")
     args = p.parse_args()
 
-    last = None if args.all else args.last
-    editions = load_editions(args.editions_file, last)
+    if args.days is not None:
+        editions = load_editions(args.editions_file, None)
+        cutoff = (datetime.now() - timedelta(days=args.days)).strftime("%Y-%m-%d")
+        editions = [e for e in editions if e.get("date", "") >= cutoff]
+        window_mode = f"days{args.days}"
+    else:
+        last = None if args.all else args.last
+        editions = load_editions(args.editions_file, last)
+        window_mode = "all" if args.all else f"last{args.last}"
+
     if not editions:
         logger.error("Nenhuma edição encontrada em: %s", args.editions_file)
         raise SystemExit(1)
@@ -645,6 +726,7 @@ def main():
     meta = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "date_by_edition": {e.get("edition"): e.get("date", "?") for e in editions},
+        "window_mode": window_mode,
     }
 
     doc = render_html(content, quality, insights, cadence, meta, test_runs)

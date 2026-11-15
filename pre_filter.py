@@ -393,8 +393,13 @@ def _score_and_sort(
             engagement_score = 1 / (1 + math.exp(-z))  # sigmoid
 
         # ── Recency: exponential decay ──
-        age_hours = max(0, (now - item.timestamp) / 3600) if item.timestamp else decay_constant * 2
-        recency_score = math.exp(-age_hours / decay_constant)
+        # v5.4: fontes de cadência baixa podem ter decay_constant próprio
+        # (sources_config.json → recency_decay_constant), senão usa o global.
+        item_decay_constant = sources_config.get(item.source_id, {}).get(
+            "recency_decay_constant", decay_constant
+        )
+        age_hours = max(0, (now - item.timestamp) / 3600) if item.timestamp else item_decay_constant * 2
+        recency_score = math.exp(-age_hours / item_decay_constant)
 
         # ── Source weight do config ──
         source_weight = sources_config.get(item.source_id, {}).get("weight", 1.0)

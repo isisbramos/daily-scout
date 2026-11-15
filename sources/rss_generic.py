@@ -105,6 +105,28 @@ class MetaAIBlogSource(BaseSource):
         )
 
 
+@SourceRegistry.register
+class AppleMLResearchSource(BaseSource):
+    source_id = "apple_ml_research"
+    source_name = "Apple Machine Learning Research"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feed_url = self.config.get(
+            "rss_url", "https://machinelearning.apple.com/rss.xml"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="Apple Machine Learning Research",
+            limit=self.limit,
+            default_category="ai",
+        )
+
+
 # ── Europe Primary (Onda 2) ──────────────────────────────────────────
 
 @SourceRegistry.register
@@ -175,6 +197,28 @@ class HuggingFaceBlogSource(BaseSource):
             source_label="HuggingFace Blog",
             limit=self.limit,
             default_category="ai",
+        )
+
+
+@SourceRegistry.register
+class GitHubBlogSource(BaseSource):
+    source_id = "github_blog"
+    source_name = "The GitHub Blog"
+
+    def __init__(self, config: dict | None = None):
+        super().__init__(config)
+        self.limit = self.config.get("limit", 15)
+        self.feed_url = self.config.get(
+            "rss_url", "https://github.blog/feed/"
+        )
+
+    def fetch(self) -> list[SourceItem]:
+        return _fetch_rss(
+            feed_url=self.feed_url,
+            source_id=self.source_id,
+            source_label="The GitHub Blog",
+            limit=self.limit,
+            default_category="dev",
         )
 
 

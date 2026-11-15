@@ -83,6 +83,15 @@
       "limit": 15,
       "rss_url": "https://research.facebook.com/feed/"
     },
+    "apple_ml_research": {
+      "enabled": true,
+      "_comment": "Adicionado 2026-09-08 (docs/SOURCES_STUDY_2026-09.md, Gap 3 — AI Labs de segunda camada). Apple Machine Learning Research — feed validado via curl (RSS 2.0 real, não citação). Densidade AI ~100% (é research puro, sem marketing). Cadência observada no feed real: rajadas de vários papers na mesma semana com gaps de até ~6 dias entre posts — não é low-cadence como ethan_mollick (2-4 semanas), mas ainda mais lenta que fontes de alto volume. recency_hours/recency_decay_constant calibrados pra essa cadência observada (ver pre_filter.py v5.4) — sem isso, ficaria ociosa nos dias sem post novo pelo mesmo motivo que já afetou ethan_mollick.",
+      "weight": 0.8,
+      "limit": 15,
+      "recency_hours": 168,
+      "recency_decay_constant": 48,
+      "rss_url": "https://machinelearning.apple.com/rss.xml"
+    },
 
     "_comment_europe": "Europe primary — fecha Gap 1 do SOURCES_STUDY.",
     "mistral_releases": {
@@ -95,8 +104,8 @@
 
     "_comment_china_primary": "China primary — fecha Gap 2 do SOURCES_STUDY. Labs chineses em primeira mão (complementa SCMP/TechNode que são cobertura *sobre* China). Sem 'region' pois são papers/research em inglês — não carregam lente editorial asiática que o cap geographic tenta balancear.",
     "qwen_blog": {
-      "enabled": true,
-      "_comment": "Adicionado Onda 2. Qwen LM blog oficial — releases, papers, model cards. Densidade AI alta (~100%).",
+      "enabled": false,
+      "_comment": "Desabilitado 2026-09-08. Feed morto na prática — post mais recente é de 23/set/2025 (~1 ano parado). O blog em si migrou: qwenlm.github.io/blog agora exibe aviso 'We have a new blog at qwen.ai', redirecionando pra qwen.ai/research — que é SPA sem RSS público (autodiscovery ausente, /rss.xml e /feed retornam a mesma casca HTML). Checados 5 repos GitHub da org QwenLM como alternativa de Releases oficiais: maioria com zero releases, o único ativo (Qwen-Agent) parado desde mai/2025 — não é onde anunciam modelos. Decisão: desabilitar em vez de depender de feed não-oficial de terceiro. Reavaliar se qwen.ai expuser RSS no futuro.",
       "weight": 0.9,
       "limit": 15,
       "recency_hours": 72,
@@ -111,6 +120,15 @@
       "limit": 15,
       "rss_url": "https://huggingface.co/blog/feed.xml"
     },
+    "github_blog": {
+      "enabled": true,
+      "_comment": "Adicionado 2026-09-08 (docs/SOURCES_STUDY_2026-09.md, Gap 4 — dev tooling — e Gap 8 — sinal de IA em produção). Feed validado via curl. Não é GitHub Trending (sem RSS/API estável, rejeitado no estudo) — é o blog institucional do produto GitHub, mas com densidade AI alta agora (Copilot, agentes de código). Cadência observada no feed real: quase diário com gaps ocasionais de até ~6 dias — mesma calibração de recency_hours/recency_decay_constant do apple_ml_research (ver pre_filter.py v5.4).",
+      "weight": 0.8,
+      "limit": 15,
+      "recency_hours": 168,
+      "recency_decay_constant": 48,
+      "rss_url": "https://github.blog/feed/"
+    },
 
     "_comment_voice": "Editorial voice — analistas individuais com autoridade e densidade AI alta. Sinal pré-filtrado por editor humano que a Aya respeitaria.",
     "simon_willison": {
@@ -122,10 +140,11 @@
     },
     "ethan_mollick": {
       "enabled": true,
-      "_comment": "Adicionado Onda 2. One Useful Thing — uso aplicado de AI em trabalho/educação. Público exato da Aya.",
+      "_comment": "Adicionado Onda 2. One Useful Thing — uso aplicado de AI em trabalho/educação. Público exato da Aya. Atualizado 2026-09-08: identificado como fonte ociosa (zero picks em 30 edições) por causa da cadência de publicação (~1 post/2-4 semanas) colidindo com o corte global de recency_hours=24 e recency_decay_constant=8, que penalizam qualquer item não-fresquíssimo. recency_hours/recency_decay_constant abaixo dão a essa fonte janela e decaimento próprios (ver pre_filter.py v5.4), sem mexer no comportamento das demais fontes.",
       "weight": 0.9,
       "limit": 15,
       "recency_hours": 72,
+      "recency_decay_constant": 240,
       "rss_url": "https://www.oneusefulthing.org/feed"
     },
     "stratechery": {

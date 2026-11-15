@@ -236,6 +236,29 @@ class TestFilterRecency:
         assert len(result) == 1
         assert result[0].title == "Recent"
 
+    def test_source_override_keeps_old_item_from_low_cadence_source(self):
+        # v5.4: fonte com recency_hours próprio (ex: ethan_mollick, cadência baixa)
+        # não deve ser excluída pelo corte global de 24h.
+        ten_days_ago = time.time() - 10 * 24 * 3600
+        items = [
+            make_item(title="Low cadence, 10d old", source_id="ethan_mollick", timestamp=ten_days_ago),
+            make_item(title="High volume, 10d old", source_id="hackernews", timestamp=ten_days_ago),
+        ]
+        result = _filter_recency(
+            items, hours=24, fallback_min=1,
+            per_source_hours={"ethan_mollick": 720},
+        )
+        titles = {i.title for i in result}
+        assert "Low cadence, 10d old" in titles
+        assert "High volume, 10d old" not in titles
+
+    def test_source_override_ignored_when_not_provided(self):
+        old = time.time() - 50 * 3600
+        items = [make_item(title="Old", source_id="ethan_mollick", timestamp=old)]
+        # Sem per_source_hours → comportamento idêntico ao anterior (fallback)
+        result = _filter_recency(items, hours=24, fallback_min=1)
+        assert len(result) == 1  # fallback triggered, não override
+
 
 # ── _score_and_sort ───────────────────────────────────────────────────
 
@@ -301,6 +324,25 @@ class TestScoreAndSort:
 
     def test_empty_list(self):
         assert _score_and_sort([], CONFIG) == []
+
+    def test_source_specific_decay_constant_softens_old_item_penalty(self):
+        # v5.4: source com recency_decay_constant próprio no config deve decair
+        # mais devagar que o global (8) pro mesmo item envelhecido.
+        config_with_override = {
+            "sources": {
+                "hackernews": {"weight": 1.0},
+                "ethan_mollick": {"weight": 0.9, "recency_decay_constant": 240},
+            },
+            "scoring": CONFIG["scoring"],
+        }
+        ten_days_ago = time.time() - 10 * 24 * 3600
+        items = [
+            make_item(title="HN old", raw_score=100, timestamp=ten_days_ago, source_id="hackernews"),
+            make_item(title="Mollick old", raw_score=100, timestamp=ten_days_ago, source_id="ethan_mollick"),
+        ]
+        result = _score_and_sort(items, config_with_override)
+        # Mollick tem decay_constant maior (240 vs 8) — decai bem menos, deve ranquear na frente
+        assert result[0].title == "Mollick old"
 
 
 # ── _enforce_source_diversity ─────────────────────────────────────────
