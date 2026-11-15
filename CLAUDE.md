@@ -17,7 +17,7 @@ Newsletter diária de tech & IA, curada e escrita por uma persona de IA. O pipel
 - **Fontes:** 23 habilitadas. Confira com `python scripts/source_stats.py`.
 - **Prioridade editorial:** plano de out/2026 em `docs/EDITORIAL_IMPROVEMENT_PLAN.md`.
 - **Posicionamento em definição (nov/2026):** AYA para product managers. JTBD: "me diz o que essa notícia de IA muda no meu roadmap". Ainda não está no prompt.
-- **Migração de contexto em andamento:** este router é a Fase 1. Na Fase 2 o conteúdo de `docs/` vai para `context/`, `ops/` e `data/`, e este mapa será atualizado.
+- **Migração de contexto em andamento:** Fase 2. `context/produto.md` já migrado; o resto de `docs/` vai para `context/`, `ops/` e `data/`, e este mapa é atualizado a cada passo.
 
 ## Onde está a verdade
 
@@ -26,12 +26,12 @@ Quando o código e um doc discordarem, o código vence.
 | Assunto | Fonte da verdade | Atenção |
 | --- | --- | --- |
 | Arquitetura, como rodar, CI | `README.md` | |
-| Produto, público, métricas | Product Spec v0.2 no vault: `~/Documents/isis-brain/10-projetos/newsletter-aya/AYA.md` | `docs/PRODUCT.md` (abr) está desatualizado: não confie no público-alvo dele |
+| Produto, público, métricas | `context/produto.md` | inclui a direção para PMs e as perguntas em aberto |
 | Estado do pipeline | código (`llm_config.py`, `sources_config.json`) | `docs/CURRENT_STATE.md` é de maio |
 | Roadmap | `docs/ROADMAP.md` + `docs/EDITORIAL_IMPROVEMENT_PLAN.md` | |
 | Regras editoriais (runtime) | `prompts/` | só muda com dry run (ver regras) |
 | Fila de ajustes editoriais | `docs/EDITOR_NOTES.md` | |
-| Histórico editorial e técnico | `docs/EDITORIAL_RETROSPECTIVE.md`, `docs/DOC_PROCESSO_DAILY_SCOUT.md`, `docs/SOURCES_STUDY.md` | só leitura |
+| Histórico editorial e técnico | `docs/EDITORIAL_RETROSPECTIVE.md`, `docs/DOC_PROCESSO_DAILY_SCOUT.md`, `docs/SOURCES_STUDY.md`, `docs/historico/` | só leitura |
 | Marca e visual | `~/Documents/isis-brain/10-projetos/newsletter-aya/brand-system/SYSTEM.md`; arquivos em `brand-assets/` | a persona anime foi descartada |
 | Vault sync | `scripts/README.md` | notícias vão para `07-sinais/` |
 | Memória editorial | `memory/README.md` | |
@@ -44,7 +44,7 @@ Quando o código e um doc discordarem, o código vence.
 - **Ajuste editorial** (o que entra, o que sai, tom): `docs/EDITOR_NOTES.md` → `docs/EDITORIAL_IMPROVEMENT_PLAN.md` → o prompt em `prompts/`.
 - **Fonte nova ou quebrada:** `sources_config.json` + `sources/`.
 - **Edição não saiu ou saiu errada:** `README.md` (seção CI) + `.github/workflows/daily-scout.yml` + `debug/`.
-- **Produto, público, posicionamento:** Product Spec v0.2 no vault.
+- **Produto, público, posicionamento:** `context/produto.md`.
 - **Marca, visual, persona:** `SYSTEM.md` no vault.
 
 ## Regras de produção
