@@ -1,3 +1,5 @@
+> **Histórico (out/2026).** As 6 recomendações deste plano estão todas implementadas — ver resumo em [`data/roadmap.md`](../../data/roadmap.md). O detalhe de cada uma (o quê, por quê, como foi feito, como medir) continua valendo como registro; só o "Status" da tabela precisa ser lido como "concluído", não como plano em execução.
+
 # Plano de melhoria editorial — out/2026
 
 > Origem: Content Report de 05/10/2026 (30 edições, #167–#196) + conferência manual dos dados.
