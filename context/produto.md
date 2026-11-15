@@ -73,7 +73,9 @@ São três mudanças editoriais. Pela regra de uma por vez, cada uma entra, é m
 
 ### Tensão do pilar 5
 
-A v5.4 foi endurecida justamente contra conteúdo cognitivo: o STEP 2 exige que o item seja "acionável (concreto, não cognitivo)" e descarta manifesto e opinião sem evento. Uma pauta como "Anthropic e o Vaticano" tende a ser reprovada por essas regras. Para o pilar 5 existir, o prompt vai precisar de uma exceção explícita. Por exemplo: o item entra se houver um **evento âncora** (estudo, decisão, declaração pública de um player) mesmo sem ser acionável, com no máximo 1 item por edição. Sem isso, o pilar fica só no papel.
+A v5.4 foi endurecida justamente contra conteúdo cognitivo: o STEP 2 exige que o item seja "acionável (concreto, não cognitivo)" e descarta manifesto e opinião sem evento. Uma pauta como "Anthropic e o Vaticano" tende a ser reprovada por essas regras. Para o pilar 5 existir, o prompt vai precisar de uma exceção explícita. A regra: o item entra se houver um **evento âncora** (estudo, decisão, declaração pública de um player) mesmo sem ser acionável, com no máximo 1 item por edição. Sem isso, o pilar fica só no papel.
+
+**Decidido (15/11):** o pilar 5 entra com essa exceção: precisa de um evento âncora, mesmo que não seja acionável, e no máximo 1 item por edição.
 
 ### Como medir
 
