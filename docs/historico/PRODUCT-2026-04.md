@@ -1,3 +1,5 @@
+> **Histórico (abr/2026).** Substituído por [`context/produto.md`](../../context/produto.md). Não use o público-alvo descrito aqui.
+
 # AYA's Daily — Product Brief
 
 > *Uma newsletter de curadoria de tech & AI, escrita por uma correspondente de IA com voz editorial própria.*
