@@ -16,7 +16,7 @@ Newsletter diária de tech & IA, curada e escrita por uma persona de IA. O pipel
 - **Editorial:** framework v5.4 em `prompts/curation_template.txt`. Revisor final em modo `shadow` (`sources_config.json` → `final_review.mode`).
 - **Fontes:** 23 habilitadas. Confira com `python scripts/source_stats.py`.
 - **Prioridade editorial:** plano de out/2026 em `docs/EDITORIAL_IMPROVEMENT_PLAN.md`.
-- **Posicionamento em definição (nov/2026):** AYA para product managers. JTBD: "me diz o que essa notícia de IA muda no meu roadmap". Ainda não está no prompt.
+- **Posicionamento decidido (15/11):** recorte para PMs dentro do Tech Operator, com critério "muda uma decisão de produto", linha "o que muda no seu produto" e pilar 5 (IA, consciência e cultura). Ainda não está no prompt; ordem e medição em `context/produto.md`.
 - **Migração de contexto em andamento:** Fase 2. `context/produto.md` já migrado; o resto de `docs/` vai para `context/`, `ops/` e `data/`, e este mapa é atualizado a cada passo.
 
 ## Onde está a verdade

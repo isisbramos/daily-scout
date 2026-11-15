@@ -15,7 +15,7 @@ O que a diferencia:
 
 **Como lê:** scan diário de 60 a 90 segundos, no celular, e clica para se aprofundar fora. A edição é interface de descoberta, não destino.
 
-- **Primário — Tech Operator:** PM, eng, founder ou tech lead brasileiro. Lê no café ou entre reuniões e quer um bom hit ratio de "vale meu clique".
+- **Primário — Tech Operator:** PM, eng, founder ou tech lead brasileiro. Desde 15/11, com foco no PM (ver "Recorte para PMs"). Lê no café ou entre reuniões e quer um bom hit ratio de "vale meu clique".
 - **Secundário — Builder-Adjacent:** designer, writer, marketer ou consultor que constrói com IA. Mesmo padrão de leitura.
 - **Anti-persona:** quem procura explainer introdutório, leitor movido a hype e quem quer pesquisa acadêmica pura.
 
@@ -49,28 +49,41 @@ Diária, 7h55 BRT, todos os dias, inclusive fim de semana e feriado. Revisar só
 
 Os números reais ficam fora deste repo, que é público.
 
-## Direção em definição (nov/2026)
+## Recorte para PMs (decidido em 15/11/2026)
 
-O que a Isis já decidiu:
-- [2026-11] O direcionamento que falta é de produto: conteúdo que product managers consigam usar.
-- [2026-11] JTBD: "me diz o que essa notícia de IA muda no meu roadmap".
-- [2026-11] Hoje a AYA está "muito dev".
+**Por quê:** a AYA estava "muito dev". Faltava conteúdo que product managers consigam usar. JTBD: "me diz o que essa notícia de IA muda no meu roadmap".
 
-O que ela quer, mas ainda sem regra:
-- Algum viés editorial para IA e consciência/mente e cultura (ex.: estudos sobre "dor" em modelos, Anthropic e o Vaticano).
+| Pergunta | Decisão |
+| --- | --- |
+| Persona | **Recorte**, não substituição: o Tech Operator continua sendo o primário, com o PM como foco dentro dele. |
+| Curadoria | Critério novo: o item **muda uma decisão de produto**. |
+| Escrita | Cada item ganha uma linha de **"o que muda no seu produto"**. |
+| Pilar 5 | **IA, consciência/mente e cultura** entra como pilar editorial (ex.: estudos sobre "dor" em modelos, Anthropic e o Vaticano). |
+| Sucesso | Mais 🔥 no feedback por edição e mais assinantes novos por semana. |
 
-**Nada disso está no prompt ainda.** Mudar o prompt exige dry run e uma mudança por vez.
+**Nada disso está no prompt ainda.**
 
-## Perguntas em aberto
+### Ordem de implementação
 
-Responder antes de mexer no prompt:
+São três mudanças editoriais. Pela regra de uma por vez, cada uma entra, é medida no Content Report e só então vem a próxima:
 
-1. O PM vira a persona primária, no lugar do Tech Operator, ou é um recorte dentro dele?
-2. O que muda na **curadoria**? Um critério novo no STEP 2 ("muda uma decisão de produto")? Peso diferente entre os pilares?
-3. O que muda na **escrita**? Cada item ganha uma linha de "o que muda pro seu roadmap"?
-4. O viés IA/consciência/cultura entra como pilar 5, como seção de radar ou fica fora?
-5. Que métrica vai mostrar que a mudança funcionou?
+1. **Escrita:** a linha "o que muda no seu produto". É a mais barata, só mexe no texto e não muda o que entra.
+2. **Curadoria:** o critério "muda uma decisão de produto" no STEP 2.
+3. **Pilar 5.** Vem por último porque tem uma tensão a resolver (abaixo).
+
+### Tensão do pilar 5
+
+A v5.4 foi endurecida justamente contra conteúdo cognitivo: o STEP 2 exige que o item seja "acionável (concreto, não cognitivo)" e descarta manifesto e opinião sem evento. Uma pauta como "Anthropic e o Vaticano" tende a ser reprovada por essas regras. Para o pilar 5 existir, o prompt vai precisar de uma exceção explícita. A regra: o item entra se houver um **evento âncora** (estudo, decisão, declaração pública de um player) mesmo sem ser acionável, com no máximo 1 item por edição. Sem isso, o pilar fica só no papel.
+
+**Decidido (15/11):** o pilar 5 entra com essa exceção: precisa de um evento âncora, mesmo que não seja acionável, e no máximo 1 item por edição.
+
+### Como medir
+
+Com a base pequena, uma edição sozinha não diz nada. Para cada mudança, compare **4 semanas antes e 4 depois**:
+- % de votos 🔥 por edição (sem os votos anômalos de 25/08 a 08/09);
+- assinantes novos por semana;
+- no Content Report, se os itens trazem de fato a linha nova e se o critério novo aparece no reasoning.
 
 ## Decisões relacionadas
 
-Os ADRs ficam no vault (`isis-brain/04-decisoes/`): "Fechar product spec AYA v0.2" (12/05), "Rebrand AYA como entidade autônoma" (20/05), "Consolidar naming em AYA apenas" (20/05), "Fechar tagline da AYA" (20/05).
+Os ADRs ficam no vault (`isis-brain/04-decisoes/`): "Fechar product spec AYA v0.2" (12/05), "Rebrand AYA como entidade autônoma" (20/05), "Consolidar naming em AYA apenas" (20/05), "Fechar tagline da AYA" (20/05), "Recortar AYA para product managers" (15/11).
