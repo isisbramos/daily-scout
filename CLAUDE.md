@@ -16,8 +16,8 @@ Newsletter diária de tech & IA, curada e escrita por uma persona de IA. O pipel
 - **Editorial:** framework v5.4 em `prompts/curation_template.txt`. Revisor final em modo `shadow` (`sources_config.json` → `final_review.mode`).
 - **Fontes:** 23 habilitadas. Confira com `python scripts/source_stats.py`.
 - **Prioridade editorial:** plano de out/2026 — as 6 recomendações estão concluídas. Estado atual e próximos passos em `data/roadmap.md`.
-- **Posicionamento decidido (15/11):** recorte para PMs dentro do Tech Operator, com critério "muda uma decisão de produto", linha "o que muda no seu produto" e pilar 5 (IA, consciência e cultura). Ainda não está no prompt; ordem e medição em `context/produto.md`.
-- **Migração de contexto em andamento:** Fase 2. `context/produto.md` e `data/` (estado-atual, roadmap, fila editorial, métricas) já migrados; falta mover marca e regras editoriais pra `context/` e o resto de `docs/` pra `ops/`. Este mapa é atualizado a cada passo.
+- **Posicionamento decidido (15/11):** recorte para PMs dentro do Tech Operator, com critério "muda uma decisão de produto", linha "→ No seu produto:" e pilar 5 (IA, consciência e cultura). Passo 1 (a linha) está em produção desde 15/11, em medição até ~13/12; passos 2 (critério de curadoria) e 3 (pilar 5) ainda não estão no prompt. Ordem e medição em `context/produto.md`.
+- **Migração de contexto em andamento:** Fase 2. `context/produto.md`, `context/marca.md`, `context/editorial.md` e `data/` (estado-atual, roadmap, fila editorial, métricas) já migrados; falta mover o resto de `docs/` pra `ops/`. Este mapa é atualizado a cada passo.
 
 ## Onde está a verdade
 
@@ -29,11 +29,11 @@ Quando o código e um doc discordarem, o código vence.
 | Produto, público, métricas | `context/produto.md` | inclui a direção para PMs e as perguntas em aberto |
 | Estado do pipeline | código (`llm_config.py`, `sources_config.json`); resumo em `data/estado-atual.md` | `docs/historico/CURRENT_STATE.md` é de maio, só histórico |
 | Roadmap | `data/roadmap.md` | junta `docs/historico/ROADMAP.md` + `docs/historico/EDITORIAL_IMPROVEMENT_PLAN.md` |
-| Regras editoriais (runtime) | `prompts/` | só muda com dry run (ver regras) |
+| Regras editoriais (runtime) | `prompts/` | só muda com dry run (ver regras); o porquê de cada regra está em `context/editorial.md` |
 | Fila de ajustes editoriais | `data/fila-editorial.md` | |
 | Onde medir cada métrica | `data/metricas.md` | sem números reais |
 | Histórico editorial e técnico | `docs/EDITORIAL_RETROSPECTIVE.md`, `docs/DOC_PROCESSO_DAILY_SCOUT.md`, `docs/SOURCES_STUDY.md`, `docs/historico/` | só leitura |
-| Marca e visual | `~/Documents/isis-brain/10-projetos/newsletter-aya/brand-system/SYSTEM.md`; arquivos em `brand-assets/` | a persona anime foi descartada |
+| Marca e visual | `context/marca.md` (resumo) → `~/Documents/isis-brain/10-projetos/newsletter-aya/brand-system/SYSTEM.md` (detalhe); arquivos em `brand-assets/` | a persona anime foi descartada |
 | Vault sync | `scripts/README.md` | notícias vão para `07-sinais/` |
 | Memória editorial | `memory/README.md` | |
 | Qualidade | `reports/` (content report semanal), `debug/` (audit por edição) | |
@@ -42,11 +42,11 @@ Quando o código e um doc discordarem, o código vence.
 
 ## Quando ler o quê
 
-- **Ajuste editorial** (o que entra, o que sai, tom): `data/fila-editorial.md` → `data/roadmap.md` → o prompt em `prompts/`.
+- **Ajuste editorial** (o que entra, o que sai, tom): `data/fila-editorial.md` → `data/roadmap.md` → `context/editorial.md` (o porquê) → o prompt em `prompts/` (a execução).
 - **Fonte nova ou quebrada:** `sources_config.json` + `sources/`.
 - **Edição não saiu ou saiu errada:** `README.md` (seção CI) + `.github/workflows/daily-scout.yml` + `debug/`.
 - **Produto, público, posicionamento:** `context/produto.md`.
-- **Marca, visual, persona:** `SYSTEM.md` no vault.
+- **Marca, visual, persona:** `context/marca.md` → `SYSTEM.md` no vault pro detalhe.
 
 ## Regras de produção
 

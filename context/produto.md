@@ -61,13 +61,13 @@ Os números reais ficam fora deste repo, que é público.
 | Pilar 5 | **IA, consciência/mente e cultura** entra como pilar editorial (ex.: estudos sobre "dor" em modelos, Anthropic e o Vaticano). |
 | Sucesso | Mais 🔥 no feedback por edição e mais assinantes novos por semana. |
 
-**Nada disso está no prompt ainda.**
+**Passo 1 já está no prompt; passos 2 e 3, ainda não.**
 
 ### Ordem de implementação
 
 São três mudanças editoriais. Pela regra de uma por vez, cada uma entra, é medida no Content Report e só então vem a próxima:
 
-1. **Escrita:** a linha "o que muda no seu produto". É a mais barata, só mexe no texto e não muda o que entra.
+1. **Escrita:** a linha "→ No seu produto:" em cada achado. ✅ Implementada em 15/11 (PR #51), em `prompts/system_instruction.txt`, `schemas.py` e `prompts/curation_template.txt` — em produção, com medição no Content Report até ~13/12 antes do passo 2.
 2. **Curadoria:** o critério "muda uma decisão de produto" no STEP 2.
 3. **Pilar 5.** Vem por último porque tem uma tensão a resolver (abaixo).
 
