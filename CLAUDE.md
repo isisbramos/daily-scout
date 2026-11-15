@@ -29,7 +29,7 @@ Quando o código e um doc discordarem, o código vence.
 | Produto, público, métricas | `context/produto.md` | inclui a direção para PMs e as perguntas em aberto |
 | Estado do pipeline | código (`llm_config.py`, `sources_config.json`) | `docs/CURRENT_STATE.md` é de maio |
 | Roadmap | `docs/ROADMAP.md` + `docs/EDITORIAL_IMPROVEMENT_PLAN.md` | |
-| Regras editoriais (runtime) | `prompts/` | só muda com dry run (ver regras) |
+| Regras editoriais (runtime) | `prompts/` | só muda com dry run (ver regras); o porquê de cada regra está em `context/editorial.md` |
 | Fila de ajustes editoriais | `docs/EDITOR_NOTES.md` | |
 | Histórico editorial e técnico | `docs/EDITORIAL_RETROSPECTIVE.md`, `docs/DOC_PROCESSO_DAILY_SCOUT.md`, `docs/SOURCES_STUDY.md`, `docs/historico/` | só leitura |
 | Marca e visual | `~/Documents/isis-brain/10-projetos/newsletter-aya/brand-system/SYSTEM.md`; arquivos em `brand-assets/` | a persona anime foi descartada |
@@ -41,7 +41,7 @@ Quando o código e um doc discordarem, o código vence.
 
 ## Quando ler o quê
 
-- **Ajuste editorial** (o que entra, o que sai, tom): `docs/EDITOR_NOTES.md` → `docs/EDITORIAL_IMPROVEMENT_PLAN.md` → o prompt em `prompts/`.
+- **Ajuste editorial** (o que entra, o que sai, tom): `docs/EDITOR_NOTES.md` → `docs/EDITORIAL_IMPROVEMENT_PLAN.md` → `context/editorial.md` (o porquê) → o prompt em `prompts/` (a execução).
 - **Fonte nova ou quebrada:** `sources_config.json` + `sources/`.
 - **Edição não saiu ou saiu errada:** `README.md` (seção CI) + `.github/workflows/daily-scout.yml` + `debug/`.
 - **Produto, público, posicionamento:** `context/produto.md`.
