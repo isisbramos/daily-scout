@@ -85,6 +85,32 @@ def _iter_outbox_files() -> list[str]:
     return sorted(found)
 
 
+def _vault_destination(rel_path: str, src: str) -> tuple[str, str | None]:
+    """Mapeia o path do outbox pro path no vault da Isis.
+
+    Notícia de edição (frontmatter com `fonte_edicao:`) não é insight autoral:
+    vai pra `07-sinais/AAAA-MM/` com `tipo: sinal` (taxonomia do vault desde
+    2026-10-05). Retorna (path relativo no vault, conteúdo reescrito ou None).
+    """
+    parts = rel_path.split(os.sep)
+    if parts[0] != "03-insights":
+        return rel_path, None
+    with open(src, encoding="utf-8") as f:
+        text = f.read()
+    head = text[:800]
+    if "fonte_edicao:" not in head:
+        return rel_path, None
+    month = "sem-data"
+    for line in head.splitlines():
+        if line.startswith("criado:"):
+            month = line.split(":", 1)[1].strip()[:7] or month
+            break
+    text = text.replace("tipo: insight", "tipo: sinal", 1)
+    if "promover:" not in head:
+        text = text.replace("fonte_edicao:", "promover: false\nfonte_edicao:", 1)
+    return os.path.join("07-sinais", month, parts[-1]), text
+
+
 def sync(vault_path: str) -> int:
     """Copia notas novas do outbox pro vault. Retorna o nº de notas copiadas."""
     if not os.path.isdir(vault_path):
@@ -102,7 +128,8 @@ def sync(vault_path: str) -> int:
             continue
 
         src = os.path.join(OUTBOX_DIR, rel_path)
-        dest = os.path.join(vault_path, rel_path)
+        vault_rel, rewritten = _vault_destination(rel_path, src)
+        dest = os.path.join(vault_path, vault_rel)
 
         if os.path.exists(dest):
             _log(f"PULADO (já existe no vault, não sobrescrevo): {rel_path}")
@@ -110,7 +137,11 @@ def sync(vault_path: str) -> int:
             continue
 
         os.makedirs(os.path.dirname(dest), exist_ok=True)
-        shutil.copy2(src, dest)
+        if rewritten is None:
+            shutil.copy2(src, dest)
+        else:
+            with open(dest, "w", encoding="utf-8") as f:
+                f.write(rewritten)
         synced.add(rel_path)
         copied += 1
         _log(f"copiado -> {dest}")

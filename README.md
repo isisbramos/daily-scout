@@ -11,9 +11,9 @@ Pipeline por trás da **AYA**, uma newsletter diária de tech & IA com curadoria
 ## Como funciona
 
 ```
-sources/ (22 fontes habilitadas em sources_config.json)
+sources/ (23 fontes habilitadas em sources_config.json)
     │   Reddit, HackerNews, Lobsters, TechCrunch, arXiv, blogs de labs de IA (Anthropic,
-    │   OpenAI, DeepMind, Meta, Mistral, Qwen, HuggingFace...), fontes geográficas (Brasil,
+    │   OpenAI, DeepMind, Meta, Mistral, HuggingFace, Apple, GitHub...), fontes geográficas (Brasil,
     │   China, Rest of World)
     ▼
 pre_filter.py
