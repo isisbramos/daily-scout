@@ -1,4 +1,6 @@
-# Notas editoriais — matéria-prima pra esculpir prompt/curadoria
+# Fila de ajustes editoriais
+
+> Movido de `docs/EDITOR_NOTES.md` (migração de contexto, Fase 2). Mesmas instruções de uso de antes.
 
 Espaço livre pra você (Isis, como leitora) anotar, assim que perceber, quando um
 tema ou achado de uma edição não bateu com o que esperava da AYA. Sem formato
@@ -9,7 +11,7 @@ Isso vira a matéria-prima quando a gente senta pra revisar
 [`prompts/system_instruction.txt`](../prompts/system_instruction.txt) (voz, regras
 de acurácia, idioma) ou [`prompts/curation_template.txt`](../prompts/curation_template.txt)
 (o que entra/sai, ranking, anti-signal) — mesmo processo de discovery que gerou
-[`EDITORIAL_RETROSPECTIVE.md`](EDITORIAL_RETROSPECTIVE.md) na v4.
+[`EDITORIAL_RETROSPECTIVE.md`](../docs/EDITORIAL_RETROSPECTIVE.md) na v4.
 
 Depois de uma sessão de ajuste que resolve uma entrada, mova o resumo pra
 `EDITORIAL_RETROSPECTIVE.md` como registro histórico do que mudou e por quê, e

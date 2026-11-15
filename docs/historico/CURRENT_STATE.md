@@ -1,3 +1,5 @@
+> **Histórico (maio/2026).** Substituído por [`data/estado-atual.md`](../../data/estado-atual.md), que lê o estado direto do código. Não use o conteúdo abaixo como referência atual.
+
 # AYA's Daily — Current State
 
 > Snapshot do pipeline em produção. Atualizar sempre que houver mudança de versão, fonte ou arquitetura.

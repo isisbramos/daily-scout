@@ -15,9 +15,9 @@ Newsletter diária de tech & IA, curada e escrita por uma persona de IA. O pipel
 - **Modelo:** `deepseek-v4-flash`. Fonte da verdade: `llm_config.py`.
 - **Editorial:** framework v5.4 em `prompts/curation_template.txt`. Revisor final em modo `shadow` (`sources_config.json` → `final_review.mode`).
 - **Fontes:** 23 habilitadas. Confira com `python scripts/source_stats.py`.
-- **Prioridade editorial:** plano de out/2026 em `docs/EDITORIAL_IMPROVEMENT_PLAN.md`.
+- **Prioridade editorial:** plano de out/2026 — as 6 recomendações estão concluídas. Estado atual e próximos passos em `data/roadmap.md`.
 - **Posicionamento decidido (15/11):** recorte para PMs dentro do Tech Operator, com critério "muda uma decisão de produto", linha "→ No seu produto:" e pilar 5 (IA, consciência e cultura). Passo 1 (a linha) está em produção desde 15/11, em medição até ~13/12; passos 2 (critério de curadoria) e 3 (pilar 5) ainda não estão no prompt. Ordem e medição em `context/produto.md`.
-- **Migração de contexto em andamento:** Fase 2. `context/produto.md` já migrado; o resto de `docs/` vai para `context/`, `ops/` e `data/`, e este mapa é atualizado a cada passo.
+- **Migração de contexto em andamento:** Fase 2. `context/produto.md`, `context/marca.md`, `context/editorial.md` e `data/` (estado-atual, roadmap, fila editorial, métricas) já migrados; falta mover o resto de `docs/` pra `ops/`. Este mapa é atualizado a cada passo.
 
 ## Onde está a verdade
 
@@ -27,10 +27,11 @@ Quando o código e um doc discordarem, o código vence.
 | --- | --- | --- |
 | Arquitetura, como rodar, CI | `README.md` | |
 | Produto, público, métricas | `context/produto.md` | inclui a direção para PMs e as perguntas em aberto |
-| Estado do pipeline | código (`llm_config.py`, `sources_config.json`) | `docs/CURRENT_STATE.md` é de maio |
-| Roadmap | `docs/ROADMAP.md` + `docs/EDITORIAL_IMPROVEMENT_PLAN.md` | |
+| Estado do pipeline | código (`llm_config.py`, `sources_config.json`); resumo em `data/estado-atual.md` | `docs/historico/CURRENT_STATE.md` é de maio, só histórico |
+| Roadmap | `data/roadmap.md` | junta `docs/historico/ROADMAP.md` + `docs/historico/EDITORIAL_IMPROVEMENT_PLAN.md` |
 | Regras editoriais (runtime) | `prompts/` | só muda com dry run (ver regras); o porquê de cada regra está em `context/editorial.md` |
-| Fila de ajustes editoriais | `docs/EDITOR_NOTES.md` | |
+| Fila de ajustes editoriais | `data/fila-editorial.md` | |
+| Onde medir cada métrica | `data/metricas.md` | sem números reais |
 | Histórico editorial e técnico | `docs/EDITORIAL_RETROSPECTIVE.md`, `docs/DOC_PROCESSO_DAILY_SCOUT.md`, `docs/SOURCES_STUDY.md`, `docs/historico/` | só leitura |
 | Marca e visual | `context/marca.md` (resumo) → `~/Documents/isis-brain/10-projetos/newsletter-aya/brand-system/SYSTEM.md` (detalhe); arquivos em `brand-assets/` | a persona anime foi descartada |
 | Vault sync | `scripts/README.md` | notícias vão para `07-sinais/` |
@@ -41,7 +42,7 @@ Quando o código e um doc discordarem, o código vence.
 
 ## Quando ler o quê
 
-- **Ajuste editorial** (o que entra, o que sai, tom): `docs/EDITOR_NOTES.md` → `docs/EDITORIAL_IMPROVEMENT_PLAN.md` → `context/editorial.md` (o porquê) → o prompt em `prompts/` (a execução).
+- **Ajuste editorial** (o que entra, o que sai, tom): `data/fila-editorial.md` → `data/roadmap.md` → `context/editorial.md` (o porquê) → o prompt em `prompts/` (a execução).
 - **Fonte nova ou quebrada:** `sources_config.json` + `sources/`.
 - **Edição não saiu ou saiu errada:** `README.md` (seção CI) + `.github/workflows/daily-scout.yml` + `debug/`.
 - **Produto, público, posicionamento:** `context/produto.md`.
@@ -58,7 +59,7 @@ Quando o código e um doc discordarem, o código vence.
 ## Write-back
 
 - Quando a Isis corrigir algo ou vocês tomarem uma decisão, atualize o arquivo certo e diga em 1 linha o que mudou:
-  - correção de tom ou critério editorial → `docs/EDITOR_NOTES.md`
+  - correção de tom ou critério editorial → `data/fila-editorial.md`
   - decisão com alternativas (stack, marca, posicionamento) → ADR no vault (`04-decisoes/`) + 1 linha em "Estado em 1 minuto" se mudar o estado
   - algo quebrou e foi resolvido → seção de troubleshooting do doc da área (`README.md` ou `scripts/README.md`)
   - mudou estado, modelo, fontes ou prioridade → "Estado em 1 minuto" acima

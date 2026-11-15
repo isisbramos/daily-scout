@@ -1,3 +1,5 @@
+> **Histórico (até out/2026).** Substituído por [`data/roadmap.md`](../../data/roadmap.md), que junta este documento com `EDITORIAL_IMPROVEMENT_PLAN.md` e corrige o que ficou desatualizado (ex.: status do Qwen Blog). O "Shipped" abaixo continua útil como registro; não use "Now/Next/Later" como status atual.
+
 # AYA's Daily — Roadmap
 
 > Framework: **Now / Next / Later**

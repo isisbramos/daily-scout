@@ -98,6 +98,6 @@ Dependências são gerenciadas via Dependabot (`.github/dependabot.yml`), com ve
 
 ## Mais contexto
 
-`docs/` tem o histórico completo: snapshot do estado atual (`CURRENT_STATE.md`), visão de produto (`context/produto.md`), evolução técnica (`DOC_PROCESSO_DAILY_SCOUT.md`), evolução editorial (`EDITORIAL_RETROSPECTIVE.md`), roadmap (`ROADMAP.md`) e o estudo de fontes (`SOURCES_STUDY.md`).
+Estado operacional: snapshot do pipeline a partir do código (`data/estado-atual.md`), roadmap (`data/roadmap.md`), onde medir cada métrica (`data/metricas.md`) e fila de ajustes editoriais (`data/fila-editorial.md`). Produto: visão, público e métricas em `context/produto.md`. Histórico: `docs/` tem a evolução técnica (`DOC_PROCESSO_DAILY_SCOUT.md`), a evolução editorial (`EDITORIAL_RETROSPECTIVE.md`), o estudo de fontes (`SOURCES_STUDY.md`) e os snapshots substituídos em `docs/historico/`.
 
-> `CURRENT_STATE.md` é um snapshot mantido manualmente e pode ficar desatualizado (status de features, datas, backlog) — o código-fonte é sempre a referência final. A contagem de fontes acima é travada por `tests/test_docs_sync.py` contra `sources_config.json` — rode `python scripts/source_stats.py` pra conferir o número real.
+> `data/estado-atual.md` e `data/roadmap.md` são gerados a partir do código, mas ainda são lidos por uma pessoa, não travados por teste — o código-fonte é sempre a referência final. A contagem de fontes acima é travada por `tests/test_docs_sync.py` contra `sources_config.json` — rode `python scripts/source_stats.py` pra conferir o número real.
