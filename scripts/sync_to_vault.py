@@ -42,10 +42,16 @@ def _log(msg: str) -> None:
 
 def _git_pull() -> bool:
     """Atualiza o clone local antes de sincronizar. Não é fatal se falhar
-    (ex: sem internet) — só significa que não há nada novo pra pegar agora."""
+    (ex: sem internet) — só significa que não há nada novo pra pegar agora.
+
+    Usa --ff-only (sem --autostash): este script deve rodar num clone dedicado,
+    sem trabalho local. Em 06/10/2026 o --autostash rodando no clone de
+    desenvolvimento prendeu mudanças não commitadas num conflito por 6 semanas.
+    Se o clone tiver divergido, o pull falha de forma visível no log em vez de
+    misturar trabalho local com o main."""
     try:
         subprocess.run(
-            ["git", "pull", "--rebase", "--autostash", "origin", "main"],
+            ["git", "pull", "--ff-only", "origin", "main"],
             cwd=REPO_ROOT,
             check=True,
             capture_output=True,

@@ -8,6 +8,12 @@ sem nada a fazer. Isso aqui é só o Stage B — a ponte final até o vault de
 verdade, que só pode rodar na sua máquina porque é onde o vault (Obsidian
 Sync/iCloud) está montado.
 
+## Clone dedicado (obrigatório)
+
+O job faz `git pull` todo dia antes de sincronizar. Rode-o num **clone só dele**, nunca no clone onde você desenvolve. Em 06/10/2026 o pull com `--autostash` no clone de desenvolvimento prendeu trabalho não commitado num conflito: o sync ficou parado 6 semanas e o trabalho só voltou no PR #46. Hoje o script usa `--ff-only` e falha de forma visível se o clone divergir, mas o clone dedicado é o que evita o problema.
+
+Padrão usado: `~/code/aya-vault-sync`.
+
 ## Setup (uma vez)
 
 1. Confirme o caminho absoluto da raiz do seu vault, ex:
@@ -16,7 +22,7 @@ Sync/iCloud) está montado.
 
 2. Teste manual primeiro, antes de automatizar:
    ```bash
-   cd /caminho/pro/seu/clone/local/daily-scout
+   cd ~/code/aya-vault-sync   # clone dedicado, não o de desenvolvimento
    git pull origin main
    export VAULT_PATH="/caminho/completo/do/seu/vault"
    python3 scripts/sync_to_vault.py
