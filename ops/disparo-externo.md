@@ -74,6 +74,14 @@ O disparo só funciona com o workflow já no `main`. Ordem importa.
 4. **Primeiro dia:** confirme no dia seguinte que o run `workflow_dispatch` começou perto de 10:55Z e que o run `schedule` do mesmo dia aparece com o guard em PULAR.
 5. **Depois do setup validado:** atualize em `CLAUDE.md` ("Estado em 1 minuto") que o disparo externo está ativo.
 
+### Status do setup (16/11/2026)
+
+- [x] Token `aya-dispatch` criado (só o repo `daily-scout`, Actions: Read and write). **Vence em 15/11/2027**: renovar até meados de out/2027.
+- [x] Job no cron-job.org criado: POST, 07:55 diário, America/Sao_Paulo, aviso por e-mail na primeira falha e na recuperação.
+- [x] Teste do cron-job.org em dry run: HTTP 204, run `workflow_dispatch` com `trigger=external`, guard em "dry run: guard desligado", sem envio.
+- [x] Body trocado para o final (sem `dry_run`).
+- [ ] **Primeiro dia (17/11):** run `workflow_dispatch` começa perto de 10:55Z e o run `schedule` do mesmo dia pula no guard.
+
 ## O que pode dar errado
 
 | Falha | O que acontece | Como percebo | O que fazer |

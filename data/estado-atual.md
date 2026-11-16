@@ -59,7 +59,7 @@ Pesos (`weight`) variam de 0.7 a 1.3; `arxiv_ai` e `huggingface_papers` têm tie
 
 | Workflow | Trigger | O que faz |
 | --- | --- | --- |
-| `daily-scout.yml` | disparo externo 7h55 BRT via `workflow_dispatch` (ativo só depois do setup em `ops/disparo-externo.md`) + cron nativo 06:37 UTC como fallback (atrasa 4,5–10h) + manual | job `guard` (`scripts/edition_guard.py`: pula se a edição já está em `memory/editions.jsonl`, ou se o "transmissão parcial" do dia já saiu, em `memory/fallbacks.jsonl`) → pipeline completo: busca → filtro → curadoria → envio. Persiste memória editorial, avisos e nota do vault de volta pro repo (cada passo isolado, `continue-on-error`). |
+| `daily-scout.yml` | disparo externo 7h55 BRT via `workflow_dispatch` (setup feito em 16/11/2026; 1º envio real a validar em 17/11; ver `ops/disparo-externo.md`) + cron nativo 06:37 UTC como fallback (atrasa 4,5–10h) + manual | job `guard` (`scripts/edition_guard.py`: pula se a edição já está em `memory/editions.jsonl`, ou se o "transmissão parcial" do dia já saiu, em `memory/fallbacks.jsonl`) → pipeline completo: busca → filtro → curadoria → envio. Persiste memória editorial, avisos e nota do vault de volta pro repo (cada passo isolado, `continue-on-error`). |
 | `content-report.yml` | semanal, segunda 12:00 UTC | junta feedback da planilha, baixa artifacts `debug-N` via `gh api` direto (não usa a action `download-artifact`), roda o audit agent, gera o relatório em `reports/`. |
 | `social-post.yml` | cron diário 14:00 UTC | baixa artifact `edition-N` (`actions/download-artifact`) e posta no LinkedIn se houver conteúdo social — hoje nunca encontra o artifact (ver nota acima) e sempre pula. |
 | `security.yml` | semanal + PRs que tocam deps | `pip-audit`. |
