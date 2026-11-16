@@ -20,13 +20,16 @@ Não dá para resolver com um horário mais cedo: o atraso varia demais. A saíd
                                     job guard  (scripts/edition_guard.py)
                                       │ lê memory/editions.jsonl no tip do main
                          ┌────────────┴────────────┐
-                 edição N já registrada       ainda não registrada
-                         │                         │
-                    PULA (skip)             job run-pipeline
-                                      curadoria → Buttondown → registra edição N
+        edição N registrada em editions.jsonl     nenhuma das duas
+        ou fallback em fallbacks.jsonl                   │
+                         │                         job run-pipeline
+                    PULA (skip)           curadoria → Buttondown → registra edição N
+                                          (se falhar após o fallback: registra o fallback)
 ```
 
 Fonte de verdade de "já enviou": `memory/editions.jsonl`. O pipeline só escreve nele depois de um envio real bem-sucedido (`pipeline.py`, passo 6b), então presença da edição N significa enviada.
+
+Fonte de verdade de "já saiu o transmissão parcial": `memory/fallbacks.jsonl` (só edição e data, nunca o motivo do erro). `delivery.send_fallback` grava depois que o e-mail parcial sai, e um passo do workflow com `if: failure()` leva o marcador pro repo. Decisão de produto: **nenhum segundo e-mail** no dia, então o guard pula também nesse caso.
 
 ## Contrato
 
@@ -50,7 +53,7 @@ Fonte de verdade de "já enviou": `memory/editions.jsonl`. O pipeline só escrev
 
 **Saídas do job `guard`:** `skip` (`true`/`false`), `edition` e `delay_min`, mais um resumo no step summary do run.
 
-**Regras do guard:** pula só se não for dry run, não for `force` e a edição estiver registrada. Qualquer erro ao ler o histórico, ou o próprio job quebrar, resulta em **enviar** (fail-open).
+**Regras do guard:** pula só se não for dry run, não for `force` e a edição estiver registrada em `editions.jsonl` (enviada) ou em `fallbacks.jsonl` (parcial já enviada). Qualquer erro ao ler o histórico, ou o próprio job quebrar, resulta em **enviar** (fail-open).
 
 ## Setup (uma vez, depois do merge)
 
@@ -79,7 +82,9 @@ O disparo só funciona com o workflow já no `main`. Ordem importa.
 | Token expirado ou revogado (401/403) | Igual ao anterior. | E-mail do cron-job.org na primeira falha. | Gerar token novo, atualizar o header no scheduler. |
 | URL ou body errado (404/422) | Igual ao anterior. | E-mail do cron-job.org. | Corrigir o job conforme o Contrato. |
 | Guard quebra (checkout, runner) | O pipeline roda assim mesmo. Risco de duplicidade se a edição já tinha saído. | Job `guard` vermelho no run. | Ler o log do guard; corrigir antes da próxima edição. |
-| Pipeline falha em curadoria ou fetch | Sai o e-mail "transmissão parcial", o job fica vermelho, nada é registrado. O cron nativo, horas depois, **reenvia a edição completa**. | Job vermelho; e-mail de falha do Actions. | Ver decisão em aberto 2. |
+| Pipeline falha em curadoria ou fetch | Sai o e-mail "transmissão parcial", o job fica vermelho, o fallback é registrado em `memory/fallbacks.jsonl`. O cron nativo do mesmo dia **pula**: nenhum segundo e-mail. | Job vermelho; e-mail de falha do Actions; commit `registra fallback da edição N`. | Corrigir a causa. Para mandar a edição completa mesmo assim: `gh workflow run daily-scout.yml -f force=true`. |
+| Pipeline falha antes de qualquer e-mail (ex.: env var ausente) | Nada sai, nada é registrado. O cron nativo tenta de novo, horas depois. | Job vermelho. | Corrigir a causa. |
+| Fallback saiu mas o marcador não foi persistido | O cron nativo reenvia a edição completa: segundo e-mail. | Warning "Falha ao persistir" no step summary. | Commitar o marcador à mão em `memory/fallbacks.jsonl` antes do cron nativo disparar. |
 | Buttondown recusa (`DeliveryError`) | Job verde, nada registrado. O cron nativo tenta de novo. | Warning no log. | Ver erro no log; checar o painel do Buttondown. |
 | Buttondown aceita mas a resposta dá timeout | Edição enviada e não registrada. O cron nativo **reenvia: duplicidade**. | Leitores avisam. | Raro. Fecha com a iteração 2. |
 | `persist_to_git` falha depois do envio | Edição enviada e não registrada. Mesmo risco de duplicidade. | Warning "Falha ao persistir" no step summary. | Commitar o registro à mão em `memory/editions.jsonl` antes do cron nativo disparar, ou disparar com `force` só se for reenvio desejado. |
@@ -103,7 +108,7 @@ Métricas de leitor (open rate, CTR) continuam em `data/metricas.md`.
 
 ## Limitações conhecidas desta versão
 
-- O guard confia em `memory/editions.jsonl`, não no Buttondown. Ver as linhas de timeout e `persist` na tabela acima.
+- O guard confia em `memory/editions.jsonl` e `memory/fallbacks.jsonl`, não no Buttondown. Ver as linhas de timeout e `persist` na tabela acima.
 - Não há watchdog: se o scheduler externo inteiro cair sem avisar, a primeira pista é o envio sair tarde pelo cron nativo.
 - O cron nativo continua custando um run curto por dia (o guard pula em ~10s).
 - `social-post.yml` e `content-report.yml` também usam o cron nativo e não foram tocados.
@@ -116,8 +121,8 @@ Métricas de leitor (open rate, CTR) continuam em `data/metricas.md`.
 3. **Fallback inteligente:** mover o cron nativo para só rodar se a edição não saiu até as 9h, ou trocar o scheduler por um com retries nativos (Cloud Scheduler) se o cron-job.org se mostrar instável.
 4. **Pontualidade no Content Report** semanal, com a distribuição dos atrasos.
 
-## Decisões em aberto
+## Decisões tomadas (16/11/2026)
 
-1. **Horário.** Este PR assume 7h55 BRT, que é o que `context/produto.md` promete. O horário vive só no scheduler (e em `TARGET_UTC` no guard, para a métrica).
-2. **Depois de um "transmissão parcial".** Hoje o cron nativo reenvia a edição completa horas depois, então o leitor recebe os dois e-mails. Alternativa: marcar o dia como "fallback enviado" e não reenviar. Depende de você preferir completude tardia ou nenhum segundo e-mail.
-3. **Scheduler.** cron-job.org é gratuito e rápido de configurar, mas é um terceiro a mais. Cloud Scheduler ou um Cloudflare Worker dão mais controle, com mais setup.
+1. **Horário:** 7h55 BRT, como promete `context/produto.md`. Vive só no scheduler (e em `TARGET_UTC` no guard, para a métrica).
+2. **Depois de um "transmissão parcial":** nenhum segundo e-mail. Implementado com `memory/fallbacks.jsonl`. Trade-off aceito: nesse dia a edição completa só sai se alguém disparar à mão com `force=true`.
+3. **Scheduler:** cron-job.org, por ser grátis e rápido de configurar. Reavaliar se se mostrar instável (iteração 3).

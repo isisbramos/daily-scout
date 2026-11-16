@@ -114,6 +114,15 @@ jobs:
           DEBUG_SAVE: 'true'
         run: python pipeline.py
 
+      - name: Persist fallback marker (transmissão parcial -> sem segundo e-mail)
+        # Se o pipeline falhou DEPOIS de mandar o e-mail "transmissão parcial", o delivery.py
+        # gravou memory/fallbacks.jsonl no runner. Este passo leva o marcador pro repo, e o guard
+        # dos próximos runs do dia (cron nativo) pula em vez de reenviar a edição completa.
+        # Sem marcador novo (falha antes do fallback), persist_to_git.sh sai sem fazer nada.
+        if: failure() && github.event.inputs.dry_run != 'true'
+        continue-on-error: true
+        run: 'scripts/persist_to_git.sh memory/fallbacks.jsonl "chore(memory): registra fallback da edição ${{ steps.edition.outputs.number }}"'
+
       - name: Persist editorial memory
         # Isolado: a newsletter já foi enviada no passo anterior. Qualquer falha de git
         # (branch protection, detached HEAD, etc.) NÃO pode falhar o job nem afetar o envio.

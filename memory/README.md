@@ -30,3 +30,7 @@ achados e **conectar desdobramentos** (campo `continuity_note`).
 
 `feedback_score` fica `null` no envio — reservado para o loop de feedback (🔥/👍/😐)
 preencher depois, como base de calibração futura.
+
+## `fallbacks.jsonl`
+
+Marcador append-only dos dias em que saiu o e-mail "transmissão parcial" (`{"edition", "date"}`, nunca o motivo do erro). Escrito por `delivery.send_fallback` e commitado pelo passo "Persist fallback marker" do workflow. O guard do envio (`scripts/edition_guard.py`) lê este arquivo para não mandar a edição completa por cima do parcial. Contexto em [`ops/disparo-externo.md`](../ops/disparo-externo.md). Não é lido pela curadoria.
