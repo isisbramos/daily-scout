@@ -21,6 +21,7 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone, timedelta
 from jinja2 import Environment, FileSystemLoader
+from markupsafe import Markup, escape
 
 from llm_config import DEEPSEEK_MODEL, DEEPSEEK_EXTRA_BODY
 from sources.base import SourceRegistry, SourceItem
@@ -559,6 +560,37 @@ def make_tracked_url(url, edition, kind, idx="", aud="", claim="", src=""):
     return f"{TRACK_BASE_URL}?{qs}"
 
 
+# Etapa 1 do recorte PM (passo 1.1): a linha "→ No seu produto: ..." é um sufixo
+# inline dentro de main_find.body / quick_finds[].signal (não é campo separado no
+# schema). Este filtro separa esse sufixo pra dar destaque visual; se o padrão não
+# for encontrado, devolve o texto original intacto (fail-safe — nenhuma edição,
+# passada ou com formato diferente, muda de aparência).
+_NO_SEU_PRODUTO_RE = re.compile(r"→\s*no seu produto:\s*", re.IGNORECASE)
+
+
+def highlight_no_seu_produto(text: str, font_size: str = "inherit", line_height: str = "inherit") -> str:
+    if not text:
+        return text
+    match = _NO_SEU_PRODUTO_RE.search(text)
+    if not match:
+        return text
+    before = text[: match.start()].rstrip()
+    after = text[match.end():].strip()
+    if not after:
+        return text
+    return Markup(
+        f'{escape(before)}'
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 10px;">'
+        '<tr><td style="background-color: #1E293B; border-left: 3px solid #22C55E; padding: 8px 10px;">'
+        '<span style="display: block; color: #22C55E; font-size: 10px; letter-spacing: 1px; '
+        'font-weight: bold; text-transform: uppercase; font-family: \'Courier New\', Courier, monospace; '
+        'margin-bottom: 4px;">No seu produto:</span>'
+        f'<span style="color: #CBD5E1; font-size: {font_size}; line-height: {line_height}; '
+        f'font-family: \'Courier New\', Courier, monospace;">{escape(after)}</span>'
+        '</td></tr></table>'
+    )
+
+
 # ── Render: Jinja2 HTML ──────────────────────────────────────────────
 def render_email(
     content: dict,
@@ -589,6 +621,7 @@ def render_email(
         src = (source_index or {}).get(url, "")
         return make_tracked_url(url, edition, kind, idx, aud, claim, src)
     env.filters["track"] = _track
+    env.filters["highlight_no_seu_produto"] = highlight_no_seu_produto
     template = env.get_template("email.html")
 
     brt = timezone(timedelta(hours=-3))
