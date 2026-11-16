@@ -21,6 +21,7 @@ from pathlib import Path
 import pytest
 import yaml
 
+import delivery
 from scripts import edition_guard as guard
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -152,8 +153,12 @@ def _run_main(monkeypatch, tmp_path, *, env: dict[str, str], editions: list[str]
     out, summary = tmp_path / "out", tmp_path / "summary"
     monkeypatch.setattr(guard, "EDITIONS_PATH", _write_editions(tmp_path / "e.jsonl", editions))
     # decide() usa o default de path definido na assinatura; reaponta o default via wrapper.
+    monkeypatch.setattr(guard, "FALLBACKS_PATH", tmp_path / "fallbacks.jsonl")
     original = guard.decide
-    monkeypatch.setattr(guard, "decide", lambda ed, **kw: original(ed, path=guard.EDITIONS_PATH, **kw))
+    monkeypatch.setattr(
+        guard, "decide",
+        lambda ed, **kw: original(ed, path=guard.EDITIONS_PATH, fallbacks_path=guard.FALLBACKS_PATH, **kw),
+    )
     for key in ("EDITION_NUMBER", "DRY_RUN", "FORCE", "TRIGGER", "EVENT_NAME"):
         monkeypatch.delenv(key, raising=False)
     monkeypatch.setenv("GITHUB_OUTPUT", str(out))
@@ -254,3 +259,94 @@ def test_workflow_guard_checks_out_branch_tip(workflow):
 
 def test_workflow_native_cron_is_still_there_as_fallback(workflow):
     assert _triggers(workflow)["schedule"] == [{"cron": "37 6 * * *"}]
+
+
+# ── 6. "Transmissão parcial": sem segundo e-mail ─────────────────────────────
+
+
+def _write_fallbacks(path: Path, editions: list[str]) -> Path:
+    path.write_text("".join(json.dumps({"edition": e, "date": "2026-11-16"}) + "\n" for e in editions), encoding="utf-8")
+    return path
+
+
+def test_fallback_sent_true_and_false(tmp_path):
+    path = _write_fallbacks(tmp_path / "f.jsonl", ["239"])
+    assert guard.fallback_sent("239", path) is True
+    assert guard.fallback_sent("240", path) is False
+    assert guard.fallback_sent("239", tmp_path / "nao-existe.jsonl") is False
+
+
+def test_decide_skips_when_partial_transmission_already_sent(tmp_path):
+    editions = _write_editions(tmp_path / "e.jsonl", ["238"])  # 239 NÃO foi enviada completa
+    fallbacks = _write_fallbacks(tmp_path / "f.jsonl", ["239"])
+    skip, reason = guard.decide("239", dry_run=False, force=False, path=editions, fallbacks_path=fallbacks)
+    assert skip is True
+    assert "sem segundo e-mail" in reason
+
+
+def test_decide_partial_does_not_block_force_or_dry_run(tmp_path):
+    editions = _write_editions(tmp_path / "e.jsonl", [])
+    fallbacks = _write_fallbacks(tmp_path / "f.jsonl", ["239"])
+    for flags in ({"dry_run": True, "force": False}, {"dry_run": False, "force": True}):
+        skip, _ = guard.decide("239", path=editions, fallbacks_path=fallbacks, **flags)
+        assert skip is False
+
+
+def test_decide_partial_of_another_day_does_not_block(tmp_path):
+    editions = _write_editions(tmp_path / "e.jsonl", [])
+    fallbacks = _write_fallbacks(tmp_path / "f.jsonl", ["238"])
+    skip, _ = guard.decide("239", dry_run=False, force=False, path=editions, fallbacks_path=fallbacks)
+    assert skip is False
+
+
+def test_record_fallback_writes_edition_and_date_but_never_the_reason(tmp_path):
+    path = tmp_path / "memory" / "fallbacks.jsonl"
+    delivery.record_fallback("239", path)
+    record = json.loads(path.read_text(encoding="utf-8").strip())
+    assert record["edition"] == "239"
+    assert set(record) == {"edition", "date"}  # o repo é público: nada de motivo/erro
+
+
+def test_record_fallback_never_raises(tmp_path):
+    blocker = tmp_path / "arquivo"
+    blocker.write_text("x")
+    delivery.record_fallback("239", blocker / "filho" / "f.jsonl")  # pai é arquivo: OSError interno
+
+
+def test_send_fallback_records_marker_only_when_email_went_out(monkeypatch):
+    calls: list[str] = []
+    monkeypatch.setattr(delivery, "DRY_RUN", False)
+    monkeypatch.setattr(delivery, "EDITION_NUMBER", "239")
+    monkeypatch.setattr(delivery, "record_fallback", lambda ed: calls.append(ed))
+
+    monkeypatch.setattr(delivery, "send_via_buttondown", lambda *_a, **_k: False)
+    assert delivery.send_fallback("falhou") is False
+    assert calls == []  # e-mail não saiu: o cron nativo ainda pode tentar a edição completa
+
+    monkeypatch.setattr(delivery, "send_via_buttondown", lambda *_a, **_k: True)
+    assert delivery.send_fallback("falhou") is True
+    assert calls == ["239"]
+
+
+def test_send_fallback_dry_run_records_nothing(monkeypatch):
+    calls: list[str] = []
+    monkeypatch.setattr(delivery, "DRY_RUN", True)
+    monkeypatch.setattr(delivery, "record_fallback", lambda ed: calls.append(ed))
+    assert delivery.send_fallback("falhou") is True
+    assert calls == []
+
+
+def test_guard_and_delivery_agree_on_fallbacks_path():
+    assert guard.FALLBACKS_PATH == delivery.FALLBACKS_PATH
+
+
+def test_workflow_persists_fallback_marker_on_failure(workflow):
+    steps = workflow["jobs"]["run-pipeline"]["steps"]
+    step = next(s for s in steps if "fallback marker" in s["name"].lower())
+    assert "failure()" in step["if"]
+    assert "dry_run != 'true'" in step["if"]
+    assert step["continue-on-error"] is True
+    assert "memory/fallbacks.jsonl" in step["run"]
+    # Tem que vir depois do pipeline: antes dele o marcador ainda não existiria.
+    names = [s["name"] for s in steps]
+    assert names.index(step["name"]) > names.index("Run Daily Scout pipeline")

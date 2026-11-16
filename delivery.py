@@ -5,10 +5,12 @@ separadamente das falhas de curadoria.
 """
 
 import html as html_lib
+import json
 import logging
 import os
 import requests
 from datetime import datetime, timezone, timedelta
+from pathlib import Path
 
 logger = logging.getLogger("daily-scout")
 
@@ -16,6 +18,23 @@ BUTTONDOWN_API_KEY = os.environ.get("BUTTONDOWN_API_KEY")
 BUTTONDOWN_API_URL = "https://api.buttondown.com/v1/emails"
 EDITION_NUMBER = os.environ.get("EDITION_NUMBER", "001")
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
+
+# Dias em que saiu o e-mail "transmissão parcial". O guard do envio (scripts/edition_guard.py)
+# lê este arquivo para NÃO reenviar a edição completa depois: o leitor não recebe dois e-mails.
+# Guarda só edição e data, nunca o motivo do erro (o repo é público).
+FALLBACKS_PATH = Path(__file__).resolve().parent / "memory" / "fallbacks.jsonl"
+
+
+def record_fallback(edition: str, path: Path = FALLBACKS_PATH) -> None:
+    """Registra que o fallback desta edição foi enviado. Nunca levanta: é só um marcador."""
+    try:
+        brt = timezone(timedelta(hours=-3))
+        record = {"edition": str(edition), "date": datetime.now(brt).strftime("%Y-%m-%d")}
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except Exception as exc:
+        logger.warning(f"Fallback enviado, mas não consegui registrar o marcador (não-bloqueante): {exc}")
 
 
 def send_via_buttondown(subject: str, html_content: str) -> bool:
@@ -97,4 +116,7 @@ def send_fallback(reason: str) -> bool:
     """
 
     subject = f"AYA #{EDITION_NUMBER} — [transmissão parcial]"
-    return send_via_buttondown(subject, fallback_html)
+    sent = send_via_buttondown(subject, fallback_html)
+    if sent:
+        record_fallback(EDITION_NUMBER)
+    return sent
