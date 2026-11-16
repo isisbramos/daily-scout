@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (ataque cibernético à Fireworks AI) com fonte primária TechCrunch e ângulo claro de risco na cadeia de provedores de AI.\"},\n    {\"idx\": 1, \"verdict\": \"FAIL\", \"rule\": \"unverified\", \"why\": \"Alegação sobre o Gemini Decision 1 baseada apenas em post do r/artificial, sem fonte primária do Google ou corroboração.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Paper de pesquisa concreto (SteerDistill) com método e problema definidos, tipo desejado e fonte verificável no HuggingFace Papers.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Paper de pesquisa concreto sobre escalar supervisão de provas matemáticas, com fonte verificável e relevância clara para AI.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Posicionamento estratégico datado de uma empresa específica (Baidu/Robin Li) com tese e princípios concretos, não é roundup genérico.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C2\", \"why\": \"Mesmo evento do main_find, mas é a fonte original do TechCrunch; já está representado pelo idx 0, então não é um achado adicional mais forte.\"},\n    {\"candidate\": \"C17\", \"why\": \"Anúncio oficial da NVIDIA sobre transição de CEO seria evento singular e verificável, mas o título é ambíguo e não confirma a renúncia; não é claramente mais forte que o pior item publicado (idx 1).\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (ataque cibernético à Fireworks AI) com fonte primária TechCrunch e ângulo claro de risco na cadeia de provedores de AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação sobre o Gemini Decision 1 baseada apenas em post do r/artificial, sem fonte primária do Google ou corroboração."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa concreto (SteerDistill) com método e problema definidos, tipo desejado e fonte verificável no HuggingFace Papers."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper de pesquisa concreto sobre escalar supervisão de provas matemáticas, com fonte verificável e relevância clara para AI."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Posicionamento estratégico datado de uma empresa específica (Baidu/Robin Li) com tese e princípios concretos, não é roundup genérico."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C2",
+      "title": "Cyberattack on Fireworks AI allowed hackers to access Notion customers’ chat transcripts",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/",
+      "why": "Mesmo evento do main_find, mas é a fonte original do TechCrunch; já está representado pelo idx 0, então não é um achado adicional mais forte."
+    },
+    {
+      "candidate": "C17",
+      "title": "NVIDIA Announces CEO Transition",
+      "source": "HackerNews",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+      "why": "Anúncio oficial da NVIDIA sobre transição de CEO seria evento singular e verificável, mas o título é ambíguo e não confirma a renúncia; não é claramente mais forte que o pior item publicado (idx 1)."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "edition": "234",
+  "audited_at": "2026-11-16T18:26:54.722842-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Qwen4-Max) e o quick_find de Oura/Counsel Health passam no AI Gate e satisfazem critérios de forma clara. Porém, o quick_find do Google SWE + NASA Lidar é baseado em um post de blog pessoal (pietromiotti.com) sem confirmação do Google, e o próprio output marca claim_status como 'especulativo' — ainda assim foi incluído como quick_find, o que é inconsistente com a régua de seleção. O quick_find do Gemini 4 Carbon é um anúncio de disponibilidade sem qualquer detalhe de produto, preço ou mudança de capacidade, o que o aproxima de um release note vazio.",
+    "issues": [
+      "Quick_find 'Google usa 48 agentes...' tem claim_status 'especulativo' e fonte primária é blog pessoal, não anúncio do Google — deveria estar no radar, não como quick_find.",
+      "Quick_find 'Gemini 4 Carbon' não traz nenhuma informação além de 'está disponível'; o próprio signal admite que 'o título não detalha preço, limites ou diferenças' — é release note sem novidade concreta.",
+      "Oura/Counsel Health é M&A de US$ 625M com ângulo AI claro — passa, mas o texto do signal não explica o que a Counsel Health faz de AI-nativo além do rótulo."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido e factual na maior parte; não há hype explícito ('revolucionário', 'massivo'). O main_find preserva o status de 'preview' e adiciona ressalvas corretas sobre qualidade em contexto longo. Há, porém, uma inferência não sustentada no quick_find do Google: o título original diz 'finds unmapped Maya pyramid', mas o signal afirma que 'o caso é um exemplo concreto de agentes de código sendo usados como força de trabalho paralela em análise de dados científicos' — isso é interpretação editorial, não fato do post.",
+    "issues": [
+      "Quick_find Google: 'força de trabalho paralela em análise de dados científicos' é extrapolação não presente no título/fonte.",
+      "Quick_find Google: o texto trata o achado como fato ('localizaram uma estrutura maia não mapeada') embora claim_status seja 'especulativo' — certeza aumentada em relação à evidência.",
+      "Main_find bullet 2 usa 'modelos costumam perder precisão' como afirmação geral sem fonte — aceitável como ressalva, mas beira opinião não atribuída."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes são variadas (TechNode, HackerNews, TechCrunch, DeepMind Blog, HuggingFace Blog) — nenhuma repetida mais de uma vez entre main_find + quick_finds. Audiência tem 'desenvolvedores' em 4 de 5 itens e 'executivos de negócio' em 1, o que é aceitável mas pouco equilibrado. Geografia: China (Qwen4-Max), EUA (Google, Oura, DeepMind, BotPsy) — 4 itens dos EUA, no limite do aceitável.",
+    "issues": [
+      "4 de 5 itens com primary_audience 'desenvolvedores' — falta um item para pesquisadores ou gestores de produto.",
+      "4 de 5 itens com origem EUA; só Qwen4-Max representa a China."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Alibaba, 1M tokens, Qwen4-Max) e adiciona um segundo item concreto (Google/NASA). Não é genérica. O número '317 posts' é plausível mas não verificável no input — pode ser inventado ou vir de metadado não mostrado.",
+    "issues": [
+      "O número '317 posts que o pipeline coletou' não aparece no input fornecido (total_analyzed é 317 no meta, mas o input lista 40 itens) — pode ser inconsistência entre meta e dados reais."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os descartes e justifica o main_find por acionabilidade e sinal de mercado, o que é coerente. Porém, há contradição: o reasoning diz que 'AI agents are becoming software buyers' é 'discussão Reddit sem evento singular → RADAR', mas o mesmo raciocínio deveria aplicar-se ao post do Google SWE (blog pessoal, claim especulativo), que foi promovido a quick_find. Além disso, o reasoning afirma que 'Gemini 4 Carbon' é 'lançamento de produto do DeepMind, acionável', mas o próprio signal admite ausência de detalhes — a justificativa não se sustenta.",
+    "issues": [
+      "Contradição: reasoning rebaixa Reddit por 'sem evento singular' mas promove blog pessoal especulativo (Google SWE) a quick_find.",
+      "Reasoning chama Gemini 4 Carbon de 'acionável' sem que o item traga qualquer informação acionável além de 'está disponível'.",
+      "O reasoning não menciona por que 'Plurai' foi descartado como 'startup sem detalhe acionável no título' enquanto Gemini 4 Carbon, com igual falta de detalhe, foi aceito — critério inconsistente."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Don't Just Trust Your Memory: Evidence-Linked Memory Reduces Memory-Induced Degradation in LLM Agents",
+      "source": "HuggingFace Papers",
+      "why_should_include": "Paper com 45 pontos e 5 comentários no HuggingFace, sobre degradação de memória em agentes LLM — tema diretamente acionável para quem constrói agentes e com sinal de pesquisa concreto. Passa no AI Gate e nos critérios de acionabilidade e workflow.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Agent Architecture Cost-Success Trade-offs: A Controlled Evaluation across Enterprise-Style SOPs",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Avaliação controlada de trade-offs de custo/sucesso em arquiteturas de agentes para SOPs empresariais — acionável para decisões de arquitetura e com sinal de mercado (empresas adotando agentes). Deveria ao menos estar no radar.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Atuin Threads: All your agent sessions on every machine",
+      "source": "HackerNews",
+      "why_should_include": "Ferramenta dev para sincronizar sessões de agentes entre máquinas — acionável e afeta workflow de quem usa agentes. Tem tração (7 pts) e ângulo AI claro no título.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Google usa 48 agentes de AI sobre Lidar da NASA e acha pirâmide maia não mapeada",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte primária é blog pessoal (pietromiotti.com), claim_status 'especulativo', sem confirmação do Google ou da NASA. Deveria estar no radar como 'acompanhar', não como quick_find com tom factual.",
+      "violated_rule": "STEP 1 - AI Gate / critério de fonte verificável; claim_status especulativo incompatível com quick_find"
+    },
+    {
+      "title": "DeepMind disponibiliza Gemini 4 Carbon",
+      "field": "quick_finds",
+      "why_should_discard": "Anúncio de disponibilidade sem qualquer detalhe de capacidade, preço ou mudança de produto — release note vazio. Não satisfaz 'sinal de mercado' (sem movimento estratégico específico descrito) nem 'acionável' (nada a testar além de 'existe').",
+      "violated_rule": "Critério 2 (sinal de mercado) e Critério 1 (acionável) — release note sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção não exige fonte verificável nem trata claim_status 'especulativo' como bloqueio para quick_find",
+      "evidence": "Google SWE + NASA Lidar entrou como quick_find com claim_status 'especulativo' e fonte blog pessoal, enquanto Reddit foi rebaixado a radar por 'sem evento singular'.",
+      "suggested_fix": "Adicionar regra: claim_status 'especulativo' ou fonte blog pessoal → radar obrigatório, nunca quick_find."
+    },
+    {
+      "hypothesis": "Critério 'acionável' está sendo aplicado de forma frouxa: 'está disponível' conta como acionável",
+      "evidence": "Gemini 4 Carbon foi aceito como quick_find mesmo com signal admitindo que 'o título não detalha preço, limites ou diferenças'.",
+      "suggested_fix": "Explicitar que 'anúncio de disponibilidade sem detalhe de capacidade/preço/migração' não é acionável e deve ir para radar ou ser descartado."
+    },
+    {
+      "hypothesis": "Reasoning não é forçado a justificar por que itens similares receberam tratamentos diferentes (Plurai descartado vs Gemini 4 Carbon aceito)",
+      "evidence": "Reasoning descarta Plurai por 'startup sem detalhe acionável no título' mas aceita Gemini 4 Carbon com a mesma ausência de detalhe.",
+      "suggested_fix": "Exigir no reasoning uma linha de consistência: 'itens com mesmo nível de detalhe recebem mesmo tratamento'."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find sólido (Qwen4-Max) e um M&A bem escolhido (Oura/Counsel Health), mas inclui dois quick_finds problemáticos: um baseado em blog pessoal especulativo (Google/NASA) e um release note vazio (Gemini 4 Carbon). O reasoning é internamente contraditório ao rebaixar Reddit por falta de evento singular enquanto promove blog pessoal especulativo, e três papers/ferramentas acionáveis sobre agentes ficaram de fora."
+}

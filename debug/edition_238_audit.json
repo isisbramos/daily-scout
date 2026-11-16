@@ -1,0 +1,95 @@
+{
+  "edition": "238",
+  "audited_at": "2026-11-16T18:27:47.294151-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Lovable) é sólido: passa no AI Gate, é acionável e tem sinal de mercado claro. Os dois quick_finds também passam. O problema está no radar: 'Asian governments react' é reação institucional a um evento já coberto, e 'Analysts debate Nvidia's post-Jensen future' é panorama especulativo — ambos foram corretamente rebaixados, mas o reasoning admite que o caso Nvidia domina 4 candidatos e ainda assim manteve 2 no radar, o que é coerente com o teto mas revela seleção fraca de pauta.",
+    "issues": [
+      "Radar inclui 'Asian governments react' — reação institucional sem decisão concreta, borderline anti-signal de rehashed news do caso Nvidia.",
+      "Radar inclui 'Analysts debate Nvidia's post-Jensen future' — panorama de analistas sem evento singular de uma empresa, exatamente o anti-signal de 'roundup/panorama'."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype, e o main_find preserva o nível de certeza (o vazamento é reportado como achado de pesquisa, não como fato corporativo confirmado). Há um deslize de precisão: o body afirma 'configurações de banco de dados e controle de acesso podem ficar no padrão aberto' como explicação do caso, mas o título original não especifica a causa técnica — é inferência apresentada como diagnóstico.",
+    "issues": [
+      "main_find.body: 'O caso aponta para um padrão de risco específico das plataformas de vibe coding' — generalização causal não sustentada pelo título/URL originais.",
+      "main_find.bullets: 'banco de dados acessível publicamente é um erro recorrente em apps gerados sem revisão' — afirmação de recorrência sem fonte no input."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find é HackerNews, quick_finds são ambos SCMP Tech — dois itens da mesma fonte entre os três principais, no limite. Audiência: desenvolvedores, executivos, todos — ok. Geografia: dois quick_finds são China, main_find é global — dentro do teto de 2, mas o radar adiciona mais dois itens do caso Nvidia (Ásia/EUA), concentrando a edição.",
+    "issues": [
+      "Dois dos três itens principais vêm do SCMP Tech.",
+      "Radar inteiro é sobre o mesmo evento (saída de Jensen Huang), reforçando monotemático."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (vazamento no Lovable, passaportes, 200 mil mensagens), não é genérica. A segunda e terceira frases resumem os quick_finds. O fecho com '302 posts' é útil, mas o número não bate com o total_analyzed do meta (302) — coerente, porém o intro diz '5 itens de 3 fontes' quando o output tem 1 main + 2 quick + 2 radar = 5 itens, mas as fontes são HackerNews, SCMP e TechCrunch (3) — ok.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning é detalhado e lista corretamente os descartes, mas há contradições: afirma que 'Asian governments react' foi aprovado como item (6) e depois o coloca no radar; afirma que limitou o caso Nvidia a 2 itens (Megaspeed + petição), mas nenhum dos dois aparece no output final — o output tem apenas radar com 'Asian governments' e 'Analysts debate'. Ou seja, o reasoning descreve uma seleção que não é a entregue.",
+    "issues": [
+      "Reasoning lista 'Megaspeed rejects claims' e 'Elon Musk petition' como aprovados (itens 4 e 5), mas ambos estão ausentes do output.",
+      "Reasoning diz 'limitei a 2 itens (Megaspeed + petição)' — contradiz o output, que não contém nenhum dos dois.",
+      "Reasoning classifica 'Asian governments react' como aprovado (item 6) e o output o coloca no radar como 'cedo demais' — incoerência de status."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Elon Musk, other tech execs sign petition calling on Nvidia to reinstate Jensen Huang",
+      "source": "TechCrunch",
+      "why_should_include": "Evento singular e concreto (petição assinada) com sinal de mercado sobre governança da Nvidia; o próprio reasoning o aprovou, mas foi omitido do output.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Megaspeed rejects claims over supply chain as Nvidia-linked scrutiny intensifies",
+      "source": "SCMP Tech",
+      "why_should_include": "Desdobramento novo com negação corporativa concreta, informação nova em relação à edição anterior; aprovado no reasoning mas ausente do output.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Asian governments react to Nvidia CEO Jensen Huang's exit",
+      "field": "radar",
+      "why_should_discard": "Reação institucional sem decisão concreta é rehashed news do caso já coberto; o reasoning o aprova como item e o output o rebaixa a radar, mas mesmo no radar é pauta fraca.",
+      "violated_rule": "Anti-signal: rehashed news / panorama sem evento singular"
+    },
+    {
+      "title": "Like Apple after Steve Jobs? Analysts debate Nvidia's post-Jensen Huang future",
+      "field": "radar",
+      "why_should_discard": "Panorama de analistas especulativo, sem evento singular de uma empresa — exatamente o anti-signal de roundup/panorama.",
+      "violated_rule": "Anti-signal: panorama/tendência sem evento singular"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O STEP de seleção final não reconcilia o reasoning com o output — o modelo aprova itens no texto e depois os descarta silenciosamente.",
+      "evidence": "Reasoning lista Megaspeed e petição como aprovados (itens 4 e 5), mas o output não os contém.",
+      "suggested_fix": "Adicionar regra: todo item marcado como aprovado no reasoning deve aparecer no output, ou o reasoning deve explicar a remoção."
+    },
+    {
+      "hypothesis": "O teto de 2 itens por região/evento está sendo aplicado de forma inconsistente — o reasoning diz limitar o caso Nvidia a 2, mas o output mantém 2 itens do caso no radar e remove os aprovados.",
+      "evidence": "Radar contém 'Asian governments' e 'Analysts debate', ambos do caso Nvidia, enquanto os aprovados Megaspeed/petição sumiram.",
+      "suggested_fix": "Definir explicitamente que o teto conta main_find + quick_finds + radar juntos, e que itens aprovados têm prioridade sobre radar."
+    },
+    {
+      "hypothesis": "O prompt não exige que o body do main_find se atenha ao que está no título/URL — o modelo infere causa técnica (banco aberto) não presente no input.",
+      "evidence": "main_find.body afirma 'configurações de banco de dados e controle de acesso podem ficar no padrão aberto' sem base no título original.",
+      "suggested_fix": "Adicionar regra: o body não pode introduzir detalhes técnicos ausentes do título/URL; usar 'segundo a pesquisa' para qualquer inferência."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "O main_find é bom, mas o reasoning descreve uma seleção diferente da entregue: dois itens aprovados (Megaspeed e petição) sumiram, e o radar ficou com dois itens fracos do caso Nvidia. Há também inferência técnica não sustentada no body do main_find e concentração de fontes (2 de 3 no SCMP)."
+}

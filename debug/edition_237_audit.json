@@ -1,0 +1,102 @@
+{
+  "edition": "237",
+  "audited_at": "2026-11-16T18:27:31.751133-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (ChatGPT Wallet) passa no AI Gate e satisfaz acionável + sinal de mercado + afeta workflows. Os quick_finds de XYBench e Google benchmark passam como pesquisa/dado. Porém o item do senador da Califórnia é fraco: o título original é sobre um perfil político ('está pronto para regulamentar a IA'), sem evento singular concreto — é declaração de intenção, não regulação aprovada, e o sinal de mercado é genérico. O item do MIT Tech Review Brasil sobre IA em saúde é crítica/opinião sem evento singular de uma empresa, beirando anti-signal de thought-leadership.",
+    "issues": [
+      "Quick_find 'Senador pela Califórnia se declara pronto para regulamentar IA': declaração de intenção sem texto legislativo concreto — não é evento singular, é posicionamento. Sinal de mercado genérico.",
+      "Quick_find 'MIT Tech Review Brasil alerta para tentação digital turbinada por IA': análise/opinião sem evento singular de uma empresa específica — viola o critério 2 (sinal de mercado exige movimento específico de um player).",
+      "O reasoning descarta 'FAA ground stop' por 'sem AI no título', mas o input tem item explícito 'Did AI ground US flights? DHS is looking at the FAA's new AI tool' — a Aya não avaliou esse item no reasoning, apesar de ser conexão AI direta com magnitude excepcional (parada nacional de voos)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O body do main_find está contido, sem hype, e preserva o nível de certeza. Mas há problemas: o título do main_find afirma 'ChatGPT ganha Wallet' como fato consumado quando a fonte é anúncio + cobertura — aceitável, mas o body diz 'desloca o ChatGPT de assistente para intermediário de transação' como se já fosse realidade consolidada, quando é lançamento. No quick_find do Google, o signal diz 'Se o benchmark se sustentar' (bom condicional), mas o step5_phrase afirma 'Google está investindo' — mudança de certeza. No quick_find do senador, o step5_phrase diz 'decidiu se posicionar' — inventa uma decisão que o título não sustenta.",
+    "issues": [
+      "main_find.body: 'desloca o ChatGPT de assistente de conversa para intermediário de transação' — afirma mudança de categoria como fato, quando é lançamento recente sem tração comprovada.",
+      "quick_find Google: step5_phrase 'Google está investindo em geração de benchmark por agentes' — o título original fala de um experimento pontual (29 agentes, 50 tarefas), não de investimento estratégico contínuo.",
+      "quick_find senador: step5_phrase 'decidiu se posicionar a favor de regulamentar IA' — 'decidiu' adiciona intencionalidade não presente no título ('está pronto para')."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: MIT Tech Review Brasil aparece 2x entre quick_finds (senador + IA em saúde) — no limite, mas não ultrapassa o teto de 2. Audiência: há 'product managers e fundadores', 'desenvolvedores' (2x), 'executivos de negócio' e 'todos' — boa variedade. Geografia: 3 dos 5 itens são dos EUA (Wallet, XYBench/AllenAI, Google, senador CA) — concentração alta, e o único item não-EUA é o MIT Tech Review Brasil (2x), o que dá um viés Brasil+EUA sem cobertura da China apesar de haver 4 fontes sobre Huang/China no input.",
+    "issues": [
+      "MIT Tech Review Brasil aparece 2x nos quick_finds — no limite do aceitável, mas reduz diversidade de fonte.",
+      "4 dos 5 itens (main + quick) são de origem EUA; nenhum item da China entra apesar de Rest of World, SCMP e TechCrunch cobrirem o ângulo China/Nvidia no input.",
+      "Audiência 'desenvolvedores' aparece 2x — aceitável, mas concentra."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (ChatGPT Wallet, agentes fazendo compras) — não é genérica. A segunda frase lista os outros temas. O problema é o número '302 posts de 20 fontes', que não é verificável a partir do input (40 itens listados) e parece inflado/inventado.",
+    "issues": [
+      "Intro afirma 'garimpei 302 posts de 20 fontes' — o input tem 40 itens; o número 302 não é sustentado por nada visível e soa fabricado."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é longo mas tem contradições e omissões. (1) Diz que descarta 'FAA ground stop' por 'sem AI no título', mas o input tem 'Did AI ground US flights? DHS is looking at the FAA's new AI tool' — item com AI Gate direto e magnitude excepcional, que a Aya simplesmente não menciona. (2) Diz que 'llama.cpp v1.0.0 já foi principal na ed.236 — PROIBIDO repetir; ggml v1.0.0 é o mesmo ecossistema, então também descarto' — mas o input tem 'llama.cpp v1.0.0' como HuggingFace Blog e 'Ggml v1.0.0' como HN; descartar ambos por proximidade é defensável, mas o reasoning não explica por que XYBench (também HuggingFace) passa. (3) O reasoning diz que escolhe TechCrunch como main_find 'com ângulo de funding de startups, mais acionável' — mas o main_find efetivamente escolhido é ChatGPT Wallet, não o item de Huang. Há contradição direta entre o que o reasoning descreve como main_find e o que foi selecionado. (4) O reasoning não menciona o item 'Did AI ground US flights' nem o 'Tech Companies Are Trying to Shift the Concept of Privacy' de forma consistente.",
+    "issues": [
+      "Contradição: reasoning diz 'Main_find escolhido: ChatGPT Wallet (TechCrunch)' mas antes afirma 'escolho UM como main_find (TechCrunch, com ângulo de funding de startups, mais acionável)' referindo-se ao item de Huang — duas justificativas conflitantes para main_find.",
+      "O reasoning não avalia o item 'Did AI ground US flights? DHS is looking at the FAA's new AI tool' (r/artificial), que tem AI Gate direto e magnitude excepcional (parada nacional de voos) — omissão grave.",
+      "O reasoning afirma '302 posts de 20 fontes' no intro, mas o input tem 40 itens — número não sustentado.",
+      "O reasoning diz que descarta 'floating data centers' por 'tema SATURADO (ed.230, ed.232)' — mas não há evidência no input de que esse tema foi coberto; é justificativa por memória editorial não verificável."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Did AI ground US flights? DHS is looking at the FAA's new AI tool",
+      "source": "r/artificial",
+      "why_should_include": "Conexão AI direta (ferramenta de AI da FAA sob investigação do DHS) com magnitude excepcional (parada nacional de voos). Passa no AI Gate e no critério de sinal de mercado (evento singular, regulação/governo).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Will Jensen Huang's downfall tip the scales against open-source AI?",
+      "source": "SCMP Tech",
+      "why_should_include": "Evento singular (saída de Huang) com ângulo específico de política de open-source AI — sinal de mercado concreto e afeta workflows de quem usa modelos abertos. A Aya descartou por 'mesmo ângulo' mas o ângulo é distinto (open-source vs funding).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Senador pela Califórnia se declara pronto para regulamentar IA",
+      "field": "quick_finds",
+      "why_should_discard": "Declaração de intenção política sem texto legislativo concreto — não é evento singular, é posicionamento. Sinal de mercado genérico, beira anti-signal de thought-leadership.",
+      "violated_rule": "Critério 2 — sinal de mercado exige movimento específico de um player, não declaração de intenção"
+    },
+    {
+      "title": "MIT Tech Review Brasil alerta para tentação digital turbinada por IA que põe pacientes em risco",
+      "field": "quick_finds",
+      "why_should_discard": "Análise/opinião sem evento singular de uma empresa específica — panorama de risco sem caso concreto. Não satisfaz critério 2 nem 3 de forma verificável.",
+      "violated_rule": "Anti-signal — panorama/tendência sem evento singular de UMA empresa"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de AI Gate não exige que a Aya avalie TODOS os itens com conexão AI no input — ela pode descartar por 'sem AI no título' sem ler o corpo do título completo.",
+      "evidence": "Reasoning descarta 'FAA ground stop' por 'sem AI no título', mas o input tem 'Did AI ground US flights? DHS is looking at the FAA's new AI tool' — item com AI explícito no título que não foi avaliado.",
+      "suggested_fix": "Adicionar regra: 'Antes de descartar por ausência de AI, verificar se há item relacionado no input com AI explícito no título — se houver, avaliar esse item separadamente.'"
+    },
+    {
+      "hypothesis": "STEP de main_find_rationale não força a Aya a declarar UM único main_find antes de escrever o reasoning — ela pode justificar dois itens diferentes como main_find no mesmo texto.",
+      "evidence": "Reasoning afirma 'escolho UM como main_find (TechCrunch, com ângulo de funding de startups)' e depois 'Main_find escolhido: ChatGPT Wallet (TechCrunch)' — duas justificativas conflitantes.",
+      "suggested_fix": "Exigir que o reasoning tenha um campo estruturado 'main_find_escolhido' preenchido ANTES da justificativa, e que a justificativa se refira apenas a esse item."
+    },
+    {
+      "hypothesis": "STEP de seleção de quick_finds não exige evento singular concreto — permite que declarações de intenção e análises de opinião passem como 'regulação/crítica'.",
+      "evidence": "Quick_finds incluem 'senador se declara pronto' (intenção) e 'MIT Tech Review alerta' (opinião) — ambos sem evento singular de empresa.",
+      "suggested_fix": "Adicionar ao STEP de quick_finds: 'Cada quick_find deve referenciar um evento singular datado (lançamento, decisão, publicação de texto, mudança de política) — declarações de intenção e análises de opinião não contam.'"
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find defensável (ChatGPT Wallet), mas o reasoning é internamente contraditório (justifica dois main_finds diferentes) e omite um item com AI Gate direto e magnitude excepcional ('Did AI ground US flights? DHS is looking at the FAA's new AI tool'). Dois quick_finds são false positives (declaração de intenção política e análise de opinião sem evento singular), e o intro afirma '302 posts de 20 fontes' sem sustentação no input."
+}

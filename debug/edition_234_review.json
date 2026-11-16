@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de produto concreto e datado (preview do Qwen4-Max com contexto de 1M tokens), relevante e verificável.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular e concreto de uso de agentes em análise científica, com fonte primária linkada; tom especulativo é aceitável.\"},{\"idx\":2,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Aquisição datada com valor e estratégia clara de uso do capital (entrada em serviços clínicos), não é funding vazio.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Anúncio oficial de disponibilidade de novo modelo, tipo produto desejado e verificável.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Apresentação de ferramenta concreta (assistente on-device sub-1B) com ângulo técnico relevante.\"}],\"missed\":[{\"candidate\":\"C28\",\"why\":\"Mesmo evento do main_find (Qwen4-Max), mas já coberto; não agrega.\"},{\"candidate\":\"C36\",\"why\":\"Aquisição de US$625M com estratégia concreta, comparável em força ao idx 2 já publicado.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto e datado (preview do Qwen4-Max com contexto de 1M tokens), relevante e verificável."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e concreto de uso de agentes em análise científica, com fonte primária linkada; tom especulativo é aceitável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Aquisição datada com valor e estratégia clara de uso do capital (entrada em serviços clínicos), não é funding vazio."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Anúncio oficial de disponibilidade de novo modelo, tipo produto desejado e verificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Apresentação de ferramenta concreta (assistente on-device sub-1B) com ângulo técnico relevante."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C28",
+      "title": "Alibaba opens Qwen4-Max preview with a million-token context window",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/11/alibaba-opens-qwen4-max-preview-with-a-million-token-context-window/",
+      "why": "Mesmo evento do main_find (Qwen4-Max), mas já coberto; não agrega."
+    },
+    {
+      "candidate": "C36",
+      "title": "Oura to acquire AI-native primary care startup Counsel Health for $625M",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/10/oura-to-acquire-ai-native-primary-care-startup-counsel-health-for-625m/",
+      "why": "Aquisição de US$625M com estratégia concreta, comparável em força ao idx 2 já publicado."
+    }
+  ]
+}

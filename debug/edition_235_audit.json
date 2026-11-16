@@ -1,0 +1,85 @@
+{
+  "edition": "235",
+  "audited_at": "2026-11-16T18:27:08.030974-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (cyberattack Fireworks AI) passa no AI Gate e é acionável, mas o reasoning admite explicitamente que a renúncia de Jensen Huang foi o evento de maior magnitude e a descartou por 'repetição de edição recente' — quando o próprio reasoning reconhece que há informação nova (renúncia efetiva, press release oficial, queda de 14%). Isso é uma inversão de ranking: o item mais acionável/sinal de mercado ficou de fora do main_find. Além disso, 'Robin Li / organização inteligente' é thought-leadership corporativo sem novidade concreta (anti-signal explícito) e entrou como quick_find.",
+    "issues": [
+      "main_find escolhido (Fireworks AI) é válido, mas o reasoning confessa que o evento de maior magnitude (renúncia do CEO da Nvidia, com press release oficial e queda de 14%) foi descartado por 'repetição' — quando o próprio texto reconhece informação nova. Isso viola o critério de ranking (main_find = mais acionável OU maior sinal de mercado).",
+      "Quick_find 'Robin Li / organização inteligente' é thought-leadership corporativo sem feature, produto ou mudança de política concreta — anti-signal explícito ('Blog corporativo de thought-leadership sem novidade concreta').",
+      "Quick_find 'Gemini Decision 1' tem claim_status 'especulativo' e fonte única (post de Reddit), sem confirmação do Google — seleção frágil para um item de produto."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype, mas há um problema de acurácia no quick_find do Gemini Decision 1: o título afirma 'processa até 1.000 perguntas por chamada' e 'US$ 0,10/M' como fato, enquanto o claim_status é 'especulativo' e a fonte é um post de Reddit. O corpo do signal usa 'descreve' (hedge correto), mas o título não preserva o nível de certeza. No main_find, a formulação é fiel ao título original.",
+    "issues": [
+      "Quick_find Gemini Decision 1: título afirma capacidade e preço como fato, mas claim_status é 'especulativo' e a fonte é post de Reddit — certeza aumentada em relação à evidência.",
+      "Quick_find Robin Li: 'apresentou a tese' é fiel, mas o step5_phrase 'está investindo em posicionar a Baidu' adiciona uma inferência de investimento não presente no título."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes bem distribuídas: TechCrunch (main), Reddit, HuggingFace Papers (2x), TechNode — nenhuma fonte domina. Audiência tem 'desenvolvedores' e 'executivos de negócio', cumprindo a exigência de ao menos 1 diferente. Geografia: apenas 1 item da China (Robin Li), dentro do limite. Sem problemas graves.",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (ataque à Fireworks AI e exposição de transcrições da Notion), não é genérica. A segunda frase lista os demais achados de forma econômica. Cumpre o requisito.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "Há contradição interna grave: o reasoning lista a renúncia de Jensen Huang como evento 'singular, confirmado por press release oficial, com múltiplas fontes independentes e consequência de mercado concreta (queda de 14%)' — exatamente os critérios de main_find — e então o descarta por 'repetição de edição recente', colocando no main_find um item de menor magnitude. O campo main_swaps confirma a troca, mas a justificativa ('repetição de edição recente') contradiz o próprio reconhecimento de informação nova. Além disso, o reasoning afirma que 'Robin Li' é 'produto/estratégia', mas o item é thought-leadership sem novidade concreta.",
+    "issues": [
+      "Contradição: reasoning reconhece renúncia do CEO da Nvidia como evento singular, confirmado, multi-fonte e com consequência de mercado, mas o descarta como 'repetição' — quando o próprio texto lista informações novas (renúncia efetiva, press release, queda de 14%).",
+      "main_swaps justifica a troca por 'repetição de edição recente', mas o reasoning afirma que há 'informação NOVA e comprovadamente distinta' — as duas afirmações se contradizem.",
+      "Reasoning classifica Robin Li como 'produto/estratégia', mas o item é thought-leadership sem feature ou mudança de política concreta."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "NVIDIA Announces CEO Transition",
+      "source": "HackerNews",
+      "why_should_include": "Evento singular, confirmado por press release oficial da própria Nvidia, com 942 pontos no HackerNews e cobertura multi-fonte (SCMP, TechCrunch, Reddit). É o desfecho de um evento já coberto e tem consequência de mercado concreta (queda de 14%). Passa no AI Gate (decisão de empresa de AI) e satisfaz sinal de mercado e afeta workflows de toda a cadeia de chips de AI.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Robin Li diz que a próxima fase da AI é a 'organização inteligente' e lista três princípios",
+      "field": "quick_finds",
+      "why_should_discard": "Thought-leadership corporativo sem feature, produto, M&A ou mudança de política concreta — anti-signal explícito. Não é acionável nem revela movimento estratégico específico verificável.",
+      "violated_rule": "Anti-signal: blog corporativo de thought-leadership sem novidade concreta"
+    },
+    {
+      "title": "Gemini Decision 1 devolve só respostas sim/não e processa até 1.000 perguntas por chamada",
+      "field": "quick_finds",
+      "why_should_discard": "Fonte única (post de Reddit), claim_status 'especulativo', sem confirmação do Google. Item de produto sem verificação mínima não deveria entrar como quick_find com título assertivo.",
+      "violated_rule": "Critério de seleção: sinal de mercado exige movimento estratégico específico verificável; fonte especulativa não sustenta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "Regra de 'rehashed news' / memória editorial está sendo aplicada de forma binária: qualquer menção a um evento já coberto é tratada como repetição, mesmo quando há desfecho novo (renúncia efetiva, press release, queda de 14%).",
+      "evidence": "O reasoning reconhece 'informação NOVA e comprovadamente distinta' e ainda assim descarta o item por 'repetição de edição recente', contradizendo o próprio texto.",
+      "suggested_fix": "Explicitar que desfecho de evento já coberto (renúncia, confirmação oficial, consequência de mercado) NÃO é rehashed e deve ser reavaliado pelo mérito, não descartado por memória."
+    },
+    {
+      "hypothesis": "O STEP de anti-signals não está sendo aplicado a thought-leadership quando o autor é CEO de empresa de AI de grande porte — o prestígio da fonte sobrepõe a regra.",
+      "evidence": "Robin Li / 'organização inteligente' entrou como quick_find apesar de ser exatamente o anti-signal 'blog corporativo de thought-leadership sem novidade concreta'.",
+      "suggested_fix": "Adicionar few-shot negativo explícito: CEO de empresa de AI falando em conferência/blog sobre 'próxima fase' sem produto/política concreta = descartar."
+    },
+    {
+      "hypothesis": "O campo claim_status não está vinculado ao título: itens especulativos recebem títulos assertivos com números e preços.",
+      "evidence": "Gemini Decision 1 tem claim_status 'especulativo' mas título afirma 'processa até 1.000 perguntas' e 'US$ 0,10/M' como fato.",
+      "suggested_fix": "Regra: se claim_status = especulativo, o título deve usar hedge ('post no Reddit descreve...') ou o item não entra."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição descartou o evento de maior magnitude (renúncia do CEO da Nvidia, com press release oficial e queda de 14%) alegando repetição, enquanto o próprio reasoning reconhece informação nova — inversão de ranking e contradição interna. Além disso, incluiu thought-leadership sem novidade concreta (Robin Li) e um item especulativo de fonte única (Gemini Decision 1) com título assertivo."
+}

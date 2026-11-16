@@ -1,0 +1,42 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa concreta com dados de exposição em apps Lovable, corroborada por destaque no HackerNews e fonte primária verificável.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Discussão datada sobre riscos cibernéticos de modelos open-weight na China, com ângulo real de AI e fonte SCMP.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (fracasso de bilheteria de filme feito com AI na China) com dado concreto de recepção.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C22\", \"why\": \"Evento singular e verificável (pré-venda do Tesla Cybercab com restrições geográficas e assinatura mensal), mais forte que o item 2 por trazer produto concreto e impacto tech.\"},\n    {\"candidate\": \"C35\", \"why\": \"Já é o main_find publicado (Lovable), então não se aplica como missed; alternativa seria C23 por escândalo regulatório datado envolvendo chips, mas C22 é mais claro.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa concreta com dados de exposição em apps Lovable, corroborada por destaque no HackerNews e fonte primária verificável."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Discussão datada sobre riscos cibernéticos de modelos open-weight na China, com ângulo real de AI e fonte SCMP."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (fracasso de bilheteria de filme feito com AI na China) com dado concreto de recepção."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C22",
+      "title": "Tesla opens Cybercab pre-orders ‘for personal use,’ with geo restrictions and a $299 monthly fee",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/14/tesla-opens-cybercab-pre-orders-for-personal-use-with-geo-restrictions-and-a-299-monthly-fee/",
+      "why": "Evento singular e verificável (pré-venda do Tesla Cybercab com restrições geográficas e assinatura mensal), mais forte que o item 2 por trazer produto concreto e impacto tech."
+    },
+    {
+      "candidate": "C35",
+      "title": "Lovable apps expose passport details and more than 200K private messages",
+      "source": "HackerNews",
+      "url": "https://www.crissyfield.de/research/lovable-en/",
+      "why": "Já é o main_find publicado (Lovable), então não se aplica como missed; alternativa seria C23 por escândalo regulatório datado envolvendo chips, mas C22 é mais claro."
+    }
+  ]
+}

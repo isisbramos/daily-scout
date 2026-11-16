@@ -1,0 +1,108 @@
+{
+  "edition": "236",
+  "audited_at": "2026-11-16T18:27:19.343007-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (llama.cpp v1.0.0) passa no AI Gate e é acionável, mas o sinal de mercado é fraco: é release de projeto open source, não movimento estratégico de player. O quick_find do Gemini 4 Hydrogen é release de modelo sem detalhe de capacidade — não é acionável nem revela shift específico, e o próprio reasoning admite que a família já vinha sendo lançada em variantes. O quick_find do ElevenLabs é o mais sólido dos três (movimento de categoria).",
+    "issues": [
+      "Gemini 4 Hydrogen: release de variante sem informação de capacidade, preço ou posicionamento — não satisfaz acionável nem sinal de mercado específico; é rehashed de família já coberta nas edições 229 e 234.",
+      "llama.cpp v1.0.0 como main_find: acionável para devs, mas 'sinal de mercado' é inferido (consolidação do ecossistema local), não um movimento estratégico singular de um player — o critério 2 pede shift específico de empresa.",
+      "ElevenLabs: único quick_find que satisfaz claramente 2 de 3 critérios (sinal de mercado + afeta workflows)."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype explícito, mas há informação inventada no main_find: o texto afirma que o 1.0 'vem acompanhado do compromisso implícito de compatibilidade' e que mudanças passam a exigir versionamento semântico — nada disso está no título nem foi verificado. Também atribui ao llama.cpp ser 'motor por trás de Ollama e LM Studio' e 'padrão de distribuição GGUF', detalhes não presentes no input.",
+    "issues": [
+      "main_find.body: 'compromisso implícito de compatibilidade' e 'versionamento semântico' são inferências apresentadas como fato, sem base no título.",
+      "main_find.bullets: afirmação de que 'mudanças que quebrem a API passam a exigir versionamento semântico' é detalhe inventado.",
+      "main_find.body: cadeia 'Ollama e LM Studio' e 'GGUF como padrão' não consta no input — pode ser verdade, mas não foi verificado nesta edição.",
+      "quick_find Gemini 4 Hydrogen: 'Carbon, Omni Flash' como variantes anteriores é memória editorial não confirmada no input desta edição."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes bem distribuídas: HuggingFace Blog, TechCrunch, DeepMind Blog, arXiv — nenhuma repetida entre main_find e quick_finds. Audiência tem devs e PMs/founders. Geografia não é problema nesta seleção (foco EUA/global).",
+    "issues": []
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (llama.cpp 1.0). A segunda lista os demais itens de forma funcional. O '317 posts' é número de auditoria que soa estranho no corpo da newsletter, mas não é falha grave.",
+    "issues": [
+      "Menção a '317 posts do dia' é jargão de pipeline, não linguagem de newsletter para leitor."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é detalhado, mas há contradições: descarta Jensen Huang/SCMP por 'regra de memória' (ed. 232) e ao mesmo tempo aceita Gemini 4 Hydrogen apesar de memória das edições 229/234 — aplica régua diferente para casos análogos. Também afirma que Gemini 4 Hydrogen é 'release concreto de modelo' quando o título não traz nenhum detalhe concreto. O main_find_rationale justifica llama.cpp por 'fonte primária, não blog corporativo de big tech', mas HuggingFace Blog é blog corporativo da HuggingFace.",
+    "issues": [
+      "Inconsistência de memória editorial: descarta SCMP/Nvidia por repetição, mas mantém Gemini 4 Hydrogen apesar de repetição da família.",
+      "Justificativa do main_find ('não é blog corporativo de big tech') é factualmente frágil — HuggingFace Blog é blog corporativo.",
+      "Reasoning chama Gemini 4 Hydrogen de 'release concreto' sem nenhum dado concreto no título.",
+      "Reasoning lista 'Alibaba T-Head IPO' em epistemic_distribution como produto/lançamento, mas o item não aparece no output — distribuição inconsistente com o que foi publicado."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Eli Lilly CEO pushes back on Dario Amodei's ludicrous medical claims",
+      "source": "HackerNews",
+      "why_should_include": "Crítica pública de CEO de big pharma a claims de AI em saúde é sinal de mercado específico (shift de postura de player) e afeta workflows de quem usa AI em domínio regulado; 165 pontos e 163 comentários indicam relevância.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Elevated errors on claude.ai, Claude Code, and platform.claude.com",
+      "source": "HackerNews",
+      "why_should_include": "Incidente em plataforma major de AI com 353 pontos e 311 comentários — afeta diretamente workflows de devs que dependem de Claude Code e API; é evento singular, não roundup.",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Alibaba’s Chip Unit Wants to Go Public. Who Pays It?",
+      "source": "TechNode",
+      "why_should_include": "Movimento estratégico específico de player (IPO de unidade de chips da Alibaba) com implicação para cadeia de semicondutores de AI; o próprio reasoning lista o item como candidato e o coloca em epistemic_distribution, mas ele não aparece no output.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "DeepMind apresenta Gemini 4 Hydrogen",
+      "field": "quick_finds",
+      "why_should_discard": "Release de variante sem nenhum detalhe de capacidade, preço ou posicionamento no título — não é acionável nem revela shift específico; é rehashed de família já coberta nas edições 229 e 234.",
+      "violated_rule": "Critérios de seleção — precisa de 2 de 3; anti-signal de rehashed news"
+    },
+    {
+      "title": "llama.cpp chega à versão 1.0.0 e consolida base do ecossistema de AI local",
+      "field": "main_find",
+      "why_should_discard": "Acionável para devs, mas 'sinal de mercado' é inferido de tendência de ecossistema, não movimento estratégico singular de um player; como main_find, deveria ser o mais acionável OU maior sinal de mercado — aqui o sinal é fraco e o corpo inventa detalhes (versionamento semântico, LTS).",
+      "violated_rule": "Critério 2 (sinal de mercado) e regra de main_find sobre evento singular com sinal forte"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "Regra de memória editorial aplicada de forma inconsistente — o prompt não define critério objetivo para 'rehashed' vs 'variante nova'.",
+      "evidence": "Reasoning descarta SCMP/Nvidia por memória da ed. 232, mas mantém Gemini 4 Hydrogen apesar de memória das ed. 229/234.",
+      "suggested_fix": "Definir regra explícita: variante de família já coberta só entra se o título trouxer capacidade, preço ou posicionamento concreto."
+    },
+    {
+      "hypothesis": "STEP de seleção permite 'sinal de mercado' inferido de tendência de ecossistema, não apenas movimento de player.",
+      "evidence": "llama.cpp escolhido como main_find com justificativa de 'consolidação do ecossistema local', que é panorama, não evento de uma empresa.",
+      "suggested_fix": "Reforçar que sinal de mercado exige movimento estratégico de UM player nomeado, não tendência de ecossistema."
+    },
+    {
+      "hypothesis": "Prompt não exige verificação de que detalhes no body/bullets estejam no título ou em fonte citada.",
+      "evidence": "main_find.body e bullets afirmam versionamento semântico, LTS e cadeia Ollama/LM Studio sem base no input.",
+      "suggested_fix": "Adicionar regra: body só pode conter informação presente no título/URL ou explicitamente marcada como inferência."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find acionável mas com sinal de mercado fraco e corpo com informação inventada, além de um quick_find (Gemini 4 Hydrogen) que viola a régua de seleção e a própria memória editorial declarada. O reasoning é detalhado mas inconsistente: descarta itens por repetição enquanto mantém outro repetido, e lista um item (Alibaba T-Head) na distribuição epistêmica que não foi publicado."
+}

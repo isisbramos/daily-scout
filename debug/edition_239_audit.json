@@ -1,0 +1,102 @@
+{
+  "edition": "239",
+  "audited_at": "2026-11-16T18:27:57.995184-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (Hy4 Flash) é legítimo: AI Gate ok, acionável (teste A/B), sinal de mercado (preço por tarefa). Mas o reasoning afirma que os export controls de chips eram o item de maior sinal e cross-source, e mesmo assim foram trocados por 'repetição de edição recente' — sem evidência no input de que o tema já foi coberto. Além disso, quick_finds como Audible (recomendação consumer em plataforma de assinatura) e LVMH x OpenAI (parceria de marketing sem detalhe de produto) beiram anti-signal e não têm acionabilidade clara.",
+    "issues": [
+      "main_swaps troca export controls por Hy4 Flash alegando 'repetição de edição recente', mas o reasoning não cita nenhuma edição anterior que tenha coberto o tema — contradição interna.",
+      "Audible AI discovery: AI Gate ok, mas 'sinal de mercado' é fraco (feature de recomendação em serviço de assinatura consumer) e acionabilidade é genérica ('recomendação vira expectativa básica').",
+      "LVMH x OpenAI: parceria estratégica sem detalhe de produto/estratégia concreta; o sinal é vago ('adoção empresarial chegando a marca e conteúdo'), próximo de panorama.",
+      "ChatGPT for Healthcare: acionável apenas para quem atua em saúde; sinal de mercado é verticalização genérica, sem novidade específica descrita."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "Não há hype explícito (revolucionário, bombástico etc.) e o condicional é preservado em Huawei ('planeja'). Porém o main_find.body repete quase literalmente o título e o bullet 1, e o bullet 2 ('não é só contexto maior, é custo por tarefa menor') introduz uma comparação com 'contexto maior' que não está no input — inferência não sustentada.",
+    "issues": [
+      "main_find.body e bullet 1 são duplicação quase literal do título, sem informação adicional.",
+      "Bullet 2 afirma 'não é só contexto maior' — o input não menciona contexto/context window; detalhe inventado.",
+      "Quick_find Audible: 'recomendação por AI deixa de ser diferencial e vira expectativa básica' é opinião de mercado não ancorada no título."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: OpenAI Blog aparece 2x (Healthcare e LVMH) entre quick_finds — no limite, mas não viola 'mais de 2'. Audiência: há 'desenvolvedores', 'product managers e fundadores' e 'executivos de negócio' — ok. Geografia: 2 itens China (Hy4 Flash, Huawei) — dentro do limite de 2, mas o main_find e um quick_find concentram-se no mesmo eixo.",
+    "issues": [
+      "OpenAI Blog com 2 quick_finds consecutivos (Healthcare, LVMH) reduz variedade de fontes na seção.",
+      "Dois itens da China (Tencent, Huawei) no main_find + quick_find — no limite, mas concentração visível."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Hy4 Flash, custo 24,5x menor) — não é genérica. O número '322 posts de 22 fontes' é consistente com total_analyzed, mas '22 fontes' não é verificável no input (há ~15 source_ids distintos).",
+    "issues": [
+      "'22 fontes' não é sustentado pelo input — contagem de source_ids únicos é menor."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning lista corretamente os descartes por AI Gate, mas se contradiz: afirma que export controls têm 'maior sinal de mercado' e são cross-source, e logo depois o main_swaps os remove por 'repetição de edição recente' sem citar a edição. Também afirma 'Diversidade epistêmica garantida' quando quick_finds incluem itens de sinal fraco (Audible, LVMH).",
+    "issues": [
+      "Contradição direta: reasoning diz que export controls são o item de maior sinal; main_swaps os descarta por repetição não evidenciada.",
+      "Reasoning afirma 'nenhum item repete tema das edições 232-238' e ao mesmo tempo justifica o swap por repetição — incoerente.",
+      "Reasoning classifica LVMH e Audible como 'produto' sem qualificar que são features/parcerias de sinal fraco."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "US tightens AI chip export curbs to close China’s overseas data centre loophole",
+      "source": "SCMP Tech",
+      "why_should_include": "Regulação governamental com AI Gate explícito, cross-source (SCMP + TechCrunch), afeta decisões de infraestrutura de qualquer empresa que treina/serve modelos — atende acionável e sinal de mercado.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "US tightens AI chip export controls to deter Chinese companies from accessing compute remotely",
+      "source": "TechCrunch",
+      "why_should_include": "Mesmo evento em segunda fonte, confirmando cross-source; regulação de compute é evento singular de política com impacto direto em workflows de treino/deploy.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Audible turns to AI to help users discover audiobooks",
+      "field": "quick_finds",
+      "why_should_discard": "Feature de recomendação em plataforma de assinatura consumer; sinal de mercado fraco e acionabilidade genérica — próximo de anti-signal de produto consumer.",
+      "violated_rule": "Critério 2 (sinal de mercado específico) e Critério 1 (acionável concreto)"
+    },
+    {
+      "title": "LVMH’s Media Division announces strategic partnership with OpenAI",
+      "field": "quick_finds",
+      "why_should_discard": "Parceria de marketing/mídia sem detalhe de produto ou mudança de estratégia concreta; sinal vago de 'adoção empresarial'.",
+      "violated_rule": "Critério 2 (sinal de mercado específico) — parceria sem novidade concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "Regra de memória editorial / main_swaps permite descartar item por 'repetição de edição recente' sem exigir citação da edição anterior.",
+      "evidence": "main_swaps remove export controls por 'repetição de edição recente' sem citar edição, contradizendo o próprio reasoning que os elege como maior sinal.",
+      "suggested_fix": "Exigir que main_swaps cite explicitamente a edição e o item anterior que justifica o descarte."
+    },
+    {
+      "hypothesis": "Critério 2 (sinal de mercado) não distingue parceria/feature consumer de movimento estratégico específico, permitindo LVMH e Audible passarem.",
+      "evidence": "LVMH x OpenAI e Audible AI discovery entraram como quick_finds com sinais vagos ('adoção empresarial', 'expectativa básica').",
+      "suggested_fix": "Adicionar exemplo negativo explícito de parceria de marketing e feature de recomendação consumer no few-shot de anti-signals."
+    },
+    {
+      "hypothesis": "Instrução de diversidade epistêmica é tratada como checklist de categorias, não de força de sinal.",
+      "evidence": "Reasoning declara 'diversidade epistêmica garantida' mesmo incluindo itens de sinal fraco.",
+      "suggested_fix": "Exigir que cada quick_find declare qual dos 3 critérios satisfaz e com que evidência."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição descarta o item de maior sinal (export controls de chips, cross-source) por uma alegação de repetição não evidenciada, contradizendo o próprio reasoning. Quick_finds incluem parceria de marketing (LVMH) e feature consumer (Audible) com sinal fraco. O main_find (Hy4 Flash) é defensável, mas o corpo duplica o título e introduz detalhe não sustentado ('contexto maior')."
+}

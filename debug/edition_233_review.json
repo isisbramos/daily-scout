@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular e datado (lançamento do AlphaProof Code pelo DeepMind) com fonte primária no blog oficial, tipo produto/pesquisa desejado.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento concreto de open source de modelo tátil por entidade identificável (Robbyant/Ant Group), com fonte TechNode.\"},{\"idx\":2,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de produto datado (agentes de AI no Photoshop/Premiere/Firefly e MCP) com fonte TechCrunch.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Apesar de tom especulativo, o título aponta evento singular de uma empresa (Amazon trocando Sonnet por Strands Decider) e a especulação está sinalizada como tal.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Mudança de produto datada do Reddit com fonte TechCrunch, evento singular de uma entidade.\"},{\"idx\":5,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Atualização de produto concreta (Otter AI em 30+ idiomas) com fonte TechCrunch, relevante para leitor tech.\"}],\"missed\":[{\"candidate\":\"C15\",\"why\":\"Fonte primária do Google DeepMind sobre o AlphaProof Code; corrobora e reforça o main_find com evento singular e verificável.\"},{\"candidate\":\"C31\",\"why\":\"Lançamento datado do Gemini Robotics 2.5 pelo DeepMind, evento singular de produto/pesquisa com fonte oficial, mais forte que itens de menor impacto como Otter AI.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (lançamento do AlphaProof Code pelo DeepMind) com fonte primária no blog oficial, tipo produto/pesquisa desejado."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento concreto de open source de modelo tátil por entidade identificável (Robbyant/Ant Group), com fonte TechNode."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto datado (agentes de AI no Photoshop/Premiere/Firefly e MCP) com fonte TechCrunch."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Apesar de tom especulativo, o título aponta evento singular de uma empresa (Amazon trocando Sonnet por Strands Decider) e a especulação está sinalizada como tal."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Mudança de produto datada do Reddit com fonte TechCrunch, evento singular de uma entidade."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Atualização de produto concreta (Otter AI em 30+ idiomas) com fonte TechCrunch, relevante para leitor tech."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C15",
+      "title": "Introducing AlphaProof Code: a breakthrough in verifying complex software at depth",
+      "source": "Google DeepMind Blog",
+      "url": "https://deepmind.google/blog/introducing-alphaproof-code/",
+      "why": "Fonte primária do Google DeepMind sobre o AlphaProof Code; corrobora e reforça o main_find com evento singular e verificável."
+    },
+    {
+      "candidate": "C31",
+      "title": "Gemini Robotics 2.5 accelerates real-world general dexterity",
+      "source": "Google DeepMind Blog",
+      "url": "https://deepmind.google/blog/gemini-robotics-2-5-accelerates-real-world-physical-intelligence/",
+      "why": "Lançamento datado do Gemini Robotics 2.5 pelo DeepMind, evento singular de produto/pesquisa com fonte oficial, mais forte que itens de menor impacto como Otter AI."
+    }
+  ]
+}

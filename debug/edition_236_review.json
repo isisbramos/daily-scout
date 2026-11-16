@@ -1,0 +1,48 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de versão 1.0.0 do llama.cpp é evento singular e datado, com novidade concreta (API estável) e fonte primária no blog do HuggingFace.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de produto concreto (app de transcrição/ditado) por empresa identificável, com fonte TechCrunch — tipo produto desejado.\"},{\"idx\":2,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Anúncio de nova variante de modelo (Gemini 4 Hydrogen) é evento de produto singular e datado, com fonte primária do DeepMind.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Paper no arXiv com achado concreto sobre vulnerabilidade de leaderboards por preferência, fonte primária verificável e relevante.\"}],\"missed\":[{\"candidate\":\"C13\",\"why\":\"Alibaba's chip unit quer abrir capital é evento corporativo singular e datado com ângulo de tech/chips, mais forte e verificável que itens de produto menores.\"},{\"candidate\":\"C28\",\"why\":\"HeymanDex e mãos robóticas dexterous subaquáticas é achado de produto/tecnologia concreto e datado, com fonte TechNode, relevante para o leitor de tech.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de versão 1.0.0 do llama.cpp é evento singular e datado, com novidade concreta (API estável) e fonte primária no blog do HuggingFace."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (app de transcrição/ditado) por empresa identificável, com fonte TechCrunch — tipo produto desejado."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Anúncio de nova variante de modelo (Gemini 4 Hydrogen) é evento de produto singular e datado, com fonte primária do DeepMind."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper no arXiv com achado concreto sobre vulnerabilidade de leaderboards por preferência, fonte primária verificável e relevante."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C13",
+      "title": "Alibaba’s Chip Unit Wants to Go Public. Who Pays It?",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/13/alibaba-t-head-chip-business-hong-kong-ipo/",
+      "why": "Alibaba's chip unit quer abrir capital é evento corporativo singular e datado com ângulo de tech/chips, mais forte e verificável que itens de produto menores."
+    },
+    {
+      "candidate": "C28",
+      "title": "When robots dive underwater, HeymanDex sees new possibilities for dexterous hands",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/13/when-robots-dive-underwater-heymandex-sees-new-possibilities-for-dexterous-hands/",
+      "why": "HeymanDex e mãos robóticas dexterous subaquáticas é achado de produto/tecnologia concreto e datado, com fonte TechNode, relevante para o leitor de tech."
+    }
+  ]
+}

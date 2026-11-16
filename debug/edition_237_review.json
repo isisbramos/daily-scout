@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de produto concreto (ChatGPT Wallet) com fonte primária (blog da OpenAI) e cobertura do TechCrunch, evento singular e datado.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Pesquisa/benchmark concreto (XYBench) publicado pelo AllenAI com fonte primária no blog do HuggingFace.\"},{\"idx\":2,\"verdict\":\"FAIL\",\"rule\":\"unverified\",\"why\":\"Alegação sobre uso de 29 agentes pelo Google baseada apenas em post do r/artificial, sem fonte primária ou corroboração.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Posição declarada de um senador específico sobre regulamentação de IA, evento datado e relevante, com fonte identificável.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Análise de risco concreto em IA na saúde publicada pela MIT Tech Review Brasil, com ângulo real de tech/AI para o leitor.\"}],\"missed\":[{\"candidate\":\"C26\",\"why\":\"llama.cpp v1.0.0 é um marco de produto concreto e verificável no ecossistema de AI local, mais forte que o item do r/artificial não verificado.\"},{\"candidate\":\"C9\",\"why\":\"Análise da saída de Jensen Huang e impacto na cadeia de suprimentos de AI da China, com evento singular e fonte estabelecida (Rest of World), mais forte que o quick_find baseado em Reddit.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de produto concreto (ChatGPT Wallet) com fonte primária (blog da OpenAI) e cobertura do TechCrunch, evento singular e datado."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa/benchmark concreto (XYBench) publicado pelo AllenAI com fonte primária no blog do HuggingFace."
+    },
+    {
+      "idx": 2,
+      "verdict": "FAIL",
+      "rule": "unverified",
+      "why": "Alegação sobre uso de 29 agentes pelo Google baseada apenas em post do r/artificial, sem fonte primária ou corroboração."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Posição declarada de um senador específico sobre regulamentação de IA, evento datado e relevante, com fonte identificável."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Análise de risco concreto em IA na saúde publicada pela MIT Tech Review Brasil, com ângulo real de tech/AI para o leitor."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C26",
+      "title": "llama.cpp v1.0.0 : A stronger foundation for the local AI ecosystem",
+      "source": "HuggingFace Blog",
+      "url": "https://huggingface.co/blog/ggml-org/llama-cpp-v1",
+      "why": "llama.cpp v1.0.0 é um marco de produto concreto e verificável no ecossistema de AI local, mais forte que o item do r/artificial não verificado."
+    },
+    {
+      "candidate": "C9",
+      "title": "How Jensen Huang’s exit from Nvidia impacts China’s AI supply chain",
+      "source": "Rest of World",
+      "url": "https://restofworld.org/2026/jensen-huang-nvidia-exit-china-ai-chip-impact/?utm_source=rss&utm_medium=rss&utm_campaign=feeds",
+      "why": "Análise da saída de Jensen Huang e impacto na cadeia de suprimentos de AI da China, com evento singular e fonte estabelecida (Rest of World), mais forte que o quick_find baseado em Reddit."
+    }
+  ]
+}

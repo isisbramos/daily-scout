@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de modelo com números concretos de custo e benchmark interno, evento singular e datado, corroborado por duas fontes.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Anúncio de plano de open source de modelo de mundo para robótica sobre Ascend, evento específico de uma empresa com ângulo tech claro.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Expansão de recursos de produto concreto (ChatGPT for Healthcare), evento datado e verificável no blog oficial.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Parceria estratégica anunciada entre LVMH Media e OpenAI, evento singular e datado com fonte primária.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Uso de AI em produto existente (Audible) para descoberta de audiolivros, novidade concreta e relevante.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C13\", \"why\": \"Reportagem do Rest of World sobre laboratório africano que alerta para riscos de bioweapons com AI — evento singular, fonte jornalística verificável e ângulo de segurança de AI relevante, mais forte que quick_finds de parceria/feature.\"},\n    {\"candidate\": \"C34\", \"why\": \"TechCrunch sobre endurecimento dos controles de exportação de chips de AI pelos EUA — evento regulatório datado e de alto impacto para o setor, mais forte que itens de produto incremental.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de modelo com números concretos de custo e benchmark interno, evento singular e datado, corroborado por duas fontes."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Anúncio de plano de open source de modelo de mundo para robótica sobre Ascend, evento específico de uma empresa com ângulo tech claro."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Expansão de recursos de produto concreto (ChatGPT for Healthcare), evento datado e verificável no blog oficial."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Parceria estratégica anunciada entre LVMH Media e OpenAI, evento singular e datado com fonte primária."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Uso de AI em produto existente (Audible) para descoberta de audiolivros, novidade concreta e relevante."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C13",
+      "title": "The small African lab sounding the alarm on AI bioweapons",
+      "source": "Rest of World",
+      "url": "https://restofworld.org/2026/ghana-ai-lab-minohealth-bioweapons-threat-dna-synthesis-regulation/?utm_source=rss&utm_medium=rss&utm_campaign=feeds",
+      "why": "Reportagem do Rest of World sobre laboratório africano que alerta para riscos de bioweapons com AI — evento singular, fonte jornalística verificável e ângulo de segurança de AI relevante, mais forte que quick_finds de parceria/feature."
+    },
+    {
+      "candidate": "C34",
+      "title": "US tightens AI chip export controls to deter Chinese companies from accessing compute remotely",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/",
+      "why": "TechCrunch sobre endurecimento dos controles de exportação de chips de AI pelos EUA — evento regulatório datado e de alto impacto para o setor, mais forte que itens de produto incremental."
+    }
+  ]
+}
