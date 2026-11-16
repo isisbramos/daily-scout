@@ -87,7 +87,7 @@ pytest tests/
 
 | Workflow | Quando roda | O que faz |
 |---|---|---|
-| `daily-scout.yml` | diário, 06:37 UTC | pipeline completo — busca, cura, envia a edição |
+| `daily-scout.yml` | disparo externo às 7h55 BRT (`workflow_dispatch`) + cron nativo 06:37 UTC como fallback | job `guard` (pula se a edição já saiu) + pipeline completo — busca, cura, envia a edição. Runbook: `ops/disparo-externo.md` |
 | `content-report.yml` | semanal (segunda) | gera o relatório de conteúdo em `reports/` |
 | `social-post.yml` | diário, 3h depois do envio | posta o resumo social da edição |
 | `security.yml` | semanal + PRs que tocam deps | `pip-audit` nas dependências |

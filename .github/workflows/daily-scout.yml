@@ -2,32 +2,79 @@ name: Daily Scout Pipeline
 
 on:
   schedule:
-    # Dispara cedo (03:37 BRT = 06:37 UTC) de propósito.
-    # O envio é imediato (about_to_send), então a entrega = hora do run.
-    # O cron do GitHub Actions é best-effort e atrasa 1-5h, principalmente no
-    # topo da hora. Disparando cedo e num minuto fora do pico (:37, não :00),
-    # mesmo o pior atraso histórico cai antes das 8h BRT — nunca depois.
-    # Para entregar mais perto das 8h (aceitando risco de atraso), suba o horário.
+    # FALLBACK. O gatilho principal é externo: um scheduler (cron-job.org) chama
+    # workflow_dispatch às 7h55 BRT — ver ops/disparo-externo.md.
+    # Este cron nativo continua aqui só como rede de segurança, e o guard abaixo
+    # impede envio duplicado quando o externo já mandou a edição do dia.
+    # O cron do GitHub Actions é best-effort: nas últimas 40 execuções (out-nov/2026)
+    # disparou entre 4,5h e 10,2h depois do horário (média 7h), ou seja, entre ~8h e
+    # ~13h50 BRT. Não dá pra compensar com horário mais cedo: o atraso varia demais.
     - cron: '37 6 * * *'
 
-  # Allow manual trigger for testing
+  # Disparo externo (principal), manual e testes
   workflow_dispatch:
     inputs:
       edition_number:
-        description: 'Edition number (e.g., 001)'
+        description: 'Edition number (e.g., 239). Vazio = calcula pela data.'
         required: false
-        default: '001'
+        default: ''
       dry_run:
         description: 'Dry run — roda tudo mas NÃO envia email (true/false)'
         type: boolean
         required: false
         default: false
+      force:
+        description: 'Force — envia mesmo se a edição já estiver registrada (reenvio deliberado)'
+        type: boolean
+        required: false
+        default: false
+      trigger:
+        description: 'Origem do disparo, só para métrica (external | manual)'
+        required: false
+        default: 'manual'
 
 permissions:
   contents: write
 
+# Uma execução por vez. Sem cancelar a que está rodando: cancelar no meio do envio
+# seria pior do que esperar. Uma execução pendente atrás dela passa pelo guard depois.
+concurrency:
+  group: aya-daily-send
+  cancel-in-progress: false
+
 jobs:
+  guard:
+    # Decide se a edição de hoje ainda precisa sair. Só stdlib: roda em ~10s.
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+    outputs:
+      skip: ${{ steps.guard.outputs.skip }}
+      edition: ${{ steps.guard.outputs.edition }}
+    steps:
+      - name: Checkout (tip da branch, não o SHA do disparo)
+        # Um run que esperou na fila de concurrency tem GITHUB_SHA antigo e não
+        # enxergaria a edição que o run anterior acabou de registrar no main.
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Já enviou hoje?
+        id: guard
+        env:
+          EDITION_NUMBER: ${{ github.event.inputs.edition_number }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          FORCE: ${{ github.event.inputs.force }}
+          TRIGGER: ${{ github.event.inputs.trigger }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: python3 scripts/edition_guard.py
+
   run-pipeline:
+    needs: guard
+    # Fail-open: se o próprio guard quebrar (checkout, runner), skip vem vazio e o
+    # pipeline roda mesmo assim. Melhor risco de duplicidade do que edição que não sai.
+    if: ${{ !cancelled() && needs.guard.outputs.skip != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
 

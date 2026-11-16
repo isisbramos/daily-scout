@@ -13,6 +13,10 @@
 | Retenção de leitura em 30 dias (Retention) | Buttondown | Depende de analytics ativado; sem instrumentação própria no repo. |
 | % de assinantes que clicam ≥ 1 link/semana (Click distribution) | Buttondown | Analytics nativo. Complemento possível: a Camada 2 de tracking de clique por achado (`pipeline.py`, filtro `track`), hoje desligada por falta de `TRACK_BASE_URL` — ver `data/estado-atual.md`. |
 
+## Métrica operacional: pontualidade do envio
+
+Não é métrica de produto, mas sustenta a promessa de "7h55 BRT" de `context/produto.md`. Mede o atraso entre 7h55 BRT e o início do run que enviou a edição. Alvo: início em até 10 min depois do horário em 95% dos dias. Onde medir: step summary do job `guard` em cada run, e o histórico com `gh run list` (comando em `ops/disparo-externo.md`, seção Métricas). Fica fora do Content Report até a iteração 4 daquele doc.
+
 ## O que fica em `debug/`
 
 `debug/` guarda o audit por edição (`edition_N_audit.json`, `edition_N_review.json`) — isso é qualidade editorial (alinhamento, tom, diversidade, veredito do revisor final), não métrica de leitor. Entra no Content Report (`reports/`) como scorecard de qualidade, cruzado com o feedback real (ver linha "Feedback ratio" acima), mas não substitui nenhuma das 8 métricas de produto.
