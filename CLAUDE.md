@@ -10,8 +10,9 @@ Newsletter diária de tech & IA, curada e escrita por uma persona de IA. O pipel
 
 ## Estado em 1 minuto
 
-> last-reviewed: 2026-11-15. Atualize esta seção sempre que algo aqui mudar.
+> last-reviewed: 2026-11-16. Atualize esta seção sempre que algo aqui mudar.
 
+- **Disparo do envio:** o cron nativo do Actions (06:37 UTC) atrasa 4,5–10h (média 7h nas 40 execuções de out-nov/2026), então a edição não chega às 7h55. Solução em PR: disparo externo (cron-job.org → `workflow_dispatch`) às 7h55 BRT, com o cron nativo só como fallback e um job `guard` contra envio duplicado. **Ativo só depois do setup em `ops/disparo-externo.md`.** Sem o setup, vale o comportamento antigo.
 - **Modelo:** `deepseek-v4-flash`. Fonte da verdade: `llm_config.py`.
 - **Editorial:** framework v5.4 em `prompts/curation_template.txt`. Revisor final em modo `shadow` (`sources_config.json` → `final_review.mode`).
 - **Fontes:** 23 habilitadas. Confira com `python scripts/source_stats.py`.
@@ -44,7 +45,7 @@ Quando o código e um doc discordarem, o código vence.
 
 - **Ajuste editorial** (o que entra, o que sai, tom): `data/fila-editorial.md` → `data/roadmap.md` → `context/editorial.md` (o porquê) → o prompt em `prompts/` (a execução).
 - **Fonte nova ou quebrada:** `sources_config.json` + `sources/`.
-- **Edição não saiu ou saiu errada:** `README.md` (seção CI) + `.github/workflows/daily-scout.yml` + `debug/`.
+- **Edição não saiu, saiu tarde ou saiu duplicada:** `ops/disparo-externo.md` (falhas, métricas, reenvio) + `README.md` (seção CI) + `.github/workflows/daily-scout.yml` + `debug/`.
 - **Produto, público, posicionamento:** `context/produto.md`.
 - **Marca, visual, persona:** `context/marca.md` → `SYSTEM.md` no vault pro detalhe.
 
