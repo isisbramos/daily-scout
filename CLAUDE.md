@@ -12,7 +12,7 @@ Newsletter diária de tech & IA, curada e escrita por uma persona de IA. O pipel
 
 > last-reviewed: 2026-11-16. Atualize esta seção sempre que algo aqui mudar.
 
-- **Disparo do envio:** o cron nativo do Actions (06:37 UTC) atrasa 4,5–10h (média 7h nas 40 execuções de out-nov/2026), então a edição não chega às 7h55. Solução mergeada (PR #59): disparo externo (cron-job.org → `workflow_dispatch`) às 7h55 BRT, com o cron nativo só como fallback e um job `guard` contra envio duplicado e contra segundo e-mail depois de um "transmissão parcial". **Ativo só depois do setup em `ops/disparo-externo.md`.** Sem o setup, vale o comportamento antigo.
+- **Disparo do envio:** o cron nativo do Actions (06:37 UTC) atrasa 4,5–10h (média 7h nas 40 execuções de out-nov/2026), então a edição não chega às 7h55. Solução mergeada (PR #59): disparo externo (cron-job.org → `workflow_dispatch`) às 7h55 BRT, com o cron nativo só como fallback e um job `guard` contra envio duplicado e contra segundo e-mail depois de um "transmissão parcial". **Setup feito em 16/11** (job no cron-job.org, 7h55 BRT; teste em dry run OK). Falta validar o 1º envio real (17/11) e conferir que o cron nativo do mesmo dia pula. Detalhes e falhas em `ops/disparo-externo.md`. Token `aya-dispatch` vence em 15/11/2027: renovar até meados de out/2027.
 - **Modelo:** `deepseek-v4-flash`. Fonte da verdade: `llm_config.py`.
 - **Editorial:** framework v5.4 em `prompts/curation_template.txt`. Revisor final em modo `shadow` (`sources_config.json` → `final_review.mode`).
 - **Fontes:** 23 habilitadas. Confira com `python scripts/source_stats.py`.
