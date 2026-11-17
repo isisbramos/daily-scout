@@ -156,7 +156,7 @@
               </div>
 
               <div class="body-text" style="color: #CBD5E1; font-size: 14px; line-height: 1.7; margin-bottom: 16px; font-family: 'Courier New', Courier, monospace;">
-                {{ main_find.body }}
+                {{ main_find.body | highlight_no_seu_produto(font_size='14px', line_height='1.7') }}
               </div>
 
               <!-- Bullets -->
@@ -210,7 +210,7 @@
                     </div>
                     {% endif %}
                     <div class="qf-signal" style="color: #CBD5E1; font-size: 12px; margin-top: 4px; line-height: 1.5; font-family: 'Courier New', Courier, monospace;">
-                      <span style="color: #22C55E; font-weight: bold;">signal:</span> {{ find.signal }}
+                      <span style="color: #22C55E; font-weight: bold;">signal:</span> {{ find.signal | highlight_no_seu_produto(font_size='12px', line_height='1.5') }}
                     </div>
                     <div style="margin-top: 4px; word-break: break-all;">
                       <a href="{{ find.url | track(edition_number, 'q', loop.index, find.primary_audience, find.claim_status) }}" style="color: #94A3B8; font-size: 11px; text-decoration: none; font-family: 'Courier New', Courier, monospace;">

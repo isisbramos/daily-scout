@@ -10,7 +10,7 @@ from jinja2 import Environment, FileSystemLoader
 
 # Add project root (este script vive em scripts/, mas importa módulos da raiz)
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline import load_config, fetch_all_sources, filter_items, make_tracked_url
+from pipeline import load_config, fetch_all_sources, filter_items, make_tracked_url, highlight_no_seu_produto
 from sources.base import SourceRegistry
 
 BRT = timezone(timedelta(hours=-3))
@@ -136,6 +136,7 @@ def test_render():
     def _track(url, edition, kind, idx="", aud="", claim=""):
         return make_tracked_url(url, edition, kind, idx, aud, claim, src="")
     env.filters["track"] = _track
+    env.filters["highlight_no_seu_produto"] = highlight_no_seu_produto
     template = env.get_template("email.html")
 
     now = datetime.now(BRT)
