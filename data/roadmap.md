@@ -25,10 +25,10 @@ Uma mudança por vez, medida no Content Report seguinte (regra de produção em 
 | --- | --- | --- |
 | 15/11/2026 | **Passo 1** — linha "→ No seu produto:" em cada achado (PR #51) | ✅ Em produção, em medição |
 | 17/11/2026 | **Passo 1.1** — linha "→ No seu produto:" vira "→ No seu trabalho:" + proibição de inventar contexto (ver `context/produto.md`). **Reinicia a medição do passo 1** | ✅ Em produção (PR #63), em medição desde 18/11 |
-| ~13/12/2026 | Fim da medição dos passos 1.1 + 2 (contada da 1ª edição com a calibração v5.5) | 🔜 Agendado |
-| 17/11/2026 | **Passo 2** — TESTE DE DECISÃO no STEP 2 + calibração v5.5 do prompt (ver `context/editorial.md`) | 🟡 Em PR |
-| 17/11/2026 | **Passo 2.1 (v5.5.2)** — papers com resumo no input e regra por capacidade concreta (ver `context/editorial.md`) | 🟡 Em PR |
-| 17/11/2026 | **Passo 2.2 (v5.5.3)** — follow-up controlado no guard de repetição (ver `context/editorial.md`) | 🟡 Em PR |
+| ~13/12/2026 | Fim da medição dos passos 1.1 + 2 + 2.1 + 2.2 (contada da 1ª edição com a v5.5.3, 18/11) | 🔜 Agendado |
+| 17/11/2026 | **Passo 2** — TESTE DE DECISÃO no STEP 2 + calibração v5.5 do prompt (ver `context/editorial.md`) | ✅ Em produção (PR #66; ajuste do RADAR v5.5.1 no PR #67), em medição desde 18/11 |
+| 17/11/2026 | **Passo 2.1 (v5.5.2)** — papers com resumo no input e regra por capacidade concreta (ver `context/editorial.md`) | ✅ Em produção (PR #68), em medição desde 18/11 |
+| 17/11/2026 | **Passo 2.2 (v5.5.3)** — follow-up controlado no guard de repetição (ver `context/editorial.md`) | ✅ Em produção (PR #69), em medição desde 18/11 |
 | jan/2027 | **Passo 3** — pilar 5 (IA, consciência e cultura), com exceção de evento âncora e máximo 1 item por edição | ⏸ Planejado |
 
 ### Diagnóstico de concentração por fonte
