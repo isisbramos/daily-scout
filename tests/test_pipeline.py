@@ -67,3 +67,24 @@ class TestFetchAllSources:
         with patch("pipeline.SourceRegistry.create_sources", return_value=[]):
             items = pipeline.fetch_all_sources({})
         assert items == []
+
+
+class TestPromptEntry:
+    def _item(self, **kw):
+        base = dict(title="T", url="https://x/1", source_id="arxiv_ai", source_label="arXiv (CS.AI)")
+        base.update(kw)
+        return SourceItem(**base)
+
+    def test_research_item_carries_truncated_summary(self):
+        item = self._item(extra={"summary": "palavra " * 200})
+        entry = pipeline._prompt_entry(item)
+        assert entry["summary"].endswith("…")
+        assert len(entry["summary"]) <= pipeline.PROMPT_SUMMARY_CHARS + 1
+
+    def test_item_without_summary_keeps_original_shape(self):
+        entry = pipeline._prompt_entry(self._item(source_id="hackernews", source_label="HackerNews"))
+        assert set(entry) == {"title", "source", "score", "comments", "url"}
+
+    def test_cross_source_signal_still_included(self):
+        item = self._item(cross_source_count=2, cross_source_ids=["arxiv_ai", "hackernews"])
+        assert pipeline._prompt_entry(item)["also_trending_on"] == ["hackernews"]

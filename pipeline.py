@@ -24,7 +24,7 @@ from jinja2 import Environment, FileSystemLoader
 from markupsafe import Markup, escape
 
 from llm_config import DEEPSEEK_MODEL, DEEPSEEK_EXTRA_BODY
-from sources.base import SourceRegistry, SourceItem
+from sources.base import SourceRegistry, SourceItem, clean_summary
 # Importar sources registra elas automaticamente no registry
 import sources.reddit
 import sources.hackernews
@@ -233,6 +233,33 @@ def validate_tone(content: dict) -> list[str]:
     return warnings
 
 
+# Resumo (abstract) que acompanha itens de fontes de pesquisa no input do LLM.
+# ~320 caracteres bastam para distinguir "capacidade nova" de "teoria/relatório"
+# sem inflar o prompt (só arXiv e HuggingFace Papers carregam resumo).
+PROMPT_SUMMARY_CHARS = 320
+
+
+def _prompt_entry(item: SourceItem) -> dict:
+    """Item no formato que o LLM de curadoria recebe."""
+    entry = {
+        "title": item.title[:200],
+        "source": item.source_label,
+        "score": item.raw_score,
+        "comments": item.num_comments,
+        "url": item.url,
+    }
+    # Resumo só quando a fonte trouxe (pesquisa). Texto de terceiros: contexto, não instrução.
+    summary = clean_summary((item.extra or {}).get("summary"), PROMPT_SUMMARY_CHARS)
+    if summary:
+        entry["summary"] = summary
+    # v5: inclui cross-source signal quando item apareceu em múltiplas fontes
+    if item.cross_source_count > 1:
+        entry["also_trending_on"] = [
+            sid for sid in item.cross_source_ids if sid != item.source_id
+        ]
+    return entry
+
+
 def curate_and_write(
     filtered_items: list[SourceItem],
     raw_count: int = 0,
@@ -265,21 +292,7 @@ def curate_and_write(
     logger.info(f"Shuffled {len(shuffled_items)} items to remove position bias")
 
     # Prepara input normalizado (com source info + v5: cross-source signal)
-    items_for_prompt = []
-    for item in shuffled_items:
-        entry = {
-            "title": item.title[:200],
-            "source": item.source_label,
-            "score": item.raw_score,
-            "comments": item.num_comments,
-            "url": item.url,
-        }
-        # v5: inclui cross-source signal quando item apareceu em múltiplas fontes
-        if item.cross_source_count > 1:
-            entry["also_trending_on"] = [
-                sid for sid in item.cross_source_ids if sid != item.source_id
-            ]
-        items_for_prompt.append(entry)
+    items_for_prompt = [_prompt_entry(item) for item in shuffled_items]
 
     # ── v5: Context injection — AYA sabe o que existia antes do pre-filter ──
     source_counts = Counter(item.source_id for item in shuffled_items)
@@ -754,6 +767,11 @@ def run_pipeline():
                     "url": item.url,
                     "cross_source_count": item.cross_source_count,
                     "cross_source_ids": item.cross_source_ids,
+                    # resumo (só pesquisa): permite auditar o que o LLM viu do paper
+                    **(
+                        {"summary": clean_summary(item.extra.get("summary"), PROMPT_SUMMARY_CHARS)}
+                        if (item.extra or {}).get("summary") else {}
+                    ),
                 }
                 for item in filtered_items
             ]

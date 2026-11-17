@@ -30,3 +30,9 @@ Critério novo (preenchido durante a sessão de ajuste, não precisa vir pronto)
 Tema/achado: o item do pacto global (COP31) saiu com uma linha "No seu produto" que falava de operação no Brasil exigindo transparência energética — contexto que o título não traz. Em geral, a edição soa técnica demais (papers, chips, modelos de fronteira).
 Por que não bateu: a AYA é para quem constrói COM IA e usa IA no dia a dia para ajudar o negócio, não para quem constrói IA.
 Critério novo: tratado no passo 1.1 (PR da branch `feat/linha-no-seu-trabalho`): linha vira "→ No seu trabalho:" e o prompt proíbe inventar contexto. **Ainda aberto:** o passo 2 (critério de curadoria no STEP 2) deve usar a mesma redação de leitor ("quem usa IA no trabalho"), e vale checar o peso das fontes (arxiv_ai e huggingface_papers têm o maior weight, 1.3).
+
+## 2026-11-17 — edição de teste (dry run da v5.5.1)
+Tema/achado: ficaram de fora três papers que a Isis achou interessantes (controle de vídeo longo multi-plano, agente de uso de computador, resolução de ambiguidade em LLMs), além de itens de IA no seguro (MIT Tech Review Brasil), "We don't need more apps. We need better open source" (HN) e Uber/Zipline.
+Por que não bateu: a v5.5.1 descartava paper sem resultado no título, e o LLM nunca via o abstract.
+Critério novo: tratado no passo 2.1 (v5.5.2): resumo no input + regra por capacidade concreta. **Ainda aberto (um por vez):** teto geográfico derrubou o Qwen4-Max; AI Gate corta tech sem IA (Uber); item de IA no seguro sem causa confirmada (hipótese: título em tom de tese).
+

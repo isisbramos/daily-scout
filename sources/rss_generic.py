@@ -10,7 +10,7 @@ import logging
 import re
 import time
 
-from sources.base import BaseSource, SourceItem, SourceRegistry, fetch_feed
+from sources.base import BaseSource, SourceItem, SourceRegistry, clean_summary, fetch_feed
 
 logger = logging.getLogger("daily-scout")
 
@@ -339,6 +339,7 @@ class ArxivAISource(BaseSource):
                 source_label=f"arXiv ({feed_key.replace('_', '.').upper()})",
                 limit=self.limit,
                 default_category="ai",
+                keep_summary=True,
             )
             all_items.extend(items)
         seen: set[str] = set()
@@ -498,8 +499,14 @@ def _fetch_rss(
     source_label: str,
     limit: int = 15,
     default_category: str = "tech",
+    keep_summary: bool = False,
 ) -> list[SourceItem]:
-    """Fetch genérico de RSS feed. Retorna SourceItems normalizados."""
+    """Fetch genérico de RSS feed. Retorna SourceItems normalizados.
+
+    keep_summary=True guarda o resumo do feed em extra["summary"] (texto limpo).
+    Só as fontes de pesquisa ligam isso: o título de um paper quase nunca diz o
+    que ele faz, e sem o resumo a curadoria não distingue capacidade de teoria.
+    """
     items = []
 
     try:
@@ -530,6 +537,12 @@ def _fetch_rss(
             title = entry.get("title", "")
             category = _categorize_by_title(title, categories, default_category)
 
+            extra = {"rss_categories": categories}
+            if keep_summary:
+                summary = clean_summary(entry.get("summary") or entry.get("description"))
+                if summary:
+                    extra["summary"] = summary
+
             items.append(SourceItem(
                 title=title,
                 url=entry.get("link", ""),
@@ -539,7 +552,7 @@ def _fetch_rss(
                 raw_score=0,  # RSS feeds não têm engagement data
                 num_comments=0,
                 category=category,
-                extra={"rss_categories": categories},
+                extra=extra,
             ))
 
         if not items:
