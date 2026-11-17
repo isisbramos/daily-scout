@@ -11,12 +11,12 @@ from email.utils import formatdate
 import pytest
 import requests
 
-from sources.base import SourceItem, fetch_feed, DEFAULT_FEED_TIMEOUT
+from sources.base import SourceItem, fetch_feed, clean_summary, DEFAULT_FEED_TIMEOUT
 from sources.hackernews import HackerNewsSource, _guess_hn_category
 from sources.reddit import RedditSource, _categorize_subreddit
 from sources.lobsters import LobstersSource, _categorize_lobsters
 from sources.techcrunch import TechCrunchSource, _categorize_tc
-from sources.rss_generic import AnthropicBlogSource, _fetch_rss, _categorize_by_title
+from sources.rss_generic import AnthropicBlogSource, ArxivAISource, _fetch_rss, _categorize_by_title
 
 
 # ── Helpers ──────────────────────────────────────────────────────────
@@ -615,3 +615,53 @@ class TestAgenciaBrasilKeywords:
         assert _matches_keywords("Big techs devem seguir marco legal", K)
         assert not _matches_keywords("Polícia prende suspeito em operação", K)   # 'ia' dentro de palavra
         assert not _matches_keywords("Seleção vence amistoso", K)
+
+
+# ── Resumo (abstract) de fontes de pesquisa ───────────────────────────
+
+class TestCleanSummary:
+    def test_strips_arxiv_header_and_html(self):
+        raw = "arXiv:2611.18866v1 Announce Type: new \nAbstract: Controle <b>de vídeo</b> &amp; áudio."
+        assert clean_summary(raw) == "Controle de vídeo & áudio."
+
+    def test_empty_inputs_return_empty_string(self):
+        assert clean_summary(None) == ""
+        assert clean_summary("") == ""
+        assert clean_summary("<p>  </p>") == ""
+
+    def test_truncates_at_word_boundary_with_ellipsis(self):
+        out = clean_summary("palavra " * 100, max_chars=30)
+        assert out.endswith("…")
+        assert len(out) <= 31
+        assert "palavr…" not in out  # não corta no meio da palavra
+
+    def test_short_text_is_untouched(self):
+        assert clean_summary("texto curto") == "texto curto"
+
+
+class TestResearchSummaryInFetch:
+    def _entry(self, **extra):
+        return MockEntry(
+            title="Um paper", link="https://arxiv.org/abs/1",
+            published_parsed=time.gmtime(), tags=[], **extra,
+        )
+
+    def test_arxiv_keeps_cleaned_summary(self):
+        feed = make_feed([self._entry(
+            summary="arXiv:1v1 Announce Type: new Abstract: Propomos um método."
+        )])
+        with patch("sources.rss_generic.fetch_feed", return_value=feed):
+            items = ArxivAISource({"limit": 5, "feeds": {"cs_ai": "https://x/feed"}}).fetch()
+        assert items[0].extra["summary"] == "Propomos um método."
+
+    def test_generic_rss_does_not_keep_summary_by_default(self):
+        feed = make_feed([self._entry(summary="resumo qualquer")])
+        with patch("sources.rss_generic.fetch_feed", return_value=feed):
+            items = _fetch_rss("https://x/feed", "anthropic_blog", "Anthropic Blog")
+        assert "summary" not in items[0].extra
+
+    def test_entry_without_summary_has_no_summary_key(self):
+        feed = make_feed([self._entry()])
+        with patch("sources.rss_generic.fetch_feed", return_value=feed):
+            items = _fetch_rss("https://x/feed", "arxiv_ai", "arXiv", keep_summary=True)
+        assert "summary" not in items[0].extra

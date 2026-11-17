@@ -5,7 +5,9 @@ Arquitetura plugável: cada source implementa fetch() e retorna list[SourceItem]
 
 from __future__ import annotations
 
+import html
 import logging
+import re
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, asdict
@@ -17,6 +19,33 @@ import requests
 logger = logging.getLogger("daily-scout")
 
 DEFAULT_FEED_TIMEOUT = 15  # segundos
+
+_TAG_RE = re.compile(r"<[^>]+>")
+# Cabeçalho que o feed do arXiv põe antes do abstract:
+# "arXiv:2611.18866v1 Announce Type: new Abstract: ..."
+_ARXIV_PREFIX_RE = re.compile(
+    r"^\s*arXiv:\S+\s+Announce Type:\s*\S+\s*(Abstract:)?\s*", re.IGNORECASE
+)
+
+
+def clean_summary(text: str | None, max_chars: int = 600) -> str:
+    """Normaliza o resumo (abstract) de uma fonte de pesquisa para texto puro.
+
+    Remove HTML e o cabeçalho do arXiv, colapsa espaços e corta em fronteira de
+    palavra com reticências. Devolve "" quando não há texto — quem chama decide
+    se inclui o campo. O resumo é texto de terceiros: serve de CONTEXTO para o
+    LLM, nunca de instrução (o prompt de curadoria diz isso).
+    """
+    if not text:
+        return ""
+    cleaned = html.unescape(_TAG_RE.sub(" ", str(text)))
+    cleaned = _ARXIV_PREFIX_RE.sub("", cleaned)
+    cleaned = re.sub(r"^\s*Abstract:\s*", "", cleaned, flags=re.IGNORECASE)
+    cleaned = " ".join(cleaned.split())
+    if len(cleaned) <= max_chars:
+        return cleaned
+    cut = cleaned[:max_chars].rsplit(" ", 1)[0].rstrip(" ,;:.")
+    return cut + "…"
 
 
 def fetch_feed(url: str, timeout: int = DEFAULT_FEED_TIMEOUT):

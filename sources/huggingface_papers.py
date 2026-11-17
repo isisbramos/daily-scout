@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 
 import requests
 
-from sources.base import BaseSource, SourceItem, SourceRegistry
+from sources.base import BaseSource, SourceItem, SourceRegistry, clean_summary
 
 logger = logging.getLogger("daily-scout")
 
@@ -68,7 +68,7 @@ class HuggingFacePapersSource(BaseSource):
                 raw_score=paper.get("upvotes", 0) or 0,
                 num_comments=entry.get("numComments", 0) or 0,
                 category="ai",
-                extra={"summary": entry.get("summary") or paper.get("summary", "")},
+                extra={"summary": clean_summary(entry.get("summary") or paper.get("summary", ""))},
             ))
 
         logger.debug(f"    HuggingFace Papers: {len(items)} posts fetched")
