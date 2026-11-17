@@ -82,3 +82,24 @@ VAULT_PATH="/caminho/do/vault" python3 scripts/sync_to_vault.py
 - **launchd não disparou** → `launchctl list | grep aya.vaultsync` deve
   mostrar o job; se não aparecer, o `load` falhou — rode de novo e olhe o
   output do comando.
+
+## Avaliar mudança de prompt (replay + lint)
+
+Mudança em `prompts/` não se julga por uma edição de teste: ela mistura o efeito da mudança, a aleatoriedade do LLM e a entrada do dia. Use entradas fixas e várias execuções.
+
+```bash
+# 1. base, antes de mexer no prompt (chama o LLM; precisa de DEEPSEEK_API_KEY)
+python scripts/prompt_replay.py --label base
+# 2. muda o prompt
+# 3. mesma entrada, comparando com a base
+python scripts/prompt_replay.py --label novo --compare debug/replay/base.json
+```
+
+- Entradas: `tests/fixtures/replay/*_items.json` (títulos públicos de notícias). Para adicionar uma, copie o `debug/edition_N_items.json` de um dry run com `DEBUG_SAVE=true`.
+- Sem memória editorial por padrão (`--with-memory` liga), para o resultado não depender das últimas edições. Não envia nada nem grava memória.
+- `⚠` na comparação = métrica "mais alto é pior" (radar sem link, meta-linguagem vazada, ineditismo, número fora do input…) que subiu. Mudança que acende `⚠` precisa de explicação antes de entrar.
+- As saídas completas ficam em `debug/replay/<label>/` para leitura humana: o lint conta violações de regras que o prompt já tem, mas não julga qualidade editorial.
+- Lint avulso sobre um dry run: `python scripts/prompt_lint.py curation.json items.json`.
+
+Limite conhecido: as 3 entradas atuais são do mesmo dia (17/11) e as mais antigas não carregam o `summary` de papers. Acrescente entradas de outros dias aos poucos.
+

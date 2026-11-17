@@ -28,7 +28,7 @@ _ARXIV_PREFIX_RE = re.compile(
 )
 
 
-def clean_summary(text: str | None, max_chars: int = 600) -> str:
+def clean_summary(text: str | None, max_chars: int = 900) -> str:
     """Normaliza o resumo (abstract) de uma fonte de pesquisa para texto puro.
 
     Remove HTML e o cabeçalho do arXiv, colapsa espaços e corta em fronteira de

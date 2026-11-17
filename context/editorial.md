@@ -89,3 +89,8 @@ No dry run da v5.5.1 o LLM escolheu dois follow-ups com ângulo novo (Qwen4-Max 
 - **O que NÃO mudou:** teto geográfico (existe por um motivo real: ed. 149, 153 e 206 tiveram 3-4 itens da China), AI Gate, regra de opinião.
 - **Riscos a observar:** o LLM marcar `follow_up` em tudo (o teto de 1 e o limiar de título contêm o dano; checar nos logs "mantido como follow-up"); follow-up que na prática é a mesma notícia com título novo.
 
+### Processo: como avaliar mudança de prompt (17/11/2026)
+Em 17/11 o `curation_template` ganhou 5 mudanças em um dia (#63, #66–#69). Cada uma se baseou em uma única edição de teste, com entrada diferente e saída não determinística. Dois diagnósticos saíram errados (teto geográfico; regra de papers) e o prompt passou de 4,5 mil para 6,4 mil palavras, com mais proibições e exemplos que o modelo copia quase literalmente (o `why_watch` do radar repetiu o Exemplo 15b). Daí o replay: entradas fixas (`tests/fixtures/replay/`), várias execuções e checks determinísticos (`scripts/prompt_lint.py`). O lint mede violações de regras já existentes; não substitui a leitura de edições reais.
+- **Parâmetros, não regras:** o tamanho do resumo (`PROMPT_SUMMARY_CHARS`, 320 → 650) e o guard do radar (`pipeline.sanitize_radar`) corrigem defeitos de mecânica sem texto novo no prompt.
+- **Congelamento:** nenhuma regra editorial nova até 5 edições reais medidas; depois, limpeza do prompt (passo 2.4) validada no replay.
+

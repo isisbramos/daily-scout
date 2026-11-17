@@ -1,0 +1,488 @@
+[
+  {
+    "title": "New Evidence Shows School Phone Bans Are Gradually Improving Test Scores",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 796,
+    "comments": 415,
+    "url": "https://www.nytimes.com/2026/11/17/upshot/school-phone-bans-study-scores.html",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Proton’s Lumo, a privacy-focused alternative to ChatGPT and Claude, arrives on desktop",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/protons-lumo-a-privacy-focused-alternative-to-chatgpt-and-claude-arrives-on-desktop/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "Running the full server-side Datasette Python app in the browser with service workers and Pyodide",
+    "source": "Simon Willison",
+    "source_id": "simon_willison",
+    "score": 0,
+    "comments": 0,
+    "url": "https://simonwillison.net/2026/Nov/17/datasette-lite/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "simon_willison"
+    ]
+  },
+  {
+    "title": "If you feed AI with a guess, it treats it like a fact and starts building on it.",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xyqfhc/if_you_feed_ai_with_a_guess_it_treats_it_like_a/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "Research Reports",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/17/1148203/research-reports/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "Making Games in Go: Entity Component System (ECS)",
+    "source": "Lobsters",
+    "source_id": "lobsters",
+    "score": 0,
+    "comments": 0,
+    "url": "https://threedots.tech/post/making-games-in-go-ecs/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "lobsters"
+    ]
+  },
+  {
+    "title": "Between Rigor and Reality: How AI Safety Benchmark Developers Understand Benchmark Use and Maintenance",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18930",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ],
+    "summary": "Safety benchmarks are cited as the primary tool to understand the risks posed by generative AI (GenAI) systems, yet growing evidence suggests they often fail to meet the needs of real-world safety evaluation. We present findings from five interviews with AI safety benchmark developers in academia and industry. We find…"
+  },
+  {
+    "title": "InclusionMed: Benchmarking AI for Inclusive Healthcare",
+    "source": "HuggingFace Papers",
+    "source_id": "huggingface_papers",
+    "score": 61,
+    "comments": 1,
+    "url": "https://huggingface.co/papers/2611.21218",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "huggingface_papers"
+    ],
+    "summary": "Advancing medical AI for inclusive healthcare requires evaluation across diverse healthcare roles, tasks, and care settings, but benchmark coverage remains uneven. We introduce InclusionMed, an open medical AI evaluation initiative for inclusive healthcare. The InclusionMed Atlas organizes benchmarks across three…"
+  },
+  {
+    "title": "‘China question’: Nvidia crisis and new US chip curbs split Washington and Silicon Valley",
+    "source": "SCMP Tech",
+    "source_id": "scmp_tech",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.scmp.com/tech/tech-war/article/3374770/china-question-nvidia-crisis-and-new-us-chip-curbs-split-washington-and-silicon-valley",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "scmp_tech"
+    ]
+  },
+  {
+    "title": "Build faster with Buck2: Our open source build system",
+    "source": "Meta AI Research",
+    "source_id": "meta_ai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://engineering.fb.com/2023/04/06/open-source/buck2-open-source-large-scale-build-system/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "meta_ai_blog"
+    ]
+  },
+  {
+    "title": "Innovators Under 35 Brasil 2026 reconhece jovens que estão transformando tecnologia e inovação no país",
+    "source": "MIT Tech Review Brasil",
+    "source_id": "mit_tech_review_brasil",
+    "score": 0,
+    "comments": 0,
+    "url": "https://mittechreview.com.br/innovators-under-35-brasil-2026-jovens-inovadores/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review_brasil"
+    ]
+  },
+  {
+    "title": "Apple Permissions Update, The New App Paradigm, My iPhone Duo Review",
+    "source": "Stratechery",
+    "source_id": "stratechery",
+    "score": 0,
+    "comments": 0,
+    "url": "https://stratechery.com/2026/apple-permissions-update-the-new-app-paradigm-my-iphone-duo-review/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "stratechery"
+    ]
+  },
+  {
+    "title": "Baidu’s Robin Li warns of AI bubble risk as applications lag infrastructure spending",
+    "source": "TechNode",
+    "source_id": "technode",
+    "score": 0,
+    "comments": 0,
+    "url": "https://technode.com/2026/11/17/baidus-robin-li-warns-of-ai-bubble-risk-as-applications-lag-infrastructure-spending/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "technode"
+    ]
+  },
+  {
+    "title": "Strengthening NATO and allied cyber defenses with AI",
+    "source": "OpenAI Blog",
+    "source_id": "openai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://openai.com/index/strengthening-nato-allied-cyber-defences-ai",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "openai_blog"
+    ]
+  },
+  {
+    "title": "Build once, run on any agent: A practical guide to agent skills",
+    "source": "The GitHub Blog",
+    "source_id": "github_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://github.blog/ai-and-ml/github-copilot/build-once-run-on-any-agent-a-practical-guide-to-agent-skills/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "github_blog"
+    ]
+  },
+  {
+    "title": "Theoretical Limits of Language Model Alignment",
+    "source": "Apple Machine Learning Research",
+    "source_id": "apple_ml_research",
+    "score": 0,
+    "comments": 0,
+    "url": "https://machinelearning.apple.com/research/theoretical-limits-alignment",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "apple_ml_research"
+    ]
+  },
+  {
+    "title": "Optimizely hack infected CNN, Fox News, BBC, Salesforce sites with malware",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 11,
+    "comments": 1,
+    "url": "https://www.bleepingcomputer.com/news/security/optimizely-supply-chain-attack-delivers-malware-to-cnn-fox-news-bbc-salesforce-sites/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "AI models can be tricked into identifying civilians as military targets by telling them it’s a game",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/ai-models-can-be-tricked-into-identifying-civilians-as-military-targets-by-telling-them-its-a-game/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "Quoting Go Proverbs",
+    "source": "Simon Willison",
+    "source_id": "simon_willison",
+    "score": 0,
+    "comments": 0,
+    "url": "https://simonwillison.net/2026/Nov/17/go-proverbs/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "simon_willison"
+    ]
+  },
+  {
+    "title": "Alibaba's Qwen team promised \"open source to the end\" 12 days ago. Today Qwen4-Max dropped as a closed-weight API.",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xyoxb6/alibabas_qwen_team_promised_open_source_to_the/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "The Download: Jensen Huang’s open-source dilemma and cognitive immortality",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/17/1148679/the-download-jensen-huang-open-source-ai-cognitive-immortality/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "C’s designated initializers give us named arguments",
+    "source": "Lobsters",
+    "source_id": "lobsters",
+    "score": 0,
+    "comments": 0,
+    "url": "https://quuxplusone.github.io/blog/2026/11/16/named-arguments-in-c/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "lobsters"
+    ]
+  },
+  {
+    "title": "Three Invisible Failure Modes in Speech-Based Age Estimation for Child Safety",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18971",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ],
+    "summary": "Child safety in AI depends on the accurate identification of minor users. Young children tend to talk rather than type when interacting with AI, so in practice this identification requires predicting age from speech. We evaluated whether three audio-capable large language models can predict a child's age from their…"
+  },
+  {
+    "title": "Sage S2.1 Flash Technical Report",
+    "source": "HuggingFace Papers",
+    "source_id": "huggingface_papers",
+    "score": 83,
+    "comments": 1,
+    "url": "https://huggingface.co/papers/2611.21072",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "huggingface_papers"
+    ],
+    "summary": "We introduce Sage S1.5 Flash, a 320-billion-parameter general-purpose mixture-of-experts model designed to reason over scientific evidence and act in interactive environments. Sage Sci-Perception uses dedicated encoders for molecular graphs and biological sequences and represents spectra as ordered patches of…"
+  },
+  {
+    "title": "What to watch for in Nvidia’s first earnings report since Jensen Huang resigned",
+    "source": "SCMP Tech",
+    "source_id": "scmp_tech",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.scmp.com/tech/article/3374710/what-watch-nvidias-first-earnings-report-jensen-huang-resigned",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "scmp_tech"
+    ]
+  },
+  {
+    "title": "Two meta sustainability grant and scholarship recipients share impact",
+    "source": "Meta AI Research",
+    "source_id": "meta_ai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://sustainability.fb.com/blog/2023/03/24/two-meta-sustainability-grant-and-scholarship-recipients-share-impact/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "meta_ai_blog"
+    ]
+  },
+  {
+    "title": "IA agêntica no seguro: antes de automatizar decisões, o setor precisa organizar a casa",
+    "source": "MIT Tech Review Brasil",
+    "source_id": "mit_tech_review_brasil",
+    "score": 0,
+    "comments": 0,
+    "url": "https://mittechreview.com.br/ia-agentica-mercado-segurador-automacao-processos/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review_brasil"
+    ]
+  },
+  {
+    "title": "Apple adds generative AI compliance filings to App Store Connect in China",
+    "source": "TechNode",
+    "source_id": "technode",
+    "score": 0,
+    "comments": 0,
+    "url": "https://technode.com/2026/11/17/apple-adds-generative-ai-compliance-filings-to-app-store-connect-in-china/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "technode"
+    ]
+  },
+  {
+    "title": "Introducing OpenAI for Chile",
+    "source": "OpenAI Blog",
+    "source_id": "openai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://openai.com/index/introducing-openai-for-chile",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "openai_blog"
+    ]
+  },
+  {
+    "title": "GitHub availability report: October 2026",
+    "source": "The GitHub Blog",
+    "source_id": "github_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://github.blog/news-insights/company-news/github-availability-report-october-2026/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "github_blog"
+    ]
+  },
+  {
+    "title": "Highly classified US national security communications network goes down",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 184,
+    "comments": 166,
+    "url": "https://www.cnn.com/2026/11/17/politics/highly-classified-national-security-communications-network-goes-down",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Jensen Huang says he would be ‘honored’ if allowed to return as Nvidia CEO",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/jensen-huang-says-he-would-be-honored-if-allowed-to-return-as-nvidia-ceo/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "llm 0.37.3",
+    "source": "Simon Willison",
+    "source_id": "simon_willison",
+    "score": 0,
+    "comments": 0,
+    "url": "https://simonwillison.net/2026/Nov/16/llm/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "simon_willison"
+    ]
+  },
+  {
+    "title": "Google found exploit_agent, a framework that turns fresh patches into live exploits with no human in the loop",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xymsku/google_found_exploit_agent_a_framework_that_turns/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "The open-source movement wants Jensen Huang back",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/16/1148624/the-open-source-movement-wants-jensen-huang-back/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "Google says it found an AI framework that automates vulnerability research and exploitation",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xykgl6/google_says_it_found_an_ai_framework_that/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "Ask Precisely, Assume Wisely: Interactive Evaluation of Ambiguity Resolution in Large Language Models",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18905",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ],
+    "summary": "Ambiguity is a core challenge in human--AI interaction, where models must decide when to make assumptions and when to seek clarification. Existing approaches to ambiguity evaluation largely focus on coverage over multiple interpretations using static metrics, offering limited insight into how efficiently a model…"
+  },
+  {
+    "title": "“É a interação humana que vai qualificar a conversa sobre autoria em IA”",
+    "source": "MIT Tech Review Brasil",
+    "source_id": "mit_tech_review_brasil",
+    "score": 0,
+    "comments": 0,
+    "url": "https://mittechreview.com.br/emtech-brasil-2026-dia-1-autoria-confianca-responsabilidade-ia/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review_brasil"
+    ]
+  },
+  {
+    "title": "Optimizely compromised, served malware on Zoom, GitLab",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 572,
+    "comments": 227,
+    "url": "https://blog.report-uri.com/worlds-largest-brands-infected-with-malware-via-optimizely/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Termination Lag: Coding Agents Solve Early but Stop Late",
+    "source": "HuggingFace Papers",
+    "source_id": "huggingface_papers",
+    "score": 3,
+    "comments": 1,
+    "url": "https://huggingface.co/papers/2611.14960",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "huggingface_papers"
+    ],
+    "summary": "Coding agents can solve a task well before they stop working on it. We characterize termination lag--the number of steps between an agent's first correct patch and the end of its run--across five models, two agent frameworks, and three SWE-bench datasets by recording and testing every distinct repository patch…"
+  }
+]
