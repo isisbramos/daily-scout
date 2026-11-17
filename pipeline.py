@@ -40,6 +40,7 @@ from final_reviewer import run_final_review
 from exceptions import FetchError, CurationError, DeliveryError
 from memory_store import (
     load_recent_editions,
+    follow_up_exemptions,
     format_memory_block,
     build_memory_record,
     append_edition,
@@ -459,6 +460,15 @@ def curate_and_write(
                             f"compartilha {h['shared']} com {h['matched']}"
                         )
                     drop_idx = {h["index"] for h in hits if h["where"] == "quick_find"}
+                    # Exceção de follow-up: poupa (no máx. 1) quick_find com fato novo declarado
+                    kept_idx = follow_up_exemptions(content, hits, recent_editions)
+                    for i in sorted(kept_idx):
+                        qf = content["quick_finds"][i]
+                        logger.warning(
+                            f"Dedup guard: quick_find '{qf.get('title', '')[:50]}' mantido como "
+                            f"follow-up ({qf.get('follow_up', '')[:80]})"
+                        )
+                    drop_idx -= kept_idx
                     if drop_idx:
                         content["quick_finds"] = [
                             qf for i, qf in enumerate(content["quick_finds"]) if i not in drop_idx

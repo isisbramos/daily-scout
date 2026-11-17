@@ -258,6 +258,16 @@ Input: {{ "title": "On the Expressivity Limits of Alignment Objectives", "source
 → TESTE DE DECISÃO: NÃO — resultado teórico, sem capacidade nem uso nomeado para quem usa IA; nenhuma decisão de ferramenta, fluxo, fornecedor, custo ou risco muda.
 → DESCARTADO. Não vai para o RADAR.
 
+Exemplo 17 — FOLLOW-UP QUE ENTRA (mesmo assunto da memória, fato novo):
+Memória: ed.231 — "Kestrel Labs abre preview do Orion-2 com janela de 1 milhão de tokens" (entidades: Kestrel Labs, Orion-2)
+Input: {{ "title": "Kestrel Labs promised open weights 12 days ago. Today Orion-2 launched as a closed API.", "source": "TechCrunch", "score": 0 }}
+→ Mesmo tema e entidades da ed.231, mas o título traz um fato NOVO: a empresa reverteu a promessa de pesos abertos.
+→ Entra só como quick_finds[], com follow_up: "prometeu pesos abertos e lançou o Orion-2 só como API fechada". Título sobre o fato novo, não sobre o preview.
+Output ERRADO: "title": "Kestrel Labs lança o Orion-2 com janela de 1 milhão de tokens" — repete a edição anterior e o sistema o remove como repetição.
+Output CORRETO: "title": "Kestrel Labs lança o Orion-2 só como API fechada, 12 dias após prometer pesos abertos"
+→ Linha final do signal: "→ No seu trabalho: se sua equipe escolheu a família Orion por ter pesos abertos, a escolha precisa ser revista — o novo modelo só chega por API; confira custo e termos de dados antes de depender dele."
+→ Se o título só repetisse o preview, seria DESCARTE, sem follow_up.
+
 Exemplo 15b — RADAR: o que escrever (e o que NÃO escrever) em why_watch:
 Input: {{ "title": "Google says it found an AI framework that automates vulnerability research and exploitation", "source": "r/artificial", "score": 0 }}
 Output ERRADO (NÃO faça isso): "why_watch": "O título só anuncia a descoberta, sem detalhes — pode antecipar como fornecedores vão tratar segurança nos próximos meses."
@@ -276,6 +286,7 @@ Output CORRETO: "why_watch": "Relato no r/artificial sobre um achado do Google, 
 - main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
 - quick_finds[].signal: OBRIGATÓRIO — NÃO omita. Segue a mesma regra de VARIAÇÃO DE POSIÇÃO DA ATRIBUIÇÃO de main_find.body (não repita a estrutura de abertura do item anterior). 2-3 frases: (1-2) o que aconteceu e por que é relevante, usando só o que o título/metadados sustentam mais contexto factual estável sobre o que as coisas SÃO; (última) linha iniciada com "→ No seu trabalho:". Se o título só sustenta 1-2 frases, escreva 1-2. A linha "→" traz uma decisão concreta (o quê, para quem) OU diz sem rodeio que não há decisão direta e o que acompanhar — "vale acompanhar" sozinho não basta. Varie a abertura da linha entre os itens da mesma edição (não comece todas com "se você" / "se sua equipe"). A linha com "→" é OBRIGATÓRIA em todo quick_find. Ver Exemplos 11e e 14.
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
+- quick_finds[].follow_up: deixe "" na maioria dos itens. Preencha SÓ quando o item coincide com tema ou entidades da MEMÓRIA EDITORIAL mas o título traz um fato novo (nova decisão, novo número, reversão de uma promessa). Escreva 1 frase do que é novo, sem repetir o que já saiu. Máximo 1 por edição, nunca no main_find. Sem fato novo no título: DESCARTE o item, não o marque como follow-up. Ver Exemplo 17.
 - primary_audience: indique para quem cada achado é mais relevante ('desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos').
 - radar[].why_watch: 1 frase, escrita para o leitor, com tom de "cedo demais pra conclusão, mas vale ficar de olho": diga o que se sabe e qual sinal confirmar (vira recurso disponível? foi confirmado pela empresa? virou regra?). NUNCA mencione "o título", "o anúncio só diz" ou o que você não sabe sobre o artigo, e NUNCA especule o que o item "pode antecipar", "sinaliza" ou "pode mudar". NÃO use o mesmo formato de quick_finds. Ver Exemplo 15b.
 - entities (main_find e cada quick_find): lista das entidades-chave citadas no item — empresas, modelos, pessoas, produtos (ex: ["OpenAI", "GPT-5.2"]). Serve à memória editorial entre edições. Não invente: extraia só do título/metadados.

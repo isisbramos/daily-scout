@@ -58,6 +58,10 @@ class QuickFind(BaseModel):
     signal: str = Field(description="2-3 frases: [o que aconteceu, com informação além do título] + [por que importa pro leitor] + [linha iniciada com '→ No seu trabalho:': o que a notícia muda no trabalho de quem usa IA no dia a dia — uma decisão que ele pode tomar, revisar ou acompanhar, sem inventar contexto que o título não sustenta]. NÃO reformule o título com as mesmas palavras/números. Baseado só em título/metadados — não invente mecanismo ou número que o título não sustenta; aprofunde conectando a um padrão do setor ou nomeando concretamente quem é afetado e como.")
     url: str = Field(description="URL original")
     display_url: str = Field(description="Versão curta da URL")
+    follow_up: str = Field(
+        default="",
+        description="SÓ quando o item coincide com tema/entidades de edição recente mas traz fato novo: 1 frase dizendo o que é novo (ex: 'prometeu manter pesos abertos e lançou só como API'). Vazio quando não é follow-up. O sistema aceita no máximo 1 por edição e descarta repetição sem este campo."
+    )
     primary_audience: str = Field(
         description="Para quem este achado é mais relevante: 'desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos'"
     )

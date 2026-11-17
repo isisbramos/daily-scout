@@ -36,3 +36,8 @@ Tema/achado: ficaram de fora três papers que a Isis achou interessantes (contro
 Por que não bateu: a v5.5.1 descartava paper sem resultado no título, e o LLM nunca via o abstract.
 Critério novo: tratado no passo 2.1 (v5.5.2): resumo no input + regra por capacidade concreta. **Ainda aberto (um por vez):** teto geográfico derrubou o Qwen4-Max; AI Gate corta tech sem IA (Uber); item de IA no seguro sem causa confirmada (hipótese: título em tom de tese).
 
+## 2026-11-17 — edição de teste (dry run da v5.5.1), follow-ups removidos
+Tema/achado: Qwen4-Max lançado só como API fechada (após prometer open source) e o alerta de bolha do Robin Li ficaram de fora, embora o LLM os tenha escolhido como follow-up.
+Por que não bateu: o guard de repetição por entidades (2+ em comum com as últimas 7 edições) remove sem olhar o título, contradizendo a exceção "informação nova" do prompt. O teto geográfico não teve relação.
+Critério novo: tratado no passo 2.2 (v5.5.3): campo `follow_up` + exceção no guard (máx. 1 por edição, só quick_find, título distinto). **Ainda aberto:** AI Gate corta tech sem IA (Uber/Zipline); item de IA no seguro sem causa confirmada.
+
