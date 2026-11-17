@@ -70,3 +70,7 @@ Depois que a curadoria monta a edição, uma segunda chamada de LLM (curta, `pro
 **Fora do prompt (código, tratado à parte):** atribuição duplicada, bullets repetidos e `claim_status` vazio no destaque promovido vêm de `promote_quick_find_to_main` em `memory_store.py`; a troca do destaque por "repetição de edição recente" tem falso positivo.
 
 **Como medir (Content Report):** (a) itens `desenvolvedores` por edição ≤ 2; (b) itens por edição não cai abaixo de 4; (c) linhas "→" abertas com "se…" abaixo de 50%; (d) audit sem número, ranking ou ineditismo que o título não traz.
+
+### Ajuste v5.5.1 — RADAR (17/11/2026, antes da 1ª edição em produção)
+No dry run da v5.5 o RADAR saiu com dois papers (Sage e um paper teórico da Apple) e frases como "o título só anuncia a publicação…" e "pode antecipar como fornecedores vão argumentar…". Três causas: (1) a v5.5 mandava papers sem resultado "para o RADAR" (TESTE DE DECISÃO, STEP 5, exemplo 15) e a regra de diversidade mandava "usar o RADAR para sinalizar o gap", o que fazia do radar o depósito de pesquisa; (2) o exemplo 15 ensinava a falar do "título" no texto do leitor; (3) nada proibia especular consequência em `why_watch`. Agora: relatório técnico, paper teórico ou benchmark sem resultado é descarte; pesquisa só entra no radar com resultado e caminho prático, no máximo 1 por edição; `why_watch` diz o que se sabe e qual sinal confirmar, sem mencionar "o título" e sem prever consequência (exemplo 15b). Medir: radar sem a palavra "título" e com no máximo 1 item de pesquisa.
+
