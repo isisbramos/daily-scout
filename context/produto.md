@@ -1,6 +1,6 @@
 # Produto — AYA
 
-> last-reviewed: 2026-11-15 · Fonte da verdade de produto, público e métricas. Veio da Product Spec v0.2 (travada em 12/05/2026 no vault) e substitui `docs/historico/PRODUCT-2026-04.md`.
+> last-reviewed: 2026-11-17 · Fonte da verdade de produto, público e métricas. Veio da Product Spec v0.2 (travada em 12/05/2026 no vault) e substitui `docs/historico/PRODUCT-2026-04.md`.
 
 ## O que é
 
@@ -57,7 +57,7 @@ Os números reais ficam fora deste repo, que é público.
 | --- | --- |
 | Persona | **Recorte**, não substituição: o Tech Operator continua sendo o primário, com o PM como foco dentro dele. |
 | Curadoria | Critério novo: o item **muda uma decisão de produto**. |
-| Escrita | Cada item ganha uma linha de **"o que muda no seu produto"**. |
+| Escrita | Cada item ganha uma linha de **"o que muda no seu trabalho"** (era "no seu produto" até 17/11; ver revisão abaixo). |
 | Pilar 5 | **IA, consciência/mente e cultura** entra como pilar editorial (ex.: estudos sobre "dor" em modelos, Anthropic e o Vaticano). |
 | Sucesso | Mais 🔥 no feedback por edição e mais assinantes novos por semana. |
 
@@ -67,9 +67,17 @@ Os números reais ficam fora deste repo, que é público.
 
 São três mudanças editoriais. Pela regra de uma por vez, cada uma entra, é medida no Content Report e só então vem a próxima:
 
-1. **Escrita:** a linha "→ No seu produto:" em cada achado. ✅ Implementada em 15/11 (PR #51), em `prompts/system_instruction.txt`, `schemas.py` e `prompts/curation_template.txt` — em produção, com medição no Content Report até ~13/12 antes do passo 2.
+1. **Escrita:** a linha "→ No seu trabalho:" em cada achado. ✅ Implementada em 15/11 (PR #51); revisada em 17/11 (passo 1.1, abaixo), em `prompts/system_instruction.txt`, `schemas.py` e `prompts/curation_template.txt` — em produção, com medição no Content Report até ~13/12 antes do passo 2.
 2. **Curadoria:** o critério "muda uma decisão de produto" no STEP 2.
 3. **Pilar 5.** Vem por último porque tem uma tensão a resolver (abaixo).
+
+### Revisão do passo 1 (17/11/2026) — "no seu produto" → "no seu trabalho"
+
+**Por quê:** a AYA escreve para quem **constrói COM IA** e usa IA no dia a dia para tocar o negócio, não para quem constrói IA. A linha "No seu produto" e seus exemplos (custo por token, modelo aberto vs. fechado, janela de contexto) puxavam o texto para o vocabulário de quem desenvolve modelos, e a obrigatoriedade da linha fazia o modelo inventar implicação quando o título não sustentava (caso do pacto global na ed. 240, com exigência de transparência energética na operação no Brasil que o título não trazia).
+
+**O que mudou:** a linha vira "→ No seu trabalho:" (decisão de ferramenta, workflow, fornecedor, custo, risco ou compliance), os exemplos passam para linguagem de quem usa IA, e o prompt proíbe explicitamente inventar contexto de operação, país, setor ou exigência regulatória que o título não menciona.
+
+**Medição:** a medição do passo 1 (até ~13/12) **reinicia** a partir da primeira edição com esta versão. O passo 2 (critério de curadoria) continua dependendo dela e deve usar a mesma redação de leitor ("quem usa IA no trabalho").
 
 ### Tensão do pilar 5
 
