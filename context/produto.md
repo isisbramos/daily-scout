@@ -68,7 +68,7 @@ Os números reais ficam fora deste repo, que é público.
 São três mudanças editoriais. Pela regra de uma por vez, cada uma entra, é medida no Content Report e só então vem a próxima:
 
 1. **Escrita:** a linha "→ No seu trabalho:" em cada achado. ✅ Implementada em 15/11 (PR #51); revisada em 17/11 (passo 1.1, abaixo), em `prompts/system_instruction.txt`, `schemas.py` e `prompts/curation_template.txt` — em produção, com medição no Content Report até ~13/12 antes do passo 2.
-2. **Curadoria:** o critério "muda uma decisão de produto" no STEP 2.
+2. **Curadoria:** o critério "muda uma decisão de produto" no STEP 2. ✅ Entrou em 17/11 como TESTE DE DECISÃO, na calibração v5.5, com a redação do leitor "quem usa IA no trabalho" (ver `context/editorial.md`).
 3. **Pilar 5.** Vem por último porque tem uma tensão a resolver (abaixo).
 
 ### Revisão do passo 1 (17/11/2026) — "no seu produto" → "no seu trabalho"
@@ -77,7 +77,7 @@ São três mudanças editoriais. Pela regra de uma por vez, cada uma entra, é m
 
 **O que mudou:** a linha vira "→ No seu trabalho:" (decisão de ferramenta, workflow, fornecedor, custo, risco ou compliance), os exemplos passam para linguagem de quem usa IA, e o prompt proíbe explicitamente inventar contexto de operação, país, setor ou exigência regulatória que o título não menciona.
 
-**Medição:** a medição do passo 1 (até ~13/12) **reinicia** a partir da primeira edição com esta versão. O passo 2 (critério de curadoria) continua dependendo dela e deve usar a mesma redação de leitor ("quem usa IA no trabalho").
+**Medição:** reinicia na primeira edição com a calibração v5.5. Isis aceitou o reinício (17/11) e entregou o passo 1.1 e o passo 2 juntos, em vez de esperar até ~13/12.
 
 ### Tensão do pilar 5
 
