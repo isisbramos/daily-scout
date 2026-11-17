@@ -20,6 +20,7 @@ import logging
 import os
 from collections import defaultdict
 from datetime import datetime, timezone, timedelta
+from difflib import SequenceMatcher
 
 logger = logging.getLogger("daily-scout")
 
@@ -263,6 +264,46 @@ def check_repetition(content: dict, records: list[dict], min_shared: int = 2) ->
     return hits
 
 
+# Exceção de follow-up: um quick_find que coincide em entidades com edição recente PODE ficar
+# se o LLM declarou o que há de novo (campo follow_up) e o título é claramente outro. Trava
+# dura em código — o LLM propõe, o guard decide: só quick_find (nunca main), no máximo 1 por
+# edição, e título distinto de tudo que saiu na janela (0.6 separa follow-up real, ~0.4–0.5,
+# de reformulação da mesma notícia, ~0.9).
+FOLLOW_UP_MAX_PER_EDITION = 1
+FOLLOW_UP_MIN_CHARS = 15
+FOLLOW_UP_MAX_TITLE_SIMILARITY = 0.6
+
+
+def follow_up_exemptions(content: dict, hits: list[dict], records: list[dict],
+                         max_per_edition: int = FOLLOW_UP_MAX_PER_EDITION,
+                         max_similarity: float = FOLLOW_UP_MAX_TITLE_SIMILARITY) -> set[int]:
+    """Índices (em content['quick_finds']) de quick_finds repetidos que podem ficar por
+    serem follow-up legítimo. `hits` vem de check_repetition. Os demais hits seguem sendo
+    removidos pelo chamador."""
+    recent_titles = []
+    for r in records:
+        recent_titles.append((r.get("main_find") or {}).get("title", ""))
+        recent_titles.extend(qf.get("title", "") for qf in r.get("quick_finds", []))
+    recent_titles = [t.lower().strip() for t in recent_titles if t]
+
+    quick_finds = content.get("quick_finds", [])
+    kept: set[int] = set()
+    for h in hits:
+        if h.get("where") != "quick_find" or len(kept) >= max_per_edition:
+            continue
+        idx = h.get("index")
+        if idx is None or idx >= len(quick_finds):
+            continue
+        qf = quick_finds[idx]
+        if len((qf.get("follow_up") or "").strip()) < FOLLOW_UP_MIN_CHARS:
+            continue
+        title = (qf.get("title") or "").lower().strip()
+        if any(SequenceMatcher(None, title, t).ratio() >= max_similarity for t in recent_titles):
+            continue
+        kept.add(idx)
+    return kept
+
+
 def find_clean_quick_find(quick_finds: list[dict], records: list[dict], min_shared: int = 2) -> int | None:
     """Acha o índice do primeiro quick_find sem sobreposição de entidades com as
     edições recentes — candidato seguro pra promover a main_find quando o main_find
@@ -387,6 +428,10 @@ def format_memory_block(records: list[dict]) -> str:
         "de virar main_find ou quick_find — A MENOS que o título traga informação comprovadamente "
         "NOVA (novo número, nova decisão, nova consequência) ausente da cobertura anterior.",
         "→ Na dúvida sobre se há informação nova: DESCARTE. Repetir um achado é o pior erro de curadoria.",
+        "→ FOLLOW-UP: se houver informação nova, o item só pode ser QUICK_FIND (nunca main_find). "
+        "Preencha quick_finds[].follow_up com UMA frase do que é novo, e escreva o título sobre o fato "
+        "novo, não sobre o que já saiu. O sistema aceita no máximo 1 follow-up por edição e remove "
+        "automaticamente todo item repetido que não tenha follow_up.",
         "",
     ]
     for r in records:

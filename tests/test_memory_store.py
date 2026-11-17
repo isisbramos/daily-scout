@@ -148,3 +148,86 @@ class TestMainFindBar:
                    "quick_finds": []}]
         assert memory_store.find_eligible_quick_find(qfs, items, recent) == 2
         assert memory_store.find_eligible_quick_find(qfs[:1], items, recent) is None
+
+
+# ── Guard de repetição + exceção de follow-up ─────────────────────────
+
+RECENT = [
+    {"edition": "234",
+     "main_find": {"title": "Alibaba abre preview do Qwen4-Max com janela de 1 milhão de tokens",
+                   "entities": ["Alibaba", "Qwen4-Max"]},
+     "quick_finds": []},
+    {"edition": "235",
+     "main_find": {"title": "Fireworks AI sofre ataque cibernético", "entities": ["Fireworks AI", "ataque"]},
+     "quick_finds": [{"title": "Robin Li diz que a próxima fase da AI é organização inteligente",
+                      "entities": ["Baidu", "Robin Li"]}]},
+]
+
+
+def _content(*quick_finds):
+    return {"main_find": {"title": "Outro assunto", "entities": ["Apple", "China"]},
+            "quick_finds": list(quick_finds)}
+
+
+QWEN_FOLLOW_UP = {
+    "title": "Alibaba lança o Qwen4-Max só como API fechada, 12 dias após prometer open source",
+    "entities": ["Alibaba", "Qwen4-Max"],
+    "follow_up": "prometeu open source e lançou só como API fechada",
+}
+ROBIN_FOLLOW_UP = {
+    "title": "Robin Li alerta para bolha em IA: aplicações ficam atrás do gasto em infraestrutura",
+    "entities": ["Baidu", "Robin Li"],
+    "follow_up": "alerta de bolha por defasagem entre infraestrutura e aplicações",
+}
+
+
+class TestFollowUpExemptions:
+    def _run(self, content):
+        hits = memory_store.check_repetition(content, RECENT)
+        return hits, memory_store.follow_up_exemptions(content, hits, RECENT)
+
+    def test_repeat_without_follow_up_is_still_dropped(self):
+        qf = {**QWEN_FOLLOW_UP, "follow_up": ""}
+        hits, kept = self._run(_content(qf))
+        assert [h["index"] for h in hits] == [0]
+        assert kept == set()
+
+    def test_follow_up_with_new_title_is_kept(self):
+        _, kept = self._run(_content(QWEN_FOLLOW_UP))
+        assert kept == {0}
+
+    def test_follow_up_with_same_title_is_dropped(self):
+        # mesma notícia reformulada: o campo follow_up não basta se o título repete a edição anterior
+        qf = {**QWEN_FOLLOW_UP,
+              "title": "Alibaba libera preview do Qwen4-Max com janela de 1 milhão de tokens"}
+        _, kept = self._run(_content(qf))
+        assert kept == set()
+
+    def test_at_most_one_follow_up_per_edition(self):
+        hits, kept = self._run(_content(QWEN_FOLLOW_UP, ROBIN_FOLLOW_UP))
+        assert len(hits) == 2
+        assert kept == {0}  # só o primeiro; o segundo segue removido
+
+    def test_too_short_follow_up_does_not_count(self):
+        qf = {**QWEN_FOLLOW_UP, "follow_up": "novo"}
+        _, kept = self._run(_content(qf))
+        assert kept == set()
+
+    def test_main_find_is_never_exempted(self):
+        content = {"main_find": {**QWEN_FOLLOW_UP}, "quick_finds": []}
+        hits = memory_store.check_repetition(content, RECENT)
+        assert [h["where"] for h in hits] == ["main_find"]
+        assert memory_store.follow_up_exemptions(content, hits, RECENT) == set()
+
+    def test_non_repeated_items_are_not_touched(self):
+        clean = {"title": "NYC discute multar chatbots", "entities": ["Nova York", "chatbot"]}
+        hits, kept = self._run(_content(clean))
+        assert hits == [] and kept == set()
+
+
+class TestMemoryBlockFollowUpRule:
+    def test_block_explains_follow_up_contract(self):
+        block = memory_store.format_memory_block(RECENT)
+        assert "FOLLOW-UP" in block
+        assert "follow_up" in block
+        assert "nunca main_find" in block

@@ -28,6 +28,7 @@ Uma mudança por vez, medida no Content Report seguinte (regra de produção em 
 | ~13/12/2026 | Fim da medição dos passos 1.1 + 2 (contada da 1ª edição com a calibração v5.5) | 🔜 Agendado |
 | 17/11/2026 | **Passo 2** — TESTE DE DECISÃO no STEP 2 + calibração v5.5 do prompt (ver `context/editorial.md`) | 🟡 Em PR |
 | 17/11/2026 | **Passo 2.1 (v5.5.2)** — papers com resumo no input e regra por capacidade concreta (ver `context/editorial.md`) | 🟡 Em PR |
+| 17/11/2026 | **Passo 2.2 (v5.5.3)** — follow-up controlado no guard de repetição (ver `context/editorial.md`) | 🟡 Em PR |
 | jan/2027 | **Passo 3** — pilar 5 (IA, consciência e cultura), com exceção de evento âncora e máximo 1 item por edição | ⏸ Planejado |
 
 ### Diagnóstico de concentração por fonte

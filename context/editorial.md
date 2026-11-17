@@ -81,3 +81,11 @@ No dry run da v5.5.1 a Isis apontou três papers que ela achou valiosos e a AYA 
 - **O que NÃO mudou:** AI Gate, teto geográfico e recorte de opinião (passos separados, medidos à parte).
 - **Riscos a observar no Content Report:** o resumo é texto de terceiros (o prompt manda ignorar instruções nele); mais pesquisa pode voltar a deixar a edição "técnica" — o teto de 2 e o `primary_audience` existem para isso; o modelo pode afirmar mais do que o resumo diz (checar verbo "propõem" vs "mostra" e números).
 
+### Ajuste v5.5.3 — follow-up controlado no guard de repetição (17/11/2026)
+No dry run da v5.5.1 o LLM escolheu dois follow-ups com ângulo novo (Qwen4-Max lançado só como API fechada depois de prometer open source; Robin Li alertando para bolha de IA). Ambos sumiram da edição. A causa **não** era o teto geográfico (diagnóstico inicial errado, corrigido no mesmo dia): o guard determinístico `check_repetition` remove todo quick_find que coincide em 2+ entidades com as últimas 7 edições (Alibaba + Qwen4-Max → ed. 234; Baidu + Robin Li → ed. 235), sem olhar o título. Já o bloco de memória do prompt abria a exceção "a menos que haja informação nova". O prompt prometia o que o código não cumpria.
+- **Schema:** `quick_finds[].follow_up` (opcional, "" por padrão): 1 frase do que é novo.
+- **Guard (`memory_store.follow_up_exemptions`):** poupa o quick_find repetido só se (a) `follow_up` tem 15+ caracteres, (b) o título tem similaridade < 0,6 com todo título da janela (follow-ups reais ficam em ~0,4–0,5; a mesma notícia reformulada em ~0,9) e (c) é o primeiro da edição — máximo 1 por edição. `main_find` nunca é poupado. O LLM propõe, o código decide.
+- **Prompt:** bloco de memória explica o contrato (só quick_find, 1 frase, título sobre o fato novo); regra de formato e Exemplo 17.
+- **O que NÃO mudou:** teto geográfico (existe por um motivo real: ed. 149, 153 e 206 tiveram 3-4 itens da China), AI Gate, regra de opinião.
+- **Riscos a observar:** o LLM marcar `follow_up` em tudo (o teto de 1 e o limiar de título contêm o dano; checar nos logs "mantido como follow-up"); follow-up que na prática é a mesma notícia com título novo.
+
