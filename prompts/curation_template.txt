@@ -26,6 +26,11 @@ STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
 2. Sinal de mercado — revela movimento estratégico ESPECÍFICO de um player: empresa entrando/saindo de categoria, mudança de política de dados, nova aliança/aquisição. NÃO conta: resultado financeiro (receita, lucro, valuation) sem novidade de produto/estratégia junto, nem panorama/tendência de mercado sem um evento singular de UMA empresa por trás.
 3. Afeta fluxos de trabalho (causal direto) — um anúncio, dado ou regra concreta muda como o trabalho é feito. Não inclui "ler argumento sobre como o trabalho deveria ser feito".
 
+TESTE DE DECISÃO (o leitor é quem USA IA no trabalho, não quem constrói IA): além dos critérios acima, pergunte "um profissional que usa IA no dia a dia consegue tomar, rever ou adiar uma decisão por causa deste item?" — decisão de ferramenta, fluxo de trabalho, fornecedor, custo, risco ou compliance.
+→ SIM: segue normalmente.
+→ NÃO, mas é regulação ou crítica relevante: segue, com a implicação honesta ("sem decisão direta por enquanto; vale acompanhar X") — ver Exemplo 14.
+→ NÃO e é relatório técnico, paper ou benchmark sem resultado prático no título, ou infraestrutura de IA (chips, data centers, treino de modelos) sem efeito visível para quem usa (preço, disponibilidade, regra, fornecedor): NÃO vira quick_find. Se valer acompanhar, vai para o RADAR — ver Exemplo 15.
+
 STEP 3 — ANTI-SIGNAL:
 Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos frequentes de anti-signal:
 → Preço/assinatura de serviço consumer (Netflix, Spotify, Disney+)
@@ -48,10 +53,10 @@ STEP 4 — RANKING:
 → Diversidade de fontes: prefira representação variada de sources.
 → Diversidade de PERSPECTIVA (constraint, não preferência): a curadoria completa (main_find + quick_finds) DEVE ter ao menos 1 item de cada categoria epistêmica — ou documentar em meta.epistemic_distribution por que foi impossível:
    • produto/lançamento — funcionalidade, ferramenta, release, deploy
-   • pesquisa/dado — artigo acadêmico, benchmark, estudo, análise com números
+   • pesquisa/dado — estudo, benchmark, pesquisa de mercado, dado de adoção/custo/uso, análise com números (não só artigo acadêmico)
    • regulação/crítica — política, lei, consequência negativa, análise de impacto
-   Se não houver candidato numa categoria, use o RADAR para sinalizar o gap.
-→ Diversidade de AUDIÊNCIA: se todos os quick_finds têm primary_audience='desenvolvedores', priorize pelo menos 1 item para audiência diferente.
+   Se não houver candidato numa categoria, use o RADAR para sinalizar o gap. Se o único candidato da categoria é fraco (não passa no TESTE DE DECISÃO, ou só completa o STEP 5 com "publicou"), considere a categoria impossível: NÃO force um item fraco só para cobri-la — documente em meta.epistemic_distribution e use o RADAR.
+→ Diversidade de AUDIÊNCIA: no máximo 2 itens (main_find + quick_finds) podem ter primary_audience='desenvolvedores'. Os demais devem servir a quem usa IA no trabalho (product managers e fundadores, executivos de negócio, todos).
 → Diversidade GEOGRÁFICA: no máximo 2 itens (entre main_find + quick_finds) podem ser da mesma região geográfica (ex: China/Asia). Se houver 3+ itens asiáticos fortes, escolha os 2 melhores e descarte o resto em favor de diversidade.
 → Items com campo "also_trending_on" indicam que o tema apareceu em múltiplas fontes independentes. Trate isso como sinal de relevância editorial e, ao escrever, mencione: "notícia reportada tanto no [fonte] quanto no [outra_fonte]".
 
@@ -65,23 +70,24 @@ STEP 4.5 — RADAR (sinais iniciais):
 
 STEP 4.75 — CHECAGEM ANTIBAJULAÇÃO (obrigatório antes de finalizar):
 Antes de passar pro STEP 5, responda internamente:
-→ A curadoria de hoje tem ao menos 1 item de cada tipo: produto/lançamento, pesquisa/dado, regulação/crítica? Se não, há itens que passaram o AI Gate mas foram preteridos que cobrem o tipo ausente?
+→ A curadoria de hoje tem ao menos 1 item de cada tipo: produto/lançamento, pesquisa/dado, regulação/crítica? Se não, há itens que passaram o AI Gate e o TESTE DE DECISÃO mas foram preteridos que cobrem o tipo ausente? Se o único candidato do tipo é fraco, aceite a categoria vazia.
 → Algum item selecionado depende de fonte única sem corroboração? Se sim, marque como "especulativo" no tom ao escrever.
 → Sua seleção atual reflete o que é editorialmente relevante, ou o que é mais fácil de justificar? Sua função é proteger a integridade editorial — não agradar.
 Se identificar desequilíbrio corrigível, ajuste a seleção antes de continuar.
 
 STEP 5 — TESTE FINAL:
 Para cada item selecionado, complete UMA das frases abaixo no campo step5_phrase. Se não conseguir completar com informação do título, DESCARTE o item.
+→ "Agora é possível [ação concreta]" — para features e ferramentas
+→ "[Player] está [movendo pra / investindo em / saindo de] [categoria]" — para M&A e estratégia
+→ "[Pesquisa/benchmark] mostra [resultado] sobre [área]" — para pesquisa e benchmarks, SÓ quando o título traz um resultado. Se o título apenas anuncia a publicação (relatório técnico, paper, benchmark sem resultado), a frase é "[Autor] publicou [X]" — isso NÃO é evento acionável: o item vai para o RADAR, não vira quick_find.
+→ "[Autoridade] decidiu [ação] sobre [tema de AI/tech]" — para regulação e políticas
+O verbo da frase nunca pode ser mais forte que o título ("mostra", "muda", "comprova" exigem resultado explícito no título).
+Manifestos de opinião ("como usar AI", "por que AI importa", "você deveria X") não completam nenhuma das frases acima com informação do título — se o título não anuncia evento, ferramenta, dado ou decisão, DESCARTE aqui.
 Classifique também o claim_status de cada item:
 → "confirmado" — anúncio oficial, comunicado, release note, fonte primária
 → "especulativo" — título contém "report:", "may", "could", "rumor", "allegedly", "sources say"
 → "em_andamento" — negociação, investigação, processo regulatório em curso
 Tom especulativo OBRIGATÓRIO quando claim_status = "especulativo": use "estaria", "segundo relatos", "se confirmado".
-→ "Agora é possível [ação concreta]" — para features e ferramentas
-→ "[Player] está [movendo pra / investindo em / saindo de] [categoria]" — para M&A e estratégia
-→ "[Resultado/dado] muda o que sabíamos sobre [área]" — para pesquisa e benchmarks
-→ "[Autoridade] decidiu [ação] sobre [tema de AI/tech]" — para regulação e políticas
-Manifestos de opinião ("como usar AI", "por que AI importa", "você deveria X") não completam nenhuma das frases acima com informação do título — se o título não anuncia evento, ferramenta, dado ou decisão, DESCARTE aqui.
 
 ═══ EXEMPLOS DE CALIBRAÇÃO ═══
 
@@ -91,7 +97,7 @@ Input: {{ "title": "Gemini now lets you import chat history from ChatGPT and oth
 → Critérios: Acionável (posso migrar agora) + Sinal de mercado (Google competindo por lock-in)
 → step5_phrase: "Agora é possível importar conversas de outros chatbots pro Gemini"
 → SELECIONADO como main_find
-Output CORRETO: "Segundo o TechCrunch, o Gemini — chatbot de IA do Google — agora permite transferir conversas e informações pessoais de outros chatbots diretamente para ele. Isso facilita a migração de usuários entre plataformas de IA e centraliza o histórico de interações."
+Output CORRETO: "Segundo o TechCrunch, o Gemini — chatbot de IA do Google — agora permite transferir conversas e informações pessoais de outros chatbots diretamente para ele. Isso facilita a migração de usuários entre plataformas de IA. → No seu trabalho: se sua equipe acumulou histórico útil em outro chatbot, dá para levá-lo ao Gemini sem recomeçar do zero — vale conferir antes quais dados são importados."
 
 Exemplo 2 — DESCARTE CORRETO (alta tração, sem ângulo AI):
 Input: {{ "title": "We haven't satisfactorily dealt with the worst of what prediction markets will do", "source": "HackerNews", "score": 539 }}
@@ -103,7 +109,7 @@ Exemplo 3 — TOM: RUMOR/ESPECULAÇÃO:
 Input: {{ "title": "Report: Apple may license Google Gemini for iOS 20 AI features", "source": "HackerNews", "score": 847 }}
 Output ERRADO (NÃO faça isso): "A Apple fecha acordo bombástico com Google para trazer IA ao iPhone. A parceria promete revolucionar a experiência mobile."
 → Por que está errado: converteu "may" em fato, inventou "bombástico", "revolucionar" — NADA disso está no título.
-Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a Apple estaria negociando licenciar o Gemini do Google para recursos de IA no iOS 20. Se confirmado, o acordo sinalizaria que a Apple está priorizando velocidade de entrega de AI em vez de desenvolver tudo internamente."
+Output CORRETO: "Segundo post com alta tração no HackerNews (847 pontos), a Apple estaria negociando licenciar o Gemini do Google para recursos de IA no iOS 20. Se confirmado, seria um acordo entre duas rivais para levar IA ao iPhone. → No seu trabalho: sem decisão a tomar enquanto for só relato; se for confirmado, vale rever planos que contam com recursos de IA no iPhone."
 
 Exemplo 4 — TOM: BUSINESS com ângulo AI:
 Input: {{ "title": "Stripe acquires AI payments startup PayAI for $1.2B", "source": "TechCrunch", "score": 0 }}
@@ -111,7 +117,7 @@ Input: {{ "title": "Stripe acquires AI payments startup PayAI for $1.2B", "sourc
 → Critérios: Sinal de mercado (Stripe apostando em AI pra pagamentos)
 → step5_phrase: "Stripe está investindo em AI aplicada a pagamentos com aquisição de $1.2B"
 → SELECIONADO como quick_find
-Output CORRETO: "De acordo com o TechCrunch, a Stripe adquiriu a PayAI — startup de pagamentos com inteligência artificial — por US$ 1,2 bilhão. A aquisição sinaliza que AI está chegando ao core da infraestrutura de pagamentos online."
+Output CORRETO: "De acordo com o TechCrunch, a Stripe adquiriu a PayAI — startup de pagamentos com inteligência artificial — por US$ 1,2 bilhão. A Stripe é uma das maiores plataformas de pagamentos online; a PayAI é uma startup que aplica IA a pagamentos. → No seu trabalho: quem recebe pagamentos pela Stripe deve acompanhar se recursos de IA da PayAI chegam ao produto e o que isso muda em custo e integração."
 
 Exemplo 5 — SELEÇÃO CORRETA (regulação + AI):
 Input: {{ "title": "EU begins enforcing AI Act transparency requirements for high-risk systems", "source": "TechCrunch", "score": 45 }}
@@ -119,15 +125,15 @@ Input: {{ "title": "EU begins enforcing AI Act transparency requirements for hig
 → Critérios: Sinal de mercado (Europa impondo regras) + Afeta workflows (empresas precisam se adequar)
 → step5_phrase: "UE decidiu começar a aplicar requisitos de transparência do AI Act"
 → SELECIONADO como quick_find — score baixo (45) mas relevância editorial alta
-Output CORRETO: "De acordo com o TechCrunch, a União Europeia começou a aplicar os requisitos de transparência do AI Act para sistemas classificados como alto risco. Empresas que operam na Europa precisam documentar como seus modelos de AI tomam decisões."
+Output CORRETO: "De acordo com o TechCrunch, a União Europeia começou a aplicar os requisitos de transparência do AI Act para sistemas classificados como alto risco. Empresas que operam na Europa precisam documentar como seus modelos de AI tomam decisões. → No seu trabalho: se você usa IA em algo que a lei classifica como alto risco e atende clientes na Europa, vale checar com o jurídico se essa documentação já existe."
 
-Exemplo 6 — SELEÇÃO CORRETA (open source release):
-Input: {{ "title": "Meta releases Llama 4 Scout and Maverick with Apache 2.0 license", "source": "r/MachineLearning", "score": 1200 }}
-→ AI gate: SIM (release de modelo de AI open source)
-→ Critérios: Acionável (desenvolvedores podem baixar e usar agora) + Sinal de mercado (Meta mantendo estratégia open source)
-→ step5_phrase: "Agora é possível usar Llama 4 com licença Apache 2.0"
+Exemplo 6 — SELEÇÃO CORRETA (ferramenta de trabalho do dia a dia):
+Input: {{ "title": "Microsoft adds AI meeting summaries with action items to Teams business plans", "source": "TechCrunch", "score": 310 }}
+→ AI gate: SIM (recurso de AI em ferramenta de trabalho)
+→ Critérios: Acionável (quem usa o Teams pode testar agora) + Afeta workflows (registro de reuniões)
+→ step5_phrase: "Agora é possível gerar resumo e lista de tarefas de reuniões no Teams"
 → SELECIONADO como main_find
-Output CORRETO: "Segundo post no r/MachineLearning, a Meta lançou o Llama 4 em duas versões — Scout e Maverick — com licença Apache 2.0 (código aberto). A licença permite uso comercial sem restrições, o que amplia o acesso a modelos de grande porte fora das APIs pagas."
+Output CORRETO: "Segundo o TechCrunch, a Microsoft passou a incluir resumos de reunião com lista de tarefas gerados por IA nos planos empresariais do Teams. Na prática, quem participa deixa de anotar à mão o que ficou combinado. → No seu trabalho: antes de renovar uma ferramenta separada de transcrição de reuniões, vale comparar com o recurso nativo."
 
 Exemplo 7 — SELEÇÃO CORRETA (perspectiva geográfica + AI):
 Input: {{ "title": "Baidu open-sources ERNIE 4.5 to compete with Llama in Chinese market", "source": "SCMP Tech", "score": 0 }}
@@ -135,7 +141,7 @@ Input: {{ "title": "Baidu open-sources ERNIE 4.5 to compete with Llama in Chines
 → Critérios: Sinal de mercado (competição China vs Meta em open source) + Acionável (devs podem testar)
 → step5_phrase: "Agora é possível usar ERNIE 4.5 open source como alternativa ao Llama"
 → SELECIONADO como quick_find — perspectiva geográfica diferenciada
-Output CORRETO: "Segundo o SCMP Tech, a Baidu — maior empresa de buscas da China — liberou o ERNIE 4.5 como open source para competir com o Llama da Meta no mercado chinês. A China é o segundo maior ecossistema de AI do mundo e a competição de modelos abertos pode acelerar o acesso fora do eixo americano."
+Output CORRETO: "Segundo o SCMP Tech, a Baidu — maior empresa de buscas da China — liberou o ERNIE 4.5 como open source para competir com o Llama da Meta no mercado chinês. A China é o segundo maior ecossistema de AI do mundo e a competição de modelos abertos pode acelerar o acesso fora do eixo americano. → No seu trabalho: para avaliar modelos em chinês ou para o mercado chinês, vale incluir o ERNIE 4.5 na comparação."
 
 Exemplo 8 — DESCARTE CORRETO (blog oficial, thought-leadership sem novidade):
 Input: {{ "title": "Our approach to building safe and beneficial AI systems", "source": "Anthropic Blog", "score": 0 }}
@@ -150,7 +156,7 @@ Input: {{ "title": "Google DeepMind releases Gemma 3 with open weights", "source
 → Critérios: Acionável (desenvolvedores podem usar) + Sinal de mercado (Google apostando em pesos abertos)
 → step5_phrase: "Agora é possível usar Gemma 3 com pesos abertos do DeepMind"
 → SELECIONADO como main_find — sinal entre fontes reforça relevância
-Output CORRETO: "De acordo com o TechCrunch — notícia também em destaque no HackerNews e Reddit — o Google DeepMind lançou o Gemma 3 com pesos abertos (open weights). Isso permite que desenvolvedores rodem o modelo localmente sem depender de APIs pagas."
+Output CORRETO: "De acordo com o TechCrunch — notícia também em destaque no HackerNews e Reddit — o Google DeepMind lançou o Gemma 3 com pesos abertos (open weights). Isso permite rodar o modelo localmente, sem depender de APIs pagas. → No seu trabalho: para empresas que evitam enviar dados a serviços externos, pesos abertos permitem usar o modelo internamente — vale testar o Gemma 3 nesse cenário."
 
 Exemplo 10 — SELEÇÃO CORRETA (Global South + AI impact):
 Input: {{ "title": "Brazil's Serpro deploys AI to automate 40% of federal tax audits", "source": "Rest of World", "score": 0 }}
@@ -158,7 +164,7 @@ Input: {{ "title": "Brazil's Serpro deploys AI to automate 40% of federal tax au
 → Critérios: Afeta workflows (automação de auditoria fiscal) + Sinal de mercado (governo brasileiro apostando em AI)
 → step5_phrase: "Serpro está investindo em AI para automatizar auditorias fiscais federais"
 → SELECIONADO como quick_find — perspectiva LatAm relevante pro público brasileiro
-Output CORRETO: "Segundo o Rest of World, o Serpro — empresa de tecnologia do governo federal brasileiro — implementou inteligência artificial para automatizar 40% das auditorias fiscais. É um sinal concreto de que AI está entrando na operação pública no Brasil."
+Output CORRETO: "Segundo o Rest of World, o Serpro — empresa de tecnologia do governo federal brasileiro — implementou inteligência artificial para automatizar 40% das auditorias fiscais. É um sinal concreto de que AI está entrando na operação pública no Brasil. → No seu trabalho: sem decisão imediata, mas quem lida com auditorias federais deve acompanhar como a automação passa a ser usada no processo."
 
 Exemplo 11 — DESCARTE CORRETO (rehashed news):
 Input: {{ "title": "OpenAI shuts down Sora video generation tool", "source": "TechCrunch", "score": 0 }}
@@ -174,26 +180,30 @@ Input: {{ "title": "Sora users report losing paid credits after OpenAI shutdown 
 → step5_phrase: "Agora é possível que usuários do Sora percam créditos pagos sem reembolso"
 → SELECIONADO como quick_find — info nova sobre evento conhecido
 
-Exemplo 11c — ANTI-REDUNDÂNCIA (corpo deve aprofundar, não repetir o título):
+Exemplo 11c — ANTI-REDUNDÂNCIA (traduza e explique, não invente):
 Input: {{ "title": "Tencent lança Hy4 preview com 770B parâmetros e contexto de 1M tokens", "source": "Hacker News", "score": 0 }}
 Output ERRADO (NÃO faça isso): "Segundo o Hacker News, a Tencent lançou o Hy4 preview, um modelo com 770 bilhões de parâmetros e contexto de 1 milhão de tokens. Isso significa que o modelo tem 770B parâmetros e contexto de 1M tokens."
-→ Por que está errado: o body só troca "770B"/"1M tokens" por extenso e repete a mesma informação do título com as mesmas palavras — o leitor que já leu o título não aprende nada novo.
-Output CORRETO: "Segundo o Hacker News, a Tencent expandiu a fronteira de contexto entre os modelos abertos — a maioria dos concorrentes chineses ainda opera na faixa de 128 a 256 mil tokens. Isso reduz a necessidade de fragmentar documentos grandes antes de processá-los. → No seu trabalho: se sua equipe usa IA para analisar contratos ou documentos longos, vale testar se o modelo novo dispensa dividir o arquivo em partes antes de enviar."
-→ Por que está certo: usa vocabulário e informação que o título não tem (comparação com a concorrência, mecanismo prático) em vez de reformular os mesmos números.
+→ Por que está errado: só troca "770B"/"1M tokens" por extenso e repete o título — o leitor não aprende nada.
+Output ERRADO (NÃO faça isso): "...a maioria dos concorrentes chineses ainda opera na faixa de 128 a 256 mil tokens."
+→ Por que está errado: o título não traz comparação com concorrentes — número inventado.
+Output CORRETO: "Segundo o Hacker News, a Tencent lançou uma versão preview do Hy4, com contexto de 1 milhão de tokens — a quantidade de texto que o modelo lê de uma só vez, grosso modo mais de 700 mil palavras. → No seu trabalho: para quem analisa contratos ou documentos longos com IA, vale testar se dá para enviar o arquivo inteiro em vez de dividi-lo em partes."
+→ Por que está certo: aprofunda só com (a) tradução do número do título para algo que o leitor entende e (b) consequência prática. Nada de comparação, ranking ou número que o título não traz.
 
-Exemplo 11d — ANTI-REDUNDÂNCIA (bullets são strings simples que acrescentam, não repetem o título):
+Exemplo 11d — ANTI-REDUNDÂNCIA (bullets são strings simples, sem fato inventado):
 Input: {{ "title": "Anthropic lança Claude Fable 5.1 e Mythos 5.1 com foco empresarial", "source": "HackerNews", "score": 1200 }}
 Output ERRADO — formato (NUNCA faça isso, bullets não são objetos): [{{"label": "o que aconteceu", "content": "A Anthropic lançou dois novos modelos de IA, Fable 5.1 e Mythos 5.1, com foco em uso empresarial."}}, ...]
-→ Por que está errado: bullets é uma lista de STRINGS, não de objetos com label — isso quebra o parsing. Além disso o texto só reescreve o título com as mesmas palavras, zero informação nova.
-Output CORRETO — formato (lista de strings): ["O anúncio veio com salvaguardas específicas para ambiente corporativo — controles de acesso e auditoria que os modelos de uso geral da Anthropic não ofereciam até então.", "Empresas que hoje usam modelos genéricos ganham a opção de migrar workloads sensíveis sem depender de camadas extras de compliance próprias.", "Acompanhe se a Anthropic vai divulgar benchmarks de segurança específicos pra essa variante, ou só reaproveitar os do modelo geral."]
-→ Por que está certo: cada item é uma string pronta (sem label antes) e o primeiro bullet puxa um detalhe concreto que está no corpo da notícia mas NÃO está no título — "o que aconteceu" vira "o que aconteceu, além do óbvio", não um resumo do título.
+→ Por que está errado: bullets é uma lista de STRINGS, não de objetos com label — isso quebra o parsing. Além disso o texto só reescreve o título.
+Output ERRADO (NÃO faça isso): ["O anúncio veio com controles de acesso e auditoria que os modelos anteriores não tinham.", ...]
+→ Por que está errado: você não leu o anúncio — controles de acesso e auditoria não estão no título. É detalhe inventado.
+Output CORRETO — formato (lista de strings): ["Fable e Mythos são linhas de modelos da Anthropic, a empresa por trás do Claude; o título destaca o foco em uso empresarial.", "Para quem já usa modelos da Anthropic no trabalho, a pergunta é se as versões 5.1 mudam custo, limites de uso ou termos de dados.", "Antes de migrar qualquer fluxo, confira preço, limites e termos de dados na página oficial do lançamento."]
+→ Por que está certo: cada item é uma string pronta; o 1º explica o que as coisas SÃO (contexto factual estável), os outros dois dizem o que conferir — sem afirmar nada que o título não sustenta.
 
-Exemplo 11e — ANTI-REDUNDÂNCIA em quick_find (profundidade possível com só título/metadados):
+Exemplo 11e — ANTI-REDUNDÂNCIA em quick_find (título e metadados são tudo que existe):
 Input: {{ "title": "Manus retoma operações após colapso de acordo com Meta", "source": "SCMP Tech", "score": 0 }}
 Output FRACO (evite): "A Manus, que desenvolve agentes de IA, retomou operações solo após o fracasso do acordo com a Meta. O caso ilustra a volatilidade em negociações de M&A no setor. → No seu trabalho: empresas devem se preparar para cenários de desistência de compradores."
-→ Por que é fraco: a 1ª frase só reformula o título; "ilustra a volatilidade" é genérico o suficiente pra caber em qualquer M&A desfeito — não diz nada específico sobre ESTE caso.
-Output MELHOR: "A Manus precisou reverter a estrutura que já tinha montado em função do acordo — sinal de que negociações de aquisição em estágio avançado no setor de agentes de IA ainda podem desmoronar sem aviso. → No seu trabalho: se sua equipe depende de uma ferramenta de IA vendida por uma startup em negociação, tenha um plano B de ferramenta pronto antes de o acordo — ou o fracasso dele — mexer no serviço."
-→ Por que é melhor: nomeia a consequência concreta pra Manus (reverter estrutura já montada) em vez de generalizar, e a implicação prática é específica a quem usa a ferramenta (risco de fornecedor), em vez de um conselho genérico para a startup — sem inventar número ou fato que o título não sustenta. Repare que NÃO inventa mecanismo técnico nem dado que só o main_find (com mais contexto) poderia sustentar — só reorganiza o que o título/metadados já dão, com foco em consequência e especificidade.
+→ Por que é fraco: a 1ª frase só reformula o título; "ilustra a volatilidade" cabe em qualquer M&A desfeito; a linha "→" é conselho genérico.
+Output CORRETO: "A Manus, empresa de agentes de IA, voltou a operar por conta própria depois que o acordo com a Meta não avançou — uma aquisição que estava em curso foi desfeita. → No seu trabalho: se uma ferramenta de IA que sua equipe usa depende de uma startup, vale mapear um plano B para o caso de venda ou fechamento mexer no serviço."
+→ Por que é correto: nomeia o que aconteceu com a Manus sem inventar número, causa ou comparação; a linha "→" é específica (risco de fornecedor) e não depende de nenhum fato fora do título.
 
 Exemplo 12 — DESCARTE CORRETO (blog pessoal, manifesto sem evento):
 Input: {{ "title": "AI Should Elevate Your Thinking, Not Replace It", "source": "koshyjohn.com", "score": 0 }}
@@ -210,16 +220,33 @@ Output ERRADO (NÃO faça isso): {{"title": "ByteDance to expand massive AI data
 → Por que está errado: copiou o título original em inglês. radar[].title segue a mesma REGRA DE IDIOMA que main_find e quick_finds — não é porque o item tem prioridade menor que a tradução vira opcional.
 Output CORRETO: {{"title": "ByteDance planeja expandir cluster de data centers de IA na Mongólia Interior", "why_watch": "Segundo fonte da TechNode, ainda não confirmado oficialmente — vale acompanhar se a expansão se concretiza e o que isso sinaliza sobre a corrida por capacidade de computação na China."}}
 
+Exemplo 14 — SELEÇÃO COM IMPLICAÇÃO HONESTA (governança, sem decisão direta):
+Input: {{ "title": "Brasil assina na COP31 pacto global por IA sustentável e empregos", "source": "Agência Brasil", "score": 0 }}
+→ AI gate: SIM (política pública de AI)
+→ TESTE DE DECISÃO: NÃO há decisão direta para quem usa IA — mas é acordo internacional com participação do Brasil (regulação/crítica) → segue, dizendo isso sem rodeio.
+→ step5_phrase: "O Brasil decidiu aderir a um pacto global sobre IA sustentável e empregos"
+Output ERRADO (NÃO faça isso): "...→ No seu trabalho: sua operação no Brasil passa a exigir transparência energética."
+→ Por que está errado: o título não menciona nenhuma exigência para empresas — obrigação inventada.
+Output CORRETO: "Segundo a Agência Brasil, o Brasil assinou na COP31 um pacto global sobre IA sustentável e empregos. É um compromisso entre governos. → No seu trabalho: sem decisão direta por enquanto; vale acompanhar se o pacto se desdobra em regras para quem contrata ou usa IA no Brasil."
+→ Por que está certo: diz que não há decisão agora, aponta o que acompanhar e não inventa regra, prazo ou setor.
+
+Exemplo 15 — NÃO É QUICK_FIND (relatório técnico sem resultado no título):
+Input: {{ "title": "Sage S2.1 Flash Technical Report", "source": "HuggingFace Papers", "score": 68 }}
+→ AI gate: SIM (modelo de AI)
+→ TESTE DE DECISÃO: NÃO — o título só anuncia a publicação de um relatório, sem resultado, comparação ou disponibilidade.
+→ STEP 5: só se completa com "publicaram um relatório técnico" — não é evento acionável. NÃO deduza o que o modelo é ou faz pelo nome ("Flash" não prova que é barato ou rápido).
+→ Não vira quick_find. RADAR, se houver espaço: {{"title": "Sage S2.1 Flash: relatório técnico de novo modelo", "why_watch": "Relatório técnico publicado, ainda sem resultados no título — vale ver se o modelo chega a ficar disponível para uso."}}
+
 ═══ REGRAS DE FORMATO ═══
 - reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
 - correspondent_intro: 1-2 frases em primeira pessoa, dirigidas diretamente a quem lê (pode usar "você"/"a gente" — não precisa ser sempre impessoal). A PRIMEIRA frase deve referenciar o achado do dia pelo tema (não pelo nome do campo). Varie o formato de abertura entre edições: gancho direto ("Hoje tem [tema] disputando espaço com [outro tema]"), constatação simples ("O destaque de hoje é [tema]"), ou contraste entre dois achados do próprio dia. NUNCA repita a mesma fórmula de abertura ("Hoje o destaque vai pra...") em edições consecutivas. A segunda frase pode citar volume de forma pessoal, mas SEMPRE como frase completa — nunca termine em "pra você não precisar" sem dizer não precisar DE QUÊ (garimpar, vasculhar, ler tudo isso sozinho). BOM: "Hoje tem Meta abrindo ferramenta interna de build e Mistral captando €3 bi pra apostar em peso aberto — separei 5 fontes pra você não precisar garimpar." RUIM (frase pessoal incompleta): "Separei 5 posts de 5 fontes pra você não precisar." RUIM (genérico): "O dia trouxe novidades sobre a estratégia de grandes players de AI." (serve pra qualquer dia)
 - main_find.title / quick_finds[].title / radar[].title: factual, em português (REGRA DE IDIOMA do system instruction) — traduza/reformule SEMPRE, mesmo que o título original do post já esteja em inglês (comum em fontes como HackerNews, arXiv, SCMP, TechNode, Rest of World). NUNCA copie o título original verbatim. main_find.title tem até 15 palavras; quick_finds[].title e radar[].title, até 10. Reformule também se o original for sensacionalista.
 - main_find.source / quick_finds[].source: campo OBRIGATÓRIO — não omita. Copie exatamente o valor de "source" do item de input correspondente, mesmo que você já cite a fonte por extenso dentro do body/signal — são dois campos separados, um não substitui o outro.
-- ANTI-REDUNDÂNCIA título↔corpo (obrigatório): o title já entrega o fato central — main_find.body e bullets, e quick_finds[].signal, NÃO PODEM reformular o título com os mesmos números/palavras-chave. main_find.body/bullets aprofundam com o que o título NÃO cobre: mecanismo (como funciona na prática), comparação (com o quê concorre/se compara), contexto de mercado, ou consequência concreta — ver Exemplo 11c e 11d. quick_finds[].signal segue o mesmo princípio mas com informação mais limitada (só título/metadados) — ver regra específica abaixo e Exemplo 11e. Teste rápido: se alguém já leu o título, o texto precisa ensinar algo que ele ainda não sabe — não parafrasear o que ele acabou de ler.
-- main_find.body: 3-5 frases. A atribuição à FONTE QUE REPORTOU (o valor do campo "source", ex: TechCrunch, HackerNews) é OBRIGATÓRIA e deve aparecer nas duas primeiras frases — mas não precisa ser a primeira palavra. IMPORTANTE: nomear um ator DENTRO da notícia (ex: "um matemático da NYU", "a empresa", "usuários do Reddit") NÃO substitui essa atribuição — esse ator é sujeito do fato, não a fonte que trouxe a informação até você. As duas coisas podem coexistir na mesma frase ("Um matemático da NYU acusou a OpenAI, segundo o TechCrunch, de...") mas a fonte precisa aparecer explicitamente. Varie a posição entre os itens da MESMA edição (main_find e cada quick_find): se um item abriu com atribuição na frente ("Segundo X, Y fez Z"), o próximo item não pode repetir essa mesma estrutura gramatical — use atribuição no fim ("Y fez Z, segundo X") ou embutida no meio ("Y, segundo apurou X, fez Z"). Exceção: quando a "fonte" do input É a própria entidade que fez o anúncio (ex: source="The GitHub Blog" e o post é o GitHub anunciando algo), nomear a entidade como sujeito ("O GitHub anunciou...") já cumpre a atribuição — não precisa repetir "segundo o GitHub Blog" de forma redundante. Depois da atribuição, aprofunde (não repita o título) explicando por que importa pro leitor. Termine com uma linha de implicação prática iniciada com "→".
-- main_find.bullets: lista de 2-3 STRINGS simples (texto corrido cada uma — NUNCA um objeto/dicionário com label, ex.: {{"label": ..., "content": ...}} está ERRADO). Juntas, as strings cobrem: um detalhe específico que o título ainda NÃO cobre (não repita o "o quê" do título — acrescente um "além disso"), por que isso importa pra quem lê, e o que observar a seguir. Ver Exemplo 11d.
+- ANTI-REDUNDÂNCIA título↔corpo (obrigatório): o title já entrega o fato central — main_find.body e bullets, e quick_finds[].signal, NÃO PODEM reformular o título com os mesmos números/palavras-chave. Aprofunde SOMENTE com (a) contexto factual estável sobre o que as coisas SÃO (quem é a empresa, o que é o termo, o que o número do título significa na prática) e (b) a consequência prática para quem usa IA no trabalho — ver Exemplos 11c, 11d e 11e. main_find e quick_finds têm o MESMO input (título e metadados): nenhum dos dois tem contexto extra sobre o artigo. NUNCA invente mecanismo, comparação, número, ineditismo ("um dos primeiros", "historicamente") nem deduza o que um produto é ou faz pelo nome. Se o título só sustenta 1-2 frases, escreva 1-2: texto curto e correto vence texto longo com contexto inventado.
+- main_find.body: 3-5 frases. A atribuição à FONTE QUE REPORTOU (o valor do campo "source", ex: TechCrunch, HackerNews) é OBRIGATÓRIA e deve aparecer nas duas primeiras frases — mas não precisa ser a primeira palavra. IMPORTANTE: nomear um ator DENTRO da notícia (ex: "um matemático da NYU", "a empresa", "usuários do Reddit") NÃO substitui essa atribuição — esse ator é sujeito do fato, não a fonte que trouxe a informação até você. As duas coisas podem coexistir na mesma frase ("Um matemático da NYU acusou a OpenAI, segundo o TechCrunch, de...") mas a fonte precisa aparecer explicitamente. Varie a posição entre os itens da MESMA edição (main_find e cada quick_find): se um item abriu com atribuição na frente ("Segundo X, Y fez Z"), o próximo item não pode repetir essa mesma estrutura gramatical — use atribuição no fim ("Y fez Z, segundo X") ou embutida no meio ("Y, segundo apurou X, fez Z"). Exceção: quando a "fonte" do input É a própria entidade que fez o anúncio (ex: source="The GitHub Blog" e o post é o GitHub anunciando algo), nomear a entidade como sujeito ("O GitHub anunciou...") já cumpre a atribuição — não precisa repetir "segundo o GitHub Blog" de forma redundante. Depois da atribuição, aprofunde (não repita o título) explicando o que as coisas SÃO e por que importam para quem usa IA no trabalho. Termine com a linha "→ No seu trabalho:" (regra no system instruction).
+- main_find.bullets: lista de 2-3 STRINGS simples (texto corrido cada uma — NUNCA um objeto/dicionário com label, ex.: {{"label": ..., "content": ...}} está ERRADO). Juntas, as strings cobrem: contexto factual que ajuda a entender (o que é a empresa, o produto ou o termo — sem afirmar detalhes que o título não traz), por que isso importa para quem usa IA no trabalho, e o que conferir a seguir (preço, disponibilidade, termos de dados). Ver Exemplo 11d.
 - main_find.step5_phrase: a frase do STEP 5 completada que justificou a seleção.
-- quick_finds[].signal: OBRIGATÓRIO — NÃO omita. Segue a mesma regra de VARIAÇÃO DE POSIÇÃO DA ATRIBUIÇÃO de main_find.body (não repita a estrutura de abertura do item anterior). 2-3 frases: (1-2) o que aconteceu e por que é relevante, (última) linha iniciada com "→ No seu trabalho:" (o que a notícia muda no trabalho de quem usa IA no dia a dia). Baseie-se APENAS no título/metadados — por isso a profundidade aqui é diferente da do main_find.body (que tem mais contexto disponível): NÃO invente mecanismo ou comparação numérica que o título não sustenta. Em vez disso, aprofunde conectando a um padrão do setor (sem inventar contagem/frequência específica) ou nomeando concretamente quem é afetado e como — não apenas reformulando o fato do título com outras palavras genéricas. EXEMPLO: "Benchmarks apontam que o modelo superou concorrentes diretos em tarefas de raciocínio. Se confirmado, representa mudança significativa no ranking open source. → No seu trabalho: se sua equipe escolhe um modelo para uma tarefa recorrente (resumir, classificar, redigir), vale incluir este no teste antes de renovar a ferramenta atual." A linha com "→" é OBRIGATÓRIA em todo quick_find. Ver Exemplo 11e.
+- quick_finds[].signal: OBRIGATÓRIO — NÃO omita. Segue a mesma regra de VARIAÇÃO DE POSIÇÃO DA ATRIBUIÇÃO de main_find.body (não repita a estrutura de abertura do item anterior). 2-3 frases: (1-2) o que aconteceu e por que é relevante, usando só o que o título/metadados sustentam mais contexto factual estável sobre o que as coisas SÃO; (última) linha iniciada com "→ No seu trabalho:". Se o título só sustenta 1-2 frases, escreva 1-2. A linha "→" traz uma decisão concreta (o quê, para quem) OU diz sem rodeio que não há decisão direta e o que acompanhar — "vale acompanhar" sozinho não basta. Varie a abertura da linha entre os itens da mesma edição (não comece todas com "se você" / "se sua equipe"). A linha com "→" é OBRIGATÓRIA em todo quick_find. Ver Exemplos 11e e 14.
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
 - primary_audience: indique para quem cada achado é mais relevante ('desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos').
 - radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.

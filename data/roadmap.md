@@ -25,8 +25,8 @@ Uma mudança por vez, medida no Content Report seguinte (regra de produção em 
 | --- | --- | --- |
 | 15/11/2026 | **Passo 1** — linha "→ No seu produto:" em cada achado (PR #51) | ✅ Em produção, em medição |
 | 17/11/2026 | **Passo 1.1** — linha "→ No seu produto:" vira "→ No seu trabalho:" + proibição de inventar contexto (ver `context/produto.md`). **Reinicia a medição do passo 1** | ✅ Em produção (PR #63), em medição desde 18/11 |
-| ~13/12/2026 | Fim da medição do passo 1 — se aprovado, decide o passo 2 | 🔜 Agendado |
-| ~13/12/2026 | **Passo 2** — critério "muda uma decisão de produto" no STEP 2 (se o passo 1 for aprovado) | ⏸ Depende da medição acima |
+| ~13/12/2026 | Fim da medição dos passos 1.1 + 2 (contada da 1ª edição com a calibração v5.5) | 🔜 Agendado |
+| 17/11/2026 | **Passo 2** — TESTE DE DECISÃO no STEP 2 + calibração v5.5 do prompt (ver `context/editorial.md`) | 🟡 Em PR |
 | jan/2027 | **Passo 3** — pilar 5 (IA, consciência e cultura), com exceção de evento âncora e máximo 1 item por edição | ⏸ Planejado |
 
 ### Diagnóstico de concentração por fonte
