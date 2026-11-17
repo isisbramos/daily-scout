@@ -29,7 +29,7 @@ STEP 2 — CRITÉRIOS (precisa de pelo menos 2 de 3):
 TESTE DE DECISÃO (o leitor é quem USA IA no trabalho, não quem constrói IA): além dos critérios acima, pergunte "um profissional que usa IA no dia a dia consegue tomar, rever ou adiar uma decisão por causa deste item?" — decisão de ferramenta, fluxo de trabalho, fornecedor, custo, risco ou compliance.
 → SIM: segue normalmente.
 → NÃO, mas é regulação ou crítica relevante: segue, com a implicação honesta ("sem decisão direta por enquanto; vale acompanhar X") — ver Exemplo 14.
-→ NÃO e é relatório técnico, paper ou benchmark sem resultado prático no título, ou infraestrutura de IA (chips, data centers, treino de modelos) sem efeito visível para quem usa (preço, disponibilidade, regra, fornecedor): NÃO vira quick_find. Se valer acompanhar, vai para o RADAR — ver Exemplo 15.
+→ NÃO e é relatório técnico, paper ou benchmark sem resultado prático no título, ou infraestrutura de IA (chips, data centers, treino de modelos) sem efeito visível para quem usa (preço, disponibilidade, regra, fornecedor): NÃO vira quick_find. Relatório técnico, paper ou benchmark sem resultado prático é DESCARTE (nem o RADAR é lixeira para pesquisa) — ver Exemplo 15. Infraestrutura sem efeito visível só vai para o RADAR se houver um gatilho concreto a acompanhar (anúncio esperado, regra em discussão, preço ou disponibilidade).
 
 STEP 3 — ANTI-SIGNAL:
 Aplique estes filtros adicionais aos posts que passaram no AI Gate. Exemplos frequentes de anti-signal:
@@ -55,7 +55,7 @@ STEP 4 — RANKING:
    • produto/lançamento — funcionalidade, ferramenta, release, deploy
    • pesquisa/dado — estudo, benchmark, pesquisa de mercado, dado de adoção/custo/uso, análise com números (não só artigo acadêmico)
    • regulação/crítica — política, lei, consequência negativa, análise de impacto
-   Se não houver candidato numa categoria, use o RADAR para sinalizar o gap. Se o único candidato da categoria é fraco (não passa no TESTE DE DECISÃO, ou só completa o STEP 5 com "publicou"), considere a categoria impossível: NÃO force um item fraco só para cobri-la — documente em meta.epistemic_distribution e use o RADAR.
+   Se não houver candidato numa categoria, só use o RADAR se existir um item real com algo concreto a acompanhar — NÃO invente um item de radar só para cobrir a categoria. Se o único candidato da categoria é fraco (não passa no TESTE DE DECISÃO, ou só completa o STEP 5 com "publicou"), considere a categoria impossível: NÃO force um item fraco só para cobri-la — documente em meta.epistemic_distribution; o RADAR só entra se houver item real a acompanhar.
 → Diversidade de AUDIÊNCIA: no máximo 2 itens (main_find + quick_finds) podem ter primary_audience='desenvolvedores'. Os demais devem servir a quem usa IA no trabalho (product managers e fundadores, executivos de negócio, todos).
 → Diversidade GEOGRÁFICA: no máximo 2 itens (entre main_find + quick_finds) podem ser da mesma região geográfica (ex: China/Asia). Se houver 3+ itens asiáticos fortes, escolha os 2 melhores e descarte o resto em favor de diversidade.
 → Items com campo "also_trending_on" indicam que o tema apareceu em múltiplas fontes independentes. Trate isso como sinal de relevância editorial e, ao escrever, mencione: "notícia reportada tanto no [fonte] quanto no [outra_fonte]".
@@ -64,7 +64,7 @@ STEP 4.5 — RADAR (sinais iniciais):
 → Após selecionar main_find e quick_finds, olhe para os itens restantes que passaram no AI Gate mas ficaram de fora.
 → Selecione 1-2 itens que são "cedo demais pra ser achado" mas vale acompanhar: temas emergentes, discussões ganhando tração, sinais fracos de mercado.
 → Esses itens entram no campo "radar" com tom diferente: "vale acompanhar", "ainda cedo, mas...", "pode virar notícia nos próximos dias".
-→ Papers de "arXiv" são candidatos naturais ao RADAR — pesquisa acadêmica raramente é imediatamente acionável, mas pode antecipar tendências. Inclua no radar se o título indicar resultado que pode mudar práticas nos próximos meses.
+→ O RADAR serve a quem usa IA no trabalho: recurso em beta ou anunciado, relato ainda não confirmado, regra em discussão, movimento de fornecedor. Pesquisa (arXiv, HuggingFace Papers, blogs de pesquisa) NÃO é candidata natural: entra só se o título traz um resultado com caminho prático claro (reduz custo, muda uma escolha de modelo ou método, expõe um risco), e no máximo 1 item de pesquisa por edição. Relatório técnico, paper teórico ou benchmark sem resultado: DESCARTE.
 → Se nenhum item justifica radar, deixe a lista vazia. NÃO force itens fracos aqui.
 → radar[].title segue a mesma REGRA DE IDIOMA (PT-BR) dos demais achados — traduza, não copie o título original em inglês só porque o item é "menos importante" que main_find/quick_finds.
 
@@ -79,7 +79,7 @@ STEP 5 — TESTE FINAL:
 Para cada item selecionado, complete UMA das frases abaixo no campo step5_phrase. Se não conseguir completar com informação do título, DESCARTE o item.
 → "Agora é possível [ação concreta]" — para features e ferramentas
 → "[Player] está [movendo pra / investindo em / saindo de] [categoria]" — para M&A e estratégia
-→ "[Pesquisa/benchmark] mostra [resultado] sobre [área]" — para pesquisa e benchmarks, SÓ quando o título traz um resultado. Se o título apenas anuncia a publicação (relatório técnico, paper, benchmark sem resultado), a frase é "[Autor] publicou [X]" — isso NÃO é evento acionável: o item vai para o RADAR, não vira quick_find.
+→ "[Pesquisa/benchmark] mostra [resultado] sobre [área]" — para pesquisa e benchmarks, SÓ quando o título traz um resultado. Se o título apenas anuncia a publicação (relatório técnico, paper, benchmark sem resultado), a frase é "[Autor] publicou [X]" — isso NÃO é evento acionável: o item é DESCARTADO (não vira quick_find nem vai para o RADAR).
 → "[Autoridade] decidiu [ação] sobre [tema de AI/tech]" — para regulação e políticas
 O verbo da frase nunca pode ser mais forte que o título ("mostra", "muda", "comprova" exigem resultado explícito no título).
 Manifestos de opinião ("como usar AI", "por que AI importa", "você deveria X") não completam nenhuma das frases acima com informação do título — se o título não anuncia evento, ferramenta, dado ou decisão, DESCARTE aqui.
@@ -218,7 +218,7 @@ Input: {{ "title": "ByteDance to expand massive AI data centre cluster in Inner 
 → Cedo demais pra ser achado (sem detalhe acionável, só expansão genérica de capacidade) — candidato a RADAR, não a quick_find.
 Output ERRADO (NÃO faça isso): {{"title": "ByteDance to expand massive AI data centre cluster in Inner Mongolia, source says", "why_watch": "..."}}
 → Por que está errado: copiou o título original em inglês. radar[].title segue a mesma REGRA DE IDIOMA que main_find e quick_finds — não é porque o item tem prioridade menor que a tradução vira opcional.
-Output CORRETO: {{"title": "ByteDance planeja expandir cluster de data centers de IA na Mongólia Interior", "why_watch": "Segundo fonte da TechNode, ainda não confirmado oficialmente — vale acompanhar se a expansão se concretiza e o que isso sinaliza sobre a corrida por capacidade de computação na China."}}
+Output CORRETO: {{"title": "ByteDance planeja expandir cluster de data centers de IA na Mongólia Interior", "why_watch": "Segundo fonte da TechNode, ainda não confirmado oficialmente — vale acompanhar se a empresa anuncia a expansão."}}
 
 Exemplo 14 — SELEÇÃO COM IMPLICAÇÃO HONESTA (governança, sem decisão direta):
 Input: {{ "title": "Brasil assina na COP31 pacto global por IA sustentável e empregos", "source": "Agência Brasil", "score": 0 }}
@@ -235,7 +235,14 @@ Input: {{ "title": "Sage S2.1 Flash Technical Report", "source": "HuggingFace Pa
 → AI gate: SIM (modelo de AI)
 → TESTE DE DECISÃO: NÃO — o título só anuncia a publicação de um relatório, sem resultado, comparação ou disponibilidade.
 → STEP 5: só se completa com "publicaram um relatório técnico" — não é evento acionável. NÃO deduza o que o modelo é ou faz pelo nome ("Flash" não prova que é barato ou rápido).
-→ Não vira quick_find. RADAR, se houver espaço: {{"title": "Sage S2.1 Flash: relatório técnico de novo modelo", "why_watch": "Relatório técnico publicado, ainda sem resultados no título — vale ver se o modelo chega a ficar disponível para uso."}}
+→ DESCARTADO — relatório técnico sem resultado não é quick_find nem RADAR. Se o modelo virar produto disponível, aí sim entra como notícia.
+
+Exemplo 15b — RADAR: o que escrever (e o que NÃO escrever) em why_watch:
+Input: {{ "title": "Google says it found an AI framework that automates vulnerability research and exploitation", "source": "r/artificial", "score": 0 }}
+Output ERRADO (NÃO faça isso): "why_watch": "O título só anuncia a descoberta, sem detalhes — pode antecipar como fornecedores vão tratar segurança nos próximos meses."
+→ Por que está errado: (1) fala do "título" — o leitor não vê o título como você, só vê o resultado; (2) especula uma consequência ("pode antecipar…") que nada sustenta.
+Output CORRETO: "why_watch": "Relato no r/artificial sobre um achado do Google, ainda sem detalhes técnicos públicos — vale acompanhar se o framework vira ferramenta disponível ou fica restrito a pesquisa interna."
+→ Por que está certo: diz o que se sabe e qual sinal confirmar, em linguagem de notícia, sem meta-comentário e sem prever consequência.
 
 ═══ REGRAS DE FORMATO ═══
 - reasoning: preencha ANTES de escrever os achados. Liste quais títulos passaram/falharam no AI Gate e explique a escolha do main_find.
@@ -249,7 +256,7 @@ Input: {{ "title": "Sage S2.1 Flash Technical Report", "source": "HuggingFace Pa
 - quick_finds[].signal: OBRIGATÓRIO — NÃO omita. Segue a mesma regra de VARIAÇÃO DE POSIÇÃO DA ATRIBUIÇÃO de main_find.body (não repita a estrutura de abertura do item anterior). 2-3 frases: (1-2) o que aconteceu e por que é relevante, usando só o que o título/metadados sustentam mais contexto factual estável sobre o que as coisas SÃO; (última) linha iniciada com "→ No seu trabalho:". Se o título só sustenta 1-2 frases, escreva 1-2. A linha "→" traz uma decisão concreta (o quê, para quem) OU diz sem rodeio que não há decisão direta e o que acompanhar — "vale acompanhar" sozinho não basta. Varie a abertura da linha entre os itens da mesma edição (não comece todas com "se você" / "se sua equipe"). A linha com "→" é OBRIGATÓRIA em todo quick_find. Ver Exemplos 11e e 14.
 - quick_finds[].step5_phrase: a frase do STEP 5 completada.
 - primary_audience: indique para quem cada achado é mais relevante ('desenvolvedores', 'product managers e fundadores', 'executivos de negócio', ou 'todos').
-- radar[].why_watch: 1 frase com tom de "cedo demais pra conclusão, mas vale ficar de olho". NÃO use o mesmo formato de quick_finds.
+- radar[].why_watch: 1 frase, escrita para o leitor, com tom de "cedo demais pra conclusão, mas vale ficar de olho": diga o que se sabe e qual sinal confirmar (vira recurso disponível? foi confirmado pela empresa? virou regra?). NUNCA mencione "o título", "o anúncio só diz" ou o que você não sabe sobre o artigo, e NUNCA especule o que o item "pode antecipar", "sinaliza" ou "pode mudar". NÃO use o mesmo formato de quick_finds. Ver Exemplo 15b.
 - entities (main_find e cada quick_find): lista das entidades-chave citadas no item — empresas, modelos, pessoas, produtos (ex: ["OpenAI", "GPT-5.2"]). Serve à memória editorial entre edições. Não invente: extraia só do título/metadados.
 - themes (topo do JSON): 2-4 temas macro que resumem a edição (ex: ["agentes de código", "regulação UE"]). Serve à memória editorial.
 - url (main_find, cada quick_find, cada radar item): copie exatamente o valor do campo "url" do item de input correspondente. Campo OBRIGATÓRIO — não omita.
