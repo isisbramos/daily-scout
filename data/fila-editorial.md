@@ -25,3 +25,8 @@ Tema/achado: o que foi selecionado que não deveria, ou o que ficou de fora e de
 Por que não bateu: sua intuição, mesmo que ainda não esteja articulada como critério
 Critério novo (preenchido durante a sessão de ajuste, não precisa vir pronto): —
 -->
+
+## 2026-11-17 — edição #240
+Tema/achado: o item do pacto global (COP31) saiu com uma linha "No seu produto" que falava de operação no Brasil exigindo transparência energética — contexto que o título não traz. Em geral, a edição soa técnica demais (papers, chips, modelos de fronteira).
+Por que não bateu: a AYA é para quem constrói COM IA e usa IA no dia a dia para ajudar o negócio, não para quem constrói IA.
+Critério novo: tratado no passo 1.1 (PR da branch `feat/linha-no-seu-trabalho`): linha vira "→ No seu trabalho:" e o prompt proíbe inventar contexto. **Ainda aberto:** o passo 2 (critério de curadoria no STEP 2) deve usar a mesma redação de leitor ("quem usa IA no trabalho"), e vale checar o peso das fontes (arxiv_ai e huggingface_papers têm o maior weight, 1.3).
