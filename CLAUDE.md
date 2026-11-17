@@ -17,7 +17,7 @@ Newsletter diária de tech & IA, curada e escrita por uma persona de IA. O pipel
 - **Editorial:** framework v5.4 em `prompts/curation_template.txt`. Revisor final em modo `shadow` (`sources_config.json` → `final_review.mode`).
 - **Fontes:** 23 habilitadas. Confira com `python scripts/source_stats.py`.
 - **Prioridade editorial:** plano de out/2026 — as 6 recomendações estão concluídas. Estado atual e próximos passos em `data/roadmap.md`.
-- **Posicionamento decidido (15/11):** recorte para PMs dentro do Tech Operator, com critério "muda uma decisão de produto", linha "→ No seu produto:" e pilar 5 (IA, consciência e cultura). Passo 1 (a linha) está em produção desde 15/11, em medição até ~13/12; passos 2 (critério de curadoria) e 3 (pilar 5) ainda não estão no prompt. Ordem e medição em `context/produto.md`.
+- **Posicionamento decidido (15/11):** recorte para PMs dentro do Tech Operator, com critério "muda uma decisão de produto", linha "→ No seu trabalho:" (revisada em 17/11, passo 1.1) e pilar 5 (IA, consciência e cultura). Passo 1 (a linha) está em produção desde 15/11 e foi revisada em 17/11 (a medição reinicia), em medição até ~13/12; passos 2 (critério de curadoria) e 3 (pilar 5) ainda não estão no prompt. Ordem e medição em `context/produto.md`.
 - **Migração de contexto em andamento:** Fase 2. `context/produto.md`, `context/marca.md`, `context/editorial.md` e `data/` (estado-atual, roadmap, fila editorial, métricas) já migrados; falta mover o resto de `docs/` pra `ops/`. Este mapa é atualizado a cada passo.
 
 ## Onde está a verdade

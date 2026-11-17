@@ -1,6 +1,6 @@
 # Regras editoriais — o porquê
 
-> last-reviewed: 2026-11-15 · Este arquivo explica **por que** cada regra editorial existe. O prompt (`prompts/system_instruction.txt` + `prompts/curation_template.txt`) é a **fonte de execução** — é o que roda de fato. Quando os dois discordarem, o prompt venceu na produção, mas isso é sinal de que este arquivo ficou desatualizado: atualize-o. Não copie o texto do prompt aqui; mudança de regra passa por dry run (`CLAUDE.md` → Regras de produção), não por este arquivo.
+> last-reviewed: 2026-11-17 · Este arquivo explica **por que** cada regra editorial existe. O prompt (`prompts/system_instruction.txt` + `prompts/curation_template.txt`) é a **fonte de execução** — é o que roda de fato. Quando os dois discordarem, o prompt venceu na produção, mas isso é sinal de que este arquivo ficou desatualizado: atualize-o. Não copie o texto do prompt aqui; mudança de regra passa por dry run (`CLAUDE.md` → Regras de produção), não por este arquivo.
 
 ## A restrição de base: só título e metadados
 
@@ -53,5 +53,5 @@ Depois que a curadoria monta a edição, uma segunda chamada de LLM (curta, `pro
 
 - **PODE/NÃO PODE + regra de certeza**: a mesma restrição de base (só título/metadados) aplicada à escrita — pode explicar o que uma coisa É, não pode inventar reação/consequência, e tem que preservar "may/reportedly/pergunta" como incerteza, nunca convertendo em afirmação.
 - **Voz**: frases curtas, verbos factuais, tom de colunista — existe pra diferenciar a AYA de um agregador robótico sem cair em hype (o oposto do problema que o v3 corrigiu).
-- **"→ No seu produto:"**: linha obrigatória em todo achado desde 15/11 (passo 1 do recorte PM, PR #51) — resposta concreta a "o que isso muda no produto de quem lê", nunca genérica ("fique atento às tendências" é exemplo inválido no próprio prompt).
+- **"→ No seu trabalho:"**: linha obrigatória em todo achado desde 15/11 (passo 1 do recorte PM, PR #51; renomeada de "No seu produto" em 17/11, passo 1.1) — resposta concreta a "o que isso muda no produto de quem lê", nunca genérica ("fique atento às tendências" é exemplo inválido no próprio prompt).
 - **Regra de idioma (PT-BR)**: glossário de o que fica em inglês (jargão técnico consagrado, nomes próprios) vs. o que é traduzido (gírias anglófonas evitáveis) — existe porque o público é brasileiro e a voz da AYA não é a de quem traduz literalmente do inglês, mas também não força tradução de termos que o leitor técnico já usa em inglês no dia a dia.

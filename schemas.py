@@ -29,7 +29,7 @@ class MainFind(BaseModel):
         # [SYNC-01] sem lista hardcoded — pipeline tem 10 fontes
         description="Fonte real do item — use exatamente o valor do campo 'source' no input"
     )
-    body: str = Field(description="3-5 frases. Comece com atribuição à fonte. NÃO reformule o título com as mesmas palavras/números — aprofunde com informação que o título não cobre (mecanismo, comparação, contexto de mercado). Termine com a linha '→ No seu produto: ...' — o que a notícia muda no produto de quem lê (decisão de roadmap, feature, fornecedor, preço ou risco).")
+    body: str = Field(description="3-5 frases. Comece com atribuição à fonte. NÃO reformule o título com as mesmas palavras/números — aprofunde com informação que o título não cobre (mecanismo, comparação, contexto de mercado). Termine com a linha '→ No seu trabalho: ...' — o que a notícia muda no trabalho de quem usa IA no dia a dia (decisão de ferramenta, workflow, fornecedor, custo ou risco). Não invente contexto que o título não sustenta.")
     bullets: list[str] = Field(description="Lista de 2-3 strings simples (texto corrido, NUNCA objeto/dicionário com label) que ACRESCENTAM ao título, não o repetem: um detalhe específico que o título NÃO cobre — não uma paráfrase dele —, o que isso significa, o que observar")
     url: str = Field(description="URL original do post")
     display_url: str = Field(description="Versão curta legível da URL")
@@ -55,7 +55,7 @@ class QuickFind(BaseModel):
         # [SYNC-01] sem lista hardcoded
         description="Fonte real do item — use exatamente o valor do campo 'source' no input"
     )
-    signal: str = Field(description="2-3 frases: [o que aconteceu, com informação além do título] + [por que importa pro leitor] + [linha iniciada com '→ No seu produto:': o que a notícia muda no produto de quem lê — uma decisão que ele pode tomar, revisar ou acompanhar]. NÃO reformule o título com as mesmas palavras/números. Baseado só em título/metadados — não invente mecanismo ou número que o título não sustenta; aprofunde conectando a um padrão do setor ou nomeando concretamente quem é afetado e como.")
+    signal: str = Field(description="2-3 frases: [o que aconteceu, com informação além do título] + [por que importa pro leitor] + [linha iniciada com '→ No seu trabalho:': o que a notícia muda no trabalho de quem usa IA no dia a dia — uma decisão que ele pode tomar, revisar ou acompanhar, sem inventar contexto que o título não sustenta]. NÃO reformule o título com as mesmas palavras/números. Baseado só em título/metadados — não invente mecanismo ou número que o título não sustenta; aprofunde conectando a um padrão do setor ou nomeando concretamente quem é afetado e como.")
     url: str = Field(description="URL original")
     display_url: str = Field(description="Versão curta da URL")
     primary_audience: str = Field(
