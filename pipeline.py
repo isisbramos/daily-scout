@@ -235,9 +235,47 @@ def validate_tone(content: dict) -> list[str]:
 
 
 # Resumo (abstract) que acompanha itens de fontes de pesquisa no input do LLM.
-# ~320 caracteres bastam para distinguir "capacidade nova" de "teoria/relatório"
-# sem inflar o prompt (só arXiv e HuggingFace Papers carregam resumo).
-PROMPT_SUMMARY_CHARS = 320
+# 320 cortava o abstract antes do resultado/contribuição (dry run de 17/11: 4 de 4 resumos
+# terminavam em "We find…" / "how efficiently a model…"); ~650 chega até lá. Só arXiv e
+# HuggingFace Papers carregam resumo, então o custo é de ~1.500 tokens por edição.
+PROMPT_SUMMARY_CHARS = 650
+
+
+def sanitize_radar(radar: list, items_by_url: dict | None = None) -> list:
+    """Garante que todo item do RADAR tenha link válido antes de renderizar.
+
+    O LLM às vezes omite url/display_url/source (dry run de 17/11: o e-mail sairia com ':: ' e
+    link vazio). Regras, todas determinísticas:
+      - sem url (ou url que não é http) → item descartado, com aviso;
+      - url fora do input do dia (inventada pelo LLM) → descartado, com aviso — só quando
+        `items_by_url` é fornecido (falha aberta sem ele);
+      - display_url ausente → derivado da url ("dominio.com/…"); source ausente → rótulo
+        da fonte real, quando conhecido.
+    """
+    from urllib.parse import urlparse
+
+    known = {u.rstrip("/"): it for u, it in (items_by_url or {}).items()}
+    out = []
+    for item in radar or []:
+        if not isinstance(item, dict):
+            continue
+        url = (item.get("url") or "").strip()
+        title = (item.get("title") or "")[:60]
+        if not url.lower().startswith(("http://", "https://")):
+            logger.warning(f"[RADAR] item sem url válida descartado: '{title}'")
+            continue
+        src_item = known.get(url.rstrip("/"))
+        if items_by_url and src_item is None:
+            logger.warning(f"[RADAR] url fora do input do dia descartada: '{title}' ({url[:80]})")
+            continue
+        fixed = dict(item, url=url)
+        if not (fixed.get("display_url") or "").strip():
+            host = urlparse(url).netloc.removeprefix("www.")
+            fixed["display_url"] = f"{host}/…" if host else url
+        if not (fixed.get("source") or "").strip() and src_item is not None:
+            fixed["source"] = src_item.source_label
+        out.append(fixed)
+    return out
 
 
 def _prompt_entry(item: SourceItem) -> dict:
@@ -527,6 +565,14 @@ def curate_and_write(
                         )
             except Exception as bar_err:
                 logger.warning(f"Main-find bar falhou (não-bloqueante): {bar_err}")
+
+            # ── RADAR: link válido em todo item (o LLM às vezes omite url/display_url) ──
+            try:
+                content["radar"] = sanitize_radar(
+                    content.get("radar", []), {it.url: it for it in filtered_items}
+                )
+            except Exception as radar_err:
+                logger.warning(f"Radar sanitize falhou (não-bloqueante): {radar_err}")
 
             logger.info(f"Curation OK: '{content['main_find']['title']}'")
             logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")

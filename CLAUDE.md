@@ -53,6 +53,7 @@ Quando o código e um doc discordarem, o código vence.
 
 - Mudança em `prompts/` ou no pipeline só com dry run (`python scripts/manual_dry_run.py`) e `pytest tests/` passando.
 - Uma mudança editorial por vez, medida no Content Report seguinte.
+- [2026-11-17] Mudança em `prompts/` só entra comparada com a base no replay (`scripts/prompt_replay.py`, ver `scripts/README.md`); uma única edição de teste não é evidência. Editorial congelado até 5 edições reais medidas (exceto bug ou parâmetro).
 - Nunca exponha qual modelo de LLM a AYA usa em texto público (site, e-mail, social).
 - O repo é público: nada de dados internos (IDs de planilha, métricas de assinantes, notas pessoais) em arquivos versionados.
 - Push só quando a Isis pedir. Mudanças entram por PR, que ela aprova.

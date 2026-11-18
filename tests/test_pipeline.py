@@ -88,3 +88,36 @@ class TestPromptEntry:
     def test_cross_source_signal_still_included(self):
         item = self._item(cross_source_count=2, cross_source_ids=["arxiv_ai", "hackernews"])
         assert pipeline._prompt_entry(item)["also_trending_on"] == ["hackernews"]
+
+
+class TestSanitizeRadar:
+    def _src(self, url):
+        return SourceItem(title="T", url=url, source_id="technode", source_label="TechNode")
+
+    def test_item_without_url_is_dropped(self):
+        radar = [{"title": "Sem link", "why_watch": "x"}]
+        assert pipeline.sanitize_radar(radar, {}) == []
+
+    def test_non_http_url_is_dropped(self):
+        assert pipeline.sanitize_radar([{"title": "t", "url": "javascript:alert(1)"}], {}) == []
+
+    def test_url_outside_input_is_dropped_when_input_known(self):
+        known = {"https://technode.com/a": self._src("https://technode.com/a")}
+        radar = [{"title": "Inventada", "url": "https://exemplo.com/inventada"}]
+        assert pipeline.sanitize_radar(radar, known) == []
+
+    def test_missing_display_url_and_source_are_filled(self):
+        known = {"https://technode.com/a": self._src("https://technode.com/a")}
+        out = pipeline.sanitize_radar([{"title": "ok", "why_watch": "w", "url": "https://technode.com/a/"}], known)
+        assert out[0]["display_url"] == "technode.com/…"
+        assert out[0]["source"] == "TechNode"
+
+    def test_existing_fields_are_kept(self):
+        known = {"https://technode.com/a": self._src("https://technode.com/a")}
+        item = {"title": "ok", "url": "https://technode.com/a", "display_url": "tn/…", "source": "Outra"}
+        out = pipeline.sanitize_radar([item], known)
+        assert out[0]["display_url"] == "tn/…" and out[0]["source"] == "Outra"
+
+    def test_without_input_map_only_url_presence_is_checked(self):
+        out = pipeline.sanitize_radar([{"title": "ok", "url": "https://x.com/p"}], None)
+        assert len(out) == 1

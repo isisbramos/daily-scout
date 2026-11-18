@@ -1,0 +1,482 @@
+[
+  {
+    "title": "New Evidence Shows School Phone Bans Are Gradually Improving Test Scores",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 710,
+    "comments": 361,
+    "url": "https://www.nytimes.com/2026/11/17/upshot/school-phone-bans-study-scores.html",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Jensen Huang says he would be ‘honored’ if allowed to return as Nvidia CEO",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/jensen-huang-says-he-would-be-honored-if-allowed-to-return-as-nvidia-ceo/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "Alibaba's Qwen team promised \"open source to the end\" 12 days ago. Today Qwen4-Max dropped as a closed-weight API.",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xyoxb6/alibabas_qwen_team_promised_open_source_to_the/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "Research Reports",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/17/1148203/research-reports/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "Between Rigor and Reality: How AI Safety Benchmark Developers Understand Benchmark Use and Maintenance",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18930",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "C’s designated initializers give us named arguments",
+    "source": "Lobsters",
+    "source_id": "lobsters",
+    "score": 0,
+    "comments": 0,
+    "url": "https://quuxplusone.github.io/blog/2026/11/16/named-arguments-in-c/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "lobsters"
+    ]
+  },
+  {
+    "title": "InclusionMed: Benchmarking AI for Inclusive Healthcare",
+    "source": "HuggingFace Papers",
+    "source_id": "huggingface_papers",
+    "score": 60,
+    "comments": 1,
+    "url": "https://huggingface.co/papers/2611.21218",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "huggingface_papers"
+    ]
+  },
+  {
+    "title": "‘China question’: Nvidia crisis and new US chip curbs split Washington and Silicon Valley",
+    "source": "SCMP Tech",
+    "source_id": "scmp_tech",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.scmp.com/tech/tech-war/article/3374770/china-question-nvidia-crisis-and-new-us-chip-curbs-split-washington-and-silicon-valley",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "scmp_tech"
+    ]
+  },
+  {
+    "title": "Build faster with Buck2: Our open source build system",
+    "source": "Meta AI Research",
+    "source_id": "meta_ai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://engineering.fb.com/2023/04/06/open-source/buck2-open-source-large-scale-build-system/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "meta_ai_blog"
+    ]
+  },
+  {
+    "title": "Quoting Go Proverbs",
+    "source": "Simon Willison",
+    "source_id": "simon_willison",
+    "score": 0,
+    "comments": 0,
+    "url": "https://simonwillison.net/2026/Nov/17/go-proverbs/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "simon_willison"
+    ]
+  },
+  {
+    "title": "Innovators Under 35 Brasil 2026 reconhece jovens que estão transformando tecnologia e inovação no país",
+    "source": "MIT Tech Review Brasil",
+    "source_id": "mit_tech_review_brasil",
+    "score": 0,
+    "comments": 0,
+    "url": "https://mittechreview.com.br/innovators-under-35-brasil-2026-jovens-inovadores/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review_brasil"
+    ]
+  },
+  {
+    "title": "Apple Permissions Update, The New App Paradigm, My iPhone Duo Review",
+    "source": "Stratechery",
+    "source_id": "stratechery",
+    "score": 0,
+    "comments": 0,
+    "url": "https://stratechery.com/2026/apple-permissions-update-the-new-app-paradigm-my-iphone-duo-review/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "stratechery"
+    ]
+  },
+  {
+    "title": "Baidu’s Robin Li warns of AI bubble risk as applications lag infrastructure spending",
+    "source": "TechNode",
+    "source_id": "technode",
+    "score": 0,
+    "comments": 0,
+    "url": "https://technode.com/2026/11/17/baidus-robin-li-warns-of-ai-bubble-risk-as-applications-lag-infrastructure-spending/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "technode"
+    ]
+  },
+  {
+    "title": "Strengthening NATO and allied cyber defenses with AI",
+    "source": "OpenAI Blog",
+    "source_id": "openai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://openai.com/index/strengthening-nato-allied-cyber-defences-ai",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "openai_blog"
+    ]
+  },
+  {
+    "title": "Build once, run on any agent: A practical guide to agent skills",
+    "source": "The GitHub Blog",
+    "source_id": "github_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://github.blog/ai-and-ml/github-copilot/build-once-run-on-any-agent-a-practical-guide-to-agent-skills/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "github_blog"
+    ]
+  },
+  {
+    "title": "Theoretical Limits of Language Model Alignment",
+    "source": "Apple Machine Learning Research",
+    "source_id": "apple_ml_research",
+    "score": 0,
+    "comments": 0,
+    "url": "https://machinelearning.apple.com/research/theoretical-limits-alignment",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "apple_ml_research"
+    ]
+  },
+  {
+    "title": "Highly classified US national security communications network goes down",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 120,
+    "comments": 92,
+    "url": "https://www.cnn.com/2026/11/17/politics/highly-classified-national-security-communications-network-goes-down",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Daydream’s new AI agent acts as your personal stylist — and can shop for you, too",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/daydreams-new-ai-agent-acts-as-your-personal-stylist-and-can-shop-for-you-too/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "Google found exploit_agent, a framework that turns fresh patches into live exploits with no human in the loop",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xymsku/google_found_exploit_agent_a_framework_that_turns/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "The Download: Jensen Huang’s open-source dilemma and cognitive immortality",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/17/1148679/the-download-jensen-huang-open-source-ai-cognitive-immortality/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "Three Invisible Failure Modes in Speech-Based Age Estimation for Child Safety",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18971",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "How to Bypass Rust's Orphan Rule",
+    "source": "Lobsters",
+    "source_id": "lobsters",
+    "score": 0,
+    "comments": 0,
+    "url": "https://edvong.com/bypass-orphan-rule/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "lobsters"
+    ]
+  },
+  {
+    "title": "Sage S2.1 Flash Technical Report",
+    "source": "HuggingFace Papers",
+    "source_id": "huggingface_papers",
+    "score": 81,
+    "comments": 1,
+    "url": "https://huggingface.co/papers/2611.21072",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "huggingface_papers"
+    ]
+  },
+  {
+    "title": "What to watch for in Nvidia’s first earnings report since Jensen Huang resigned",
+    "source": "SCMP Tech",
+    "source_id": "scmp_tech",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.scmp.com/tech/article/3374710/what-watch-nvidias-first-earnings-report-jensen-huang-resigned",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "scmp_tech"
+    ]
+  },
+  {
+    "title": "Two meta sustainability grant and scholarship recipients share impact",
+    "source": "Meta AI Research",
+    "source_id": "meta_ai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://sustainability.fb.com/blog/2023/03/24/two-meta-sustainability-grant-and-scholarship-recipients-share-impact/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "meta_ai_blog"
+    ]
+  },
+  {
+    "title": "llm 0.37.3",
+    "source": "Simon Willison",
+    "source_id": "simon_willison",
+    "score": 0,
+    "comments": 0,
+    "url": "https://simonwillison.net/2026/Nov/16/llm/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "simon_willison"
+    ]
+  },
+  {
+    "title": "IA agêntica no seguro: antes de automatizar decisões, o setor precisa organizar a casa",
+    "source": "MIT Tech Review Brasil",
+    "source_id": "mit_tech_review_brasil",
+    "score": 0,
+    "comments": 0,
+    "url": "https://mittechreview.com.br/ia-agentica-mercado-segurador-automacao-processos/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review_brasil"
+    ]
+  },
+  {
+    "title": "Apple adds generative AI compliance filings to App Store Connect in China",
+    "source": "TechNode",
+    "source_id": "technode",
+    "score": 0,
+    "comments": 0,
+    "url": "https://technode.com/2026/11/17/apple-adds-generative-ai-compliance-filings-to-app-store-connect-in-china/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "technode"
+    ]
+  },
+  {
+    "title": "Introducing OpenAI for Chile",
+    "source": "OpenAI Blog",
+    "source_id": "openai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://openai.com/index/introducing-openai-for-chile",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "openai_blog"
+    ]
+  },
+  {
+    "title": "GitHub availability report: October 2026",
+    "source": "The GitHub Blog",
+    "source_id": "github_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://github.blog/news-insights/company-news/github-availability-report-october-2026/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "github_blog"
+    ]
+  },
+  {
+    "title": "We don't need more apps. We need better open source",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 240,
+    "comments": 147,
+    "url": "https://jordankrueger.com/blog/better-open-source-not-more-apps/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Uber and Zipline’s drone delivery service takes off in Texas, with dozens of cities to follow",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/uber-and-ziplines-drone-delivery-service-takes-off-in-texas-with-dozens-of-cities-to-follow/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "NYC's idea of fining chatbot 'doom loops' should be the default everywhere: every support bot needs a guaranteed human exit within 3 messages",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xyljcr/nycs_idea_of_fining_chatbot_doom_loops_should_be/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "The open-source movement wants Jensen Huang back",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/16/1148624/the-open-source-movement-wants-jensen-huang-back/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "Ask Precisely, Assume Wisely: Interactive Evaluation of Ambiguity Resolution in Large Language Models",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18905",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "Former Meituan and Feishu executives reportedly team up to build an AI recording ring",
+    "source": "TechNode",
+    "source_id": "technode",
+    "score": 0,
+    "comments": 0,
+    "url": "https://technode.com/2026/11/17/former-meituan-and-feishu-executives-reportedly-team-up-to-build-an-ai-recording-ring/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "technode"
+    ]
+  },
+  {
+    "title": "Uber says hackers stole information on close to 150,000 driver’s licenses during data breach",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/16/uber-confirms-hackers-stole-thousands-of-drivers-license-information-in-data-breach/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "D\\'ecoupage: Directorial Audio-Visual Control for Long Multi-Shot Video Generation",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18866",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "Video-as-Experience: Learning Computer Use via Audio-Visual Understanding",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18747",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "On Leaving Swift for Rust",
+    "source": "Lobsters",
+    "source_id": "lobsters",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.prux.org/posts/goodbye-swift-hello-rust/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "lobsters"
+    ]
+  }
+]

@@ -1,0 +1,482 @@
+[
+  {
+    "title": "New Evidence Shows School Phone Bans Are Gradually Improving Test Scores",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 329,
+    "comments": 161,
+    "url": "https://www.nytimes.com/2026/11/17/upshot/school-phone-bans-study-scores.html",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Science Corporation’s brain tech is worth $3.5 billion after new funding",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/science-corporations-brain-tech-is-worth-3-5-billion-after-new-funding/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "The Spanish startup bringing AI to fashion",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xyltmb/the_spanish_startup_bringing_ai_to_fashion/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "The Download: Jensen Huang’s open-source dilemma and cognitive immortality",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/17/1148679/the-download-jensen-huang-open-source-ai-cognitive-immortality/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "Between Rigor and Reality: How AI Safety Benchmark Developers Understand Benchmark Use and Maintenance",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18930",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "InclusionMed: Benchmarking AI for Inclusive Healthcare",
+    "source": "HuggingFace Papers",
+    "source_id": "huggingface_papers",
+    "score": 52,
+    "comments": 1,
+    "url": "https://huggingface.co/papers/2611.21218",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "huggingface_papers"
+    ]
+  },
+  {
+    "title": "What to watch for in Nvidia’s first earnings report since Jensen Huang resigned",
+    "source": "SCMP Tech",
+    "source_id": "scmp_tech",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.scmp.com/tech/article/3374710/what-watch-nvidias-first-earnings-report-jensen-huang-resigned",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "scmp_tech"
+    ]
+  },
+  {
+    "title": "Actual curl rewrites in rust",
+    "source": "Lobsters",
+    "source_id": "lobsters",
+    "score": 0,
+    "comments": 0,
+    "url": "https://daniel.haxx.se/blog/2026/11/17/actual-curl-rewrites-in-rust/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "lobsters"
+    ]
+  },
+  {
+    "title": "Quoting Go Proverbs",
+    "source": "Simon Willison",
+    "source_id": "simon_willison",
+    "score": 0,
+    "comments": 0,
+    "url": "https://simonwillison.net/2026/Nov/17/go-proverbs/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "simon_willison"
+    ]
+  },
+  {
+    "title": "Build faster with Buck2: Our open source build system",
+    "source": "Meta AI Research",
+    "source_id": "meta_ai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://engineering.fb.com/2023/04/06/open-source/buck2-open-source-large-scale-build-system/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "meta_ai_blog"
+    ]
+  },
+  {
+    "title": "Innovators Under 35 Brasil 2026 reconhece jovens que estão transformando tecnologia e inovação no país",
+    "source": "MIT Tech Review Brasil",
+    "source_id": "mit_tech_review_brasil",
+    "score": 0,
+    "comments": 0,
+    "url": "https://mittechreview.com.br/innovators-under-35-brasil-2026-jovens-inovadores/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review_brasil"
+    ]
+  },
+  {
+    "title": "Apple Permissions Update, The New App Paradigm, My iPhone Duo Review",
+    "source": "Stratechery",
+    "source_id": "stratechery",
+    "score": 0,
+    "comments": 0,
+    "url": "https://stratechery.com/2026/apple-permissions-update-the-new-app-paradigm-my-iphone-duo-review/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "stratechery"
+    ]
+  },
+  {
+    "title": "Baidu’s Robin Li warns of AI bubble risk as applications lag infrastructure spending",
+    "source": "TechNode",
+    "source_id": "technode",
+    "score": 0,
+    "comments": 0,
+    "url": "https://technode.com/2026/11/17/baidus-robin-li-warns-of-ai-bubble-risk-as-applications-lag-infrastructure-spending/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "technode"
+    ]
+  },
+  {
+    "title": "Strengthening NATO and allied cyber defenses with AI",
+    "source": "OpenAI Blog",
+    "source_id": "openai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://openai.com/index/strengthening-nato-allied-cyber-defences-ai",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "openai_blog"
+    ]
+  },
+  {
+    "title": "Build once, run on any agent: A practical guide to agent skills",
+    "source": "The GitHub Blog",
+    "source_id": "github_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://github.blog/ai-and-ml/github-copilot/build-once-run-on-any-agent-a-practical-guide-to-agent-skills/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "github_blog"
+    ]
+  },
+  {
+    "title": "Theoretical Limits of Language Model Alignment",
+    "source": "Apple Machine Learning Research",
+    "source_id": "apple_ml_research",
+    "score": 0,
+    "comments": 0,
+    "url": "https://machinelearning.apple.com/research/theoretical-limits-alignment",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "apple_ml_research"
+    ]
+  },
+  {
+    "title": "Carnegie Mellon is putting computer science courses on YouTube for free",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 1879,
+    "comments": 256,
+    "url": "https://www.cs.cmu.edu/learn/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Nvidia’s first big move after Jensen Huang’s exit targets national security",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/nvidias-first-big-move-after-jensen-huangs-exit-targets-national-security/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "NYC's idea of fining chatbot 'doom loops' should be the default everywhere: every support bot needs a guaranteed human exit within 3 messages",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xyljcr/nycs_idea_of_fining_chatbot_doom_loops_should_be/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "The open-source movement wants Jensen Huang back",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/16/1148624/the-open-source-movement-wants-jensen-huang-back/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "Three Invisible Failure Modes in Speech-Based Age Estimation for Child Safety",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18971",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "Sage S2.1 Flash Technical Report",
+    "source": "HuggingFace Papers",
+    "source_id": "huggingface_papers",
+    "score": 68,
+    "comments": 1,
+    "url": "https://huggingface.co/papers/2611.21072",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "huggingface_papers"
+    ]
+  },
+  {
+    "title": "Baidu, Xiaomi CEOs warn of growing gap between AI hype and returns",
+    "source": "SCMP Tech",
+    "source_id": "scmp_tech",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.scmp.com/tech/big-tech/article/3374774/baidu-xiaomi-ceos-warn-growing-gap-between-ai-hype-and-returns",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "scmp_tech"
+    ]
+  },
+  {
+    "title": "Program-as-Weights: A Programming Paradigm for Fuzzy Functions",
+    "source": "Lobsters",
+    "source_id": "lobsters",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2607.02512",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "lobsters"
+    ]
+  },
+  {
+    "title": "llm 0.37.3",
+    "source": "Simon Willison",
+    "source_id": "simon_willison",
+    "score": 0,
+    "comments": 0,
+    "url": "https://simonwillison.net/2026/Nov/16/llm/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "simon_willison"
+    ]
+  },
+  {
+    "title": "Two meta sustainability grant and scholarship recipients share impact",
+    "source": "Meta AI Research",
+    "source_id": "meta_ai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://sustainability.fb.com/blog/2023/03/24/two-meta-sustainability-grant-and-scholarship-recipients-share-impact/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "meta_ai_blog"
+    ]
+  },
+  {
+    "title": "IA agêntica no seguro: antes de automatizar decisões, o setor precisa organizar a casa",
+    "source": "MIT Tech Review Brasil",
+    "source_id": "mit_tech_review_brasil",
+    "score": 0,
+    "comments": 0,
+    "url": "https://mittechreview.com.br/ia-agentica-mercado-segurador-automacao-processos/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review_brasil"
+    ]
+  },
+  {
+    "title": "OpenAI Shut Down Sora. Kuaishou Is Betting Bigger on Kling.",
+    "source": "TechNode",
+    "source_id": "technode",
+    "score": 0,
+    "comments": 0,
+    "url": "https://technode.com/2026/11/17/kuaishou-kling-sora-hong-kong-ipo/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "technode"
+    ]
+  },
+  {
+    "title": "Introducing OpenAI for Chile",
+    "source": "OpenAI Blog",
+    "source_id": "openai_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://openai.com/index/introducing-openai-for-chile",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "openai_blog"
+    ]
+  },
+  {
+    "title": "GitHub availability report: October 2026",
+    "source": "The GitHub Blog",
+    "source_id": "github_blog",
+    "score": 0,
+    "comments": 0,
+    "url": "https://github.blog/news-insights/company-news/github-availability-report-october-2026/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "github_blog"
+    ]
+  },
+  {
+    "title": "S. Korea to send nationwide emergency alerts over college entrance exam cheating",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 9,
+    "comments": 1,
+    "url": "https://apnews.com/article/south-korea-exam-cheating-ai-college-e25b5612dbf4bd09fdf9197254c4547e",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Hank Green is self-funding ClockwiseTV, a curated educational video platform for kids",
+    "source": "TechCrunch",
+    "source_id": "techcrunch",
+    "score": 0,
+    "comments": 0,
+    "url": "https://techcrunch.com/2026/11/17/hank-green-is-self-funding-clockwisetv-a-curated-educational-video-platform-for-kids/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "techcrunch"
+    ]
+  },
+  {
+    "title": "Google says it found an AI framework that automates vulnerability research and exploitation",
+    "source": "r/artificial",
+    "source_id": "reddit",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.reddit.com/r/artificial/comments/1xykgl6/google_says_it_found_an_ai_framework_that/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "reddit"
+    ]
+  },
+  {
+    "title": "Building trustworthy AI by fencing it in, not predicting it",
+    "source": "MIT Technology Review",
+    "source_id": "mit_tech_review",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.technologyreview.com/2026/11/16/1148565/building-trustworthy-ai-by-fencing-it-in-not-predicting-it/",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "mit_tech_review"
+    ]
+  },
+  {
+    "title": "Ask Precisely, Assume Wisely: Interactive Evaluation of Ambiguity Resolution in Large Language Models",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18905",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "My Emacs 31 contributions",
+    "source": "Lobsters",
+    "source_id": "lobsters",
+    "score": 0,
+    "comments": 0,
+    "url": "https://xenodium.com/my-emacs-31-contributions",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "lobsters"
+    ]
+  },
+  {
+    "title": "First Photos of the Poles of a Rod-Shaped Bacterium",
+    "source": "HackerNews",
+    "source_id": "hackernews",
+    "score": 6,
+    "comments": 0,
+    "url": "https://nautil.us/check-out-the-first-photos-of-the-poles-of-a-rod-shaped-bacterium-1286664",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "hackernews"
+    ]
+  },
+  {
+    "title": "Dual-Stage Channel-Posterior Integration for MLM-Aided Token Communications",
+    "source": "arXiv (CS.AI)",
+    "source_id": "arxiv_ai",
+    "score": 0,
+    "comments": 0,
+    "url": "https://arxiv.org/abs/2611.18958",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "arxiv_ai"
+    ]
+  },
+  {
+    "title": "Centered Ablation: Why Last-Layer Directional Ablation Under-Fires or Collapses, and a Closed-Form Fix",
+    "source": "HuggingFace Papers",
+    "source_id": "huggingface_papers",
+    "score": 1,
+    "comments": 2,
+    "url": "https://huggingface.co/papers/2611.20148",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "huggingface_papers"
+    ]
+  },
+  {
+    "title": "US tightens AI chip export curbs to close China’s overseas data centre loophole",
+    "source": "SCMP Tech",
+    "source_id": "scmp_tech",
+    "score": 0,
+    "comments": 0,
+    "url": "https://www.scmp.com/tech/article/3374639/us-tightens-ai-chip-export-curbs-close-chinas-overseas-data-centre-loophole",
+    "cross_source_count": 1,
+    "cross_source_ids": [
+      "scmp_tech"
+    ]
+  }
+]
