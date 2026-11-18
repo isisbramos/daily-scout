@@ -801,7 +801,7 @@
       <div class="page-eyebrow">// A correspondente</div>
       <h1 class="page-title">Ela é a <em>AYA</em>.<br>Uma correspondente que não é humana.</h1>
       <p class="page-sub">
-        A AYA é uma persona de IA com linha editorial, voz e ponto de vista. Toda manhã ela roda um framework de 5 steps em 22 fontes globais e publica um relatório. Aqui está como funciona — e quem construiu ela.
+        A AYA é uma persona de IA com linha editorial, voz e ponto de vista. Toda manhã ela roda um framework de 5 steps em 23 fontes globais e publica um relatório. Aqui está como funciona — e quem construiu ela.
       </p>
     </div>
   </header>
@@ -821,7 +821,7 @@
             version: <strong>v0.1</strong><br>
             role: correspondente de IA<br>
             temperature: 0.0<br>
-            framework: editorial v5.3<br>
+            framework: editorial v5.5<br>
             frequency: diária · 8h BRT<br>
             language: PT-BR<br>
             voice: factual, no hype<br>
@@ -836,7 +836,7 @@
             A maioria das newsletters de IA são amplificadores. Pegam o que deu trending no HN ou no Twitter e reembalam com adjetivos mais pesados. Não é isso que a AYA faz.
           </p>
           <p>
-            Toda manhã ela puxa ~300 histórias candidatas de 22 fontes e roda cada uma por um pipeline editorial. Quando você abre o email, ela já disse "não" pra cerca de 295 coisas. O que sobra, vale seu tempo — <strong>um deep dive, três quick finds e uma seção radar</strong> de tendências em formação que valem acompanhar.
+            Toda manhã ela puxa ~300 histórias candidatas de 23 fontes e roda cada uma por um pipeline editorial. Quando você abre o email, ela já disse "não" pra quase tudo. O que sobra, vale seu tempo — <strong>um achado do dia, alguns quick finds e uma seção radar</strong> de sinais ainda cedo que valem acompanhar. Em cada item, uma linha <strong>"→ No seu trabalho"</strong> diz o que aquilo muda pra quem usa IA no dia a dia.
           </p>
 
           <blockquote>
@@ -879,7 +879,7 @@
             <strong>Step 1 — AI Gate.</strong> A história precisa ter ângulo de IA substantivo. Não é "tem AI no título". É ângulo de verdade.
           </p>
           <p>
-            <strong>Step 2 — Critérios.</strong> Precisa passar em 2 de 3 testes: acionável pro leitor, indicador de mercado relevante, ou afeta workflows diretamente.
+            <strong>Step 2 — Critérios.</strong> Precisa passar em 2 de 3 testes: acionável pro leitor, indicador de mercado relevante, ou afeta workflows diretamente. E no teste de decisão: quem usa IA consegue tomar ou rever uma decisão por causa disto?
           </p>
           <p>
             <strong>Step 3 — Anti-signal scan.</strong> Sinaliza e corta conteúdo reciclado, genérico ou anti-pattern (funding sem implicação de produto, etc.).
@@ -888,7 +888,7 @@
             <strong>Step 4 — Ranking.</strong> Z-score de tração + recency decay + peso editorial. Aqui é onde a tração finalmente entra — como tiebreaker, não como gate.
           </p>
           <p>
-            <strong>Step 5 — Teste de completude.</strong> "Sabia que agora dá pra...?" Se a AYA não consegue terminar essa frase com uma capability específica e afiada, a história não pertence.
+            <strong>Step 5 — Teste final.</strong> A história precisa virar um fato: "agora é possível [ação concreta]", "[player] está movendo pra [categoria]", "[autoridade] decidiu [ação]". Se a AYA só consegue escrever "fulano publicou um texto", ou se é opinião sem evento, a história não pertence.
           </p>
 
         </div>
@@ -902,7 +902,7 @@
     <div class="container">
       <div class="sources-header reveal">
         <div class="section-eyebrow">// fontes monitoradas</div>
-        <h2 class="section-title">22 fontes globais.<br>3 intencionalmente <em>fora da bolha US/EU</em>.</h2>
+        <h2 class="section-title">23 fontes globais.<br>5 intencionalmente <em>fora da bolha US/EU</em>.</h2>
         <p class="section-sub">A maioria das newsletters de IA bebe do mesmo lago — US-centric, Valley-first. O mix de fontes da AYA é deliberadamente diferente. Perspectiva global não é feature. É o default.</p>
       </div>
 
@@ -980,20 +980,43 @@
         </div>
 
         <div class="source">
-          <div class="source-badge">GH</div>
+          <div class="source-badge">HF</div>
           <div class="source-info">
-            <div class="source-name">GitHub Trending</div>
-            <div class="source-type">OSS SIGNAL · BUILDING TODAY</div>
-            <div class="source-desc">O que está ganhando estrelas essa semana. Frequentemente traz tools antes delas chegarem nas newsletters.</div>
+            <div class="source-name">HuggingFace Papers</div>
+            <div class="source-type">RESEARCH · PAPERS DO DIA</div>
+            <div class="source-desc">Papers que a comunidade está lendo agora. Entra quando nomeia uma capacidade que um produto pode usar.</div>
           </div>
         </div>
-
         <div class="source">
-          <div class="source-badge">PH</div>
+          <div class="source-badge">LAB</div>
           <div class="source-info">
-            <div class="source-name">Product Hunt</div>
-            <div class="source-type">PRODUCT · DAILY LAUNCHES</div>
-            <div class="source-desc">Lançamentos diários filtrados por produtos de IA com diferenciação real, não só wrappers.</div>
+            <div class="source-name">Blogs dos labs</div>
+            <div class="source-type">PRIMÁRIA · ANTHROPIC, OPENAI, DEEPMIND, META, APPLE, MISTRAL</div>
+            <div class="source-desc">Anúncio direto da fonte. Peso baixo de propósito: só passa o que dá pra testar agora, não posicionamento de marca.</div>
+          </div>
+        </div>
+        <div class="source">
+          <div class="source-badge">ESS</div>
+          <div class="source-info">
+            <div class="source-name">Simon Willison · Ethan Mollick · Stratechery</div>
+            <div class="source-type">ANÁLISE · PRACTITIONERS</div>
+            <div class="source-desc">Quem testa ferramenta e escreve sobre uso real e estratégia — corroboração e contexto pros anúncios.</div>
+          </div>
+        </div>
+        <div class="source">
+          <div class="source-badge geo">BR</div>
+          <div class="source-info">
+            <div class="source-name">Agência Brasil</div>
+            <div class="source-type geo-tag">GEOGRAPHIC · BRASIL</div>
+            <div class="source-desc">IA na política pública, na regulação e na economia brasileira.</div>
+          </div>
+        </div>
+        <div class="source">
+          <div class="source-badge geo">MIT</div>
+          <div class="source-info">
+            <div class="source-name">MIT Technology Review Brasil</div>
+            <div class="source-type geo-tag">GEOGRAPHIC · BRASIL</div>
+            <div class="source-desc">Cobertura de tecnologia em português, com recorte do mercado brasileiro.</div>
           </div>
         </div>
       </div>
@@ -1063,7 +1086,7 @@
       <div class="stack-diagram reveal">
         <div class="stack-row">
           <div class="stack-stage">01 · Collect</div>
-          <div class="stack-name">Ingestão de fontes<small>22 fontes · Reddit, HN, RSS, APIs</small></div>
+          <div class="stack-name">Ingestão de fontes<small>23 fontes · Reddit, HN, RSS, APIs</small></div>
           <div class="stack-name">Python</div>
         </div>
         <div class="stack-row">
@@ -1073,7 +1096,7 @@
         </div>
         <div class="stack-row">
           <div class="stack-stage">03 · Curate</div>
-          <div class="stack-name">Editorial framework v5.3<small>AI Gate · Critérios · Anti-signal · Ranking · Teste de completude</small></div>
+          <div class="stack-name">Editorial framework v5.5<small>AI Gate · Critérios + teste de decisão · Anti-signal · Ranking · Teste final</small></div>
           <div class="stack-name">LLM</div>
         </div>
         <div class="stack-row">
@@ -1123,7 +1146,7 @@
   <footer>
     <div class="container">
       <div class="footer-row">
-        <div style="display:flex; align-items:center; gap:8px;"><img src="../brand-assets/vesica.svg" alt="" height="20" style="display:block; width:auto;"><span>© 2026 AYA · correspondente v0.1 · pipeline editorial v5.3</span></div>
+        <div style="display:flex; align-items:center; gap:8px;"><img src="../brand-assets/vesica.svg" alt="" height="20" style="display:block; width:auto;"><span>© 2026 AYA · correspondente v0.1 · pipeline editorial v5.5</span></div>
         <div class="footer-links-row">
           <a href="../">Home</a>
           <a href="../archive/">Edições</a>

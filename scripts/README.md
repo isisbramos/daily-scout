@@ -103,3 +103,8 @@ python scripts/prompt_replay.py --label novo --compare debug/replay/base.json
 
 Limite conhecido: as 3 entradas atuais são do mesmo dia (17/11) e as mais antigas não carregam o `summary` de papers. Acrescente entradas de outros dias aos poucos.
 
+## Lista de edições do site (`build_archive.py`)
+
+- [2026-11-18] `scripts/build_archive.py` gera `archive/editions.json` a partir do arquivo público do Buttondown (sem API key, sem LLM). O site lê esse JSON: `archive/index.html` lista todas as edições com busca, e `index.html` mostra as 3 mais recentes.
+- Roda sozinho pelo workflow `.github/workflows/site-archive.yml`: depois de cada execução do pipeline diário e às 15h BRT. Incremental (~3 s); `--full` reabre todas (~8 min).
+- Edições que não estão no arquivo público do Buttondown (hoje #002 e #065) não aparecem na lista.
