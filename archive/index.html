@@ -537,6 +537,30 @@
       }
       .reveal { opacity: 1; transform: none; }
     }
+    .search-input {
+      flex: 1 1 260px;
+      max-width: 420px;
+      padding: 8px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--green); }
+    .archive-count { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin-left: auto; }
+    .month-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 32px 0 4px;
+    }
+    .month-label:first-child { margin-top: 0; }
+    .editions-status { font-family: var(--mono); font-size: 13px; color: var(--text-muted); padding: 24px 0; }
   </style>
 </head>
 <body>
@@ -561,7 +585,7 @@
       <div class="page-eyebrow">// Arquivo de field reports</div>
       <h1 class="page-title">Toda edição, <em>desde o início</em>.</h1>
       <p class="page-sub">
-        Toda manhã desde março de 2026, a AYA filtra ~300 histórias de tech & IA até chegar em 5. Abaixo está o field log — o deep dive de cada edição, com link pra ler o relatório completo.
+        Toda manhã desde março de 2026, a AYA filtra ~300 histórias de tech &amp; IA até chegar no que muda alguma coisa. Abaixo estão todas as edições publicadas — o achado do dia de cada uma, com link pro field report completo.
       </p>
     </div>
   </header>
@@ -569,111 +593,23 @@
   <!-- FILTER BAR -->
   <div class="filter-bar">
     <div class="filter-bar-inner">
-      <span class="filter-label">Filtrar por ângulo:</span>
-      <span class="chip active">Todas</span>
-      <span class="chip">AI infra</span>
-      <span class="chip">Security</span>
-      <span class="chip">Dev tools</span>
-      <span class="chip">Global</span>
-      <span class="chip">Product</span>
+      <span class="filter-label">Buscar:</span>
+      <input type="search" id="edition-search" class="search-input" placeholder="empresa, tema, número…" aria-label="Buscar edições">
+      <span class="archive-count" id="edition-count"></span>
     </div>
   </div>
 
-  <!-- ARCHIVE LIST -->
+  <!-- ARCHIVE LIST — renderizada a partir de editions.json (scripts/build_archive.py) -->
   <main class="archive-list">
     <div class="container">
-      <div class="editions">
-
-        <a href="https://buttondown.com/ramosdisis/archive/daily-scout-001-ataque-critico-na-supply-chain/" target="_blank" rel="noopener" class="edition reveal">
-          <div class="edition-num">#001<br>30 MAR 2026</div>
-          <div class="edition-content">
-            <h2 class="edition-title">Ataque de supply-chain atinge 23 mil+ repos no GitHub.</h2>
-            <p class="edition-excerpt">Um commit malicioso em tj-actions/changed-files expôs secrets de CI/CD em milhares de repositórios. A AYA escava por que isso importa além do CVE — e o que sinaliza sobre a postura de security em pipelines modernas aceleradas por IA.</p>
-            <div class="edition-meta">
-              <span class="edition-tag">SECURITY</span>
-              <span>3 min de leitura</span>
-              <span>· fontes: HN, Lobsters, TechCrunch</span>
-            </div>
-          </div>
-          <div class="edition-arrow">→</div>
-        </a>
-
-        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="edition reveal">
-          <div class="edition-num">#003<br>02 ABR 2026</div>
-          <div class="edition-content">
-            <h2 class="edition-title">Copilot coloca anúncios dentro de pull requests.</h2>
-            <p class="edition-excerpt">Sugestões patrocinadas estão aparecendo dentro de PRs do GitHub — monetização saindo do IDE e entrando no code review. O que isso significa pra maintainers, pra policy de open source e pro espaço cognitivo do developer workflow.</p>
-            <div class="edition-meta">
-              <span class="edition-tag">DEV TOOLS</span>
-              <span>3 min de leitura</span>
-              <span>· fontes: HN, Reddit, Lobsters</span>
-            </div>
-          </div>
-          <div class="edition-arrow">→</div>
-        </a>
-
-        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="edition reveal">
-          <div class="edition-num">#005<br>05 ABR 2026</div>
-          <div class="edition-content">
-            <h2 class="edition-title">Anthropic parte pra cima do enterprise coding.</h2>
-            <p class="edition-excerpt">Um movimento de pricing que corta o Copilot sinaliza uma guerra de margem em AI coding assistants. A AYA olha o que isso significa pro PM — IDE integrations, vendor lock-in, e por que "mais barato + bom o suficiente" ganha no procurement de SaaS enterprise.</p>
-            <div class="edition-meta">
-              <span class="edition-tag">AI INFRA</span>
-              <span>3 min de leitura</span>
-              <span>· fontes: TechCrunch, HN</span>
-            </div>
-          </div>
-          <div class="edition-arrow">→</div>
-        </a>
-
-        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="edition reveal">
-          <div class="edition-num">#007<br>08 ABR 2026</div>
-          <div class="edition-content">
-            <h2 class="edition-title">Modelo multimodal da Alibaba aparece.</h2>
-            <p class="edition-excerpt">Cobertura via SCMP sobre uma parceria com state labs que a maior parte dos feeds ocidentais deixou passar. Por que o eixo China-tech ainda importa pra quem está construindo roadmap de IA — e como a sovereign AI está virando critério de procurement.</p>
-            <div class="edition-meta">
-              <span class="edition-tag">GLOBAL</span>
-              <span>3 min de leitura</span>
-              <span>· fontes: SCMP, Rest of World, TechNode</span>
-            </div>
-          </div>
-          <div class="edition-arrow">→</div>
-        </a>
-
-        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="edition reveal">
-          <div class="edition-num">#010<br>12 ABR 2026</div>
-          <div class="edition-content">
-            <h2 class="edition-title">Rust entra nos drivers de GPU do kernel Linux.</h2>
-            <p class="edition-excerpt">Validação estrutural, não hype. O merge de drivers de GPU em Rust no kernel 6.x é um indício silencioso sobre pra onde a infra de longo prazo está indo — e o que isso significa pra workloads de IA rodando em bare metal.</p>
-            <div class="edition-meta">
-              <span class="edition-tag">AI INFRA</span>
-              <span>3 min de leitura</span>
-              <span>· fontes: Lobsters, HN, LWN</span>
-            </div>
-          </div>
-          <div class="edition-arrow">→</div>
-        </a>
-
-        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="edition reveal">
-          <div class="edition-num">#014<br>16 ABR 2026</div>
-          <div class="edition-content">
-            <h2 class="edition-title">Voice agents comem o papel do SDR sem fazer barulho.</h2>
-            <p class="edition-excerpt">Três empresas B2B SaaS lançaram AI voice agents pra outbound nessa semana. A AYA corta o ruído dos anúncios de funding pra olhar o que importa: unit economics, tolerância a repetição, e onde as sales orgs estão de fato redesenhando workflows.</p>
-            <div class="edition-meta">
-              <span class="edition-tag">PRODUCT</span>
-              <span>3 min de leitura</span>
-              <span>· fontes: HN, Product Hunt, TechCrunch</span>
-            </div>
-          </div>
-          <div class="edition-arrow">→</div>
-        </a>
-
+      <div class="editions" id="editions">
+        <p class="editions-status">Carregando edições… Se nada aparecer, veja o <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener">arquivo no Buttondown</a>.</p>
       </div>
 
       <div class="buttondown-cta reveal">
         <h3>Quer mais?</h3>
-        <p>O arquivo completo vive no Buttondown — todo field report que a AYA já publicou.</p>
-        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="btn-secondary">Ver arquivo completo no Buttondown →</a>
+        <p>Cada edição abre no Buttondown, onde está o field report completo: achado do dia, quick finds e radar.</p>
+        <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener" class="btn-secondary">Abrir o arquivo no Buttondown →</a>
       </div>
 
     </div>
@@ -725,24 +661,59 @@
       els.forEach(function(el) { io.observe(el); });
     })();
 
-    // Chip filter — filtra as edições pelo ângulo (texto da .edition-tag)
+    // Lista de edições: lê editions.json, agrupa por mês e filtra pela busca.
     (function() {
-      var chips = document.querySelectorAll('.chip');
-      var editions = document.querySelectorAll('.edition');
-      function norm(s) { return (s || '').trim().toLowerCase(); }
-      chips.forEach(function(c) {
-        c.addEventListener('click', function() {
-          chips.forEach(function(x) { x.classList.remove('active'); });
-          c.classList.add('active');
-          var sel = norm(c.textContent);
-          editions.forEach(function(ed) {
-            var tagEl = ed.querySelector('.edition-tag');
-            var angle = norm(tagEl ? tagEl.textContent : '');
-            var show = (sel === 'todas') || (angle === sel);
-            ed.style.display = show ? '' : 'none';
+      var list = document.getElementById('editions');
+      var input = document.getElementById('edition-search');
+      var count = document.getElementById('edition-count');
+      var MONTHS = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+      var MON = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+      var all = [];
+      function esc(t) { var d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
+      function norm(t) { return (t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+      function render(items) {
+        if (!items.length) { list.innerHTML = '<p class="editions-status">Nenhuma edição encontrada.</p>'; }
+        else {
+          var html = '', month = '';
+          items.forEach(function(e) {
+            var p = (e.date || '').split('-');
+            var key = p[0] + '-' + p[1];
+            if (key !== month) {
+              month = key;
+              html += '<div class="month-label">' + MONTHS[+p[1] - 1] + ' ' + p[0] + '</div>';
+            }
+            var num = ('00' + e.num).slice(-3);
+            html += '<a href="' + esc(e.url) + '" target="_blank" rel="noopener" class="edition">' +
+              '<div class="edition-num">#' + num + '<br>' + p[2] + ' ' + MON[+p[1] - 1] + ' ' + p[0] + '</div>' +
+              '<div class="edition-content"><h2 class="edition-title">' + esc(e.title) + '</h2>' +
+              (e.excerpt ? '<p class="edition-excerpt">' + esc(e.excerpt) + '</p>' : '') +
+              '<div class="edition-meta"><span>3 min de leitura</span>' +
+              (e.source ? '<span>· achado via ' + esc(e.source) + '</span>' : '') +
+              '</div></div><div class="edition-arrow">→</div></a>';
           });
+          list.innerHTML = html;
+        }
+        count.textContent = items.length + (items.length === 1 ? ' edição' : ' edições');
+      }
+      function filter() {
+        var q = norm(input.value.trim());
+        if (!q) return render(all);
+        var qn = q.replace(/^#/, '');
+        render(all.filter(function(e) {
+          return String(e.num) === qn || norm(e.title + ' ' + e.excerpt + ' ' + e.source).indexOf(q) !== -1;
+        }));
+      }
+      fetch('./editions.json', { cache: 'no-cache' })
+        .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(function(data) {
+          all = (data.editions || []).filter(function(e) { return e.num && e.date; });
+          render(all);
+          var t;
+          input.addEventListener('input', function() { clearTimeout(t); t = setTimeout(filter, 120); });
+        })
+        .catch(function() {
+          list.innerHTML = '<p class="editions-status">Não consegui carregar a lista agora. Veja todas as edições no <a href="https://buttondown.com/ramosdisis/archive/" target="_blank" rel="noopener">arquivo do Buttondown</a>.</p>';
         });
-      });
     })();
   </script>
 </body>
