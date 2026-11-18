@@ -1,4 +1,4 @@
-name: AYA — Site: lista de edições
+name: "AYA — Site — lista de edições"
 
 # Atualiza archive/editions.json (lista de todas as edições no site) a partir do
 # arquivo público do Buttondown. Não usa secrets nem LLM e não toca no pipeline.
