@@ -46,3 +46,8 @@ Tema/achado: (1) o resumo de 320 caracteres cortava o abstract antes do resultad
 Por que não bateu: o prompt cresceu 41% em um dia (4,5 mil → 6,4 mil palavras no `curation_template`; proibições de 26 para 42) com 5 commits de prompt, e cada rodada de teste foi uma amostra única com entrada diferente — não dava para separar efeito da mudança, aleatoriedade e feed do dia.
 Critério novo: tratado no passo 2.3 (PR do replay): (1) e (2) viram parâmetro e guard de código, sem texto de prompt. **Congelado até 5 edições reais:** (3), (4), (5), (6). Depois, passo 2.4 (limpeza do prompt) medido no replay.
 
+
+## 2026-11-18 — edição #241
+Tema/achado: o achado do dia (GPT-6.2 Astra e Sol) saiu com o bullet "o título não detalha diferenças de capacidade, preço ou disponibilidade entre elas" — meta-linguagem falando com o leitor sobre o input da AYA.
+Por que não bateu: a proibição de mencionar "o título" entrou na v5.5.1 só para o `why_watch` do radar; nada impede o mesmo no main_find e nos quick_finds. E o `prompt_lint` conta meta-linguagem no `body`/`signal` e no radar, mas não nos `bullets` do main_find, onde este caso apareceu — o replay não pegaria.
+Critério novo: **congelado até 5 edições reais** (junto com o item (3) da entrada anterior). Candidatos: (a) lint conta `bullets` em `meta_linguagem` (ferramenta, não muda produção); (b) estender a regra do radar para todo texto do leitor, medido no replay no passo 2.4.
