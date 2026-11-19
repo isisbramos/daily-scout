@@ -206,6 +206,7 @@
     }
   },
 
+  "article_fetch": {"enabled": true, "top_n": 10, "max_chars": 1500, "timeout": 8, "max_workers": 5, "_comment": "Trecho do artigo para os top_n itens do pre-filter (article_fetch.py). Falha aberta: sem texto, o item segue só com título e summary. Desligar: enabled false."},
   "final_review": {
     "mode": "shadow",
     "min_quick_finds": 3,
