@@ -17,6 +17,13 @@
 
 Não é métrica de produto, mas sustenta a promessa de "7h55 BRT" de `context/produto.md`. Mede o atraso entre 7h55 BRT e o início do run que enviou a edição. Alvo: início em até 10 min depois do horário em 95% dos dias. Onde medir: step summary do job `guard` em cada run, e o histórico com `gh run list` (comando em `ops/disparo-externo.md`, seção Métricas). Fica fora do Content Report até a iteração 4 daquele doc.
 
+## Métrica operacional: qualidade do input e do texto
+
+Desde a ed. 243 (#76, #79). Não é métrica de produto: diz se o LLM está escrevendo a partir da matéria ou só do título.
+
+- **`[META]` por edição.** Alvo: zero. É o texto que comenta o input ("o título não diz…"). Onde medir: o log do run em `daily-scout.yml` (linhas `[META]`; cada uma gera um retry) e, depois do envio, a nota da edição em `vault-outbox/` (regex `META_INPUT_PATTERNS` em `pipeline.py`). Linha de base: 6 de 82 notas com o padrão até a ed. 242.
+- **Taxa de excerpt.** Linha `Article excerpts: X/Y ok` no log do run. Se ficar abaixo de ~50%, revisar `SKIP_HOSTS` e o extractor em `article_fetch.py` pelos domínios que aparecem em `[EXCERPT] sem trecho`.
+
 ## O que fica em `debug/`
 
 `debug/` guarda o audit por edição (`edition_N_audit.json`, `edition_N_review.json`) — isso é qualidade editorial (alinhamento, tom, diversidade, veredito do revisor final), não métrica de leitor. Entra no Content Report (`reports/`) como scorecard de qualidade, cruzado com o feedback real (ver linha "Feedback ratio" acima), mas não substitui nenhuma das 8 métricas de produto.

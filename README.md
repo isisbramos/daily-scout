@@ -17,8 +17,12 @@ sources/ (23 fontes habilitadas em sources_config.json)
     │   China, Rest of World)
     ▼
 pre_filter.py
-    │   dedup (URL + título cross-source) → filtro de recência → scoring por peso
-    │   temático → diversidade de fonte/geografia/epistêmica → wild card zone
+    │   dedup (URL + título cross-source, herdando o summary do item descartado) →
+    │   filtro de recência → scoring por peso temático → diversidade de
+    │   fonte/geografia/epistêmica → wild card zone
+    ▼
+article_fetch.py
+    │   busca o início do artigo (excerpt) dos 10 primeiros itens; falha aberta
     ▼
 DeepSeek (curate_and_write, em pipeline.py)
     │   saída estruturada (Pydantic) com anti-alucinação, injeção de memória
@@ -43,6 +47,7 @@ Em paralelo, três sistemas auxiliares fecham o loop de qualidade:
 pipeline.py           # orquestra o pipeline principal (fetch → filter → curate → render → send)
 sources/              # fontes plugáveis (BaseSource + SourceRegistry)
 pre_filter.py         # dedup, scoring, diversidade
+article_fetch.py      # trecho do artigo (excerpt) dos itens do topo, pro input do LLM
 schemas.py            # schemas Pydantic da saída estruturada do LLM
 llm_config.py         # modelo DeepSeek centralizado (1 lugar pra trocar)
 delivery.py           # envio via Buttondown
@@ -93,6 +98,8 @@ pytest tests/
 | `security.yml` | semanal + PRs que tocam deps | `pip-audit` nas dependências |
 | `codeql.yml` | semanal + push/PR em `.py` | análise estática (CodeQL) do código Python |
 | `tests.yml` | semanal + push/PR em `.py` ou dependências | roda a suíte pytest (`tests/`) |
+
+**PRs empilhados** (um PR com base na branch de outro): faça o merge um de cada vez e, antes do próximo, confira que a base dele virou `main`. Em 19/11 o #77 e o #78 foram mergeados nas branches intermediárias, não na `main`, e precisaram ser reaplicados no #79.
 
 Dependências são gerenciadas via Dependabot (`.github/dependabot.yml`), com versões pinadas em `requirements.txt`/`requirements-dev.txt` — os bumps chegam como PR em vez de silenciosos.
 

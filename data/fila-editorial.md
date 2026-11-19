@@ -26,6 +26,11 @@ Por que não bateu: sua intuição, mesmo que ainda não esteja articulada como 
 Critério novo (preenchido durante a sessão de ajuste, não precisa vir pronto): —
 -->
 
+## 2026-11-19 — edição #242
+Tema/achado: o achado do dia (Gemini 4 Neon) falava do título em vez do lançamento: "nenhum desses pontos está no título", "o título não detalha preço". O mesmo padrão aparece em 6 de 82 notas do `vault-outbox` (Gemini 4 Carbon, FTC, China, GPT-6.2, OpenAI).
+Por que não bateu: o leitor não vê o input. E a causa era o input: fora de arXiv e HF Papers, o LLM recebia só o título.
+Critério novo: "não falar do input para o leitor (título, post, summary); se falta um dado que muda a decisão, dizer o que conferir no anúncio oficial". Tratado em #76 (summary em todas as fontes), #79 (excerpt dos 10 primeiros itens + regra no prompt + check `[META]`). **Em medição desde a ed. 243:** contagem de `[META]` por edição (meta zero) e taxa de excerpt. Mover para `EDITORIAL_RETROSPECTIVE.md` depois de 5 edições.
+
 ## 2026-11-17 — edição #240
 Tema/achado: o item do pacto global (COP31) saiu com uma linha "No seu produto" que falava de operação no Brasil exigindo transparência energética — contexto que o título não traz. Em geral, a edição soa técnica demais (papers, chips, modelos de fronteira).
 Por que não bateu: a AYA é para quem constrói COM IA e usa IA no dia a dia para ajudar o negócio, não para quem constrói IA.
