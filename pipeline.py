@@ -33,6 +33,7 @@ import sources.lobsters
 import sources.rss_generic  # v5: AI lab blogs + geographic diversity sources
 import sources.huggingface_papers  # API JSON oficial — huggingface.co/papers não tem RSS
 from pre_filter import run_pre_filter
+from article_fetch import enrich_with_excerpts
 from schemas import Reasoning, MainFind, QuickFind, RadarItem, Meta, CurationOutput
 from delivery import send_via_buttondown, send_fallback
 from coherence import note_main_swap, refresh_after_swaps
@@ -150,12 +151,18 @@ def fetch_all_sources(config: dict) -> list[SourceItem]:
 
 # ── Pre-Filter ──────────────────────────────────────────────────────
 def filter_items(items: list[SourceItem], config: dict) -> list[SourceItem]:
-    """Aplica pre-filter layer: dedup, recency, scoring, token budget."""
+    """Aplica pre-filter layer: dedup, recency, scoring, token budget.
+
+    Depois do pre-filter, busca o trecho do artigo dos itens do topo
+    (sources_config.json → article_fetch). Falha aberta.
+    """
     logger.info("=" * 50)
     logger.info("PHASE 2: PRE-FILTER — dedup, score, trim")
     logger.info("=" * 50)
 
-    return run_pre_filter(items, config)
+    filtered = run_pre_filter(items, config)
+    enrich_with_excerpts(filtered, config.get("article_fetch"))
+    return filtered
 
 
 # ── Curate & Write: DeepSeek (structured output + anti-hallucination) ──
@@ -207,14 +214,27 @@ HYPE_PATTERNS = re.compile(
 )
 
 
+# Meta-referência ao input: o leitor não vê o título nem o resumo que o LLM recebeu.
+# Ed. 242: "nenhum desses pontos está no título", "o título não detalha preço".
+# "Post questiona se..." (REGRA DE CERTEZA) é atribuição e não entra aqui.
+META_INPUT_PATTERNS = re.compile(
+    r"(\b(?:n[oa]|d[oa]|pel[oa]|[oa])\s+(?:título|manchete|summary|excerpt)\b(?!\s*['\"“‘])"
+    r"|\b(?:o post|a postagem|a matéria|o artigo|o anúncio|a notícia|o texto)\s+não\s+"
+    r"(?:diz|informa|detalha|traz|explica|menciona|especifica|revela)\b)",
+    re.IGNORECASE,
+)
+
+
 def validate_tone(content: dict) -> list[str]:
-    """Checa heurísticas de sensacionalismo no output. Retorna lista de warnings."""
+    """Checa sensacionalismo e meta-referência ao input no output. Retorna lista de warnings."""
     warnings = []
 
     def _check_text(text: str, field_name: str):
         matches = HYPE_PATTERNS.findall(text)
         for match in matches:
             warnings.append(f"[HYPE] '{match}' encontrado em {field_name}")
+        for m in META_INPUT_PATTERNS.finditer(text or ""):
+            warnings.append(f"[META] '{m.group(0)}' encontrado em {field_name}")
 
     # Checa main_find
     mf = content.get("main_find", {})
@@ -233,6 +253,9 @@ def validate_tone(content: dict) -> list[str]:
 
     return warnings
 
+
+# Trecho do artigo (article_fetch.py) que acompanha os itens do topo no input do LLM.
+PROMPT_EXCERPT_CHARS = 1500
 
 # Resumo (abstract) que acompanha itens de fontes de pesquisa no input do LLM.
 # 320 cortava o abstract antes do resultado/contribuição (dry run de 17/11: 4 de 4 resumos
@@ -291,6 +314,9 @@ def _prompt_entry(item: SourceItem) -> dict:
     summary = clean_summary((item.extra or {}).get("summary"), PROMPT_SUMMARY_CHARS)
     if summary:
         entry["summary"] = summary
+    excerpt = clean_summary((item.extra or {}).get("article_excerpt"), PROMPT_EXCERPT_CHARS)
+    if excerpt:
+        entry["excerpt"] = excerpt
     # v5: inclui cross-source signal quando item apareceu em múltiplas fontes
     if item.cross_source_count > 1:
         entry["also_trending_on"] = [
