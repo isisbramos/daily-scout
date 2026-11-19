@@ -1,7 +1,17 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 239,
+ "count": 240,
  "editions": [
+  {
+   "num": 242,
+   "title": "Google lança Gemini 4 Neon, novo modelo da linha Gemini",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-242-google-lanca-gemini-4-neon-novo-modelo-da/",
+   "date": "2026-11-19",
+   "main_title": "Google lança Gemini 4 Neon, novo modelo da linha Gemini",
+   "source": "HackerNews",
+   "work_line": "se sua equipe usa Gemini via API ou produto, vale conferir na página oficial o que muda em custo por uso, limites e termos de dados antes de migrar qualquer fluxo para a versão Neon.",
+   "excerpt": "O Google anunciou o Gemini 4 Neon, novo modelo da família Gemini — a linha de modelos de IA do Google DeepMind usada em produtos como o chatbot Gemini e em APIs para empresas."
+  },
   {
    "num": 241,
    "title": "OpenAI lança GPT-6.2 Astra e GPT-6.2 Sol",
