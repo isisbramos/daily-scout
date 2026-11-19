@@ -214,14 +214,27 @@ HYPE_PATTERNS = re.compile(
 )
 
 
+# Meta-referência ao input: o leitor não vê o título nem o resumo que o LLM recebeu.
+# Ed. 242: "nenhum desses pontos está no título", "o título não detalha preço".
+# "Post questiona se..." (REGRA DE CERTEZA) é atribuição e não entra aqui.
+META_INPUT_PATTERNS = re.compile(
+    r"(\b(?:n[oa]|d[oa]|pel[oa]|[oa])\s+(?:título|manchete|summary|excerpt)\b(?!\s*['\"“‘])"
+    r"|\b(?:o post|a postagem|a matéria|o artigo|o anúncio|a notícia|o texto)\s+não\s+"
+    r"(?:diz|informa|detalha|traz|explica|menciona|especifica|revela)\b)",
+    re.IGNORECASE,
+)
+
+
 def validate_tone(content: dict) -> list[str]:
-    """Checa heurísticas de sensacionalismo no output. Retorna lista de warnings."""
+    """Checa sensacionalismo e meta-referência ao input no output. Retorna lista de warnings."""
     warnings = []
 
     def _check_text(text: str, field_name: str):
         matches = HYPE_PATTERNS.findall(text)
         for match in matches:
             warnings.append(f"[HYPE] '{match}' encontrado em {field_name}")
+        for m in META_INPUT_PATTERNS.finditer(text or ""):
+            warnings.append(f"[META] '{m.group(0)}' encontrado em {field_name}")
 
     # Checa main_find
     mf = content.get("main_find", {})
