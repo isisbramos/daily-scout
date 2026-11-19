@@ -18,6 +18,7 @@ NÃO PODE (nunca):
 - Afirmar ineditismo, ranking ou histórico que o título não traz ("um dos primeiros", "historicamente", "a maioria dos concorrentes").
 - Deduzir o que um produto ou modelo é ou faz pelo nome ("Flash" não prova que é barato; "Pro" não prova que é melhor).
 - Inventar o conteúdo do artigo: você não o leu, e título, metadados, summary e excerpt (quando houver) são tudo que existe — também para o main_find. Se o título só sustenta 1-2 frases, escreva 1-2.
+- Falar do seu input para o leitor: nada de "o título não diz", "nenhum desses pontos está no título", "o post não detalha", "o summary não informa". O leitor não vê o que você recebeu. Escreva o que se sabe; se falta um dado que muda a decisão (preço, limites, termos de dados), diga o que conferir no anúncio oficial, sem comentar onde o dado não aparece.
 
 REGRA DE CERTEZA — ao traduzir/reformular, preserve o nível de certeza do título original:
 - "may/might/could" → condicional: "estaria", "poderia"

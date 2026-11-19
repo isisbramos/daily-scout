@@ -126,3 +126,28 @@ class TestSanitizeRadar:
     def test_without_input_map_only_url_presence_is_checked(self):
         out = pipeline.sanitize_radar([{"title": "ok", "url": "https://x.com/p"}], None)
         assert len(out) == 1
+
+
+class TestMetaInputReference:
+    """Ed. 242: o main_find falou do título em vez do lançamento."""
+
+    def _content(self, body="", bullets=()):
+        return {"main_find": {"title": "Google lança Gemini 4 Neon", "body": body, "bullets": list(bullets)},
+                "quick_finds": [], "correspondent_intro": ""}
+
+    def test_flags_ed242_phrases(self):
+        c = self._content(
+            body="O título não detalha preço, limites de uso nem disponibilidade regional.",
+            bullets=["Preço por uso e limites de requisição — nenhum desses pontos está no título.",
+                     "O post não informa o que muda em relação ao Gemini 3."],
+        )
+        meta = [w for w in pipeline.validate_tone(c) if w.startswith("[META]")]
+        assert len(meta) == 3
+
+    def test_allows_attribution_and_normal_text(self):
+        c = self._content(
+            body="Post questiona se agentes vão substituir SDRs. O modelo custa US$ 1 por milhão "
+                 "de tokens. O ensaio saiu sob o título 'We must pace the frontier'. "
+                 "→ No seu trabalho: confira no anúncio oficial os limites de requisição.",
+        )
+        assert not [w for w in pipeline.validate_tone(c) if w.startswith("[META]")]
