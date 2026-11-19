@@ -8,7 +8,7 @@ import calendar
 import time
 import logging
 
-from sources.base import BaseSource, SourceItem, SourceRegistry, fetch_feed
+from sources.base import BaseSource, SourceItem, SourceRegistry, clean_summary, fetch_feed
 
 logger = logging.getLogger("daily-scout")
 
@@ -48,6 +48,11 @@ class TechCrunchSource(BaseSource):
                         for tag in entry.get("tags", [])
                     ]
 
+                    extra = {"tc_categories": categories}
+                    summary = clean_summary(entry.get("summary") or entry.get("description"))
+                    if summary:
+                        extra["summary"] = summary
+
                     items.append(SourceItem(
                         title=entry.get("title", ""),
                         url=entry.get("link", ""),
@@ -57,7 +62,7 @@ class TechCrunchSource(BaseSource):
                         raw_score=0,  # RSS não tem engagement score
                         num_comments=0,
                         category=_categorize_tc(categories, entry.get("title", "")),
-                        extra={"tc_categories": categories},
+                        extra=extra,
                     ))
                 logger.debug(
                     f"    TechCrunch/{feed_name}: {min(len(feed.entries), self.limit)} posts"

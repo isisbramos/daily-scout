@@ -81,6 +81,11 @@ class TestPromptEntry:
         assert entry["summary"].endswith("…")
         assert len(entry["summary"]) <= pipeline.PROMPT_SUMMARY_CHARS + 1
 
+    def test_news_item_also_carries_summary(self):
+        item = self._item(source_id="hackernews", source_label="HackerNews",
+                          extra={"summary": "Preço por uso e limites do modelo."})
+        assert pipeline._prompt_entry(item)["summary"] == "Preço por uso e limites do modelo."
+
     def test_item_without_summary_keeps_original_shape(self):
         entry = pipeline._prompt_entry(self._item(source_id="hackernews", source_label="HackerNews"))
         assert set(entry) == {"title", "source", "score", "comments", "url"}

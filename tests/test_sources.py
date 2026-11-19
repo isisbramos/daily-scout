@@ -654,10 +654,17 @@ class TestResearchSummaryInFetch:
             items = ArxivAISource({"limit": 5, "feeds": {"cs_ai": "https://x/feed"}}).fetch()
         assert items[0].extra["summary"] == "Propomos um método."
 
-    def test_generic_rss_does_not_keep_summary_by_default(self):
+    def test_generic_rss_keeps_summary_by_default(self):
+        # Desde a ed. 242: lançamento sem resumo virava texto sobre "o título".
+        feed = make_feed([self._entry(summary="<p>Gemini 4 Neon custa US$ 1 por milhão.</p>")])
+        with patch("sources.rss_generic.fetch_feed", return_value=feed):
+            items = _fetch_rss("https://x/feed", "deepmind_blog", "Google DeepMind Blog")
+        assert items[0].extra["summary"] == "Gemini 4 Neon custa US$ 1 por milhão."
+
+    def test_generic_rss_can_opt_out_of_summary(self):
         feed = make_feed([self._entry(summary="resumo qualquer")])
         with patch("sources.rss_generic.fetch_feed", return_value=feed):
-            items = _fetch_rss("https://x/feed", "anthropic_blog", "Anthropic Blog")
+            items = _fetch_rss("https://x/feed", "anthropic_blog", "Anthropic Blog", keep_summary=False)
         assert "summary" not in items[0].extra
 
     def test_entry_without_summary_has_no_summary_key(self):

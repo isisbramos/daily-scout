@@ -199,14 +199,31 @@ def _normalize_url(url: str) -> str:
 
 def _dedup_by_url(items: list[SourceItem]) -> list[SourceItem]:
     """Remove duplicatas exatas por URL (com normalização robusta)."""
-    seen_urls: set[str] = set()
+    by_url: dict[str, SourceItem] = {}
     unique = []
     for item in items:
         clean_url = _normalize_url(item.url)
-        if clean_url and clean_url not in seen_urls:
-            seen_urls.add(clean_url)
+        if not clean_url:
+            continue
+        kept = by_url.get(clean_url)
+        if kept is None:
+            by_url[clean_url] = item
             unique.append(item)
+        else:
+            _inherit_summary(kept, item)
     return unique
+
+
+def _inherit_summary(winner: SourceItem, loser: SourceItem) -> None:
+    """Se o item mantido no dedup não tem resumo e o descartado tem, herda o resumo.
+
+    O vencedor costuma ser o de maior engagement (HN, Reddit), que não traz resumo;
+    o perdedor costuma ser o blog oficial ou o veículo, que traz. Sem herança, o
+    LLM recebia só o título (ed. 242: HN venceu o blog do DeepMind no Gemini 4 Neon).
+    """
+    loser_summary = (loser.extra or {}).get("summary")
+    if loser_summary and not (winner.extra or {}).get("summary"):
+        winner.extra = dict(winner.extra or {}, summary=loser_summary)
 
 
 def _dedup_by_title_with_cross_source(
@@ -237,12 +254,13 @@ def _dedup_by_title_with_cross_source(
 
                 # Mantém o com maior engagement, mas preserva o cross-source signal
                 if item.raw_score > existing.raw_score:
-                    item.cross_source_count = new_count
-                    item.cross_source_ids = new_ids
+                    winner, loser = item, existing
                     unique[i] = item
                 else:
-                    existing.cross_source_count = new_count
-                    existing.cross_source_ids = new_ids
+                    winner, loser = existing, item
+                winner.cross_source_count = new_count
+                winner.cross_source_ids = new_ids
+                _inherit_summary(winner, loser)
 
                 merged = True
                 break
