@@ -499,13 +499,15 @@ def _fetch_rss(
     source_label: str,
     limit: int = 15,
     default_category: str = "tech",
-    keep_summary: bool = False,
+    keep_summary: bool = True,
 ) -> list[SourceItem]:
     """Fetch genérico de RSS feed. Retorna SourceItems normalizados.
 
-    keep_summary=True guarda o resumo do feed em extra["summary"] (texto limpo).
-    Só as fontes de pesquisa ligam isso: o título de um paper quase nunca diz o
-    que ele faz, e sem o resumo a curadoria não distingue capacidade de teoria.
+    keep_summary=True (padrão) guarda o resumo do feed em extra["summary"] (texto limpo).
+    Até a ed. 242 só as fontes de pesquisa ligavam isso, e a curadoria escrevia
+    lançamentos só a partir do título (ed. 242, Gemini 4 Neon: "nenhum desses
+    pontos está no título"). Desde então vale para todo feed; quem não quiser
+    passa keep_summary=False.
     """
     items = []
 

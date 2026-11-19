@@ -11,6 +11,7 @@ from pre_filter import (
     _normalize_url,
     _dedup_by_url,
     _dedup_by_title_with_cross_source,
+    _dedup_by_url,
     _filter_recency,
     _score_and_sort,
     _enforce_source_diversity,
@@ -539,3 +540,36 @@ class TestFundingDemotion:
         items = self._items()
         assert [i.title for i in _score_and_sort(items, cfg)] == \
                [i.title for i in _score_and_sort(items, {**CONFIG})]
+
+
+# ── Herança de resumo no dedup (ed. 242) ──────────────────────────────
+
+class TestSummaryInheritance:
+    def _it(self, title, url, sid, score=0, summary=None):
+        extra = {"summary": summary} if summary else {}
+        return SourceItem(title=title, url=url, source_id=sid, source_label=sid,
+                          raw_score=score, extra=extra)
+
+    def test_title_dedup_winner_inherits_loser_summary(self):
+        blog = self._it("Introducing Gemini 4 Neon", "https://blog.google/neon", "deepmind_blog",
+                        score=0, summary="Preço e limites do Neon.")
+        hn = self._it("Introducing Gemini 4 Neon", "https://news.ycombinator.com/item?id=1",
+                      "hackernews", score=846)
+        [kept] = _dedup_by_title_with_cross_source([blog, hn], threshold=0.7)
+        assert kept.source_id == "hackernews"
+        assert kept.extra["summary"] == "Preço e limites do Neon."
+        assert kept.cross_source_count == 2
+
+    def test_winner_own_summary_is_not_overwritten(self):
+        a = self._it("Same title here", "https://a/1", "techcrunch", score=0, summary="do veículo")
+        b = self._it("Same title here", "https://b/1", "reddit", score=10, summary="do reddit")
+        [kept] = _dedup_by_title_with_cross_source([a, b], threshold=0.7)
+        assert kept.extra["summary"] == "do reddit"
+
+    def test_url_dedup_keeps_first_and_inherits_summary(self):
+        hn = self._it("Gemini 4 Neon", "https://blog.google/neon", "hackernews", score=846)
+        blog = self._it("Introducing Gemini 4 Neon", "https://blog.google/neon/", "deepmind_blog",
+                        summary="Preço e limites do Neon.")
+        [kept] = _dedup_by_url([hn, blog])
+        assert kept.source_id == "hackernews"
+        assert kept.extra["summary"] == "Preço e limites do Neon."
