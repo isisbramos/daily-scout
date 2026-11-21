@@ -106,7 +106,7 @@ class Meta(BaseModel):
 
 class CurationOutput(BaseModel):
     reasoning: Reasoning = Field(description="Raciocínio editorial — explique suas decisões de seleção")
-    correspondent_intro: str = Field(description="1-2 frases em primeira pessoa. A primeira frase referencia o achado do dia pelo tema; a segunda pode citar volume (X posts de Y fontes).")
+    correspondent_intro: str = Field(description="1-2 frases em primeira pessoa. Dá o recorte do dia (o que liga os achados) SEM recontar o achado do dia, cujo título aparece logo abaixo; a segunda pode citar volume (X posts de Y fontes).")
     main_find: MainFind
     quick_finds: list[QuickFind] = Field(description="3-5 achados rápidos")
     radar: list[RadarItem] = Field(default_factory=list, description="1-2 itens de early signal — temas emergentes que ainda não são achados mas valem acompanhar")

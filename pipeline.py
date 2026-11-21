@@ -225,8 +225,51 @@ META_INPUT_PATTERNS = re.compile(
 )
 
 
+# Redundância entre camadas (21/11, ed. 244): o leitor via o mesmo fato no assunto, na
+# Transmissão, no título do achado e na 1ª frase do corpo. O título do achado é o ÚNICO lugar
+# do fato; Transmissão e 1ª frase do corpo não podem recontá-lo.
+_REPEAT_STOP = {
+    "para", "pela", "pelo", "pelos", "pelas", "como", "mais", "mesmo", "sobre", "entre", "após",
+    "segundo", "novo", "nova", "novos", "novas", "esse", "essa", "este", "esta", "isso",
+    "também", "ainda", "quando", "onde", "seus", "suas", "dele", "dela", "você", "hoje", "porque",
+}
+REPEAT_MIN_SHARED = 4
+REPEAT_MIN_RATIO = 0.35
+
+
+def _repeat_stems(text: str) -> set[str]:
+    words = re.findall(r"\w+", (text or "").lower())
+    return {w[:6] for w in words if len(w) >= 4 and w not in _REPEAT_STOP}
+
+
+def repeats_title(text: str, title: str) -> bool:
+    """O texto reconta o título? (4+ radicais em comum e 35%+ dos radicais do título)."""
+    t = _repeat_stems(title)
+    if not t:
+        return False
+    shared = t & _repeat_stems(text)
+    return len(shared) >= REPEAT_MIN_SHARED and len(shared) / len(t) >= REPEAT_MIN_RATIO
+
+
+def _first_sentence(text: str) -> str:
+    parts = re.split(r"(?<=[.!?])\s+", (text or "").strip(), maxsplit=1)
+    return parts[0] if parts else ""
+
+
+def check_title_repetition(content: dict) -> list[str]:
+    """Warnings [REPEAT] quando a Transmissão ou a 1ª frase do corpo recontam o título do achado."""
+    mf = content.get("main_find", {}) or {}
+    title = mf.get("title", "")
+    warnings = []
+    if repeats_title(content.get("correspondent_intro", ""), title):
+        warnings.append("[REPEAT] correspondent_intro reconta o main_find.title (o título aparece logo abaixo)")
+    if repeats_title(_first_sentence(mf.get("body", "")), title):
+        warnings.append("[REPEAT] 1ª frase do main_find.body reconta o main_find.title")
+    return warnings
+
+
 def validate_tone(content: dict) -> list[str]:
-    """Checa sensacionalismo e meta-referência ao input no output. Retorna lista de warnings."""
+    """Checa sensacionalismo, meta-referência ao input e repetição do título. Retorna lista de warnings."""
     warnings = []
 
     def _check_text(text: str, field_name: str):
@@ -250,6 +293,9 @@ def validate_tone(content: dict) -> list[str]:
 
     # Checa correspondent_intro
     _check_text(content.get("correspondent_intro", ""), "correspondent_intro")
+
+    # Checa redundância título → Transmissão / 1ª frase do corpo
+    warnings.extend(check_title_repetition(content))
 
     return warnings
 
@@ -474,7 +520,11 @@ def curate_and_write(
             if tone_warnings:
                 for w in tone_warnings:
                     logger.warning(w)
-                if attempt < max_retries - 1:
+                # [REPEAT] sozinho pede no máximo 1 retry: o envio das 7h55 não pode esperar 5 curadorias.
+                only_repeat = all(w.startswith("[REPEAT]") for w in tone_warnings)
+                if only_repeat and attempt >= 1:
+                    logger.warning("Repeat check: aceitando após 1 retry (só warnings [REPEAT])")
+                elif attempt < max_retries - 1:
                     logger.warning(
                         f"Tone check failed with {len(tone_warnings)} issues — retrying "
                         f"(attempt {attempt + 1})"
