@@ -35,7 +35,7 @@ import sources.huggingface_papers  # API JSON oficial — huggingface.co/papers 
 from pre_filter import run_pre_filter
 from article_fetch import enrich_with_excerpts
 from schemas import Reasoning, MainFind, QuickFind, RadarItem, Meta, CurationOutput
-from delivery import send_via_buttondown, send_fallback
+from delivery import build_subject, send_via_buttondown, send_fallback
 from coherence import note_main_swap, refresh_after_swaps
 from final_reviewer import run_final_review
 from exceptions import FetchError, CurationError, DeliveryError
@@ -887,7 +887,7 @@ def run_pipeline():
         logger.info(f"HTML saved: {output_path}")
 
         # ── Step 6: Send newsletter ──
-        subject = f"AYA #{EDITION_NUMBER} — {content['main_find']['title']}"
+        subject = build_subject(EDITION_NUMBER, content)
         if DRY_RUN:
             logger.info("DRY_RUN=true — skipping Buttondown send")
             success = True
