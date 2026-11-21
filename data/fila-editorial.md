@@ -26,6 +26,11 @@ Por que não bateu: sua intuição, mesmo que ainda não esteja articulada como 
 Critério novo (preenchido durante a sessão de ajuste, não precisa vir pronto): —
 -->
 
+## 2026-11-21 — edição #244
+Tema/achado: o mesmo fato aparecia 5 vezes antes do corpo: assunto do e-mail, título no topo (Buttondown), Transmissão, título do achado e 1ª frase do corpo ("METR atualiza gráfico de horizonte de tempo…" em todas). Nas 240 edições arquivadas, 168 (70%) abrem o corpo recontando o título.
+Por que não bateu: cada camada tinha o mesmo trabalho (anunciar o fato). Leitura repetitiva.
+Critério novo: uma camada, um trabalho. Assunto = protagonistas da edição; Transmissão = recorte do dia, sem recontar o achado; título do achado = o fato (único lugar); 1ª frase do corpo = contexto que o título não dá. Aplicado em 21/11 (PR "redundância entre camadas"), quebrando o freeze por decisão da Isis. Guard `[REPEAT]` em `validate_tone` (1 retry no máximo). Medir: % de edições com `[REPEAT]` no log e % de excerpts do arquivo que recontam o título (base: 70%).
+
 ## 2026-11-19 — edição #242
 Tema/achado: o achado do dia (Gemini 4 Neon) falava do título em vez do lançamento: "nenhum desses pontos está no título", "o título não detalha preço". O mesmo padrão aparece em 6 de 82 notas do `vault-outbox` (Gemini 4 Carbon, FTC, China, GPT-6.2, OpenAI).
 Por que não bateu: o leitor não vê o input. E a causa era o input: fora de arXiv e HF Papers, o LLM recebia só o título.

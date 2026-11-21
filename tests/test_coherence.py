@@ -77,7 +77,8 @@ class TestRefreshIntro:
         client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=boom)))
         res = co.refresh_after_swaps(c, client=client)
         assert res["method"] == "fallback"
-        assert c["correspondent_intro"].startswith("O destaque de hoje: Cloudflare lança API")
+        assert c["correspondent_intro"].startswith("Separei os achados de hoje")      # sem entidades
+        assert "Cloudflare lança API" not in c["correspondent_intro"]             # não reconta o título
         assert "302 posts de 22 fontes" in c["correspondent_intro"]       # frase de volume preservada
         assert "frota" not in c["correspondent_intro"].lower()            # nada do destaque antigo
 
@@ -100,3 +101,18 @@ class TestRefreshIntro:
             c = _content()
             co.note_main_swap(c, OLD, "x")
             assert co.refresh_after_swaps(c, client=_client(payload))["method"] == "fallback"
+
+
+def test_fallback_names_entities_without_repeating_title():
+    c = _content()
+    c["main_find"]["entities"] = ["Cloudflare"]
+    c["quick_finds"][0]["entities"] = ["Anthropic"]
+    co.note_main_swap(c, OLD, "x")
+
+    def boom(**kw):
+        raise RuntimeError("API fora")
+    client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=boom)))
+    co.refresh_after_swaps(c, client=client)
+    intro = c["correspondent_intro"]
+    assert intro.startswith("Hoje a edição passa por Cloudflare e Anthropic.")
+    assert "lança API" not in intro

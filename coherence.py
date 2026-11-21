@@ -63,8 +63,19 @@ def _mentions_old(text: str, old_title: str) -> bool:
 
 def _fallback_intro(content: dict, old_intro: str, old_title: str) -> str:
     """Introdução determinística: destaque novo + a última frase da antiga, se não falar do destaque antigo."""
-    title = content.get("main_find", {}).get("title", "").strip().rstrip(".")
-    first = f"O destaque de hoje: {title}."
+    # Não repete o título do destaque (ele aparece logo abaixo da introdução): nomeia as
+    # entidades da edição. Sem entidades, uma frase neutra.
+    names: list[str] = []
+    for item in [content.get("main_find", {})] + list(content.get("quick_finds", [])):
+        ents = [e.strip() for e in (item.get("entities") or []) if isinstance(e, str) and e.strip()]
+        if ents and ents[0].lower() not in {n.lower() for n in names}:
+            names.append(ents[0])
+    if len(names) >= 2:
+        first = f"Hoje a edição passa por {', '.join(names[:-1])} e {names[-1]}."
+    elif names:
+        first = f"Hoje a edição começa por {names[0]}."
+    else:
+        first = "Separei os achados de hoje abaixo."
     sentences = [s for s in re.split(r"(?<=[.!?])\s+", (old_intro or "").strip()) if s]
     tail = sentences[-1] if len(sentences) > 1 and not _mentions_old(sentences[-1], old_title) else ""
     return f"{first} {tail}".strip()
