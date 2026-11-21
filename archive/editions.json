@@ -1,7 +1,17 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 241,
+ "count": 242,
  "editions": [
+  {
+   "num": 244,
+   "title": "METR atualiza gráfico de horizonte de tempo: capacidade segue exponencial, mas falha em tarefas de julgamento",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-244-metr-atualiza-grafico-de-horizonte-de/",
+   "date": "2026-11-21",
+   "main_title": "METR atualiza gráfico de horizonte de tempo: capacidade segue exponencial, mas falha em tarefas de julgamento",
+   "source": "MIT Technology Review",
+   "work_line": "se você dimensiona automação com base em 'o modelo já faz X horas de trabalho', o recado é separar tarefas verificáveis (código, planilha) das que exigem julgamento — nelas, mantenha revisão humana…",
+   "excerpt": "Segundo MIT Technology Review, um novo relatório da METR, organização sem fins lucrativos que avalia capacidades de IA, atualizou seu gráfico de horizonte de tempo — a medida de quanto tempo de tarefa humana um modelo consegue completar —…"
+  },
   {
    "num": 243,
    "title": "ChatPRD encerra free trials após onda de fraude de tokens",
