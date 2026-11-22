@@ -1,7 +1,16 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 242,
+ "count": 243,
  "editions": [
+  {
+   "num": 245,
+   "title": "Signal, OpenRouter, TechCrunch e Inkling-2-Mini",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-245-signal-openrouter-techcrunch-e-inkling-2/",
+   "date": "2026-11-22",
+   "main_title": "Signal bloqueia screenshots no celular por causa de agentes de IA nos sistemas operacionais",
+   "source": "TechCrunch",
+   "excerpt": "O Signal é o aplicativo de mensagens com criptografia de ponta a ponta — o conteúdo só é legível no aparelho de quem envia e de quem recebe."
+  },
   {
    "num": 244,
    "title": "METR atualiza gráfico de horizonte de tempo: capacidade segue exponencial, mas falha em tarefas de julgamento",
