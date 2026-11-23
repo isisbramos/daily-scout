@@ -1,0 +1,48 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (Signal restringe screenshots) com fonte primária (TechCrunch) e ângulo claro de AI/tech.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa concreta com experimento (2 milhões de iscas) e vazamento reportado pela Ars Technica, evento singular e verificável.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lista de agentes de IA em mensagens é produto/panorama com evento datado (publicação da lista) e relevância tech, sem violar regras.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Projeto open source com repositório no GitHub e claim especulativo explicitamente marcado, sem violar regras.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C5\", \"why\": \"Notícia forte e verificável sobre Signal e vigilância por IA, com evento singular e fonte primária, mais robusta que o item 3 publicado.\"},\n    {\"candidate\": \"C10\", \"why\": \"Reportagem de pesquisa com experimento concreto (2 milhões de canários) e vazamento na cadeia de IA, evento singular e fonte corroborada, mais forte que o item 3.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (Signal restringe screenshots) com fonte primária (TechCrunch) e ângulo claro de AI/tech."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa concreta com experimento (2 milhões de iscas) e vazamento reportado pela Ars Technica, evento singular e verificável."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lista de agentes de IA em mensagens é produto/panorama com evento datado (publicação da lista) e relevância tech, sem violar regras."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Projeto open source com repositório no GitHub e claim especulativo explicitamente marcado, sem violar regras."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C5",
+      "title": "Signal restricts mobile screenshots as it confronts ‘existential threat’ of AI surveillance",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/21/signal-restricts-mobile-screenshots-as-it-confronts-existential-threat-of-ai-surveillance/",
+      "why": "Notícia forte e verificável sobre Signal e vigilância por IA, com evento singular e fonte primária, mais robusta que o item 3 publicado."
+    },
+    {
+      "candidate": "C10",
+      "title": "Researcher plants 2m canaries into the AI supply chain. A privacy disaster surfaced",
+      "source": "Lobsters",
+      "url": "https://arstechnica.com/security/2026/11/a-leaky-ai-supply-chain-is-exposing-secret-user-data-at-an-alarming-rate/",
+      "why": "Reportagem de pesquisa com experimento concreto (2 milhões de canários) e vazamento na cadeia de IA, evento singular e fonte corroborada, mais forte que o item 3."
+    }
+  ]
+}

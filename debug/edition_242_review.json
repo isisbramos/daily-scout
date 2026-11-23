@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de modelo concreto e datado do Google, corroborado por HackerNews e blog oficial do DeepMind.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Disponibilização de modelo de mundo do DeepMind, evento singular com fonte primária e corroboração no HackerNews.\"},{\"idx\":2,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Novidade de produto concreta do Snapchat com assistentes de código, evento datado e verificável.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Dado concreto e datado de uso do modelo da Tencent, com número específico e fonte identificada.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular sobre grupo de segurança de IA de Pequim, com fonte SCMP; falta de detalhes não configura violação clara.\"}],\"missed\":[{\"candidate\":\"C7\",\"why\":\"Declaração concreta e datada de Satya Nadella sobre infraestrutura crítica 'unpatchable' diante de ameaças de ciberataques com IA, com fonte verificável (TechCrunch) e ângulo forte de AI/tech.\"},{\"candidate\":\"C25\",\"why\":\"Detalhamento técnico concreto da Huawei sobre arquitetura de segurança do Kirin 9050 com criptografia pós-quântica, evento singular e relevante para o leitor de tech.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de modelo concreto e datado do Google, corroborado por HackerNews e blog oficial do DeepMind."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Disponibilização de modelo de mundo do DeepMind, evento singular com fonte primária e corroboração no HackerNews."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Novidade de produto concreta do Snapchat com assistentes de código, evento datado e verificável."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Dado concreto e datado de uso do modelo da Tencent, com número específico e fonte identificada."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular sobre grupo de segurança de IA de Pequim, com fonte SCMP; falta de detalhes não configura violação clara."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C7",
+      "title": "Amidst fears of AI cyberattacks, Satya Nadella says lots of critical infrastructure is ‘unpatchable’",
+      "source": "TechCrunch",
+      "url": "https://techcrunch.com/2026/11/18/amidst-fears-of-ai-cyberattacks-satya-nadella-says-lots-of-critical-infrastructure-is-unpatchable/",
+      "why": "Declaração concreta e datada de Satya Nadella sobre infraestrutura crítica 'unpatchable' diante de ameaças de ciberataques com IA, com fonte verificável (TechCrunch) e ângulo forte de AI/tech."
+    },
+    {
+      "candidate": "C25",
+      "title": "Huawei details Kirin 9050 security architecture with post-quantum cryptography support",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/19/huawei-details-kirin-9050-security-architecture-with-post-quantum-cryptography-support/",
+      "why": "Detalhamento técnico concreto da Huawei sobre arquitetura de segurança do Kirin 9050 com criptografia pós-quântica, evento singular e relevante para o leitor de tech."
+    }
+  ]
+}

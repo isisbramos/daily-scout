@@ -1,0 +1,98 @@
+{
+  "edition": "245",
+  "audited_at": "2026-11-23T20:07:10.091017-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Signal) passa no AI Gate e satisfaz acionável + afeta workflows. O quick_find do vazamento na cadeia de IA também passa. Mas o quick_find do TechCrunch sobre agentes em SMS é um roundup explícito — anti-signal claro — e o Inkling-2-Mini é tangencial (quantização de modelo sem summary, sem detalhe de capacidade), com claim_status 'especulativo' que a própria Aya admite.",
+    "issues": [
+      "Quick_find 'TechCrunch lista agentes de IA que vivem dentro do aplicativo de mensagens' é roundup/compilação sem evento singular de uma empresa — viola anti-signal explícito ('Roundup ou panorama de tendência de mercado sem evento singular de UMA empresa específica por trás').",
+      "Quick_find 'Inkling-2-Mini em 5,4 GB' tem claim_status 'especulativo' e nenhum summary no input; o sinal de mercado é fraco e a acionabilidade depende de um repositório não verificado — borderline.",
+      "O reasoning descarta corretamente a lista de agentes como 'roundup — descarte como main', mas depois a reinclui em quick_finds sem justificar a mudança de régua."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O body do main_find é factual e preserva o enquadramento do título original ('existential threat' vira 'ameaça existencial' atribuída a Whittaker, correto). Não há hype. Porém há um detalhe não sustentado pelo input: 'O Signal já bloqueava screenshots no app para Windows por padrão' — o input não menciona Windows; é informação adicionada sem fonte visível.",
+    "issues": [
+      "Bullet do main_find afirma que o Signal já bloqueava screenshots no Windows por padrão — não consta no input fornecido; risco de detalhe inventado ou não verificado.",
+      "Quick_find do Inkling-2-Mini usa 'agora é possível rodar' no step5_phrase, mas o claim_status é 'especulativo' — a frase assertiva contradiz o próprio status."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: TechCrunch aparece 2x (main_find + quick_find), Lobsters 1x, HackerNews 1x — dentro do limite de 'mais de 2 do mesmo source', mas no limite. Audiência: 2 devs, 2 todos — ok. Geografia: todos os itens são dos EUA (Signal, OpenRouter, TechCrunch, Inkling) — 4/4 mesma região, sem alternativa não-EUA.",
+    "issues": [
+      "Todos os 4 itens selecionados são de origem/cobertura dos EUA; nenhum item de Ásia ou Europa, apesar de o input ter fontes variadas.",
+      "TechCrunch concentra 2 dos 4 itens (main + quick), reduzindo diversidade de fonte."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find ('o que acontece com seus dados quando um agente lê a tela') e conecta ao segundo item ('prompts passando por roteador'). Não é genérica. O '297 posts' é consistente com o meta.total_analyzed.",
+    "issues": []
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning é detalhado e rastreia o AI Gate item a item, mas há contradições: descarta a lista de agentes como roundup e depois a inclui em quick_finds; descarta Muru por 'blog pessoal sem anúncio de ferramenta' mas inclui Inkling-2-Mini que também não tem summary nem anúncio verificado. O main_find_rationale existe e é específico (Signal), mas a régua aplicada aos quick_finds é inconsistente com a aplicada aos descartes.",
+    "issues": [
+      "Contradição: reasoning diz 'lista de agentes em SMS (TechCrunch, compilação/roundup — descarte como main, sem evento singular)' e mesmo assim a coloca em quick_finds.",
+      "Contradição: descarta Muru por ser blog pessoal sem anúncio de ferramenta, mas aceita Inkling-2-Mini (repositório GitHub sem summary, claim especulativo) como quick_find.",
+      "O reasoning não explica por que o vazamento na cadeia de IA (Ars/Lobsters) não é main_find apesar de ter evento singular e acionabilidade forte — a justificativa de 'Signal afeta todos' é plausível mas não é explicitada como critério de desempate."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Lean verification of the Riemann Hypothesis",
+      "source": "HackerNews",
+      "why_should_include": "Lean é um assistente de provas baseado em AI/formal methods; a verificação formal da Hipótese de Riemann é um evento singular com forte sinal de mercado para ferramentas de verificação assistida por AI. Tem 1043 pontos e 870 comentários — tração excepcional.",
+      "missed_criteria": [
+        "AI Gate (formal verification/AI-assisted proof)",
+        "Sinal de mercado",
+        "Acionável"
+      ]
+    },
+    {
+      "title": "Building the Agent Host Protocol for sessions that continue across devices",
+      "source": "The GitHub Blog",
+      "why_should_include": "Protocolo aberto para sessões de agentes entre dispositivos é decisão de produto/estratégia concreta do GitHub, afeta workflows de devs e é acionável (implementar/testar). A Aya descartou por 'já coberto na ed.243', mas se for re-cobertura com info nova (protocolo aberto), poderia entrar; se for rehashed, o descarte é correto — o reasoning não deixa claro qual dos dois.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "TechCrunch lista agentes de IA que vivem dentro do aplicativo de mensagens",
+      "field": "quick_finds",
+      "why_should_discard": "É roundup/compilação explícita sem evento singular de uma empresa — anti-signal direto. A própria Aya o classificou como 'roundup — descarte como main' no reasoning.",
+      "violated_rule": "Anti-signal: roundup/panorama sem evento singular de UMA empresa"
+    },
+    {
+      "title": "Modelo Inkling-2-Mini roda em 5,4 GB de memória, segundo projeto no GitHub",
+      "field": "quick_finds",
+      "why_should_discard": "Sem summary no input, claim_status 'especulativo', repositório não verificado. Não satisfaz claramente 2 dos 3 critérios: acionabilidade depende de checagem externa e sinal de mercado é fraco (projeto individual, não movimento de player).",
+      "violated_rule": "Critérios de seleção: precisa de 2 de 3; aqui só 'acionável' de forma condicional"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A régua de anti-signal para roundup é aplicada ao main_find mas não é reaplicada aos quick_finds — o prompt não deixa explícito que anti-signals valem para TODOS os slots.",
+      "evidence": "A lista de agentes em SMS foi descartada como main por ser roundup e reincluída em quick_finds.",
+      "suggested_fix": "Adicionar regra explícita: 'anti-signals se aplicam igualmente a main_find e quick_finds; um item descartado por anti-signal não pode reaparecer em outro slot'."
+    },
+    {
+      "hypothesis": "O STEP de seleção de quick_finds não exige summary nem claim_status confirmado, permitindo itens especulativos com pouca informação.",
+      "evidence": "Inkling-2-Mini entrou com claim_status 'especulativo' e sem summary no input.",
+      "suggested_fix": "Exigir que quick_finds tenham summary no input ou claim_status 'confirmado'; itens especulativos vão para radar, não quick_finds."
+    },
+    {
+      "hypothesis": "O reasoning não é obrigado a justificar por que um candidato forte (vazamento na cadeia de IA) não é main_find — falta um campo de 'main_find_rationale' comparativo.",
+      "evidence": "O reasoning lista o vazamento como candidato forte mas não explica o desempate contra Signal.",
+      "suggested_fix": "Adicionar campo obrigatório 'main_find_rationale' que compare explicitamente o escolhido com o segundo colocado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find sólido (Signal) e um quick_find forte (vazamento na cadeia de IA), mas inclui um roundup explícito (lista de agentes em SMS) que viola anti-signal e um item especulativo sem summary (Inkling-2-Mini). O reasoning é detalhado mas contraditório ao descartar e reincluir o mesmo item. Diversidade geográfica fraca (4/4 EUA) e um detalhe não sustentado no bullet do Signal (Windows)."
+}

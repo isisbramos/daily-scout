@@ -1,0 +1,99 @@
+{
+  "edition": "242",
+  "audited_at": "2026-11-23T20:06:27.872405-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "Gemini 4 Neon, Genie 4 e Snapchat passam no AI Gate e têm sinal de mercado/produto claro. O item da Tencent é borderline: é dado de adoção divulgado pela própria empresa, sem novidade de produto ou estratégia — se enquadra como resultado/panorama sem evento singular novo, e o follow-up da ed.239 confirma que o lançamento já foi coberto. O item do SCMP sobre o grupo de segurança de Pequim é regulação/governança, mas o texto é vago ('sem detalhar quais empresas nem que tipo de consultoria') — sinal de mercado fraco e acionabilidade quase nula.",
+    "issues": [
+      "Tencent Hunyuan Hy4 Flash: '50 trilhões de tokens no primeiro dia' é métrica de adoção divulgada pela própria empresa, sem feature/produto/shift novo — se aproxima de anti-signal de resultado sem novidade, e o próprio output admite que é follow-up da ed.239.",
+      "SCMP Beijing AI safety group: o signal admite que o texto 'não detalha quais empresas nem que tipo de consultoria presta' — sinal de mercado específico ausente, acionabilidade baixa; passa no AI Gate mas falha nos critérios 1 e 2."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "Tom contido, sem hype explícito, e o texto preserva o nível de certeza dos títulos originais (usa 'segundo o TechCrunch', 'a Tencent informou'). Há, porém, uma inferência não sustentada no quick_find da Tencent: 'volume de uso alto costuma vir com fila e limite de requisição' é especulação apresentada como orientação prática, sem base no título.",
+    "issues": [
+      "Quick_find Tencent: 'volume de uso alto costuma vir com fila e limite de requisição' — afirmação genérica não ancorada no título original, apresentada como conselho operacional.",
+      "Main_find Gemini 4 Neon: o body afirma que a linha Gemini é 'usada em produtos como o chatbot Gemini e em APIs para empresas' — informação de contexto não presente no título, embora factual; beira o preenchimento."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Fontes bem distribuídas: HackerNews, TechCrunch, TechNode, SCMP — nenhuma repetida entre main_find e quick_finds. Audiência tem 'todos', 'desenvolvedores' e 'executivos de negócio', cobrindo mais de um perfil. Geografia: dois itens da China (Tencent + SCMP) no limite aceitável, mas concentração notável.",
+    "issues": [
+      "Dois dos quatro quick_finds são da China (Tencent, SCMP) — no limite, mas reduz a diversidade geográfica da edição."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 3,
+    "rationale": "A primeira frase menciona 'modelo novo do Google' e 'dado de adoção da Tencent', o que ancora no main_find e em um quick_find. Mas é genérica o suficiente para servir a qualquer edição com lançamento de modelo — não nomeia Gemini 4 Neon nem o que ele muda.",
+    "issues": [
+      "Intro não nomeia o main_find (Gemini 4 Neon) — 'modelo novo do Google' poderia ser qualquer lançamento.",
+      "Segunda frase ('Garimpei 40 posts de 21 fontes') é boilerplate de processo, não conteúdo editorial."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os descartes e justifica o main_find pela tração cross-source. Mas há incoerências: (a) o reasoning diz que o item da Tencent 'entra como quick_find com follow_up' apesar de reconhecer que é follow-up — não aplica a régua de anti-signal de rehashed; (b) o reasoning afirma 'Desenvolvedores: só 1 (Snapchat) — ok', mas o main_find tem primary_audience 'todos', o que não resolve a escassez de itens para devs; (c) o reasoning menciona 'perspective_check' e 'ai_gate_passed' como etapas, mas o output não expõe esses campos — o raciocínio descreve um processo que o schema não reflete.",
+    "issues": [
+      "Reasoning reconhece que Tencent é follow-up da ed.239 mas mantém o item, sem aplicar a régua de rehashed news.",
+      "Reasoning afirma 'Desenvolvedores: só 1 (Snapchat) — ok' — mas o main_find é 'todos', então a cobertura de devs é de fato mínima e não é problematizada.",
+      "Reasoning cita 'perspective_check' e 'ai_gate_passed' como se fossem campos do output, mas eles não existem no JSON entregue — descrição de processo desalinhada com o artefato."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Diagnostic Accuracy and Navigation Behavior of Vision-Language Model Agents Reading Emergency CT and MRI Examinations",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Resultado concreto de pesquisa: 4.800 execuções comparando VLM agents a 9 radiologistas em CT/MRI de emergência — capacidade de medir acionável para quem avalia IA em saúde, com sinal de mercado (benchmark de acurácia clínica).",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "HardwareDx: A Foundational Graph Model System for Datacenter Machine Repairs",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Sistema de IA aplicado a manutenção de datacenter com impacto econômico explícito (downtime em clusters de treino) — acionável para operações de infraestrutura de IA e sinal de mercado de automação de datacenter.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Tencent diz que Hunyuan Hy4 Flash passou de 50 trilhões de tokens no primeiro dia",
+      "field": "quick_finds",
+      "why_should_discard": "Métrica de adoção divulgada pela própria empresa, sem feature/produto/shift novo; o próprio output admite que é follow-up da ed.239 — se enquadra em anti-signal de resultado/rehashed sem novidade.",
+      "violated_rule": "Anti-signal: resultado financeiro/adoção sem novidade de produto/estratégia; rehashed news"
+    },
+    {
+      "title": "Grupo de segurança de IA de Pequim vira consultor de gigantes chinesas",
+      "field": "quick_finds",
+      "why_should_discard": "O signal admite que o texto não detalha empresas nem tipo de consultoria — sinal de mercado específico ausente e acionabilidade quase nula; falha nos critérios 1 e 2.",
+      "violated_rule": "Critério 2 (sinal de mercado específico) e Critério 1 (acionável)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "A exceção de 'empresa de referência' no anti-signal de funding/resultado pode estar sendo lida como dispensa da exigência de novidade — o reasoning trata Tencent como aceitável por ser player grande, mesmo admitindo follow-up.",
+      "evidence": "Quick_find Tencent mantido com follow_up explícito da ed.239, sem feature/produto novo.",
+      "suggested_fix": "Reforçar no prompt que 'empresa de referência' reduz o limiar de novidade, mas não elimina a exigência de evento singular novo; follow-up só entra se houver fato novo de produto/estratégia."
+    },
+    {
+      "hypothesis": "O critério 'sinal de mercado' não exige explicitamente que o item nomeie player, ação e consequência — itens vagos ('um grupo pouco conhecido virou consultor') passam porque soam como movimento estratégico.",
+      "evidence": "SCMP Beijing AI safety group selecionado apesar de o signal admitir ausência de detalhes sobre empresas e tipo de consultoria.",
+      "suggested_fix": "Adicionar teste objetivo: o item precisa nomear player específico + ação concreta + consequência observável; caso contrário, descartar."
+    },
+    {
+      "hypothesis": "O reasoning descreve etapas (ai_gate_passed, perspective_check) que não existem no schema de saída, sugerindo que o prompt mistura formato de raciocínio interno com o JSON final.",
+      "evidence": "Reasoning cita 'perspective_check' e 'ai_gate_passed' como campos, mas o output não os contém.",
+      "suggested_fix": "Alinhar o schema do reasoning ao output final ou remover menções a campos inexistentes."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "Edição mediana: main_find (Gemini 4 Neon) e dois quick_finds (Genie 4, Snapchat) são sólidos, mas Tencent e SCMP entram por régua frouxa — um é follow-up de adoção sem novidade, outro é sinal vago sem player/ação/consequência. Ficaram de fora dois papers com resultado concreto e acionável (VLM em CT/MRI, HardwareDx), e o reasoning descreve etapas que o output não reflete."
+}

@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa publicada por empresa de IA com papers e código, evento singular e datado, com ângulo real de AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Resultado de pesquisa concreto (modelo de difusão com métrica no SWE-bench Verified), tipo produto/pesquisa desejado.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa com benchmark e método propostos, evento singular e relevante para world models.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Anúncio de produto de hardware com IA (anel e pulseira de saúde), evento datado e concreto.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Paper descrevendo sistema multiagente para simulação de dinâmica molecular, pesquisa concreta e relevante.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C9\", \"why\": \"Rodada de US$ 100 milhões liderada pelo Ant Group em startup de robótica humanoide é evento singular e verificável, mais forte que itens de pesquisa incremental.\"},\n    {\"candidate\": \"C6\", \"why\": \"Movimento da China para moldar padrões globais de interfaces cérebro-computador é evento datado e relevante de tech/regulação, com fonte verificável.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa publicada por empresa de IA com papers e código, evento singular e datado, com ângulo real de AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Resultado de pesquisa concreto (modelo de difusão com métrica no SWE-bench Verified), tipo produto/pesquisa desejado."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa com benchmark e método propostos, evento singular e relevante para world models."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Anúncio de produto de hardware com IA (anel e pulseira de saúde), evento datado e concreto."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Paper descrevendo sistema multiagente para simulação de dinâmica molecular, pesquisa concreta e relevante."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C9",
+      "title": "Ant Group leads $100 million round in humanoid startup Simplexity Robotics",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/23/ant-group-leads-100-million-round-in-humanoid-startup-simplexity-robotics/",
+      "why": "Rodada de US$ 100 milhões liderada pelo Ant Group em startup de robótica humanoide é evento singular e verificável, mais forte que itens de pesquisa incremental."
+    },
+    {
+      "candidate": "C6",
+      "title": "As brain-computer interface boom enters next phase, China pushes to shape global standards",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/business/china-business/article/3375442/brain-computer-interface-boom-enters-next-phase-china-pushes-shape-global-standards",
+      "why": "Movimento da China para moldar padrões globais de interfaces cérebro-computador é evento datado e relevante de tech/regulação, com fonte verificável."
+    }
+  ]
+}

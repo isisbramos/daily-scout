@@ -1,0 +1,94 @@
+{
+  "edition": "244",
+  "audited_at": "2026-11-23T20:06:58.675712-03:00",
+  "editorial_alignment": {
+    "score": 2,
+    "rationale": "O main_find (METR) passa no AI Gate e é pesquisa com resultado concreto, mas o reasoning admite que o Tencent Hy4 era o main_find original e foi trocado por 'repetição de edição recente' — o que não é critério de seleção. O quick_find da Animoca/Visa é tangencial: é piloto de produto de uma empresa Web3, sem evidência de adoção ou mudança de workflow para o leitor do Daily Scout.",
+    "issues": [
+      "main_swaps troca Tencent Hy4 por METR com motivo 'repetição de edição recente' — repetição não é critério de seleção nem anti-signal; se Hy4 é acionável (pesos abertos, Apache 2.0, 1M tokens), deveria ser main_find.",
+      "Quick find Animoca Minds/Visa: sinal de mercado de uma empresa Web3 com piloto, sem produto disponível para o leitor testar nem mudança de workflow concreta — falha o critério 1 (Acionável) e o 3 (workflow).",
+      "Reasoning lista 'GitHub Agent Host Protocol já coberto ed.243' e 'GitHub maintainers AI bug reports já coberto ed.241' como motivo de descarte — mas o output não tem campo que registre isso, e a troca do main_find usa o mesmo tipo de justificativa (repetição) que não está nos critérios."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido, sem hype explícito. Porém o main_find.body repete quase literalmente o summary do input e o bullet 1 duplica o body inteiro — não é erro de tom, é erro de forma que infla o texto. O quick_find da Apple afirma 'a empresa libera uma família de modelos', detalhe que não está no summary do input (o summary diz 'we train a single, scalable network'), o que é informação adicionada.",
+    "issues": [
+      "main_find.bullets[0] é cópia integral do main_find.body — duplicação, não bullet.",
+      "Quick find Apple Depth Pro 2: 'a empresa libera uma família de modelos' não consta no summary do input; o input fala em 'a single, scalable network'. Detalhe inventado.",
+      "main_find.body atribui duas vezes 'segundo a MIT Technology Review' na mesma frase, e o bullet 1 repete a atribuição — ruído de redação."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: main_find é MIT TR, quick_finds são Apple ML Research e SCMP Tech — três fontes distintas, ok. Audiência: 'product managers e fundadores' aparece duas vezes (main_find e Animoca) e 'desenvolvedores' uma vez — há variação, mas fraca. Geografia: Hong Kong (Animoca) e EUA (METR, Apple) — ok, sem excesso de uma região.",
+    "issues": [
+      "primary_audience repetido: 'product managers e fundadores' em main_find e no quick_find da Animoca — poderia diferenciar.",
+      "Nenhum item de regulação ou crítica no corpo da edição (só no radar), apesar de o reasoning listar Nvidia export permits como candidato forte."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (METR, horizonte de tempo, julgamento) — não é genérica. A segunda frase ('garimpei 40 posts de 12 fontes') é preenchimento de processo, não de conteúdo, mas não compromete.",
+    "issues": [
+      "Segunda frase é sobre o processo de curadoria, não sobre o conteúdo — ocupa espaço sem informar."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 2,
+    "rationale": "O reasoning é longo e lista muitos itens, mas há contradições: diz que Tencent Hy4 é 'acionável, sinal de mercado' e o coloca como main_find, depois o troca por METR com motivo 'repetição de edição recente' — que não é critério. Também diz que Alibaba chips próprios 'falha o teste de decisão' e o coloca no radar, enquanto o quick_find da Animoca, igualmente indireto, entra no corpo. O campo main_swaps registra a troca, mas o reasoning não explica por que METR é mais acionável que Hy4.",
+    "issues": [
+      "Contradição: reasoning afirma que Hy4 é acionável e sinal de mercado, mas o main_find é METR; a justificativa da troca ('repetição de edição recente') não está nos critérios.",
+      "Inconsistência de régua: Alibaba é descartado por 'infraestrutura sem efeito direto', mas Animoca (piloto sem produto disponível) entra como quick_find.",
+      "O reasoning menciona 'STEP 5' e 'STEP 2' como se fossem etapas do prompt, mas o output não tem campo que valide isso — a menção fica solta."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Tencent releases Hy4 model weights with million-token context",
+      "source": "TechNode",
+      "why_should_include": "Pesos abertos sob Apache 2.0 com contexto de 1M tokens é decisão de fornecedor concreta e acionável (baixar, deployar, comparar) — o próprio reasoning o classifica como acionável e sinal de mercado.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Nvidia faces further blow after shock US export permit data release: analysts",
+      "source": "SCMP Tech",
+      "why_should_include": "Regulação com consequência direta de fornecedor (880 mil chips aprovados, possível pivô para AMD e chips caseiros) — sinal de mercado específico e regulação governamental, exceção explícita ao AI Gate.",
+      "missed_criteria": [
+        "AI Gate (exceção regulação)",
+        "Sinal de mercado"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Plataforma de agentes da Animoca testa pagamentos reais na rede Visa em Hong Kong",
+      "field": "quick_finds",
+      "why_should_discard": "Piloto de produto de empresa Web3 sem disponibilidade para o leitor testar nem mudança de workflow concreta — falha Acionável e Workflow; é sinal de mercado fraco (piloto, não lançamento).",
+      "violated_rule": "Critérios de Seleção 1 e 3 (Acionável, Workflow)"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "O prompt não define 'repetição de edição recente' como critério válido de troca de main_find, mas o output usa isso em main_swaps — provavelmente há um few-shot ou instrução solta que permite esse tipo de swap sem checar os critérios.",
+      "evidence": "main_swaps.reason = 'repetição de edição recente' para trocar Tencent Hy4 por METR, enquanto o reasoning classifica Hy4 como acionável e sinal de mercado.",
+      "suggested_fix": "Adicionar regra explícita: troca de main_find só é válida se o substituto vencer o original nos critérios de seleção; repetição de edição não é critério."
+    },
+    {
+      "hypothesis": "O STEP de seleção não exige que quick_finds passem no mesmo teste de 'Acionável' do main_find — o output trata quick_finds como espaço para 'sinal de mercado' fraco (piloto, parceria).",
+      "evidence": "Animoca/Visa entra como quick_find apesar de ser piloto sem produto disponível, enquanto Alibaba é descartado por 'infraestrutura sem efeito direto'.",
+      "suggested_fix": "Aplicar a mesma régua de 2-de-3 critérios a quick_finds, com nota de que 'piloto' e 'parceria' não contam como sinal de mercado sem lançamento ou mudança de política."
+    },
+    {
+      "hypothesis": "O prompt não instrui a não duplicar body em bullets nem a não adicionar detalhes além do summary do input — o output repete o body no bullet 1 e inventa 'família de modelos' no quick_find da Apple.",
+      "evidence": "main_find.bullets[0] = main_find.body; quick_find Apple afirma 'libera uma família de modelos' ausente no summary.",
+      "suggested_fix": "Adicionar regra: bullets devem ser distintos do body e não podem conter informação ausente do input; se o summary não cobre, não afirmar."
+    }
+  ],
+  "overall_score": 2,
+  "top_issues_summary": "A edição tem um main_find defensável (METR), mas a troca de Tencent Hy4 por METR usa 'repetição de edição recente' como justificativa, o que não é critério, e o quick_find da Animoca/Visa é piloto sem acionabilidade. Há ainda duplicação de body em bullet e um detalhe inventado no quick_find da Apple."
+}

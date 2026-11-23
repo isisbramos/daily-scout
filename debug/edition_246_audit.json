@@ -1,0 +1,101 @@
+{
+  "edition": "246",
+  "audited_at": "2026-11-23T20:07:20.484515-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (MiniMax) passa no AI Gate e satisfaz acionável + sinal de mercado. Mas o quick_find do Ant Group Afu é um lançamento de hardware de consumo com IA embarcada — acionável apenas para quem compra wearables, sem sinal de mercado específico de um player de AI e sem mudança de workflow tech/AI. O ChatAtom é pesquisa em arXiv sem produto ou disponibilidade, o que enfraquece o critério 'acionável'.",
+    "issues": [
+      "Ant Group Afu (quick_find): produto de hardware de saúde de consumo; o critério 'sinal de mercado' exige movimento estratégico específico de um player de AI — aqui é extensão de linha de wearables, não shift de categoria de AI. 'Acionável' só para compradores de wearable, não para leitores de tech/AI.",
+      "ChatAtom (quick_find): paper arXiv sem código público, sem benchmark reproduzível e sem disponibilidade — 'acionável' é fraco; sobra apenas 'afeta workflows' de forma hipotética.",
+      "Clover (quick_find): o resultado 73.6 no SWE-bench Verified é auto-reportado no technical report; a Aya trata como 'pesquisa/dado' mas o claim_status 'em_andamento' é inconsistente com um número publicado em paper."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 4,
+    "rationale": "O tom é contido, sem hype, e preserva condicionais. Há um deslize de certeza no step5_phrase do Ant Group ('Agora é possível acompanhar...') que transforma anúncio em disponibilidade confirmada, e uma inferência não sustentada no main_find ao dizer que os resultados cobrem 'criptografia de chave pública' quando o summary só cita 'encryption, digital signatures e hash functions'.",
+    "issues": [
+      "main_find.body: 'criptografia de chave pública' não aparece no summary do TechNode; o summary diz 'encryption, digital signatures and hash functions'. A Aya inferiu 'chave pública' — informação não sustentada.",
+      "quick_find Ant Group step5_phrase: 'Agora é possível acompanhar...' afirma disponibilidade comercial, mas o summary só diz que os dispositivos foram 'unveiled' (anunciados).",
+      "main_find.body: 'as três peças que sustentam desde conexões HTTPS até assinatura de documentos' é contextualização correta, mas o vínculo direto entre os esquemas experimentais atacados e HTTPS não está no summary — pode induzir o leitor a achar que HTTPS está em risco."
+    ]
+  },
+  "diversity": {
+    "score": 3,
+    "rationale": "Fontes: TechNode aparece 2x (main_find + quick_find Ant) e HuggingFace Papers 2x (Clover + NoPeWorld) — no limite, não viola. Audiência: 2 devs, 2 todos — ok. Geografia: 2 itens da China (MiniMax, Ant) — dentro do limite de 2, mas combinados com o radar (Simplexity + BCI China) a edição fica com 4 de 6 itens sobre China, o que distorce a percepção de cobertura.",
+    "issues": [
+      "TechNode 2x entre main_find + quick_finds (MiniMax e Ant Group) — no limite, mas concentra a edição numa única fonte chinesa.",
+      "Radar com 2 itens, ambos China (Simplexity e BCI standards) — somado aos quick_finds, 4 de 6 itens da edição são sobre China; não há contrapeso de EUA/Europa em produto ou pesquisa aplicada."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (segurança/criptografia com IA), o que é bom. Mas a segunda frase ('Juntei também pesquisa que mede o que agentes aprendem e um wearable de saúde com IA') descreve itens que NÃO estão no output — AstronautBench foi descartado no reasoning e o wearable é o Ant Afu, que está lá, mas 'mede o que agentes aprendem' não corresponde a nenhum quick_find selecionado.",
+    "issues": [
+      "correspondent_intro menciona 'pesquisa que mede o que agentes aprendem' — nenhum quick_find cobre isso (AstronautBench foi descartado no reasoning). Introdução descreve item ausente.",
+      "A intro diz '4 achados entre os 312 posts' — o meta.total_analyzed é 312, mas o INPUT tem 40 itens; o número 312 não é verificável a partir do input e parece inventado."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning lista corretamente os descartes e justifica o main_find. Mas há contradições: (a) diz que descartou Simplexity por regra de rodada, mas o coloca no radar com justificativa de produto — coerente em parte, mas o radar não deveria reabilitar um anti-signal sem explicar por que vale acompanhar; (b) diz que descartou AstronautBench, mas a intro o menciona; (c) o reasoning afirma que 'Depth Pro 2 já coberto na ed.244' e 'Agent Host Protocol ed.243' — a memória editorial é usada como bloqueio, mas não há verificação no input; é plausível, porém não auditável.",
+    "issues": [
+      "Contradição: reasoning descarta AstronautBench, mas correspondent_intro menciona 'pesquisa que mede o que agentes aprendem'.",
+      "Reasoning diz que Simplexity é anti-signal de rodada e o descarta, mas o coloca no radar — falta explicar por que um anti-signal vira item de acompanhamento.",
+      "Reasoning afirma que Depth Pro 2, Agent Host Protocol e bug reports do GitHub foram bloqueados por memória editorial (eds. 243/244), mas essa memória não é verificável no input — o auditor não pode confirmar se é bloqueio legítimo ou desculpa para descartar itens potencialmente válidos."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "AstronautBench: Measuring Agent Self-Improvement Across Episodes Through Knowledge, Evidence, and Progress",
+      "source": "arXiv (CS.AI)",
+      "why_should_include": "Benchmark que mede auto-melhoria de agentes LLM em três dimensões (conhecimento, evidência, progresso) — é pesquisa com capacidade nomeada e afeta como se avalia agentes, critério 'afeta workflows' e 'sinal de mercado' de pesquisa. A Aya descartou no reasoning mas mencionou na intro, indicando que reconheceu valor.",
+      "missed_criteria": [
+        "AI Gate",
+        "Afeta workflows"
+      ]
+    },
+    {
+      "title": "Maintainers don’t need more AI bug reports. They need fixes.",
+      "source": "The GitHub Blog",
+      "why_should_include": "Piloto Codename MDASH com resultado concreto: 99 relatórios privados com correções sugeridas para 6 projetos open source, mais da metade já corrigida. É evento singular de uma empresa (GitHub/Microsoft) com número verificável, afeta workflow de maintainers e tem sinal de mercado de ferramenta de AI para código. A Aya descartou por 'memória editorial' sem verificação.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável",
+        "Afeta workflows"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Ant Group unveils AI health ring and wristband under Afu brand",
+      "field": "quick_finds",
+      "why_should_discard": "Lançamento de hardware de consumo com IA embarcada; não é movimento estratégico de player de AI (é extensão de linha de wearables de saúde) e 'acionável' só para compradores de wearable, não para leitores de tech/AI. Não satisfaz 2 dos 3 critérios com clareza.",
+      "violated_rule": "Critério 2 (sinal de mercado) — produto de consumo sem shift de categoria de AI; Critério 1 (acionável) — fora do escopo tech/AI do leitor"
+    },
+    {
+      "title": "ChatAtom: A Multi-Agent LLM System for Molecular Dynamics Simulation and Visualization",
+      "field": "quick_finds",
+      "why_should_discard": "Paper arXiv sem código público, sem benchmark reproduzível e sem disponibilidade — 'acionável' é hipotético; sobra 'afeta workflows' de forma especulativa. Não satisfaz 2 dos 3 critérios de forma robusta.",
+      "violated_rule": "Critério 1 (acionável) — pesquisa sem ferramenta testável; Critério 3 (afeta workflows) — apenas potencial, não mudança concreta"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção de quick_finds não exige que o item seja um evento singular de uma empresa de AI — permite lançamento de hardware de consumo com IA embarcada (Ant Afu) como se fosse sinal de mercado.",
+      "evidence": "Ant Group Afu entrou como quick_find com 'sinal de mercado' descrito como 'mais um caso de IA embarcada em hardware de consumo', que é panorama, não movimento específico de player de AI.",
+      "suggested_fix": "Adicionar regra explícita: quick_finds de produto de consumo só entram se houver mudança de categoria ou número de adoção verificável, não apenas anúncio."
+    },
+    {
+      "hypothesis": "O STEP de memória editorial permite descartar itens citando edições anteriores sem verificação no input, o que pode virar atalho para excluir itens válidos (AstronautBench, GitHub MDASH).",
+      "evidence": "Reasoning descarta Depth Pro 2, Agent Host Protocol e bug reports do GitHub por 'memória editorial' sem checar se o input traz fato novo; AstronautBench é descartado no reasoning mas aparece na intro.",
+      "suggested_fix": "Exigir que o descarte por memória editorial cite o fato novo ausente no input atual, e proibir menção na intro de item descartado."
+    },
+    {
+      "hypothesis": "O STEP de correspondent_intro não é validado contra os itens efetivamente selecionados, permitindo que a intro descreva itens descartados e invente números (312 posts).",
+      "evidence": "Intro menciona 'pesquisa que mede o que agentes aprendem' (AstronautBench, descartado) e '312 posts' (input tem 40).",
+      "suggested_fix": "Adicionar checagem: a intro só pode referenciar itens presentes em main_find/quick_finds, e total_analyzed deve vir do input."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find forte (MiniMax), mas inclui um false positive claro (Ant Afu, hardware de consumo) e um quick_find de acionabilidade fraca (ChatAtom). A intro menciona item descartado e número não verificável, e o reasoning usa memória editorial como bloqueio não auditável. Diversidade geográfica concentra 4 de 6 itens na China."
+}

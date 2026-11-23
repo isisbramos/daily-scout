@@ -1,0 +1,54 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\"verdicts\":[{\"idx\":0,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Evento singular e datado (ChatPRD encerrando free trials por fraude de tokens) com fonte primária identificada e ângulo concreto de produto de IA.\"},{\"idx\":1,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Sinal especulativo corretamente marcado como tal, com ângulo real de agentes de IA para desktop e fonte TechCrunch.\"},{\"idx\":2,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Posicionamento estratégico de uma empresa concreta (Fireworks AI) sobre uso de modelos abertos, com evento datado e ângulo de custo relevante.\"},{\"idx\":3,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Resultado concreto e verificável (99 relatórios privados com correções em seis projetos) de uma iniciativa datada do GitHub/Microsoft.\"},{\"idx\":4,\"verdict\":\"PASS\",\"rule\":\"none\",\"why\":\"Lançamento de protocolo aberto concreto pelo GitHub, com evento singular e relevância clara para agentes de IA.\"}],\"missed\":[{\"candidate\":\"C24\",\"why\":\"Descoberta de nova arquitetura de CPU projetada e verificada por IA é evento singular e forte, mais relevante que itens de menor peso.\"},{\"candidate\":\"C23\",\"why\":\"Fígado humano mantido vivo fora do corpo por sete semanas é achado científico singular e datado, com fonte verificável.\"}]}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (ChatPRD encerrando free trials por fraude de tokens) com fonte primária identificada e ângulo concreto de produto de IA."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Sinal especulativo corretamente marcado como tal, com ângulo real de agentes de IA para desktop e fonte TechCrunch."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Posicionamento estratégico de uma empresa concreta (Fireworks AI) sobre uso de modelos abertos, com evento datado e ângulo de custo relevante."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Resultado concreto e verificável (99 relatórios privados com correções em seis projetos) de uma iniciativa datada do GitHub/Microsoft."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de protocolo aberto concreto pelo GitHub, com evento singular e relevância clara para agentes de IA."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C24",
+      "title": "Frostbite: A new CPU architecture discovered, designed and verified by AI",
+      "source": "HackerNews",
+      "url": "https://architectlabs.com/blog/frostbite",
+      "why": "Descoberta de nova arquitetura de CPU projetada e verificada por IA é evento singular e forte, mais relevante que itens de menor peso."
+    },
+    {
+      "candidate": "C23",
+      "title": "A human liver has been kept alive outside the body for a record seven weeks",
+      "source": "MIT Technology Review",
+      "url": "https://www.technologyreview.com/2026/11/19/1148934/a-human-liver-has-been-kept-alive-outside-the-body-for-seven-weeks-setting-a-record/",
+      "why": "Fígado humano mantido vivo fora do corpo por sete semanas é achado científico singular e datado, com fonte verificável."
+    }
+  ]
+}

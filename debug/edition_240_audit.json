@@ -1,0 +1,118 @@
+{
+  "edition": "240",
+  "audited_at": "2026-11-23T20:05:55.553463-03:00",
+  "editorial_alignment": {
+    "score": 3,
+    "rationale": "O main_find (Kuaishou/Kling) passa no AI Gate e tem sinal de mercado concreto (IPO + reposicionamento pós-Sora). Mas dois quick_finds são frágeis: o pacto COP31 é compromisso político sem regra vinculante (sinal de mercado difuso, não evento singular de empresa) e o Google Maps Ask Maps é expansão geográfica de feature já existente, sem novidade de produto real. O K2-Horizon e o SWE-CoWork são papers sem resultado acionável imediato — borderline para quick_find.",
+    "issues": [
+      "Quick_find 'Brasil assina na COP31 pacto global por IA sustentável': é compromisso político sem prazo ou regra definida; não é evento singular de empresa nem muda workflow de leitor de tech/AI de forma concreta. Sinal de mercado fraco.",
+      "Quick_find 'Google Maps Ask Maps em 30 países europeus': expansão geográfica de feature existente — não é lançamento novo nem shift estratégico específico. Passa no AI Gate mas falha no critério de sinal de mercado (não há movimento estratégico novo, só rollout).",
+      "Quick_find 'K2-Horizon': paper de modelo aberto sem evidência de adoção ou benchmark comparativo no texto — acionável apenas em teoria. Deveria estar no radar, não em quick_find.",
+      "Quick_find 'SWE-CoWork': benchmark acadêmico sem resultado divulgado; 'dá um critério' é promessa, não fato. Borderline anti-signal de pesquisa sem novidade concreta."
+    ]
+  },
+  "tone_accuracy": {
+    "score": 3,
+    "rationale": "O tom é contido e sem hype explícito, mas há duas falhas de acurácia: (1) o main_find afirma que a OpenAI 'encerrou o Sora' como fato consumado, quando o título original é 'OpenAI Shut Down Sora' — ok, mas o body acrescenta 'a saída do Sora deixou espaço competitivo aberto' sem que a fonte diga isso; é inferência apresentada como consequência. (2) O quick_find do Google Maps usa fonte Reddit (r/artificial) como se fosse anúncio oficial, sem ressalva.",
+    "issues": [
+      "main_find.body: 'a saída do Sora deixou espaço competitivo aberto' — inferência editorial não presente na fonte TechNode; o título só diz que a Kuaishou está apostando mais no Kling.",
+      "main_find.bullet 1: 'A saída do Sora não eliminou a categoria — deslocou a disputa para players asiáticos' — generalização não sustentada pelo título original.",
+      "quick_find Google Maps: fonte é post de Reddit, mas o signal trata como fato confirmado ('o Google Maps passou a gerar roteiros') sem atribuição condicional ou link para fonte primária.",
+      "quick_find K2-Horizon: 'posicionada na fronteira de capacidade' — o título diz 'Frontier Fleet', mas o texto não traz benchmark; 'fronteira' é claim do paper, não verificado."
+    ]
+  },
+  "diversity": {
+    "score": 4,
+    "rationale": "Boa distribuição de fontes (TechNode, Agência Brasil, HuggingFace x2, Reddit, SCMP) e audiências variadas (PMs, devs, executivos). Geografia razoável: China em 2 itens (Kuaishou, Megaspeed), Brasil em 1, EUA em 2. Único problema: dois quick_finds da mesma fonte (HuggingFace Papers) e dois itens com temática de pesquisa acadêmica sem resultado — concentração temática.",
+    "issues": [
+      "Dois quick_finds da mesma fonte (HuggingFace Papers: K2-Horizon e SWE-CoWork) — reduz diversidade de fontes no bloco quick_finds.",
+      "Dois quick_finds são papers acadêmicos sem resultado aplicado, criando viés de 'pesquisa' no bloco que deveria ser de sinais de mercado."
+    ]
+  },
+  "correspondent_intro_quality": {
+    "score": 4,
+    "rationale": "A primeira frase menciona o tema específico do main_find (Kuaishou/Kling e saída do Sora) e o segundo item (Brasil COP31). Não é genérica. O problema é que a intro promete '5 achados de 5 fontes diferentes', mas há 6 itens no output (main + 5 quick) e duas fontes se repetem (HuggingFace).",
+    "issues": [
+      "Intro diz '5 achados de 5 fontes diferentes', mas o output tem 6 itens (main_find + 5 quick_finds) e HuggingFace aparece duas vezes — contagem inconsistente.",
+      "Intro menciona '324 posts que o pipeline varreu', mas o meta.total_analyzed é 324 e o input tem 40 itens — número não bate com o input fornecido."
+    ]
+  },
+  "reasoning_coherence": {
+    "score": 3,
+    "rationale": "O reasoning é detalhado e lista corretamente os descartes por AI Gate, mas há contradições: (1) diz que 'Sora já coberto em ed.237' e que o encerramento 'já foi tratado', mas ainda assim usa o encerramento do Sora como parte central do main_find — se já foi tratado, o ângulo novo é só o IPO da Kuaishou, que não é detalhado. (2) Diz que 'Robin Li já apareceu em ed.235' e mesmo assim o coloca no radar, não em quick_find — coerente, mas o reasoning não explica por que vai pro radar e não é descartado. (3) O reasoning afirma que 'K2-Horizon' e 'SWE-CoWork' são quick_finds, mas não justifica por que passam nos critérios de seleção (são papers sem resultado).",
+    "issues": [
+      "Contradição: reasoning diz que o encerramento do Sora 'já foi tratado' em edição anterior, mas o main_find usa 'após OpenAI encerrar o Sora' como gancho principal — se já foi tratado, o valor novo é só o IPO, que não é desenvolvido.",
+      "Reasoning não justifica por que K2-Horizon e SWE-CoWork passam nos critérios de seleção (são papers sem resultado acionável) — apenas os lista como quick_finds.",
+      "Reasoning diz 'Diversidade geográfica: China em 2 itens (Kuaishou, Megaspeed é EUA/China — conto como 1)' — mas Megaspeed é cliente da Nvidia investigado pelos EUA; a contagem é confusa e não fecha com o output.",
+      "Reasoning afirma '5 achados de 5 fontes diferentes' na intro, mas o output tem 6 itens e fontes repetidas — inconsistência entre reasoning e output."
+    ]
+  },
+  "false_negatives": [
+    {
+      "title": "Strengthening NATO and allied cyber defenses with AI",
+      "source": "OpenAI Blog",
+      "why_should_include": "Anúncio oficial da OpenAI sobre parceria com NATO em ciberdefesa — evento singular de empresa de AI com implicação geopolítica e de política de segurança. Passa no AI Gate e tem sinal de mercado (shift de posicionamento da OpenAI para defesa).",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "The small African lab sounding the alarm on AI bioweapons",
+      "source": "Rest of World",
+      "why_should_include": "Reportagem sobre lab em Gana que alerta para risco de bioweapons com AI e regulação de síntese de DNA — evento singular com implicação regulatória e de segurança. Passa no AI Gate e afeta workflows de política de biossegurança.",
+      "missed_criteria": [
+        "AI Gate",
+        "Sinal de mercado"
+      ]
+    },
+    {
+      "title": "Broadening access to AI for scientists",
+      "source": "OpenAI Blog",
+      "why_should_include": "Expansão oficial do ChatGPT para pesquisadores acadêmicos — movimento estratégico específico da OpenAI (novo segmento de usuários), acionável para quem faz pesquisa. Passa no AI Gate e tem sinal de mercado.",
+      "missed_criteria": [
+        "AI Gate",
+        "Acionável"
+      ]
+    }
+  ],
+  "false_positives": [
+    {
+      "title": "Brasil assina na COP31 pacto global por IA sustentável e empregos",
+      "field": "quick_finds",
+      "why_should_discard": "Compromisso político sem regra vinculante, prazo ou evento singular de empresa — sinal de mercado difuso. Não muda workflow de leitor de tech/AI de forma concreta.",
+      "violated_rule": "Critério 2 (sinal de mercado) — panorama/política sem evento singular de UMA empresa"
+    },
+    {
+      "title": "Google Maps ganha roteiros de viagem por IA e Ask Maps chega a 30 países europeus",
+      "field": "quick_finds",
+      "why_should_discard": "Expansão geográfica de feature existente, sem novidade de produto ou shift estratégico. Fonte é post de Reddit, não anúncio oficial.",
+      "violated_rule": "Critério 2 (sinal de mercado) — rollout geográfico não é movimento estratégico novo"
+    },
+    {
+      "title": "K2-Horizon: família de modelos de linguagem open source de fronteira",
+      "field": "quick_finds",
+      "why_should_discard": "Paper acadêmico sem resultado divulgado, benchmark ou adoção — não é acionável nem sinal de mercado. Deveria estar no radar.",
+      "violated_rule": "Critério 1 (acionável) e Critério 2 (sinal de mercado) — paper sem resultado concreto"
+    }
+  ],
+  "prompt_hypotheses": [
+    {
+      "hypothesis": "STEP de seleção de quick_finds não exige que papers acadêmicos tenham resultado divulgado ou benchmark — basta estar no HuggingFace Papers.",
+      "evidence": "K2-Horizon e SWE-CoWork entraram como quick_finds apenas por serem papers, sem resultado ou adoção descrita no signal.",
+      "suggested_fix": "Adicionar regra: papers só entram em quick_find se trouxerem benchmark comparativo ou resultado aplicável; caso contrário, vão para radar."
+    },
+    {
+      "hypothesis": "Regra de 'sinal de mercado' não distingue rollout geográfico de lançamento novo — qualquer expansão de feature existente é aceita.",
+      "evidence": "Google Maps Ask Maps em 30 países europeus entrou como quick_find mesmo sendo expansão de feature já existente.",
+      "suggested_fix": "Explicitar que rollout geográfico de feature existente não conta como sinal de mercado; só lançamento novo ou mudança de categoria."
+    },
+    {
+      "hypothesis": "Regra de 'evento singular de UMA empresa' não é aplicada a compromissos políticos/governamentais — qualquer acordo com AI no título passa.",
+      "evidence": "Pacto COP31 do Brasil entrou como quick_find mesmo sendo compromisso político sem regra vinculante ou evento de empresa.",
+      "suggested_fix": "Adicionar anti-signal: compromisso político sem regra vinculante, prazo ou evento de empresa não conta como sinal de mercado."
+    }
+  ],
+  "overall_score": 3,
+  "top_issues_summary": "A edição tem um main_find defensável (Kuaishou/Kling), mas três quick_finds são frágeis: pacto COP31 (política sem regra), Google Maps (rollout geográfico) e K2-Horizon (paper sem resultado). O reasoning tem contradições internas (Sora 'já tratado' mas usado como gancho; contagem de fontes inconsistente) e a intro promete '5 fontes diferentes' quando há repetição. Ficaram de fora três itens que passariam nos critérios: NATO/OpenAI, lab de bioweapons em Gana e ChatGPT para cientistas."
+}

@@ -1,0 +1,42 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Relatório da METR com evento datado e dado concreto sobre horizonte de tempo, relevante e verificável.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa de produto da Apple com modelo concreto (Depth Pro 2) e fonte primária, tipo desejado.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Piloto singular e datado de pagamentos reais com agentes de IA na rede Visa em Hong Kong, com ângulo de regulação.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C12\", \"why\": \"Evento singular e verificável: Alibaba treina o próximo Qwen com chips próprios, com implicações concretas para a cadeia de IA e export controls.\"},\n    {\"candidate\": \"C24\", \"why\": \"Lançamento concreto de pesos do modelo Hy4 da Tencent com contexto de milhão de tokens, achado de produto forte e relevante.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Relatório da METR com evento datado e dado concreto sobre horizonte de tempo, relevante e verificável."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa de produto da Apple com modelo concreto (Depth Pro 2) e fonte primária, tipo desejado."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Piloto singular e datado de pagamentos reais com agentes de IA na rede Visa em Hong Kong, com ângulo de regulação."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C12",
+      "title": "Alibaba uses its own chips to train next-generation Qwen model",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/20/alibaba-uses-its-own-chips-to-train-next-generation-qwen-model/",
+      "why": "Evento singular e verificável: Alibaba treina o próximo Qwen com chips próprios, com implicações concretas para a cadeia de IA e export controls."
+    },
+    {
+      "candidate": "C24",
+      "title": "Tencent releases Hy4 model weights with million-token context",
+      "source": "TechNode",
+      "url": "https://technode.com/2026/11/20/tencent-releases-hy4-model-weights-with-million-token-context/",
+      "why": "Lançamento concreto de pesos do modelo Hy4 da Tencent com contexto de milhão de tokens, achado de produto forte e relevante."
+    }
+  ]
+}

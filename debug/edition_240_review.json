@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento singular e datado (Kuaishou aposta no Kling após fim do Sora e mira IPO em Hong Kong) com fonte verificável e ângulo claro de AI.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Evento datado e singular (assinatura do Brasil na COP31) com relevância de política de IA, ainda que seja compromisso político.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de família de modelos abertos de fronteira é achado de pesquisa/produto concreto e verificável.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Novo benchmark (SWE-CoWork) é contribuição de pesquisa concreta e relevante para avaliação de agentes.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Expansão de produto de massa (Google Maps/Ask Maps) é evento concreto; fonte é Reddit, mas o fato é corroborável e o item não se baseia em alegação anônima sensível.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Investigação criminal detalhada contra cliente da Nvidia é evento singular e datado com fonte jornalística verificável.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C14\", \"why\": \"Post oficial da OpenAI sobre fortalecimento de defesas cibernéticas da NATO é evento institucional concreto e verificável, mais forte que itens de pesquisa genéricos.\"},\n    {\"candidate\": \"C22\", \"why\": \"Detalhamento de investigação criminal dos EUA contra Megaspeed por desvio de chips é evento singular e datado com fonte jornalística, comparável ao item 5 já publicado.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento singular e datado (Kuaishou aposta no Kling após fim do Sora e mira IPO em Hong Kong) com fonte verificável e ângulo claro de AI."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Evento datado e singular (assinatura do Brasil na COP31) com relevância de política de IA, ainda que seja compromisso político."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de família de modelos abertos de fronteira é achado de pesquisa/produto concreto e verificável."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Novo benchmark (SWE-CoWork) é contribuição de pesquisa concreta e relevante para avaliação de agentes."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Expansão de produto de massa (Google Maps/Ask Maps) é evento concreto; fonte é Reddit, mas o fato é corroborável e o item não se baseia em alegação anônima sensível."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Investigação criminal detalhada contra cliente da Nvidia é evento singular e datado com fonte jornalística verificável."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C14",
+      "title": "Strengthening NATO and allied cyber defenses with AI",
+      "source": "OpenAI Blog",
+      "url": "https://openai.com/index/strengthening-nato-allied-cyber-defences-ai",
+      "why": "Post oficial da OpenAI sobre fortalecimento de defesas cibernéticas da NATO é evento institucional concreto e verificável, mais forte que itens de pesquisa genéricos."
+    },
+    {
+      "candidate": "C22",
+      "title": "US details criminal probe into Nvidia customer Megaspeed over potential chip diversion",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/tech-war/article/3374742/us-details-criminal-probe-nvidia-customer-megaspeed-over-potential-chip-diversion",
+      "why": "Detalhamento de investigação criminal dos EUA contra Megaspeed por desvio de chips é evento singular e datado com fonte jornalística, comparável ao item 5 já publicado."
+    }
+  ]
+}

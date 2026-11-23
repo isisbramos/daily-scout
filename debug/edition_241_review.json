@@ -1,0 +1,60 @@
+{
+  "mode": "shadow",
+  "model": "deepseek-v4-flash",
+  "contradictions": [],
+  "raw_response": "{\n  \"verdicts\": [\n    {\"idx\": 0, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Lançamento de modelos GPT-6.2 Astra e Sol é evento singular, datado e verificável, com fonte primária (blog da OpenAI) e corroboração.\"},\n    {\"idx\": 1, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Pesquisa de Harvard sobre agentes de código e gargalo na revisão é achado concreto com fonte identificável, ainda que via HackerNews.\"},\n    {\"idx\": 2, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Declaração da Nvidia sobre não reconduzir Jensen Huang como CEO é evento corporativo singular e datado, com fonte TechCrunch.\"},\n    {\"idx\": 3, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Posicionamento do GitHub sobre bug reports gerados por IA é conteúdo concreto de fonte primária (blog oficial), com ângulo tech relevante.\"},\n    {\"idx\": 4, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Spin-out da Tsinghua se tornando primeira auditora comercial de segurança de IA na China é evento singular e datado, com fonte SCMP.\"},\n    {\"idx\": 5, \"verdict\": \"PASS\", \"rule\": \"none\", \"why\": \"Queda de lucro da Tencent associada a gasto seis vezes maior em infraestrutura de IA é resultado financeiro com uso concreto de capital, não apenas funding.\"}\n  ],\n  \"missed\": [\n    {\"candidate\": \"C38\", \"why\": \"Já coberto pelo idx 1 (mesmo achado de Harvard sobre gargalo na revisão de código), mas o item publicado usa fonte secundária; o candidato original no HackerNews é a fonte mais direta e verificável.\"},\n    {\"candidate\": \"C34\", \"why\": \"Já coberto pelo idx 4 (mesmo evento da spin-out da Tsinghua como auditora de segurança de IA), com fonte SCMP idêntica; não acrescenta item novo.\"}\n  ]\n}",
+  "verdicts": [
+    {
+      "idx": 0,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Lançamento de modelos GPT-6.2 Astra e Sol é evento singular, datado e verificável, com fonte primária (blog da OpenAI) e corroboração."
+    },
+    {
+      "idx": 1,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Pesquisa de Harvard sobre agentes de código e gargalo na revisão é achado concreto com fonte identificável, ainda que via HackerNews."
+    },
+    {
+      "idx": 2,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Declaração da Nvidia sobre não reconduzir Jensen Huang como CEO é evento corporativo singular e datado, com fonte TechCrunch."
+    },
+    {
+      "idx": 3,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Posicionamento do GitHub sobre bug reports gerados por IA é conteúdo concreto de fonte primária (blog oficial), com ângulo tech relevante."
+    },
+    {
+      "idx": 4,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Spin-out da Tsinghua se tornando primeira auditora comercial de segurança de IA na China é evento singular e datado, com fonte SCMP."
+    },
+    {
+      "idx": 5,
+      "verdict": "PASS",
+      "rule": "none",
+      "why": "Queda de lucro da Tencent associada a gasto seis vezes maior em infraestrutura de IA é resultado financeiro com uso concreto de capital, não apenas funding."
+    }
+  ],
+  "missed": [
+    {
+      "candidate": "C38",
+      "title": "Harvard researchers find AI coding agents shifted the bottleneck to code review",
+      "source": "HackerNews",
+      "url": "https://complexdiscovery.com/harvard-researchers-find-ai-coding-agents-shifted-the-bottleneck-to-code-review/",
+      "why": "Já coberto pelo idx 1 (mesmo achado de Harvard sobre gargalo na revisão de código), mas o item publicado usa fonte secundária; o candidato original no HackerNews é a fonte mais direta e verificável."
+    },
+    {
+      "candidate": "C34",
+      "title": "How a Tsinghua spin-out became China’s first commercial AI safety watchdog",
+      "source": "SCMP Tech",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3374829/how-tsinghua-spin-out-became-chinas-first-commercial-ai-safety-watchdog",
+      "why": "Já coberto pelo idx 4 (mesmo evento da spin-out da Tsinghua como auditora de segurança de IA), com fonte SCMP idêntica; não acrescenta item novo."
+    }
+  ]
+}
