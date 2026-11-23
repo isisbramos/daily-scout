@@ -388,6 +388,96 @@ def sanitize_radar(radar: list, items_by_url: dict | None = None) -> list:
     return out
 
 
+# ── Diversidade por fonte na SAÍDA (higiene, 23/11/2026) ─────────────
+# `max_per_source_pct` só limita a ENTRADA do LLM; nada impedia a edição de sair com 3 itens
+# da mesma fonte (ed. 246: TechNode no achado, num quick find e no radar; dry run de 15/11:
+# Apple em 3 de 5). Trava determinística, no estilo do dedup guard, sem chamada de LLM.
+MAX_ITEMS_PER_SOURCE = 2      # na edição inteira (main + quick + radar)
+MAX_RADAR_PER_SOURCE = 1      # dentro do radar
+MIN_QUICK_FINDS = 3
+
+
+def _source_key(item: dict, items_by_url: dict | None = None) -> str:
+    """Chave da fonte de um item da saída: source_id do input (pela url) ou o rótulo normalizado."""
+    src_item = (items_by_url or {}).get((item.get("url") or "").strip())
+    if src_item is not None and getattr(src_item, "source_id", ""):
+        return src_item.source_id
+    return (item.get("source") or "").strip().lower()
+
+
+def enforce_source_diversity(content: dict, items_by_url: dict | None = None,
+                             max_per_source: int = MAX_ITEMS_PER_SOURCE,
+                             max_radar_per_source: int = MAX_RADAR_PER_SOURCE) -> list[dict]:
+    """Limita itens por fonte na edição. Prioridade: main_find > quick_finds (em ordem) > radar.
+
+    O main_find nunca sai. Quick find ou item de radar que estoura o limite é removido.
+    Item sem fonte identificável não conta (falha aberta). Retorna a lista do que foi removido
+    e também registra em `content["source_caps"]` para o debug da edição.
+    """
+    counts: Counter = Counter()
+    main_key = _source_key(content.get("main_find") or {}, items_by_url)
+    if main_key:
+        counts[main_key] += 1
+    dropped = []
+
+    kept_qf = []
+    for qf in content.get("quick_finds") or []:
+        key = _source_key(qf, items_by_url)
+        if key and counts[key] >= max_per_source:
+            dropped.append({"where": "quick_find", "title": qf.get("title", ""), "source": key})
+            continue
+        if key:
+            counts[key] += 1
+        kept_qf.append(qf)
+
+    radar_counts: Counter = Counter()
+    kept_radar = []
+    for ri in content.get("radar") or []:
+        key = _source_key(ri, items_by_url)
+        if key and (counts[key] >= max_per_source or radar_counts[key] >= max_radar_per_source):
+            dropped.append({"where": "radar", "title": ri.get("title", ""), "source": key})
+            continue
+        if key:
+            counts[key] += 1
+            radar_counts[key] += 1
+        kept_radar.append(ri)
+
+    content["quick_finds"] = kept_qf
+    content["radar"] = kept_radar
+    if dropped:
+        content.setdefault("source_caps", []).extend(dropped)
+    return dropped
+
+
+def refill_quick_finds(content: dict, min_quick: int = MIN_QUICK_FINDS) -> list[str]:
+    """Completa os quick finds até `min_quick` promovendo itens do RADAR, em ordem.
+
+    Os candidatos são os itens que o LLM já escreveu para esta edição (sem nova chamada):
+    o `why_watch` vira o `signal`. Mover do radar para quick find não muda a contagem por
+    fonte da edição, então a trava de diversidade continua valendo. Sem radar, não há
+    preenchimento e a edição sai com o que tem (aviso no log). Retorna os títulos promovidos.
+    """
+    quick = content.setdefault("quick_finds", [])
+    radar = content.get("radar") or []
+    promoted = []
+    while len(quick) < min_quick and radar:
+        ri = radar.pop(0)
+        quick.append({
+            "title": ri.get("title", ""),
+            "source": ri.get("source", ""),
+            "signal": (ri.get("why_watch") or "").strip(),
+            "url": ri.get("url", ""),
+            "display_url": ri.get("display_url", ""),
+            "entities": list(ri.get("entities") or []),
+            "refilled_from": "radar",
+        })
+        promoted.append(ri.get("title", ""))
+    content["radar"] = radar
+    if promoted:
+        content.setdefault("quick_refills", []).extend(promoted)
+    return promoted
+
+
 def _prompt_entry(item: SourceItem) -> dict:
     """Item no formato que o LLM de curadoria recebe."""
     entry = {
@@ -690,6 +780,27 @@ def curate_and_write(
                 )
             except Exception as radar_err:
                 logger.warning(f"Radar sanitize falhou (não-bloqueante): {radar_err}")
+
+            # ── Diversidade por fonte na saída + preenchimento (higiene, 23/11/2026) ──
+            # Roda depois do dedup guard, da barra do destaque e do sanitize do radar, com o
+            # main_find já final. Blindado: erro aqui nunca quebra a curadoria.
+            try:
+                for d in enforce_source_diversity(content, {it.url: it for it in filtered_items}):
+                    logger.warning(
+                        f"[FONTE] {d['where']} '{d['title'][:50]}' removido: {d['source']} "
+                        f"já tem {MAX_ITEMS_PER_SOURCE} itens na edição"
+                        + (f" ou {MAX_RADAR_PER_SOURCE} no radar" if d["where"] == "radar" else "")
+                    )
+                if len(content.get("quick_finds", [])) < MIN_QUICK_FINDS:
+                    for t in refill_quick_finds(content):
+                        logger.warning(f"[PREENCHE] radar → quick find: '{t[:50]}'")
+                    if len(content.get("quick_finds", [])) < MIN_QUICK_FINDS:
+                        logger.warning(
+                            f"[PREENCHE] edição com {len(content.get('quick_finds', []))} quick finds "
+                            f"(mínimo {MIN_QUICK_FINDS}) e sem candidato no radar"
+                        )
+            except Exception as div_err:
+                logger.warning(f"Trava de diversidade falhou (não-bloqueante): {div_err}")
 
             logger.info(f"Curation OK: '{content['main_find']['title']}'")
             logger.info(f"Quick finds: {len(content.get('quick_finds', []))}")
