@@ -1,6 +1,6 @@
 # Roadmap
 
-> last-reviewed: 2026-11-15 · Junta `docs/ROADMAP.md` e `docs/EDITORIAL_IMPROVEMENT_PLAN.md` no que ainda vale; os originais foram para `docs/historico/` como registro. Para o histórico completo de como cada coisa foi construída → `docs/historico/ROADMAP.md`, `docs/historico/EDITORIAL_IMPROVEMENT_PLAN.md`, `docs/EDITORIAL_RETROSPECTIVE.md`, `docs/DOC_PROCESSO_DAILY_SCOUT.md`.
+> last-reviewed: 2026-11-23 · Junta `docs/ROADMAP.md` e `docs/EDITORIAL_IMPROVEMENT_PLAN.md` no que ainda vale; os originais foram para `docs/historico/` como registro. Para o histórico completo de como cada coisa foi construída → `docs/historico/ROADMAP.md`, `docs/historico/EDITORIAL_IMPROVEMENT_PLAN.md`, `docs/EDITORIAL_RETROSPECTIVE.md`, `docs/DOC_PROCESSO_DAILY_SCOUT.md`.
 
 ## Shipped — o que já está rodando
 
@@ -35,7 +35,17 @@ Uma mudança por vez, medida no Content Report seguinte (regra de produção em 
 
 ### Diagnóstico de concentração por fonte
 
-**23/11/2026** — diagnóstico agendado sobre concentração de itens por fonte (segue a Rec. 4 do plano de melhoria editorial: `memory_store.py` já grava a fonte de cada item publicado desde a ed.197; falta a leitura dedicada desse dado).
+**23/11/2026** — diagnóstico feito nas 8 edições de 16 a 23/11 (#239–#246), lendo o HTML enviado (artifacts `edition-N` do Actions):
+
+- **Apple ML Research:** 1 item em 8 edições (quick find da #244). Os 3 de 5 do dry run de 15/11 não se repetiram.
+- **TechCrunch:** no máximo 2 por edição (#243 e #245), 7 itens no período.
+- **Mais de 2 itens da mesma fonte:** 1 edição — #246, TechNode no achado, num quick find e no radar. Em 7 de 8 edições alguma fonte teve exatamente 2.
+- **Radar com 2 itens da mesma fonte:** 0.
+- **Menos de 3 quick finds:** 1 edição — #244 (2), porque o guard de repetição promoveu um quick find a achado.
+
+Conclusão: a concentração da Apple foi efeito do domingo; a falta de trava na saída é real e apareceu em produção (#246), e o buraco nos quick finds também (#244), pelo mesmo mecanismo do dry run (guard remove/promove e nada repõe).
+
+**Correção de higiene (23/11/2026, sem mudar `prompts/`):** `pipeline.enforce_source_diversity` (no máximo 2 itens por fonte na edição e 1 por fonte no radar; prioridade achado > quick finds > radar) e `pipeline.refill_quick_finds` (completa até 3 quick finds com itens do radar, sem nova chamada de LLM). Replay nas 8 edições: mudaria só a #246 (sai o item TechNode do radar) e a #244 (o item do radar vira 3º quick find). Log: `[FONTE]` e `[PREENCHE]`. Entra separada do passo 1.1 na leitura do Content Report.
 
 ## Next — backlog não verificável só pelo código
 
