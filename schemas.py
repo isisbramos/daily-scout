@@ -111,4 +111,5 @@ class CurationOutput(BaseModel):
     quick_finds: list[QuickFind] = Field(description="3-5 achados rápidos")
     radar: list[RadarItem] = Field(default_factory=list, description="1-2 itens de early signal — temas emergentes que ainda não são achados mas valem acompanhar")
     themes: list[str] = Field(default_factory=list, description="2-4 temas macro da edição (ex: 'agentes de código', 'regulação UE'). Usado pela memória editorial entre edições.")
+    edition_headline: str = Field(default="", description="Assunto do e-mail: até 70 caracteres que encapsulam a edição inteira (o fio entre os achados). Não repete o main_find.title, não lista nomes, não cita fonte.")
     meta: Meta

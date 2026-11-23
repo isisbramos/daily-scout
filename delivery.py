@@ -120,23 +120,3 @@ def send_fallback(reason: str) -> bool:
     if sent:
         record_fallback(EDITION_NUMBER)
     return sent
-
-
-def build_subject(edition_number, content: dict) -> str:
-    """Subject do e-mail: lista os protagonistas da edição em vez de repetir o título do achado.
-
-    O título do achado já aparece dentro do e-mail; repetir no subject fazia o leitor ler
-    o mesmo fato 3 vezes antes do corpo. Usa a 1ª entidade do main_find e de cada quick_find.
-    Fallback: título do main_find (comportamento antigo) se faltar entidade.
-    """
-    items = [content.get("main_find", {})] + list(content.get("quick_finds", []))
-    names: list[str] = []
-    for item in items:
-        ents = [e.strip() for e in (item.get("entities") or []) if isinstance(e, str) and e.strip()]
-        if ents and ents[0].lower() not in {n.lower() for n in names}:
-            names.append(ents[0])
-    if len(names) < 2:
-        return f"AYA #{edition_number} — {content.get('main_find', {}).get('title', '')}".strip()
-    names = names[:4]
-    joined = ", ".join(names[:-1]) + " e " + names[-1]
-    return f"AYA #{edition_number} — {joined}"

@@ -116,3 +116,26 @@ def test_fallback_names_entities_without_repeating_title():
     intro = c["correspondent_intro"]
     assert intro.startswith("Hoje a edição passa por Cloudflare e Anthropic.")
     assert "lança API" not in intro
+
+
+def test_swap_descarta_headline_que_fala_do_destaque_antigo():
+    c = _content()
+    c["edition_headline"] = "Frota de agentes chinesa mostra o tamanho da corrida"
+    co.note_main_swap(c, OLD, "x")
+
+    def boom(**kw):
+        raise RuntimeError("API fora")
+    res = co.refresh_after_swaps(c, client=SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=boom))))
+    assert c["edition_headline"] == ""
+    assert res["headline_dropped"].startswith("Frota")
+
+
+def test_swap_mantem_headline_que_nao_fala_do_antigo():
+    c = _content()
+    c["edition_headline"] = "Busca na web vira peça padrão para quem constrói agentes"
+    co.note_main_swap(c, OLD, "x")
+
+    def boom(**kw):
+        raise RuntimeError("API fora")
+    co.refresh_after_swaps(c, client=SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=boom))))
+    assert c["edition_headline"].startswith("Busca na web")

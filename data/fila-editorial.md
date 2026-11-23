@@ -26,6 +26,11 @@ Por que não bateu: sua intuição, mesmo que ainda não esteja articulada como 
 Critério novo (preenchido durante a sessão de ajuste, não precisa vir pronto): —
 -->
 
+## 2026-11-23 — edições #245 e #246
+Tema/achado: o assunto virou lista de nomes ("Signal, OpenRouter, TechCrunch e Inkling-2-Mini"; "MiniMax, Clover-35B-A3B-Preview, NoPeBench e Ant Group"). Não diz o que a edição traz e, na 245, incluiu a fonte (TechCrunch) como se fosse protagonista.
+Por que não bateu: o assunto tem que encapsular o conteúdo do dia, não enumerar entidades.
+Critério novo: `edition_headline`, escrita pelo LLM por último: até 70 caracteres com o fio entre os achados, do ponto de vista de quem decide produto; não repete o título do achado, não lista nomes, não cita fonte. O código valida (tamanho, repetição do título, vírgulas, fonte) e, se falhar, o assunto usa o título do achado. Se o destaque for trocado e a headline falar do antigo, ela é descartada. Medir: % de edições com `[HEADLINE]` (fallback) no log do Actions. Os ledes da 245 e 246 já não recontam o título (mudança de 21/11 funcionando).
+
 ## 2026-11-21 — edição #244
 Tema/achado: o mesmo fato aparecia 5 vezes antes do corpo: assunto do e-mail, título no topo (Buttondown), Transmissão, título do achado e 1ª frase do corpo ("METR atualiza gráfico de horizonte de tempo…" em todas). Nas 240 edições arquivadas, 168 (70%) abrem o corpo recontando o título.
 Por que não bateu: cada camada tinha o mesmo trabalho (anunciar o fato). Leitura repetitiva.
