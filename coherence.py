@@ -160,6 +160,12 @@ def refresh_after_swaps(content: dict, tone_check=None, client=None) -> dict | N
     if not new_intro:
         new_intro = _fallback_intro(content, old_intro, old_title)
     content["correspondent_intro"] = new_intro
+    # O assunto (edition_headline) foi escrito junto com o destaque antigo: se ainda fala dele,
+    # descarta — o assunto cai no título do novo destaque.
+    headline = str(content.get("edition_headline") or "")
+    if headline and _mentions_old(headline, old_title):
+        content["edition_headline"] = ""
+        result["headline_dropped"] = headline
     for s in pending:
         s["intro_refreshed"] = True
     result["new_intro"] = new_intro

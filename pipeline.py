@@ -35,7 +35,7 @@ import sources.huggingface_papers  # API JSON oficial — huggingface.co/papers 
 from pre_filter import run_pre_filter
 from article_fetch import enrich_with_excerpts
 from schemas import Reasoning, MainFind, QuickFind, RadarItem, Meta, CurationOutput
-from delivery import build_subject, send_via_buttondown, send_fallback
+from delivery import send_via_buttondown, send_fallback
 from coherence import note_main_swap, refresh_after_swaps
 from final_reviewer import run_final_review
 from exceptions import FetchError, CurationError, DeliveryError
@@ -266,6 +266,47 @@ def check_title_repetition(content: dict) -> list[str]:
     if repeats_title(_first_sentence(mf.get("body", "")), title):
         warnings.append("[REPEAT] 1ª frase do main_find.body reconta o main_find.title")
     return warnings
+
+
+# Assunto do e-mail (23/11, ed. 247+): a lista de protagonistas (21/11) não dizia o que a edição
+# trazia e chegou a incluir a fonte ("…, TechCrunch e …"). Agora o LLM escreve edition_headline,
+# uma linha que encapsula a edição; o código só valida e cai no título do achado se ela falhar.
+HEADLINE_MAX_CHARS = 90
+HEADLINE_MIN_CHARS = 20
+
+
+def headline_problem(headline: str, content: dict) -> str | None:
+    """Motivo para rejeitar a edition_headline, ou None se ela serve de assunto."""
+    h = (headline or "").strip()
+    if not HEADLINE_MIN_CHARS <= len(h) <= HEADLINE_MAX_CHARS:
+        return f"tamanho {len(h)} fora de {HEADLINE_MIN_CHARS}-{HEADLINE_MAX_CHARS}"
+    title = (content.get("main_find", {}) or {}).get("title", "")
+    if repeats_title(h, title):
+        return "reconta o main_find.title"
+    if h.count(",") >= 2:
+        return "parece lista de nomes"
+    sources = set()
+    for item in [content.get("main_find", {}) or {}] + list(content.get("quick_finds", []) or []):
+        src = str(item.get("source", "") or "").lower()
+        if src:
+            sources.add(src)
+    known_outlets = {"techcrunch", "hacker news", "hackernews", "arxiv", "the verge", "reddit",
+                     "technode", "lobsters", "huggingface", "mit technology review", "wired"}
+    low = h.lower()
+    if any(o in low for o in known_outlets | sources):
+        return "cita fonte/veículo"
+    return None
+
+
+def build_subject(edition_number, content: dict) -> str:
+    """Assunto do e-mail: edition_headline validada; senão, o título do achado (comportamento antigo)."""
+    headline = str(content.get("edition_headline", "") or "").strip().strip('"').rstrip(".").strip()
+    problem = headline_problem(headline, content) if headline else "ausente"
+    if problem is None:
+        return f"AYA #{edition_number} — {headline}"
+    logger.warning(f"[HEADLINE] edition_headline descartada ({problem}); assunto usa o título do achado")
+    title = (content.get("main_find", {}) or {}).get("title", "").strip()
+    return f"AYA #{edition_number} — {title}"
 
 
 def validate_tone(content: dict) -> list[str]:
