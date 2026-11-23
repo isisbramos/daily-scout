@@ -45,7 +45,7 @@ Uma mudança por vez, medida no Content Report seguinte (regra de produção em 
 
 Conclusão: a concentração da Apple foi efeito do domingo; a falta de trava na saída é real e apareceu em produção (#246), e o buraco nos quick finds também (#244), pelo mesmo mecanismo do dry run (guard remove/promove e nada repõe).
 
-**Correção de higiene (23/11/2026, sem mudar `prompts/`):** `pipeline.enforce_source_diversity` (no máximo 2 itens por fonte na edição e 1 por fonte no radar; prioridade achado > quick finds > radar) e `pipeline.refill_quick_finds` (completa até 3 quick finds com itens do radar, sem nova chamada de LLM). Replay nas 8 edições: mudaria só a #246 (sai o item TechNode do radar) e a #244 (o item do radar vira 3º quick find). Log: `[FONTE]` e `[PREENCHE]`. Entra separada do passo 1.1 na leitura do Content Report.
+**Correção de higiene (23/11/2026, PR #84, sem mudar `prompts/`):** `pipeline.enforce_source_diversity` (no máximo 2 itens por fonte na edição e 1 por fonte no radar; prioridade achado > quick finds > radar) e `pipeline.refill_quick_finds` (completa até 3 quick finds com itens do radar, sem nova chamada de LLM). Replay nas 8 edições: mudaria só a #246 (sai o item TechNode do radar) e a #244 (o item do radar vira 3º quick find). Log: `[FONTE]` e `[PREENCHE]`. Entra separada do passo 1.1 na leitura do Content Report.
 
 ## Next — backlog não verificável só pelo código
 
