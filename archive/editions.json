@@ -1,7 +1,17 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 243,
+ "count": 244,
  "editions": [
+  {
+   "num": 246,
+   "title": "MiniMax, Clover-35B-A3B-Preview, NoPeBench e Ant Group",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-246-minimax-clover-35b-a3b-preview-nopebench-e/",
+   "date": "2026-11-23",
+   "main_title": "MiniMax publica ataques criptográficos descobertos por IA, com papers e código",
+   "source": "TechNode",
+   "work_line": "se sua empresa depende de criptografia para proteger dados ou assinar transações, vale acompanhar se os esquemas que você usa aparecem na lista — e perguntar ao time de segurança qual é o plano de…",
+   "excerpt": "A MiniMax é uma empresa chinesa de modelos de IA, e o que ela publicou, segundo o TechNode, é pesquisa: um modelo interno ajudou a encontrar ataques contra esquemas criptográficos experimentais e a resolver desafios públicos que estavam em…"
+  },
   {
    "num": 245,
    "title": "Signal, OpenRouter, TechCrunch e Inkling-2-Mini",
