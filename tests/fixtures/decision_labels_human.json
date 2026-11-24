@@ -1,0 +1,293 @@
+{
+ "_comment": "Leitura humana (24/11/2026, uma avaliadora, só pelo título) de #234–#247: achado do dia + quick finds. Linha de base e base de calibração do decision_labels.py. Chamadas limítrofes mudam o total em ~3 itens.",
+ "labels": {
+  "234": [
+   {
+    "title": "Alibaba abre preview do Qwen4-Max com janela de 1 milhão de tokens",
+    "label": "P"
+   },
+   {
+    "title": "Google usa 48 agentes de AI sobre Lidar da NASA e acha pirâmide maia não mapeada",
+    "label": "C"
+   },
+   {
+    "title": "Oura adquire Counsel Health, startup de atenção primária nativa de AI, por US$ 625 milhões",
+    "label": "C"
+   },
+   {
+    "title": "DeepMind disponibiliza Gemini 4 Carbon",
+    "label": "P"
+   },
+   {
+    "title": "BotPsy: assistente pessoal on-device com modelo agêntico de menos de 1 bilhão de parâmetros",
+    "label": "T"
+   }
+  ],
+  "235": [
+   {
+    "title": "Ataque cibernético à Fireworks AI expôs transcrições de clientes da Notion",
+    "label": "P"
+   },
+   {
+    "title": "Gemini Decision 1 devolve só respostas sim/não e processa até 1.000 perguntas por chamada",
+    "label": "P"
+   },
+   {
+    "title": "SteerDistill propõe quantização de agentes de LLM com orientação de professor em ciclo fechado",
+    "label": "T"
+   },
+   {
+    "title": "Pesquisa escala supervisão de provas matemáticas a partir de livros didáticos estruturados",
+    "label": "T"
+   },
+   {
+    "title": "Robin Li diz que a próxima fase da AI é a 'organização inteligente' e lista três princípios",
+    "label": "C"
+   }
+  ],
+  "236": [
+   {
+    "title": "llama.cpp chega à versão 1.0.0 e consolida base do ecossistema de AI local",
+    "label": "T"
+   },
+   {
+    "title": "ElevenLabs lança app que une anotação de reunião e ditado para equipes",
+    "label": "P"
+   },
+   {
+    "title": "DeepMind apresenta Gemini 4 Hydrogen",
+    "label": "P"
+   },
+   {
+    "title": "Paper aponta que leaderboards de modelo baseados em preferência são vulneráveis a manipulação",
+    "label": "P"
+   }
+  ],
+  "237": [
+   {
+    "title": "ChatGPT ganha Wallet para agentes de AI fazerem compras e checkout",
+    "label": "P"
+   },
+   {
+    "title": "AllenAI lança XYBench para atacar o problema por trás da pergunta",
+    "label": "T"
+   },
+   {
+    "title": "Google usou 29 agentes de AI para montar benchmark de raciocínio causal",
+    "label": "T"
+   },
+   {
+    "title": "Senador pela Califórnia se declara pronto para regulamentar IA",
+    "label": "P"
+   },
+   {
+    "title": "MIT Tech Review Brasil alerta para tentação digital turbinada por IA que põe pacientes em risco",
+    "label": "C"
+   }
+  ],
+  "238": [
+   {
+    "title": "Apps feitos no Lovable expõem passaportes e mais de 200 mil mensagens privadas",
+    "label": "P"
+   },
+   {
+    "title": "China discute como conter riscos cibernéticos de modelos de pesos abertos sem perder competitividade",
+    "label": "C"
+   },
+   {
+    "title": "Filme feito inteiramente com AI fracassa na bilheteria chinesa",
+    "label": "C"
+   }
+  ],
+  "239": [
+   {
+    "title": "Tencent lança Hy4 Flash com custo por tarefa 24,5x menor que o Hy4",
+    "label": "P"
+   },
+   {
+    "title": "Huawei Cloud planeja abrir modelo de mundo baseado em Ascend para robôs",
+    "label": "T"
+   },
+   {
+    "title": "OpenAI amplia recursos do ChatGPT for Healthcare",
+    "label": "P"
+   },
+   {
+    "title": "Divisão de mídia da LVMH anuncia parceria estratégica com a OpenAI",
+    "label": "C"
+   },
+   {
+    "title": "Audible usa AI para ajudar usuários a descobrir audiolivros",
+    "label": "C"
+   }
+  ],
+  "240": [
+   {
+    "title": "Kuaishou aposta no Kling após OpenAI encerrar o Sora e mira IPO em Hong Kong",
+    "label": "C"
+   },
+   {
+    "title": "Brasil assina na COP31 pacto global por IA sustentável e empregos",
+    "label": "C"
+   },
+   {
+    "title": "K2-Horizon: família de modelos de linguagem open source de fronteira",
+    "label": "T"
+   },
+   {
+    "title": "SWE-CoWork propõe benchmark de agentes de código como funcionários digitais",
+    "label": "T"
+   },
+   {
+    "title": "Google Maps ganha roteiros de viagem por IA e Ask Maps chega a 30 países europeus",
+    "label": "P"
+   },
+   {
+    "title": "EUA detalham investigação criminal contra Megaspeed, cliente da Nvidia, por desvio de chips",
+    "label": "C"
+   }
+  ],
+  "241": [
+   {
+    "title": "OpenAI lança GPT-6.2 Astra e GPT-6.2 Sol",
+    "label": "P"
+   },
+   {
+    "title": "Pesquisa de Harvard aponta que agentes de código deslocaram o gargalo para a revisão",
+    "label": "P"
+   },
+   {
+    "title": "Nvidia diz que não pretende reconduzir Jensen Huang como CEO",
+    "label": "C"
+   },
+   {
+    "title": "GitHub diz que maintainers não precisam de mais bug reports gerados por IA, e sim de correções",
+    "label": "C"
+   },
+   {
+    "title": "Spin-out da Tsinghua se torna a primeira auditora comercial de segurança de IA da China",
+    "label": "C"
+   },
+   {
+    "title": "Lucro da Tencent cai com gasto em infraestrutura de IA seis vezes maior",
+    "label": "C"
+   }
+  ],
+  "242": [
+   {
+    "title": "Google lança Gemini 4 Neon, novo modelo da linha Gemini",
+    "label": "P"
+   },
+   {
+    "title": "DeepMind disponibiliza Genie 4, modelo de mundo interativo",
+    "label": "T"
+   },
+   {
+    "title": "Snapchat permite criar Lentes AR com Claude Code e Cursor",
+    "label": "P"
+   },
+   {
+    "title": "Tencent diz que Hunyuan Hy4 Flash passou de 50 trilhões de tokens no primeiro dia",
+    "label": "C"
+   },
+   {
+    "title": "Grupo de segurança de IA de Pequim vira consultor de gigantes chinesas",
+    "label": "C"
+   }
+  ],
+  "243": [
+   {
+    "title": "ChatPRD encerra free trials após onda de fraude de tokens",
+    "label": "P"
+   },
+   {
+    "title": "Apple estaria desenvolvendo agente de IA que opera o Mac",
+    "label": "P"
+   },
+   {
+    "title": "Fireworks AI defende modelos abertos como alternativa mais barata aos modelos caros",
+    "label": "P"
+   },
+   {
+    "title": "GitHub transforma milhares de achados de IA em 99 relatórios privados com correções",
+    "label": "T"
+   },
+   {
+    "title": "GitHub publica protocolo aberto para sessões de agente continuarem entre dispositivos",
+    "label": "T"
+   }
+  ],
+  "244": [
+   {
+    "title": "METR atualiza gráfico de horizonte de tempo: capacidade segue exponencial, mas falha em tarefas de julgamento",
+    "label": "P"
+   },
+   {
+    "title": "Apple apresenta Depth Pro 2, modelo de profundidade para imagem e vídeo com consistência temporal",
+    "label": "T"
+   },
+   {
+    "title": "Plataforma de agentes da Animoca testa pagamentos reais na rede Visa em Hong Kong",
+    "label": "P"
+   }
+  ],
+  "245": [
+   {
+    "title": "Signal bloqueia screenshots no celular por causa de agentes de IA nos sistemas operacionais",
+    "label": "P"
+   },
+   {
+    "title": "Pesquisadores plantam 2 milhões de iscas e encontram vazamento de dados na cadeia de IA",
+    "label": "P"
+   },
+   {
+    "title": "TechCrunch lista agentes de IA que vivem dentro do aplicativo de mensagens",
+    "label": "P"
+   },
+   {
+    "title": "Modelo Inkling-2-Mini roda em 5,4 GB de memória, segundo projeto no GitHub",
+    "label": "T"
+   }
+  ],
+  "246": [
+   {
+    "title": "MiniMax publica ataques criptográficos descobertos por IA, com papers e código",
+    "label": "T"
+   },
+   {
+    "title": "Clover-35B-A3B-Preview: modelo de difusão com resultado de 73,6 no SWE-bench Verified",
+    "label": "T"
+   },
+   {
+    "title": "Pesquisa propõe benchmark e método para evitar que objetos se atravessem em world models de vídeo",
+    "label": "T"
+   },
+   {
+    "title": "Ant Group lança anel e pulseira de saúde com IA sob a marca Afu",
+    "label": "C"
+   },
+   {
+    "title": "ChatAtom: sistema multiagente de IA que executa simulações de dinâmica molecular a partir de pedido em linguagem natural",
+    "label": "T"
+   }
+  ],
+  "247": [
+   {
+    "title": "Anthropic lança Claude Ship para agentes revisarem e aprovarem mudanças de código",
+    "label": "P"
+   },
+   {
+    "title": "OpenAI e Cisco lançam Shirudo, runtime aberto para proteger sistemas durante patches",
+    "label": "T"
+   },
+   {
+    "title": "NariQ comprime Qwen3.8-27B em arquivo de 10 GB com qualidade BF16",
+    "label": "T"
+   },
+   {
+    "title": "Análise questiona se tokens mais baratos pagam o capex bilionário das big techs",
+    "label": "P"
+   }
+  ]
+ }
+}

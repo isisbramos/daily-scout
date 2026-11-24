@@ -24,6 +24,14 @@ Desde a ed. 243 (#76, #79). Não é métrica de produto: diz se o LLM está escr
 - **`[META]` por edição.** Alvo: zero. É o texto que comenta o input ("o título não diz…"). Onde medir: o log do run em `daily-scout.yml` (linhas `[META]`; cada uma gera um retry) e, depois do envio, a nota da edição em `vault-outbox/` (regex `META_INPUT_PATTERNS` em `pipeline.py`). Linha de base: 6 de 82 notas com o padrão até a ed. 242.
 - **Taxa de excerpt.** Linha `Article excerpts: X/Y ok` no log do run. Se ficar abaixo de ~50%, revisar `SKIP_HOSTS` e o extractor em `article_fetch.py` pelos domínios que aparecem em `[EXCERPT] sem trecho`.
 
+## Métrica editorial: relevância para PM (P/T/C)
+
+Desde 24/11/2026. Diz quantos itens de cada edição entregam uma decisão a quem usa IA no trabalho (o TESTE DE DECISÃO do prompt de curadoria). Não é métrica de leitor: é leitura do juiz sobre o conteúdo.
+
+- **% de itens em P**, **achado do dia em P** e **itens T por edição.** Onde medir: seção 2b do Content Report (`reports/`), alimentada por `debug/edition_N_labels.json`, gerado por `decision_labels.py` no workflow `content-report.yml`. Alvos de partida, HIPÓTESES a calibrar: ≥ 60% em P, achado do dia sempre P, no máximo 1 item T por edição.
+- **Linha de base (leitura humana, #234–#247, 65 itens):** 27 P, 20 T, 18 C; achado do dia em P em 11 de 14 edições. Arquivo: `tests/fixtures/decision_labels_human.json`.
+- **Calibração:** `python decision_labels.py --from-memory 234-247` e depois `--calibrate` comparam o juiz com a leitura humana, sem os 6 exemplos do prompt. Só confie na seção 2b depois disso.
+
 ## O que fica em `debug/`
 
 `debug/` guarda o audit por edição (`edition_N_audit.json`, `edition_N_review.json`) — isso é qualidade editorial (alinhamento, tom, diversidade, veredito do revisor final), não métrica de leitor. Entra no Content Report (`reports/`) como scorecard de qualidade, cruzado com o feedback real (ver linha "Feedback ratio" acima), mas não substitui nenhuma das 8 métricas de produto.

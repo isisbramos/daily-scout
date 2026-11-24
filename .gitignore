@@ -9,10 +9,11 @@ output/
 
 # Debug artifacts para o audit agent (PE study).
 # curation/items são efêmeros (vêm dos artifacts do Actions); só os audit jsons
-# persistem — são a fonte do Scorecard de Qualidade no content_report.
+# (e os rótulos P/T/C de decision_labels.py) persistem — são a fonte do Scorecard de Qualidade no content_report.
 debug/*
 !debug/*_audit.json
 !debug/*_review.json
+!debug/*_labels.json
 
 # OS
 .DS_Store
