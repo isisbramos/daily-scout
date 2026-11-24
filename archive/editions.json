@@ -1,7 +1,17 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 244,
+ "count": 245,
  "editions": [
+  {
+   "num": 247,
+   "title": "Agentes de IA assumem a revisão de código e a segurança do rollout",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-247-agentes-de-ia-assumem-a-revisao-de-codigo/",
+   "date": "2026-11-24",
+   "main_title": "Anthropic lança Claude Ship para agentes revisarem e aprovarem mudanças de código",
+   "source": "TechCrunch",
+   "work_line": "se sua equipe já usa IA para escrever código, o gargalo migrou para a revisão; vale testar o Ship nas mudanças de baixo risco antes de decidir se ele substitui parte do processo manual.",
+   "excerpt": "O Claude Ship é a nova ferramenta da Anthropic para o fluxo de revisão de código, e o TechCrunch a apresenta como resposta a um gargalo específico: com mais código gerado por IA entrando nos repositórios, alguém precisa aprovar cada…"
+  },
   {
    "num": 246,
    "title": "MiniMax, Clover-35B-A3B-Preview, NoPeBench e Ant Group",
