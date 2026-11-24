@@ -107,6 +107,25 @@ def load_audits(editions: list[dict]) -> dict[str, dict]:
     return audits
 
 
+def load_labels(editions: list[dict]) -> dict[str, dict]:
+    """Lê os rótulos P/T/C que o decision_labels.py gerou (debug/edition_XXX_labels.json).
+
+    Mesma regra do load_audits: só edições da janela; não chama LLM aqui.
+    """
+    labels: dict[str, dict] = {}
+    wanted = {e.get("edition") for e in editions}
+    for f in sorted(glob.glob(os.path.join(DEBUG_DIR, "edition_*_labels.json"))):
+        edition = os.path.basename(f).split("_")[1]
+        if wanted and edition not in wanted:
+            continue
+        try:
+            with open(f, encoding="utf-8") as fh:
+                labels[edition] = json.load(fh)
+        except (json.JSONDecodeError, OSError):
+            logger.warning("labels inválido ignorado: %s", f)
+    return labels
+
+
 def load_enabled_sources() -> set[str]:
     """Nomes das fontes habilitadas no sources_config.json (ignora chaves _comment)."""
     try:
@@ -336,6 +355,88 @@ def reviewer_vs_audit(editions: list[dict], audits: dict[str, dict]) -> dict:
         "both": sum(r["both"] for r in ok),
         "errors": sum(1 for r in rows if r["error"]),
     }
+
+
+# ── Camada 2b: relevância para PM (consome labels P/T/C) ───────────────
+# Alvos de partida: HIPÓTESES a calibrar depois das primeiras 5 edições medidas
+# (data/fila-editorial.md, entrada de 24/11/2026). Não são decisão de produto.
+TARGET_PCT_P = 60
+TARGET_MAX_T_PER_EDITION = 1
+
+
+def aggregate_decision(labels: dict[str, dict]) -> dict:
+    """Agrega os rótulos P/T/C por edição. Conta só achado do dia + quick finds (o radar
+    entra à parte): é a mesma base da linha de base de 24/11 (#234–#247)."""
+    rows = []
+    totals = {"P": 0, "T": 0, "C": 0}
+    lede = {"P": 0, "T": 0, "C": 0}
+    radar = {"P": 0, "T": 0, "C": 0}
+    for ed, doc in sorted(labels.items()):
+        counts = {"P": 0, "T": 0, "C": 0}
+        lede_label = None
+        for it in doc.get("items", []):
+            lab = it.get("label")
+            if lab not in counts:
+                continue
+            if str(it.get("field", "")).startswith("radar"):
+                radar[lab] += 1
+                continue
+            counts[lab] += 1
+            if it.get("field") == "main_find":
+                lede_label = lab
+        n = sum(counts.values())
+        if not n:
+            continue
+        for k in totals:
+            totals[k] += counts[k]
+        if lede_label:
+            lede[lede_label] += 1
+        rows.append({"edition": ed, **counts, "n": n, "lede": lede_label})
+    n_items = sum(totals.values())
+    return {
+        "n": len(rows),
+        "n_items": n_items,
+        "totals": totals,
+        "pct_p": round(100 * totals["P"] / n_items) if n_items else None,
+        "lede": lede,
+        "radar": radar,
+        "editions_t_over": [r["edition"] for r in rows if r["T"] > TARGET_MAX_T_PER_EDITION],
+        "rows": rows,
+    }
+
+
+def _decision_block(d: dict | None) -> list[str]:
+    """Seção do Content Report: % de itens que entregam uma decisão."""
+    L = ["---", "", "## 2b. Relevância para PM (P/T/C)", ""]
+    if not d or not d.get("n"):
+        L += ["_Nenhum rótulo em `debug/`._ Rode `python decision_labels.py --all` (precisa de `DEBUG_SAVE=true`).", ""]
+        return L
+    t = d["totals"]
+    L += [
+        f"Base: {d['n']} edições, {d['n_items']} itens (achado do dia + quick finds; radar à parte). "
+        "Rótulos do juiz sobre o TESTE DE DECISÃO; ainda sem calibração contra leitura humana "
+        "(`python decision_labels.py --calibrate`).",
+        "",
+        "| Rótulo | Itens | % |", "|---|---|---|",
+    ]
+    for k, name in (("P", "P — muda uma decisão"), ("T", "T — técnico"), ("C", "C — contexto sem decisão")):
+        L.append(f"| {name} | {t[k]} | {round(100 * t[k] / d['n_items'])}% |")
+    L.append("")
+    n_ed = d["n"]
+    L += [
+        f"**Achado do dia em P:** {d['lede']['P']} de {n_ed} edições. "
+        f"**Edições com mais de {TARGET_MAX_T_PER_EDITION} item T:** {len(d['editions_t_over'])} de {n_ed}"
+        + (f" ({', '.join('#' + e for e in d['editions_t_over'])})" if d["editions_t_over"] else "") + ".",
+        "",
+        f"_Alvos de partida (hipótese, a calibrar): ≥ {TARGET_PCT_P}% em P, achado do dia sempre P, "
+        f"no máximo {TARGET_MAX_T_PER_EDITION} item T por edição._",
+        "",
+        "| Edição | P | T | C | Achado do dia |", "|---|---|---|---|---|",
+    ]
+    for r in d["rows"]:
+        L.append(f"| #{r['edition']} | {r['P']} | {r['T']} | {r['C']} | {r['lede'] or '—'} |")
+    L.append("")
+    return L
 
 
 # ── Camada 2: scorecard de qualidade (consome audits) ──────────────────
@@ -578,7 +679,8 @@ def _bar(count: int, maxc: int, width: int = 16) -> str:
 
 
 def build_markdown(content: dict, quality: dict, det_insights: list[str], llm_text: str | None,
-                   judge: dict | None = None, reviewer: dict | None = None) -> str:
+                   judge: dict | None = None, reviewer: dict | None = None,
+                   decision: dict | None = None) -> str:
     now = datetime.now(_BRT)
     d0, d1 = content["date_range"]
     L: list[str] = [
@@ -742,6 +844,9 @@ def build_markdown(content: dict, quality: dict, det_insights: list[str], llm_te
                 L.append(f"- ({c}×) {h}…")
             L.append("")
 
+    # ── Relevância para PM (P/T/C) ──
+    L += _decision_block(decision)
+
     # ── Insights ──
     L += ["---", "", "## 3. Insights — Como Melhorar a AYA", "",
           "### Diagnóstico determinístico", ""]
@@ -811,7 +916,8 @@ def main():
 
     judge = judge_vs_feedback(editions, audits)
     reviewer = reviewer_vs_audit(editions, audits)
-    md = build_markdown(content, quality, det, llm_text, judge, reviewer)
+    decision = aggregate_decision(load_labels(editions))
+    md = build_markdown(content, quality, det, llm_text, judge, reviewer, decision)
     os.makedirs(REPORTS_DIR, exist_ok=True)
     fname = f"content_report_{datetime.now(_BRT).strftime('%Y%m%d')}.md"
     out_path = os.path.join(REPORTS_DIR, fname)

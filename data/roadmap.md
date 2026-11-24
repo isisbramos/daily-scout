@@ -30,6 +30,7 @@ Uma mudança por vez, medida no Content Report seguinte (regra de produção em 
 | 17/11/2026 | **Passo 2.1 (v5.5.2)** — papers com resumo no input e regra por capacidade concreta (ver `context/editorial.md`) | ✅ Em produção (PR #68), em medição desde 18/11 |
 | 17/11/2026 | **Passo 2.2 (v5.5.3)** — follow-up controlado no guard de repetição (ver `context/editorial.md`) | ✅ Em produção (PR #69), em medição desde 18/11 |
 | 17/11/2026 | **Passo 2.3** — replay e lint de prompt (`scripts/prompt_replay.py`, `scripts/prompt_lint.py`), guard do radar sem link e resumo de ~650 caracteres. Sem texto de prompt alterado | ✅ Em produção (PR #71), desde 19/11 (ed. 242); a ed. 241 saiu com resumo de 320 caracteres e sem o guard do radar |
+| 24/11/2026 | **Passo 1.2** — medição de relevância para PM: `decision_labels.py` rotula P/T/C e o Content Report ganha a seção 2b. Tooling: não muda a edição. Linha de base #234–#247 (42% P) | 📝 Proposto (PR) |
 | após 5 edições reais | **Passo 2.4** — limpeza do prompt (voltar ao tamanho de antes de 17/11, 4,5 mil palavras no `curation_template`), validada no replay contra a base. **Editorial congelado até lá** | ⏸ Planejado |
 | jan/2027 | **Passo 3** — pilar 5 (IA, consciência e cultura), com exceção de evento âncora e máximo 1 item por edição | ⏸ Planejado |
 

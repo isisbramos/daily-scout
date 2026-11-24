@@ -26,6 +26,11 @@ Por que não bateu: sua intuição, mesmo que ainda não esteja articulada como 
 Critério novo (preenchido durante a sessão de ajuste, não precisa vir pronto): —
 -->
 
+## 2026-11-24 — edições #234 a #247 (relevância para PM)
+Tema/achado: a edição segue técnica demais. Nos 65 itens de #234 a #247 (achado do dia + quick finds), 27 (42%) passam no teste "muda uma decisão de produto", 20 (31%) são técnicos e 18 (28%) são contexto sem decisão. O achado do dia foi P em 11 de 14 edições; a #246 teve 0 de 5.
+Por que não bateu: o recorte PM está no prompt (TESTE DE DECISÃO), mas nada o mede. O audit usa critério genérico e o Content Report de 23/11 recomenda mais recall de arXiv e HackerNews (P1), o oposto do que se quer.
+Critério novo: **medição, sem mudar a edição.** `decision_labels.py` rotula cada item como P (decisão), T (técnico) ou C (contexto); o Content Report ganha a seção 2b. Peso das fontes, trava em código e campo de decisão obrigatório ficam para depois da linha de base (ordem em `data/roadmap.md`). **Ainda aberto:** peso de `arxiv_ai` e `huggingface_papers` (1,3, o maior); cota de 3 itens de pesquisa em `_ensure_epistemic_diversity`; limites de pesquisa e de `desenvolvedores` só no prompt. Medir: % de P (alvo de partida ≥ 60%, hipótese), achado do dia em P, itens T por edição (≤ 1). Antes de confiar nos números, calibrar o juiz contra a leitura humana (`python decision_labels.py --calibrate`; fixture `tests/fixtures/decision_labels_human.json`, uma avaliadora, só pelo título). Recomendação: não agir no P1 do relatório de 23/11 até o audit ser alinhado a esse teste.
+
 ## 2026-11-23 — edições #244 e #246 (concentração por fonte) — correção de higiene
 Tema/achado: a #246 saiu com 3 itens do TechNode (achado, quick find e radar); a #244 saiu com 2 quick finds porque o guard de repetição promoveu um deles a achado. No dry run de 15/11, a Apple ocupou 3 de 5 itens. O `max_per_source_pct` só limita a entrada do LLM.
 Por que não bateu: a edição perde variedade de fonte e fica abaixo do mínimo de 3 quick finds sem que nada reponha.

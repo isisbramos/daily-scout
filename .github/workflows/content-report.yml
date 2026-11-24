@@ -71,6 +71,15 @@ jobs:
           done
           python audit_agent.py --all --skip-existing || echo "audit parcial — seguindo para o relatório"
 
+      # Rotula cada item como P (decisão), T (técnico) ou C (contexto) pelo TESTE DE DECISÃO.
+      # Roda sobre os mesmos artifacts baixados acima. Não altera a edição nem o audit.
+      # Idempotente (--skip-existing) e não-fatal, como o audit.
+      - name: Label decision relevance (P/T/C)
+        continue-on-error: true
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: python decision_labels.py --all --skip-existing || echo "rótulos parciais — seguindo para o relatório"
+
       - name: Generate content report
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
