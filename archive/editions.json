@@ -1,7 +1,16 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 245,
+ "count": 246,
  "editions": [
+  {
+   "num": 248,
+   "title": "Agentes ganham memória — e a superfície de risco cresce junto",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-248-agentes-ganham-memoria-e-a-superficie-de/",
+   "date": "2026-11-25",
+   "main_title": "Pesquisa mostra como histórico benigno de conversa vira vetor de injeção de prompt",
+   "source": "arXiv (CS.AI)",
+   "excerpt": "O ContextLure é um framework de red-teaming (teste adversarial) descrito no arXiv: o atacante observa silenciosamente conversas legítimas do agente — resultados de tarefas, restrições operacionais, preocupações do usuário — e usa essas…"
+  },
   {
    "num": 247,
    "title": "Agentes de IA assumem a revisão de código e a segurança do rollout",
