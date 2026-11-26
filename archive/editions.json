@@ -1,7 +1,17 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 246,
+ "count": 247,
  "editions": [
+  {
+   "num": 249,
+   "title": "Ferramentas de IA entram no fluxo de trabalho — e nas regras de quem usa",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-249-ferramentas-de-ia-entram-no-fluxo-de/",
+   "date": "2026-11-26",
+   "main_title": "NYT orienta fotógrafos a não atualizar Photoshop por causa de recursos de IA",
+   "source": "HackerNews",
+   "work_line": "se sua equipe produz conteúdo visual com padrão editorial — marketing, imprensa, catálogo —, vale definir antes da próxima atualização quais recursos de IA podem ser usados e como registrar a edição…",
+   "excerpt": "O New York Times é o jornal de referência que define padrões editoriais seguidos por boa parte da imprensa."
+  },
   {
    "num": 248,
    "title": "Agentes ganham memória — e a superfície de risco cresce junto",
