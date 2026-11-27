@@ -1,7 +1,16 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 247,
+ "count": 248,
  "editions": [
+  {
+   "num": 250,
+   "title": "A infraestrutura de IA entra na mira: chips, privacidade e custo",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-250-a-infraestrutura-de-ia-entra-na-mira-chips/",
+   "date": "2026-11-27",
+   "main_title": "Nvidia pausa envios de servidores ao Sudeste Asiático sob pressão dos EUA",
+   "source": "TechCrunch",
+   "excerpt": "A Nvidia é a principal fornecedora de chips usados para treinar e rodar modelos de IA, e a pausa atinge parceiros de fabricação como Dell e Super Micro, segundo o TechCrunch, que cita reportagem do Wall Street Journal."
+  },
   {
    "num": 249,
    "title": "Ferramentas de IA entram no fluxo de trabalho — e nas regras de quem usa",
