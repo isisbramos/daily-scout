@@ -1,7 +1,17 @@
 {
  "source": "https://buttondown.com/ramosdisis/archive/",
- "count": 248,
+ "count": 249,
  "editions": [
+  {
+   "num": 251,
+   "title": "Quem audita, quem processa e o que a IA já entrega de verdade",
+   "url": "https://buttondown.com/ramosdisis/archive/aya-251-quem-audita-quem-processa-e-o-que-a-ia-ja/",
+   "date": "2026-11-28",
+   "main_title": "DeepSeek encomenda auditoria externa sobre risco de perda de controle do V4 Pro",
+   "source": "SCMP Tech",
+   "work_line": "se sua empresa usa modelos chineses por custo, esse tipo de auditoria externa vira material de due diligence — vale pedir o relatório ao fornecedor antes de renovar contrato ou ampliar o uso em…",
+   "excerpt": "A DeepSeek é a startup chinesa de IA conhecida por lançar modelos de pesos abertos que competem em custo com os americanos."
+  },
   {
    "num": 250,
    "title": "A infraestrutura de IA entra na mira: chips, privacidade e custo",
